@@ -9,4 +9,4 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ## Versions
 
-- **Latest** (v1.0.2) · [**PDF**](CheatSheet/CleanABAPCheatSheetV1.0.2.pdf) · [Word](CheatSheet/CleanABAPCheatSheetV1.0.2.docx)
+- **Latest** (v1.0.2) · [**PDF**](CleanABAPCheatSheetV1.0.2.pdf) · [Word](CleanABAPCheatSheetV1.0.2.docx)
