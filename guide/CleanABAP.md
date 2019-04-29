@@ -16,6 +16,8 @@ for [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
 The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 
+[Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
+
 ## Content
 
 - [About this guide](#about-this-guide)
@@ -44,7 +46,13 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Reasoning](#reasoning)
     - [Arguments](#arguments)
     - [Compromises](#compromises)
-    
+- [Language](#language)
+  - [Mind the legacy](#mind-the-legacy)
+  - [Mind the performance](#mind-the-performance)
+  - [Prefer object orientation over imperative programming](#prefer-object-orientation-over-imperative-programming)
+  - [Prefer functional over procedural language constructs](#prefer-functional-over-procedural-language-constructs)
+  - [Use design patterns wisely](#use-design-patterns-wisely)
+  
 ## About this guide
 
 > [Clean ABAP](#clean-abap) > [Content](#content)
@@ -375,8 +383,6 @@ The most common patterns include:
 
 > Read more in _Chapter 2: Meaningful Names: Avoid Disinformation_ of [Robert C. Martin's _Clean Code_]
 
-[Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
-
 ### Avoid encodings, esp. Hungarian notation and prefixes
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
@@ -464,3 +470,93 @@ they may be your only remaining lifeline in a thousand-line legacy function with
 > and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
 > of the ABAP Programming Guidelines which recommend to use prefixes.
 > We think that avoiding prefixes is the more modern and readable variant and that the guideline should be adjusted.
+
+## Language
+
+> [Clean ABAP](#clean-abap) > [Content](#content)
+
+### Mind the legacy
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+
+If you code for older ABAP releases, take the advice in this guide with care:
+Many recommendations below make use of relatively new syntax and constructs
+that may not be supported in older ABAP releases.
+Validate the guidelines you want to follow on the oldest release you must support.
+Do not simply discard Clean Code as a whole -
+the vast majority of rules (e.g. naming, commenting) will work in _any_ ABAP version.
+
+### Mind the performance
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+
+If you code high performance components, take the advice in this guide with care:
+Some aspects of Clean Code may make things slower (more method calls) or consume more memory (more objects).
+ABAP has some specialties that may intensify this, for example it compares data types when calling a method,
+such that splitting a single large method into many sub-methods may make the code slower.
+
+However, we strongly recommend to not optimize prematurely, based on obscure fears.
+The vast majority of rules (e.g. naming, commenting) has no negative impact at all.
+Try to build things in a clean, object-oriented way.
+If something is too slow, make a performance measurement.
+Only then should you take a fact-based decision to discard selected rules.
+
+### Prefer object orientation over imperative programming
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+
+Object-oriented programs (classes, interfaces) are segmented better
+and can be refactored and tested more easily than imperative code (functions, programs).
+Although there are situations where you must provide imperative objects
+(a function for an RFC, a program for a transaction),
+these objects should do little more than call a corresponding class that provides the actual feature:
+
+```ABAP
+FUNCTION check_business_partner [...].
+  DATA(validator) = NEW /clean/biz_partner_validator( ).
+  result = validator->validate( business_partners ).
+ENDFUNCTION.
+```
+
+### Prefer functional over procedural language constructs
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+
+They are usually shorter and come more natural to modern programmers.
+
+```ABAP
+DATA(variable) = 'A'.
+" MOVE 'A' TO variable.
+
+DATA(uppercase) = to_upper( lowercase ).
+" TRANSLATE lowercase TO UPPER CASE.
+
+index += 1.         " >= NW 7.54
+index = index + 1.  " < NW 7.54
+" ADD 1 TO index.
+
+DATA(object) = NEW /clean/my_class( ).
+" CREATE OBJECT object TYPE /dirty/my_class.
+
+result = VALUE #( FOR row IN input ( row-text ) ).
+" LOOP AT input INTO DATA(row).
+"  INSERT row-text INTO TABLE result.
+" ENDLOOP.
+
+DATA(line) = value_pairs[ name = 'A' ].
+" READ TABLE value_pairs INTO DATA(line) WITH KEY name = 'A'.
+
+DATA(exists) = xsdbool( line_exists( value_pairs[ name = 'A' ] ) ).
+IF line_exists( value_pairs[ name = 'A' ] ).
+" READ TABLE value_pairs TRANSPORTING NO FIELDS WITH KEY name = 'A'.
+" DATA(exists) = xsdbool( sy-subrc = 0 ).
+```
+
+Many of the detailed rules below are just specific reiterations of this general advice.
+
+### Use design patterns wisely
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+
+Where they are appropriate and provide noticeable benefit.
+Don't apply design patterns everywhere just for the sake of it.
