@@ -1,6 +1,6 @@
-# Licence
+# License
 
-This repository is published under the _Creative Commons Attribution 3.0 Unported licence (CC BY 3.0)_,
+This repository is published under the _Creative Commons Attribution 3.0 Unported license (CC BY 3.0)_,
 meaning **you are free to share and adapt its material in any way,
 as long as you give appropriate credit and indicate any changes you made**.
 
