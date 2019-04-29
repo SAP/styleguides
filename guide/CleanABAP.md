@@ -11,7 +11,7 @@
 [**Grassroots Project**](#grassroots-project)
 
 This guide is an adoption of
-[Robert C. Martin's _Clean Code_](https://www.oreilly.com/library/view/clean-code/9780136083238/)
+[Robert C. Martin's _Clean Code_]
 for [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
 The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
@@ -29,7 +29,22 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
   - [How to Relate to Other Guides](#how-to-relate-to-other-guides)
   - [How to Disagree](#how-to-disagree)  
-
+- [Names](#names)
+  - [Use descriptive names](#use-descriptive-names)
+  - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
+  - [Use plural](#use-plural)
+  - [Use pronounceable names](#use-pronounceable-names)
+  - [Avoid abbreviations](#avoid-abbreviations)
+  - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
+  - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
+  - [Avoid noise words such as "data", "controller", "object"](#avoid-noise-words-such-as-data-controller-object)
+  - [Pick one word per concept](#pick-one-word-per-concept)
+  - [Use pattern names only if you mean them](#use-pattern-names-only-if-you-mean-them)
+  - [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+    - [Reasoning](#reasoning)
+    - [Arguments](#arguments)
+    - [Compromises](#compromises)
+    
 ## About this guide
 
 > [Clean ABAP](#clean-abap) > [Content](#content)
@@ -173,3 +188,279 @@ One of the pillars of Clean Code is that _the team rules_.
 Just be sure to give things a fair chance before you discard them.
 
 [CONTRIBUTING.md](../CONTRIBUTING.md) suggests ways how you can change this guide or deviate from it in minor details.
+
+## Names
+
+> [Clean ABAP](#clean-abap) > [Content](#content)
+
+### Use descriptive names
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+Use names that convey the content and meaning of things.
+
+```ABAP
+CONSTANTS max_wait_time_in_seconds TYPE i ...
+DATA customizing_entries TYPE STANDARD TABLE ...
+METHODS read_user_preferences ...
+CLASS /clean/user_preference_reader ...
+```
+
+Do not focus on the data type or technical encoding.
+They hardly contribute to understanding the code.
+
+```ABAP
+" anti-pattern
+CONSTANTS sysubrc_04 TYPE sysubrc ...
+DATA iso3166tab TYPE STANDARD TABLE ...
+METHODS read_t005 ...
+CLASS /dirty/t005_reader ...
+```
+
+[Do not attempt to fix bad names by comments.](#comments-are-no-excuse-for-bad-names)
+
+> Read more in _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ of [Robert C. Martin's _Clean Code_].
+
+### Prefer solution domain and problem domain terms
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+Search for good names in the solution domain, i.e. computer science terms such as "queue" or "tree",
+and in the problem domain, i.e. business field terms such as "account" or "ledger".
+
+Layers that are business-like will sound best when named according to the problem domain.
+This is especially true for components that are design with Domain-Driven Design, such as APIs and business objects.
+
+Layers that provide mostly technical functionality, such as factory classes and abstract algorithm,
+will sound best when named according to the solution domain.
+
+In any case, do not attempt to make up your own language.
+We need to be able to exchange information between developers, product owners, partners and customers,
+so choose names that all of these can relate to without a customized dictionary.
+
+> Read more in _Chapter 2: Meaningful Names: Use Solution Domain Names_ and _[...]:
+> Use Problem Domain Names_ of [Robert C. Martin's _Clean Code_].
+
+### Use plural
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+There is a legacy practice at SAP to name tables of things in singular,
+for example `country` for a "table of countries".
+Common tendency in the outside world is to use the plural for lists of things.
+We therefore recommend to prefer `countries` instead.
+
+> Read more in _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ of [Robert C. Martin's _Clean Code_].
+
+### Use pronounceable names
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+We think and talk a lot about objects, so use names that you can pronounce,
+for example prefer `detection_object_types` to something cryptic like `dobjt`.
+
+> Read more in _Chapter 2: Meaningful Names: Use Pronounceable Names_ of [Robert C. Martin's _Clean Code_]
+
+### Avoid abbreviations
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+If you have enough space, write out names in full.
+Start abbreviating only if you exceed length limitations.
+
+If you do have to abbreviate, start with the _unimportant_ words.
+
+Abbreviating things may appear efficient at first glance, but becomes ambiguous very fast.
+For example, does the "cust" in `cust` mean "customizing", "customer", or "custom"?
+All three are common in SAP applications.
+
+> Read more in _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ of [Robert C. Martin's _Clean Code_].
+
+### Use same abbreviations everywhere
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+People will search for keywords to find relevant code.
+Support this by using the same abbreviation for the same thing.
+For example, always abbreviate "detection object type" to "dobjt"
+instead of mixing "dot", "dotype", "detobjtype" and so on.
+
+> Read more in _Chapter 2: Meaningful Names: Use Searchable Names_ of [Robert C. Martin's _Clean Code_].
+
+### Use nouns for classes and verbs for methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+Use nouns or noun phrases to name classes, interfaces, and objects:
+
+```ABAP
+CLASS /clean/account
+CLASS /clean/user_preferences
+INTERFACE /clean/customizing_reader
+```
+
+Use verbs or verb phrases to name methods:
+
+```ABAP
+METHODS withdraw
+METHODS add_message
+METHODS read_entries
+```
+
+Starting Boolean methods with verbs like `is_` and `has_` yields nice reading flow:
+
+```ABAP
+IF is_empty( table ).
+```
+
+We recommend naming functions like methods:
+
+```ABAP
+FUNCTION /clean/read_alerts
+```
+
+### Avoid noise words such as "data", "info", "object"
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+Omit noise words
+
+    account  " instead of account_data
+    alert    " instead of alert_object
+
+or replace them with something specific that really adds value
+
+    user_preferences          " instead of user_info
+    response_time_in_seconds  " instead of response_time_variable
+
+> Read more in _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ of [Robert C. Martin's _Clean Code_]
+
+### Pick one word per concept
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+```ABAP
+METHODS read_this.
+METHODS read_that.
+METHODS read_those.
+```
+
+Choose a term for a concept and stick to it; don't mix in other synonyms.
+Synonyms will make the reader waste time on finding a difference that's not there.
+
+```ABAP
+" anti-pattern
+METHODS read_this.
+METHODS retrieve_that.
+METHODS query_those.
+```
+
+> Read more in _Chapter 2: Meaningful Names: Pick One Word per Concept_ of [Robert C. Martin's _Clean Code_]
+
+### Use pattern names only if you mean them
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+Don't use the names of software design patterns for classes and interfaces unless you really mean them.
+For example, don't call your class `file_factory` unless it really implements the factory design pattern.
+The most common patterns include:
+[singleton](https://en.wikipedia.org/wiki/Singleton_pattern),
+[factory](https://en.wikipedia.org/wiki/Factory_method_pattern),
+[facade](https://en.wikipedia.org/wiki/Facade_pattern),
+[composite](https://en.wikipedia.org/wiki/Composite_pattern),
+[decorator](https://en.wikipedia.org/wiki/Decorator_pattern),
+[iterator](https://en.wikipedia.org/wiki/Iterator_pattern),
+[observer](https://en.wikipedia.org/wiki/Observer_pattern), and
+[strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
+
+> Read more in _Chapter 2: Meaningful Names: Avoid Disinformation_ of [Robert C. Martin's _Clean Code_]
+
+[Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
+
+### Avoid encodings, esp. Hungarian notation and prefixes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+
+We encourage you to get rid of _all_ encoding prefixes.
+
+```ABAP
+METHOD add_two_numbers.
+  result = a + b.
+ENDMETHOD.
+```
+
+instead of the needlessly longer
+
+```ABAP
+METHOD add_two_numbers.
+  rv_result = iv_a + iv_b.
+ENDMETHOD.
+```
+
+> Read more in _Chapter 2: Meaningful Names: Avoid Encodings_ of [Robert C. Martin's _Clean Code_].
+> The examples in this document are written without prefixes to demonstrate the value.
+
+#### Reasoning
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+
+SAP has a bad, pervasive legacy practice of adding prefixes to each and everything, to encode things like
+
+- kind, such as "cl_" for classes,
+- direction, such as "is_" for an input parameter,
+- scope, such as "mo_" for a class member,
+- type, such as "lt_" for a table-like variable, and
+- mutability, such as "sc_" for a constant.
+
+This kind of prefixing is a relic from the early days of programming, when code was printed out and read on paper,
+and you didn't want to flip around just to find some variable's type.
+Modern development environments give easy access to data types, signatures, and object navigation,
+such that it is no longer needed to get readable code.
+
+#### Arguments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+
+Before you disagree, consider these:
+
+- ABAP's 30 character limitation makes it hard enough to squeeze meaningful names
+  into the available space without wasting another 3-4 characters for needless encodings.
+- The disputes that arise over prefixes are not worth the effort:
+  whether your constant starts with `sc_` or `cv_` does not really influence readability.
+- Different team styles create confusion: is "lr_" an object reference or a range table?
+  You'll stumble over this in code that connects different things, for example your determinations within BOPF.
+- Changes create needless work: turning a table from `STANDARD` to `SORTED` shouldn't require you
+  to rename all variables from "lt_" to "lts_".
+- Prefixing doesn't make it easier to tell global from local things.
+  If you fill a `gt_sum` from an `lt_sum`, both are still only sums and it's not clear what distinguishes the two.
+  The better idea is to fill a `total_sum` from a `partial_sum`, or an `overall_result` from an `intermediate_result`.
+  The name confusion described in
+  [section _Program-Internal Names_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenprog_intern_names_guidl.htm)
+  should thus be solved otherwise.
+- If you follow Clean Code, your methods will become so short (3-5 statements)
+  that prefixing is no longer necessary to tell importing from exporting parameters and local from global variables.
+- The ABAP foundation doesn't prefix anymore, for example you won't find importing/exporting prefixes
+  on the method parameters in `cl_abap_math`.
+- Other languages like Java use absolutely no prefixes, and still Java code is perfectly readable.
+
+#### Compromises
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+
+There is only one prefix that ABAP forces you to use: your application's namespace,
+to avoid conflicts with objects from other teams in the global dictionary, where every thing needs a unique name.
+
+If this rule is too hard for you, consider a compromise:
+avoid encodings in local contexts (within a method body, method parameters, local classes, etc.),
+and apply them only to global objects that are stored in the same global Dictionary namespace.
+
+We agree that following this suggestion will work out only if the code is already _clean_ in some other aspects,
+especially short methods and good method and variable names.
+While prefixes needlessly complicate a clean method with two statements,
+they may be your only remaining lifeline in a thousand-line legacy function with cryptic variable names.
+
+> Read more in _Chapter 2: Meaningful Names: Avoid Encodings_ of [Robert C. Martin's _Clean Code_].
+> This section contradicts the sections [_Names of Repository Objects_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> of the ABAP Programming Guidelines which recommend to use prefixes.
+> We think that avoiding prefixes is the more modern and readable variant and that the guideline should be adjusted.
