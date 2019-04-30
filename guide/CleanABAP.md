@@ -88,6 +88,10 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [No empty IF branches](#no-empty-if-branches)
   - [Prefer CASE to ELSE IF for multiple alternative conditions](#prefer-case-to-else-if-for-multiple-alternative-conditions)
   - [Keep the nesting depth low](#keep-the-nesting-depth-low)
+- [Regular expressions](#regular-expressions)
+  - [Prefer simpler methods to regular expressions](#prefer-simpler-methods-to-regular-expressions)
+  - [Prefer basis checks to regular expressions](#prefer-basis-checks-to-regular-expressions)
+  - [Consider assembling complex regular expressions](#consider-assembling-complex-regular-expressions)
   
 ## About this guide
 
@@ -1396,3 +1400,63 @@ is shorter and clearer than
  IF <this>.
    IF <that>.
  ```
+ 
+ ## Regular expressions
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#regular-expressions)
+ 
+ ### Prefer simpler methods to regular expressions
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-simpler-methods-to-regular-expressions)
+ 
+ ```ABAP
+ IF input IS NOT INITIAL.
+ " IF matches( val = input  regex = '.+' ).
+ 
+ WHILE contains( val = input  sub = 'abc' ).
+ " WHILE contains( val = input  regex = 'abc' ).
+ ```
+ 
+ Regular expressions become hard to understand very quickly.
+ Simple cases are usually easier without them.
+ 
+ Regular expressions also usually consume more memory and processing time
+ because they need to be parsed into an expression tree and compiled at runtime into an executable matcher.
+ Simple solutions may do with a straight-forward loop and a temporary variable.
+ 
+ ### Prefer basis checks to regular expressions
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-basis-checks-to-regular-expressions)
+ 
+ ```ABAP
+ CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
+   EXPORTING
+     cls_name = class_name
+   EXCEPTIONS
+     ...
+ ```
+ 
+ instead of reinventing things
+ 
+ ```ABAP
+ " anti-pattern
+ DATA(is_valid) = matches( val     = class_name
+                           pattern = '[A-Z][A-Z0-9_]{0,29}' ).
+ ```
+ 
+ > There seems to be a natural tendency to turn blind to the Don't-Repeat-Yourself (DRY) principle
+ > when there are regular expressions around,
+ > compare section _Chapter 17: Smells and Heuristics: General: G5: Duplication_ in [Robert C. Martin's _Clean Code_].
+ 
+ ### Consider assembling complex regular expressions
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#consider-assembling-complex-regular-expressions)
+ 
+ ```ABAP
+ CONSTANTS class_names TYPE string VALUE `CL\_.*`.
+ CONSTANTS interface_names TYPE string VALUE `IF\_.*`.
+ DATA(object_names) = |{ class_names }|{ interface_names }|.
+ ```
+ 
+ Some complex regular expressions become easier
+ when you demonstrate the reader how they are built up from more elementary pieces.
