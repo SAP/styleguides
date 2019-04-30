@@ -56,10 +56,10 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Constants](#constants)
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
   - [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces)
-    - [Constant Pattern](#constant-pattern)
-    - [Object Pattern](#object-pattern)
-    - [Anti-Pattern](#anti-pattern)
-    - [Benefits](#benefits)
+    - [Enumerations: Constant Pattern](#enumerations-constant-pattern)
+    - [Enumerations: Object Pattern](#enumerations-object-pattern)
+    - [Enumerations: Anti-Pattern](#enumerations-anti-pattern)
+    - [Enumerations: Benefits](#enumerations-benefits)
   - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
   
 ## About this guide
@@ -634,3 +634,151 @@ IF abap_type = 'D'.
 
 > Read more in _Chapter 17: Smells and Heuristics: G25:
 > Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
+
+### Prefer enumeration classes over constants interfaces
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-over-constants-interfaces)
+
+There are two common patterns that reflect enumerations.
+
+#### Enumerations: Constant Pattern
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-constant-pattern)
+
+```ABAP
+CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    CONSTANTS:
+      warning TYPE symsgty VALUE 'W',
+      error   TYPE symsgty VALUE 'E'.
+ENDCLASS.
+
+CLASS /clean/message_severity IMPLEMENTATION.
+ENDCLASS.
+```
+
+```ABAP
+IF log_contains( /clean/message_severity=>warning ).
+```
+
+#### Enumerations: Object Pattern
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-object-pattern)
+
+```ABAP
+CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
+  PUBLIC SECTION.
+    CLASS-DATA:
+      warning TYPE REF TO /clean/message_severity READ-ONLY,
+      error   TYPE REF TO /clean/message_severity READ-ONLY.
+    CLASS-METHODS class_constructor.
+    METHODS constructor IMPORTING value TYPE /clean/severity.
+    METHODS equals
+      IMPORTING
+        value         TYPE symsgty
+      RETURNING
+        VALUE(result) TYPE abap_bool.
+    DATA value TYPE symsgty READ-ONLY.
+ENDCLASS.
+
+CLASS /clean/message_severity IMPLEMENTATION.
+
+  METHOD class_constructor.
+    warning = NEW /clean/message_severity( 'W' ).
+    error = NEW /clean/message_severity( 'E' ).
+  ENDMETHOD.
+
+  METHOD constructor.
+    me->value = value.
+  ENDMETHOD.
+
+  METHOD equals.
+    result = xsdbool( value = me->value ).
+  ENDMETHOD.
+
+ENDCLASS.
+```
+
+```ABAP
+METHODS to_string IMPORTING severity TYPE REF TO /clean/message_severity.
+IF /clean/message_severity=>warning->equals( worst_severity ).
+object-severity = /clean/message_severity=>warning->value.
+```
+
+#### Enumerations: Anti-Pattern
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#enumerations-prefer-enumeration-classes-over-constants-interfaces) > [This section](#anti-pattern)
+
+```ABAP
+" anti-pattern
+INTERFACE /dirty/common_constants.
+  CONSTANTS:
+    warning      TYPE symsgty VALUE 'W',
+    transitional TYPE i       VALUE 1,
+    error        TYPE symsgty VALUE 'E',
+    persisted    TYPE i       VALUE 2.
+ENDINTERFACE.
+```
+
+#### Enumerations: Benefits
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-benefits)
+
+- An enumeration class groups all possible values for a data type at one glance.
+- In contrast to the ABAP statement `ENUM`, these constants can be used on all levels,
+including data exchange with the database.
+- Enumeration classes improve cohesion because you depend only on those constants that you need,
+not everything in a large interface.
+- Enumeration classes can be found by their name via the data dictionary,
+using _Display other object..._ in SE24 and SE80 or _Ctrl+Shift+A_ in ADT.
+- The `FINAL` and `ABSTRACT` prevents people from "inheriting" or "implementing" the constants list,
+which would sacrifice cohesion for a slightly shorter syntax.
+- You can add type-related methods such as conversions, validation, etc. to the enumeration class.
+- You can add unit tests to the enumeration,
+for example to assert that it's still in sync with the fixed values of its underlying DDIC Domain.
+- The object-oriented pattern comes with value-safety,
+meaning it is not possible to provide a value that's not contained in the enumeration.
+
+> Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
+
+### If you don't use enumeration classes, group your constants
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enumeration-classes-group-your-constants)
+
+If you collect constants in a loose way, for example in an interface, group them:
+
+```ABAP
+CONSTANTS:
+  BEGIN OF message_severity,
+    warning TYPE symsgty VALUE 'W',
+    error   TYPE symsgty VALUE 'E',
+  END OF message_severity,
+  BEGIN OF message_lifespan,
+    transitional TYPE i VALUE 1,
+    persisted    TYPE i VALUE 2,
+  END OF message_lifespan.
+```
+
+Makes the relation clearer than:
+
+```ABAP
+CONSTANTS:
+  warning      TYPE symsgty VALUE 'W',
+  transitional TYPE i       VALUE 1,
+  error        TYPE symsgty VALUE 'E',
+  persisted    TYPE i       VALUE 2,
+```
+
+The group also allows you group-wise access, for example for input validation:
+
+```ABAP
+DO number_of_constants TIMES.
+  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(<constant>).
+  IF <constant> = input.
+    is_valid = abap_true.
+    RETURN.
+  ENDIF.
+ENDWHILE.
+```
+
+> Read more in _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ of [Robert C. Martin's _Clean Code_].
