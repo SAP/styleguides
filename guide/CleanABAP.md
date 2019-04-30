@@ -142,7 +142,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Keep methods small](#keep-methods-small)
   - [Control flow](#control-flow)
     - [Fail fast](#fail-fast)
-    - [CHECK or RETURN](#check-or-return)
+    - [CHECK vs. RETURN](#check-vs-return)
     - [Avoid CHECK in other positions](#avoid-check-in-other-positions)
 - [Error Handling](#error-handling)
   - [Return Codes](#return-codes)
@@ -175,6 +175,27 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
   - [ABAP Doc only for public APIs](#abap-doc-only-for-public-apis)
+- [Formatting](#formatting)
+  - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
+  - [Use the Pretty Printer before activating](#use-the-pretty-printer-before-activating)
+  - [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings)
+    - [Upper vs. lower case](#upper-vs-lower-case)
+  - [No more than one statement per line](#no-more-than-one-statement-per-line)
+  - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
+  - [Condense your code](#condense-your-code)
+  - [Add a single blank line to separate things, but not more](#add-a-single-blank-line-to-separate-things-but-not-more)
+  - [Don't obsess with separating blank lines](#dont-obsess-with-separating-blank-lines)
+  - [Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones)
+  - [Close brackets at line end](#close-brackets-at-line-end)
+  - [Keep single parameter calls on one line](#keep-single-parameter-calls-on-one-line)
+  - [Keep parameters behind the call](#keep-parameters-behind-the-call)
+  - [If you break, indent parameters under the call](#if-you-break-indent-parameters-under-the-call)
+  - [Line-break multiple parameters](#line-break-multiple-parameters)
+  - [Align parameters](#align-parameters)
+  - [Break the call to a new line if the line gets too long](#break-the-call-to-a-new-line-if-the-line-gets-too-long)
+  - [Indent and snap to tab](#indent-and-snap-to-tab)
+  - [Indent in-line declarations like method calls](#indent-in-line-declarations-like-method-calls)
+  - [Don't align type clauses](#dont-align-type-clauses)
   
 ## About this guide
 
@@ -267,7 +288,7 @@ these topics are perfectly "healthy", but people may have problems
 making themselves comfortable with them in the beginning.
 
 Continue to these more controversial topics later;
-especially [Comments](#comments), [Naming](#naming), and [Formatting](#formatting)
+especially [Comments](#comments), [Names](#names), and [Formatting](#formatting)
 can lead to near-religious disputes
 and should only be addressed by teams that already saw proof of Clean Code's positive effects.
 
@@ -280,7 +301,7 @@ are most rewarding if you are working on a legacy project with tons of code that
 they can be applied to new code without conflicts, and may be applied to old code following the boy scout rule
 _("always leave the code you're editing a little better than you found it")_.
 
-The topic [Naming](#naming) is very demanding for legacy projects,
+The topic [Names](#names) is very demanding for legacy projects,
 as it may introduce a breach between old and new code,
 up to a degree where sections like
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
@@ -2743,9 +2764,9 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-#### CHECK or RETURN
+#### CHECK vs. RETURN
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#check-or-return)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#check-vs-return)
 
 There is no consensus on whether you should use `CHECK` or `RETURN` to exit a method
 if the input doesn't meet expectations.
@@ -3473,3 +3494,413 @@ As a consequence, you should employ it only where it makes sense, not enforce wr
 
 > Read more in _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
 > Javadocs in Nonpublic Code_ of [Robert C. Martin's _Clean Code_].
+
+## Formatting
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#formatting)
+
+The suggestions below are [optimized for reading, not for writing](#optimize-for-reading-not-for-writing).
+As ABAP's Pretty Printer doesn't cover them, some of them produce additional manual work to reformat statements
+when name lengths etc. change; if you want to avoid this, consider dropping rules like
+[Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones).
+
+### Optimize for reading, not for writing
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#optimize-for-reading-not-for-writing)
+
+Developers spend most time _reading_ code.
+Actually _writing_ code takes up a way smaller portion of the day.
+
+As a consequence, you should optimize your code formatting for reading, not for writing.
+
+For example, you should prefer
+
+```ABAP
+DATA:
+  a TYPE b,
+  c TYPE d,
+  e TYPE f.
+```
+
+to hacks such as
+
+```ABAP
+" anti-pattern
+DATA:
+  a TYPE b
+  ,c TYPE d
+  ,e TYPE f.
+```
+
+### Use the Pretty Printer before activating
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-pretty-printer-before-activating)
+
+Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating an object.
+
+> If you modify existing unformatted code, you might want to apply the Pretty Printer only to the changed code
+> to avoid additional changes in the code, which would hide the functional changes. 
+> You may pretty print the complete code in a separate transport.
+
+> Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
+
+### Use your Pretty Printer team settings
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-pretty-printer-team-settings)
+
+Use our team settings. Go to Menu > Utilities > Settings ... > ABAP Editor > Pretty Printer.
+
+Set "Indent" and "Convert Uppercase/Lowercase" > "Uppercase Keyword" as agreed in your team.
+
+> Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
+
+#### Upper vs. lower case
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings) > [This section](#upper-vs-lower-case)
+
+We don't have a clear guidance on whether keywords and identifiers should be uppercased or not.
+Here is why:
+
+General perception is that we should lowercase keywords and put identifiers in camel case.
+This is the prevalent formatting in most today's programming languages
+and commonly perceived as concise and readable style.
+
+However, ABAP is case-insensitive, such that camel-casing identifiers remains a mere optical improvement
+that tends to get lost in pretty-printing and database storages.
+Also, decades ago, people decided to uppercase ABAP keywords to make them easier to identify
+in black-and-white printouts and monochrome displays.
+Even though this main argument no longer holds,
+the keywords-uppercase-identifiers-lowercase format turned into a de facto standard.
+
+The [section _Case_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenlower_upper_case_guidl.htm)
+follows this de facto standard.
+The [section _Using Pretty Printer_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenuse_pretty_printer_guidl.htm)
+contradicts and says the recommendation _should_ actually be lowercase keywords and uppercase identifiers.
+We _do_ see foundation code that prefers lowercased keywords.
+
+### No more than one statement per line
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#no-more-than-one-statement-per-line)
+
+```ABAP
+DATA do_this TYPE i.
+do_this = input + 3.
+```
+
+Even if some occurrences may trick you into the misconception that this was readable:
+
+```ABAP
+" anti-pattern
+DATA do_this TYPE i. do_this = input + 3.
+```
+
+### Stick to a reasonable line length
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#stick-to-a-reasonable-line-length)
+
+Adhere to a maximum line length of 120 characters.
+
+The human eye reads text more comfortably if the lines are not too wide -
+ask a UI designer or eye movement researcher of your choice.
+You will also appreciate the narrower code when debugging or comparing two sources next to each other.
+
+The 80 or even 72 characters limit originating in the old terminal devices is a little too restrictive.
+While 100 characters are often recommended and a viable choice, 120 characters seem to work a little better for ABAP,
+maybe because of the general verbosity of the language.
+
+> As a reminder you can configure in ADT the print margin to 120 characters,
+> which then is visualized in the code view as a vertical line.
+
+### Condense your code
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#condense-your-code)
+
+```ABAP
+DATA(result) = calculate( items ).
+```
+
+instead of adding unneeded blanks
+
+```ABAP
+" anti-pattern
+DATA(result)        =      calculate(    items =   items )   .
+```
+
+### Add a single blank line to separate things, but not more
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#add-a-single-blank-line-to-separate-things-but-not-more)
+
+```ABAP
+DATA(result) = do_something( ).
+
+DATA(else) = calculate_this( result ).
+```
+
+to highlight that the two statements do different things. But there is no reason for
+
+```ABAP
+" anti-pattern
+DATA(result) = do_something( ).
+
+
+
+DATA(else) = calculate_this( result ).
+```
+
+The urge to add separating blank lines may be an indicator that your method doesn't [do one thing](#do-one-thing-do-it-well-do-it-only).
+
+### Don't obsess with separating blank lines
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-obsess-with-separating-blank-lines)
+
+```ABAP
+METHOD do_something.
+  do_this( ).
+  then_that( ).
+ENDMETHOD.
+```
+
+No reason for the bad habit to tear your code apart with blank lines
+
+```ABAP
+" anti-pattern
+METHOD do_something.
+
+  do_this( ).
+
+  then_that( ).
+
+ENDMETHOD.
+```
+
+Blank lines actually only make sense if you have statements that span multiple lines
+
+```ABAP
+METHOD do_something.
+
+  do_this( ).
+
+  then_that(
+    EXPORTING
+      variable = 'A'
+    IMPORTING
+      result   = result ).
+
+ENDMETHOD.
+```
+
+### Align assignments to the same object, but not to different ones
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#align-assignments-to-the-same-object-but-not-to-different-ones)
+
+To highlight that these things somehow belong together
+
+```ABAP
+structure-type = 'A'.
+structure-id   = '4711'.
+```
+
+or even better
+
+```ABAP
+structure = VALUE #( type = 'A'
+                        id   = '4711' ).
+```
+
+But leave things ragged that have nothing to do with each other:
+
+```ABAP
+customizing_reader = fra_cust_obj_model_reader=>s_get_instance( ).
+hdb_access = fra_hdbr_access=>s_get_instance( ).
+```
+
+> Read more in _Chapter 5: Formatting: Horizontal Alignment_ of [Robert C. Martin's _Clean Code_].
+
+### Close brackets at line end
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#close-brackets-at-line-end)
+
+```ABAP
+modify->update( node           = if_fra_alert_c=>node-item
+                key            = item->key
+                data           = item
+                changed_fields = changed_fields ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+modify->update( node           = if_fra_alert_c=>node-item
+                key            = item->key
+                data           = item
+                changed_fields = changed_fields
+).
+```
+
+### Keep single parameter calls on one line
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#keep-single-parameter-calls-on-one-line)
+
+```ABAP
+DATA(unique_list) = remove_duplicates( list ).
+remove_duplicates( CHANGING list =  list  ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+DATA(unique_list) = remove_duplicates(
+                           list  ).
+DATA(unique_list) = remove_duplicates(
+                         CHANGING
+                           list =  list  ).
+```
+
+### Keep parameters behind the call
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#keep-parameters-behind-the-call)
+
+```ABAP
+DATA(sum) = add_two_numbers( value_1 = 5
+                             value_2 = 6 ).
+```
+
+When this makes the lines very long, you can break the parameters into the next line:
+
+```ABAP
+DATA(sum) = add_two_numbers(
+                   value_1 = ( round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
+                   value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
+```
+
+### If you break, indent parameters under the call
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#if-you-break-indent-parameters-under-the-call)
+
+```ABAP
+DATA(sum) = add_two_numbers(
+                   value_1 = 5
+                   value_2 = 6 ).
+```
+
+Aligning the parameters elsewhere makes it hard to spot what they belong to:
+
+```ABAP
+" anti-pattern
+DATA(sum) = add_two_numbers(
+    value_1 = 5
+    value_2 = 6 ).
+```
+
+> This is on the other side the best pattern if you want to avoid the formatting to be broken by a name length change.
+
+### Line-break multiple parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#line-break-multiple-parameters)
+
+```ABAP
+DATA(sum) = add_two_numbers( value_1 = 5
+                             value_2 = 6 ).
+```
+
+Yes, this wastes space.
+However, otherwise, it's hard to spot where one parameter ends and the next starts:
+
+```ABAP
+" anti-pattern
+DATA(sum) = add_two_numbers( value_1 = 5 value_2 = 6 ).
+```
+
+### Align parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#align-parameters)
+
+```ABAP
+modify->update( node           = if_fra_alert_c=>node-item
+                key            = item->key
+                data           = item
+                changed_fields = changed_fields ).
+```
+
+Ragged margins make it hard to see where the parameter ends and its value begins:
+
+```ABAP
+" anti-pattern
+modify->update( node = if_fra_alert_c=>node-item
+                key = item->key
+                data = item
+                changed_fields = changed_fields ).
+```
+
+> This is on the other side the best pattern if you want to avoid the formatting to be broken by a name length change.
+
+### Break the call to a new line if the line gets too long
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#break-the-call-to-a-new-line-if-the-line-gets-too-long)
+
+```ABAP
+DATA(some_super_long_param_name) =
+  if_some_annoying_interface~add_two_numbers_in_a_long_name(
+      value_1 = 5
+      value_2 = 6 ).
+```
+
+### Indent and snap to tab
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#indent-and-snap-to-tab)
+
+Indent parameter keywords by 2 spaces and parameters by 4 spaces:
+
+```ABAP
+DATA(sum) = add_two_numbers(
+              EXPORTING
+                value_1 = 5
+                value_2 = 6
+              CHANGING
+                errors  = errors ).
+```
+
+If you have no keywords, indent the parameters by 4 spaces.
+
+```ABAP
+DATA(sum) = add_two_numbers(
+                value_1 = 5
+                value_2 = 6  ).
+```
+
+Use the Tab key to indent. It's okay if this adds one more space than needed.
+(This happens if the `DATA(sum) =` part at the left has an uneven number of characters.)
+
+### Indent in-line declarations like method calls
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#indent-in-line-declarations-like-method-calls)
+
+Indent in-line declarations with VALUE or NEW as if they were method calls:
+
+```ABAP
+DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
+                                              field_2 = 'A' )
+                                 b = NEW /clean/structure_type( field_3 = 'C'
+                                                                field_4 = 'D' ) ).
+```
+
+### Don't align type clauses
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-align-type-clauses)
+
+```ABAP
+DATA name TYPE seoclsname.
+DATA reader TYPE REF TO /clean/reader.
+```
+
+A variable and its type belong together and should therefore be visually grouped in close proximity.
+Aligning the `TYPE` clauses draws attention away from that and suggests that the variables form one vertical group, and their types another one.
+Alignment also produces needless editing overhead, requiring you to adjust all indentations when the length of the longest variable name changes.
+
+```ABAP
+" anti-pattern
+DATA name   TYPE seoclsname.
+DATA reader TYPE REF TO /clean/reader.
+```
