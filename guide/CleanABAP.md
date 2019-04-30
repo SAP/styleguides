@@ -73,6 +73,9 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer LINE_EXISTS over READ TABLE or LOOP AT](#prefer-line_exists-over-read-table-or-loop-at)
   - [Prefer READ TABLE over LOOP AT](#prefer-read-table-over-loop-at)
   - [Prefer LOOP AT WHERE over nested IF](#prefer-loop-at-where-over-nested-if)
+- [Strings](#strings)
+  - [Use ` to define literals](#use--to-define-literals)
+  - [Use | to assemble text](#use--to-assemble-text)
   
 ## About this guide
 
@@ -1070,4 +1073,49 @@ LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>).
     EXIT.
   ENDIF.
 ENDLOOP.
+```
+
+## Strings
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#strings)
+
+### Use ` to define literals
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Strings](#strings) > [This section](#use--to-define-literals)
+
+```ABAP
+CONSTANTS some_constant TYPE string VALUE `ABC`.
+DATA(some_string) = `ABC`.  " --> TYPE string
+```
+
+Refrain from using `'`, as it adds a superfluous type conversion and confuses the reader
+whether he's dealing with a `CHAR` or `STRING`:
+
+```ABAP
+" anti-pattern
+DATA some_string TYPE string.
+some_string = 'ABC'.
+```
+
+`|` is generally okay, but cannot be used for `CONSTANTS` and adds needless overhead when specifying a fixed value:
+
+```ABAP
+" anti-pattern
+DATA(some_string) = |ABC|.
+```
+
+### Use | to assemble text
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Strings](#strings) > [This section](#use--to-assemble-text)
+
+```ABAP
+DATA(message) = |Received HTTP code { status_code } with message { text }|.
+```
+
+String templates highlight better what's literal and what's variable,
+especially if you embed multiple variables in a text.
+
+```ABAP
+" anti-pattern
+DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
 ```
