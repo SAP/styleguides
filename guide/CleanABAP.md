@@ -80,6 +80,10 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use ABAP_BOOL for Booleans](#use-abap_bool-for-booleans)
   - [Use ABAP_TRUE and ABAP_FALSE for comparisons](#use-abap_true-and-abap_false-for-comparisons)
   - [Use XSDBOOL to set Boolean variables](#use-xsdbool-to-set-boolean-variables)
+- [Conditions](#conditions)
+  - [Try to make conditions positive](#try-to-make-conditions-positive)
+  - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
+  - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
   
 ## About this guide
 
@@ -1215,3 +1219,84 @@ which is why we suggest it only as secondary solution.
 ```ABAP
 DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 ```
+
+## Conditions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#conditions)
+
+### Try to make conditions positive
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#try-to-make-conditions-positive)
+
+```ABAP
+IF has_entries = abap_true.
+```
+
+For comparison, see how hard to understand the same statement gets by reversing it:
+
+```ABAP
+" anti-pattern
+IF has_no_entries = abap_false.
+```
+
+The "try" in the section title means you shouldn't force this
+up to the point where you end up with something like [empty IF branches](#no-empty-if-branches):
+
+```ABAP
+" anti-pattern
+IF has_entries = abap_true.
+ELSE.
+  " only do something in the ELSE block, IF remains empty
+ENDIF.
+```
+
+> Read more in _Chapter 17: Smells and Heuristics: G29: Avoid Negative Conditionals_ of [Robert C. Martin's _Clean Code_].
+
+### Consider decomposing complex conditions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-decomposing-complex-conditions)
+
+Conditions can become easier when decomposing them into the elementary parts that make them up:
+
+```ABAP
+DATA(example_provided) = xsdbool( example_a IS NOT INITIAL OR
+                                  example_b IS NOT INITIAL ).
+
+DATA(one_example_fits) = xsdbool( applies( example_a ) = abap_true OR
+                                  applies( example_b ) = abap_true OR
+                                  fits( example_b ) = abap_true ).
+
+IF example_provided = abap_true AND
+   one_example_fits = abap_true.
+```
+
+instead of leaving everything in-place:
+
+```ABAP
+" anti-pattern
+IF ( example_a IS NOT INITIAL OR
+     example_b IS NOT INITIAL ) AND
+   ( applies( example_a ) = abap_true OR
+     applies( example_b ) = abap_true OR
+     fits( example_b ) = abap_true ).
+```
+
+ > Use the ABAP Development Tools quick fixes to quickly extract conditions and create variables as shown above.
+ 
+ ### Consider extracting complex conditions
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-extracting-complex-conditions)
+ 
+ It's nearly always a good idea to extract complex conditions to methods of their own:
+ 
+ ```ABAP
+ IF is_provided( example ).
+ 
+ METHOD is_provided.
+   DATA(is_filled) = xsdbool( example IS NOT INITIAL ).
+   DATA(is_working) = xsdbool( applies( example ) = abap_true OR
+                               fits( example ) = abap_true ).
+   result = xsdbool( is_filled = abap_true AND
+                     is_working = abap_true ).
+ ENDMETHOD.
+ ```
