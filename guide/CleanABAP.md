@@ -123,6 +123,27 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Split methods instead of adding OPTIONAL parameters](#split-methods-instead-of-adding-optional-parameters)
     - [Use PREFERRED PARAMETER sparingly](#use-preferred-parameter-sparingly)
     - [RETURN, EXPORT, or CHANGE exactly one parameter](#return-export-or-change-exactly-one-parameter)
+  - [Parameter Types](#parameter-types)
+    - [Prefer RETURNING over EXPORTING](#prefer-returning-over-exporting)
+    - [RETURNING large tables is usually okay](#returning-large-tables-is-usually-okay)
+    - [Use either RETURNING or EXPORTING or CHANGING, but not a combination](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
+    - [Use CHANGING sparingly, where suited](#use-changing-sparingly-where-suited)
+    - [Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
+  - [Parameter Names](#parameter-names)
+    - [Consider calling the RETURNING parameter RESULT](#consider-calling-the-returning-parameter-result)
+  - [Parameter Initialization](#parameter-initialization)
+    - [Clear or overwrite EXPORTING reference parameters](#clear-or-overwrite-exporting-reference-parameters)
+      - [Take care if input and output could be the same](#take-care-if-input-and-output-could-be-the-same)
+    - [Don't clear VALUE parameters](#dont-clear-value-parameters)
+  - [Method Body](#method-body)
+    - [Do one thing, do it well, do it only](#do-one-thing-do-it-well-do-it-only)
+    - [Focus on the happy path or error handling, but not both](#focus-on-the-happy-path-or-error-handling-but-not-both)
+    - [Descend one level of abstraction](#descend-one-level-of-abstraction)
+    - [Keep methods small](#keep-methods-small)
+  - [Control flow](#control-flow)
+    - [Fail fast](#fail-fast)
+    - [CHECK or RETURN](#check-or-return)
+    - [Avoid CHECK in other positions](#avoid-check-in-other-positions)
     
 ## About this guide
 
@@ -206,7 +227,7 @@ We recommend you to start with things that are easily understood and broadly acc
 such as [Booleans](#booleans), [Conditions](#conditions), and [Ifs](#ifs).
 
 You will probably benefit most from the section [Methods](#methods),
-especially [Do one thing, do it well, do it only](#do-one-thing-do-it-well-do-it-only) and [Small](#small),
+especially [Do one thing, do it well, do it only](#do-one-thing-do-it-well-do-it-only) and [Small](#keep-methods-small),
 because these tremendously improve the overall structure of your code.
 
 Some topics in here can spark difficult discussions in teams
@@ -1332,11 +1353,11 @@ It's nearly always a good idea to extract complex conditions to methods of their
 IF is_provided( example ).
 
 METHOD is_provided.
-DATA(is_filled) = xsdbool( example IS NOT INITIAL ).
-DATA(is_working) = xsdbool( applies( example ) = abap_true OR
-                           fits( example ) = abap_true ).
-result = xsdbool( is_filled = abap_true AND
-                 is_working = abap_true ).
+  DATA(is_filled) = xsdbool( example IS NOT INITIAL ).
+  DATA(is_working) = xsdbool( applies( example ) = abap_true OR
+                              fits( example ) = abap_true ).
+  result = xsdbool( is_filled = abap_true AND
+                    is_working = abap_true ).
 ENDMETHOD.
 ```
 
@@ -1350,7 +1371,7 @@ ENDMETHOD.
 
 ```ABAP
 IF has_entries = abap_false.
-" do some magic
+  " do some magic
 ENDIF.
 ```
 
@@ -1360,7 +1381,7 @@ is shorter and clearer than
 " anti-pattern
 IF has_entries = abap_true.
 ELSE.
-" do some magic
+  " do some magic
 ENDIF.
 ```
 
@@ -1370,12 +1391,12 @@ ENDIF.
 
 ```ABAP
 CASE type.
-WHEN type-some_type.
- " ...
-WHEN type-some_other_type.
- " ...
-WHEN OTHERS.
- RAISE EXCEPTION NEW /clean/unknown_type_failure( ).
+  WHEN type-some_type.
+    " ...
+  WHEN type-some_other_type.
+    " ...
+  WHEN OTHERS.
+    RAISE EXCEPTION NEW /clean/unknown_type_failure( ).
 ENDCASE.
 ```
 
@@ -1388,11 +1409,11 @@ The statement even prevents some errors that can occur when accidentally nesting
 ```ABAP
 " anti-pattern
 IF type = type-some_type.
-" ...
+  " ...
 ELSEIF type = type-some_other_type.
-" ...
+  " ...
 ELSE.
-RAISE EXCEPTION NEW /dirty/unknown_type_failure( ).
+  RAISE EXCEPTION NEW /dirty/unknown_type_failure( ).
 ENDIF.
 ```
 
@@ -1403,14 +1424,14 @@ ENDIF.
 ```ABAP
 " ani-pattern
 IF <this>.
-IF <that>.
-ENDIF.
+  IF <that>.
+  ENDIF.
 ELSE.
-IF <other>.
-ELSE.
- IF <something>.
- ENDIF.
-ENDIF.
+  IF <other>.
+  ELSE.
+    IF <something>.
+    ENDIF.
+  ENDIF.
 ENDIF.
 ```
 
@@ -1461,10 +1482,10 @@ Simple solutions may do with a straight-forward loop and a temporary variable.
 
 ```ABAP
 CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
-EXPORTING
- cls_name = class_name
-EXCEPTIONS
- ...
+  EXPORTING
+    cls_name = class_name
+  EXCEPTIONS
+    ...
 ```
 
 instead of reinventing things
@@ -1472,7 +1493,7 @@ instead of reinventing things
 ```ABAP
 " anti-pattern
 DATA(is_valid) = matches( val     = class_name
-                       pattern = '[A-Z][A-Z0-9_]{0,29}' ).
+                          pattern = '[A-Z][A-Z0-9_]{0,29}' ).
 ```
 
 > There seems to be a natural tendency to turn blind to the Don't-Repeat-Yourself (DRY) principle
@@ -1517,16 +1538,16 @@ that they actually don't want to mock them in unit tests.
 
 ```ABAP
 CLASS /clean/string_utils DEFINITION [...].
-CLASS-METHODS trim
- IMPORTING
-   string        TYPE string
- RETURNING
-   VALUE(result) TYPE string.
+  CLASS-METHODS trim
+   IMPORTING
+     string        TYPE string
+   RETURNING
+     VALUE(result) TYPE string.
 ENDCLASS.
 
 METHOD retrieve.
-DATA(trimmed_name) = /clean/string_utils=>trim( name ).
-result = read( trimmed_name ).
+  DATA(trimmed_name) = /clean/string_utils=>trim( name ).
+  result = read( trimmed_name ).
 ENDMETHOD.
 ```
 
@@ -1563,24 +1584,24 @@ resulting in methods that produce the same result no matter when and in what ord
 
 ```ABAP
 CLASS /clean/xml_converter DEFINITION PUBLIC FINAL CREATE PUBLIC.
-PUBLIC SECTION.
- METHODS convert
-   IMPORTING
-     file_content  TYPE xstring
-   RETURNING
-     VALUE(result) TYPE /clean/some_inbound_message.
+  PUBLIC SECTION.
+    METHODS convert
+      IMPORTING
+        file_content  TYPE xstring
+      RETURNING
+        VALUE(result) TYPE /clean/some_inbound_message.
 ENDCLASS.
 
 CLASS /clean/xml_converter IMPLEMENTATION.
-METHOD convert.
- cl_proxy_xml_transform=>xml_xstring_to_abap(
-   EXPORTING
-     xml       = file_content
-     ext_xml   = abap_true
-     svar_name = 'ROOT_NODE'
-   IMPORTING
-     abap_data = result ).
-ENDMETHOD.
+  METHOD convert.
+    cl_proxy_xml_transform=>xml_xstring_to_abap(
+      EXPORTING
+        xml       = file_content
+        ext_xml   = abap_true
+        svar_name = 'ROOT_NODE'
+      IMPORTING
+        abap_data = result ).
+   ENDMETHOD.
 ENDCLASS.
 ```
  
@@ -2155,3 +2176,599 @@ METHODS check_and_report
   RETURNING
     VALUE(result)     TYPE check_result.
 ```
+
+### Parameter Types
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-types)
+
+#### Prefer RETURNING over EXPORTING
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#prefer-returning-over-exporting)
+
+```ABAP
+METHODS square
+  IMPORTING
+    number        TYPE i
+  RETURNING
+    VALUE(result) TYPE i.
+
+DATA(result) = square( 42 ).
+```
+
+Instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+METHODS square
+  IMPORTING
+    number TYPE i
+  EXPORTING
+    result TYPE i.
+
+square(
+  EXPORTING
+    number = 42
+  IMPORTING
+    result = DATA(result) ).
+```
+
+`RETURNING` not only makes the call shorter,
+it also allows method chaining and prevents [same-input-and-output errors](#take-care-if-input-and-output-could-be-the-same).
+
+#### RETURNING large tables is usually okay
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#returning-large-tables-is-usually-okay)
+
+Although the ABAP language documentation and performance guides say otherwise,
+we rarely encounter cases where handing over a large or deeply-nested table in a VALUE parameter
+_really_ causes performance problems.
+We therefore recommend to generally use
+
+```ABAP
+METHODS get_large_table
+  RETURNING
+    VALUE(result) TYPE /clean/some_table_type.
+
+METHOD get_large_table.
+  result = me->large_table.
+ENDMETHOD.
+
+DATA(my_table) = get_large_table( ).
+```
+
+Only if there is actual proof (= a bad performance measurement) for your individual case
+should you resort to the more cumbersome procedural style
+
+```ABAP
+" anti-pattern
+METHODS get_large_table
+  EXPORTING
+    result TYPE /dirty/some_table_type.
+
+METHOD get_large_table.
+  result = me->large_table.
+ENDMETHOD.
+
+get_large_table( IMPORTING result = DATA(my_table) ).
+```
+
+> This section contradicts the ABAP Programming Guidelines and Code Inspector checks,
+> both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
+> We consistently failed to reproduce any performance and memory deficits
+> and received notice about kernel optimization that generally improves RETURNING performance.
+
+#### Use either RETURNING or EXPORTING or CHANGING, but not a combination
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
+
+```ABAP
+METHODS copy_class
+  IMPORTING
+    old_name      TYPE seoclsname
+    new name      TYPE secolsname
+  RETURNING
+    VALUE(result) TYPE copy_result
+  RAISING
+    /clean/class_copy_failure.
+```
+
+instead of confusing mixtures like
+
+```ABAP
+" anti-pattern
+METHODS copy_class
+  ...
+  RETURNING
+    VALUE(result)      TYPE vseoclass
+  EXPORTING
+    error_occurred     TYPE abap_bool
+  CHANGING
+    correction_request TYPE trkorr
+    package            TYPE devclass.
+```
+
+Different sorts of output parameters is an indicator that the method does more than one thing.
+It confuses the reader and makes calling the method needlessly complicated.
+
+An acceptable exception to this rule may be builders that consume their input while building their output:
+
+```ABAP
+METHODS build_tree
+  CHANGING
+    tokens        TYPE tokens
+  RETURNING
+    VALUE(result) TYPE REF TO tree.
+```
+
+However, even those can be made clearer by objectifying the input:
+
+```ABAP
+METHODS build_tree
+  IMPORTING
+    tokens        TYPE REF TO token_stack
+  RETURNING
+    VALUE(result) TYPE REF TO tree.
+```
+
+#### Use CHANGING sparingly, where suited
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#use-changing-sparingly-where-suited)
+
+`CHANGING` should be reserved for cases where an existing local variable
+that is already filled is updated in only some places:
+
+```ABAP
+METHODS update_references
+  IMPORTING
+    new_reference TYPE /bobf/conf_key
+  CHANGING
+    bo_nodes      TYPE root_nodes.
+
+METHOD update_references.
+  LOOP AT bo_nodes REFERENCE INTO DATA(bo_node).
+    bo_node->reference = new_reference.
+  ENDLOOP.
+ENDMETHOD.
+```
+
+Do not force your callers to introduce unnecessary local variables only to supply your `CHANGING` parameter.
+Do not use `CHANGING` parameters to initially fill a previously empty variable.
+
+#### Split method instead of Boolean input parameter
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#split-method-instead-of-boolean-input-parameter)
+
+Boolean input parameters are often an indicator that the method does _two_ things instead of one.
+Challenge these parameters and investigate whether it would make more sense to split the method.
+
+```ABAP
+METHODS update_without_saving.
+METHODS update_and_save.
+```
+
+may be clearer than
+
+```ABAP
+" anti-pattern
+METHODS update
+  IMPORTING
+    do_save TYPE abap_bool.
+```
+
+Common perception suggests that setters for Boolean variables are okay:
+
+```ABAP
+METHODS set_is_deleted
+  IMPORTING
+    new_value TYPE abap_bool.
+```
+
+### Parameter Names
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-names)
+
+#### Consider calling the RETURNING parameter RESULT
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Names](#parameter-names) > [This section](#consider-calling-the-returning-parameter-result)
+
+Good method names are usually so good that the `RETURNING` parameter does not need a name of its own.
+The name would do little more than parrot the method name or repeat something obvious.
+
+Repeating a member name can even produce conflicts that need to be resolved by adding a superfluous `me->`.
+
+```ABAP
+" anti-pattern
+METHODS get_name
+  RETURNING
+    VALUE(name) TYPE string.
+    
+METHOD get_name.
+  name = me->name.
+ENDMETHOD.
+```
+
+In these cases, simply call the parameter `RESULT`, or something like `RV_RESULT` if you prefer Hungarian notation.
+
+Name the `RETURNING` parameter if it is _not_ obvious what it stands for,
+for example in methods that return `me` for method chaining,
+or in methods that create something but don't return the created entity but only its key or so.
+
+### Parameter Initialization
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-initialization)
+
+#### Clear or overwrite EXPORTING reference parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#clear-or-overwrite-exporting-reference-parameters)
+
+Reference parameters refer to existing memory areas that may be filled beforehand.
+Clear or overwrite them to provide reliable data:
+
+```ABAP
+METHODS square
+  EXPORTING
+    result TYPE i.
+
+" clear
+METHOD square.
+  CLEAR result.
+  " ...
+ENDMETHOD.
+
+" overwrite
+METHOD square.
+  result = cl_abap_math=>square( 2 ).
+ENDMETHOD.
+```
+
+> Code inspector and Checkman point out `EXPORTING` variables that are never written.
+Use these static checks to avoid this otherwise rather obscure error source. 
+
+##### Take care if input and output could be the same
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#take-care-if-input-and-output-could-be-the-same)
+
+Generally, it is a good idea to clear the parameter as a first thing in the method after type and data declarations.
+This makes the statement easy to spot and avoids that the still-contained value is accidentally used by later statements.
+
+However, some parameter configurations could use the same variable as input and output.
+In this case, an early `CLEAR` would delete the input value before it can be used, producing wrong results.
+
+```ABAP
+" anti-pattern
+DATA value TYPE i.
+
+square_dirty(
+  EXPORTING
+    number = value
+  IMPORTING
+    result = value.
+
+METHOD square_dirty.
+  CLEAR result.
+  result = number * number.
+ENDMETHOD.
+```
+
+Consider redesigning such methods by replacing `EXPORTING` with `RETURNING`.
+Also consider overwriting the `EXPORTING` parameter in a single result calculation statement.
+If neither fits, resort to a late `CLEAR`.
+
+#### Don't clear VALUE parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#dont-clear-value-parameters)
+
+Parameters that work by `VALUE` are handed over as new, separate memory areas that are empty by definition.
+Don't clear them again:
+
+```ABAP
+METHODS square
+  EXPORTING
+    VALUE(result) TYPE i.
+
+METHOD square.
+  " no need to CLEAR result
+ENDMETHOD.
+```
+
+`RETURNING` parameters are always `VALUE` parameters, so you never have to clear them:
+
+```ABAP
+METHODS square
+  RETURNING
+    VALUE(result) TYPE i.
+
+METHOD square.
+  " no need to CLEAR result
+ENDMETHOD.
+```
+
+### Method Body
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#method-body)
+
+#### Do one thing, do it well, do it only
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#do-one-thing-do-it-well-do-it-only)
+
+A method should do one thing, and only one thing.
+It should do it in the best way possible.
+
+A method likely does one thing if
+
+- it has [few input parameters](#aim-for-few-importing-parameters-at-best-less-than-three)
+- that [don't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
+- it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
+- it is [small](#keep-methods-small)
+- it [descends one level of abstraction](#descend-one-level-of-abstraction)
+- you cannot extract meaningful other methods
+- you cannot meaningfully group its statements into sections
+
+#### Focus on the happy path or error handling, but not both
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#focus-on-the-happy-path-or-error-handling-but-not-both)
+
+As a specialization of the rule [_Do one thing, do it well, do it only_](#do-one-thing-do-it-well-do-it-only),
+a method should either follow the happy-path it's built for,
+or the error-handling-detour in case it can't,
+but probably not both.
+
+```ABAP
+" anti-pattern
+METHOD append_xs.
+  IF input > 0.
+    DATA(remainder) = input.
+    WHILE remainder > 0.
+      result = result && `X`.
+      remainder = remainder - 1.
+    ENDWHILE.
+  ELSEIF input = 0.
+    RAISE EXCEPTION /dirty/sorry_cant_do( ).
+  ELSE.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+ENDMETHOD.
+```
+
+Can be decomposed into
+
+```ABAP
+METHOD append_xs.
+  validate( input ).
+  DATA(remainder) = input.
+  WHILE remainder > 0.
+    result = result && `X`.
+    remainder = remainder - 1.
+  ENDWHILE.
+ENDMETHOD.
+
+METHOD validate.
+  IF input = 0.
+    RAISE EXCEPTION /dirty/sorry_cant_do( ).
+  ELSEIF input < 0.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+ENDMETHOD.
+```
+
+or, to stress the validation part
+
+```ABAP
+" anti-pattern
+METHOD append_xs.
+  IF input > 0.
+    result = append_xs_without_check( input ).
+  ELSEIF input = 0.
+    RAISE EXCEPTION /dirty/sorry_cant_do( ).
+  ELSE.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+ENDMETHOD.
+
+METHOD append_xs_without_check.
+  DATA(remainder) = input.
+  WHILE remainder > 0.
+    result = result && `X`.
+    remainder = remainder - 1.
+  ENDWHILE.
+ENDMETHOD.
+```
+
+#### Descend one level of abstraction
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#descend-one-level-of-abstraction)
+
+Statements in a method should be one level of abstraction below the method itself.
+Correspondingly, they should all be on the same level of abstraction.
+
+```ABAP
+METHOD create_and_publish.
+  post = create_post( user_input ).
+  post->publish( ).
+ENDMETHOD.
+```
+
+instead of confusing mixtures of low level (`trim`, `to_upper`, ...) and high level (`publish`, ...) concepts like
+
+```ABAP
+" anti-pattern
+METHOD create_and_publish.
+  post = NEW blog_post( ).
+  DATA(user_name) = trim( to_upper( sy-uname ) ).
+  post->set_author( user_name ).
+  post->publish( ).
+ENDMETHOD.
+```
+
+A reliable way to find out what the right level of abstraction is is this:
+Let the method's author explain what the method does in few, short words, without looking at the code.
+The bullets (s)he numbers are the sub-methods the method should call or the statements it should execute.
+
+#### Keep methods small
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#keep-methods-small)
+
+Methods should be very small, optimally around 3 to 5 statements.
+
+```ABAP
+METHOD read_and_parse_version_filters.
+  DATA(active_model_version) = read_random_version_under( model_guid ).
+  DATA(filter_json) = read_model_version_filters( active_model_version-guid ).
+  result = parse_model_version_filters( filter_json ).
+ENDMETHOD.
+```
+
+The following `DATA` declaration alone is sufficient to see that the surrounding method does way more than one thing:
+
+```ABAP
+" anti-pattern
+DATA:
+  class           TYPE vseoclass,
+  attributes      TYPE seoo_attributes_r,
+  methods         TYPE seoo_methods_r,
+  events          TYPE seoo_events_r,
+  types           TYPE seoo_types_r,
+  aliases         TYPE seoo_aliases_r,
+  implementings   TYPE seor_implementings_r,
+  inheritance     TYPE vseoextend,
+  friendships     TYPE seof_friendships_r,
+  typepusages     TYPE seot_typepusages_r,
+  clsdeferrds     TYPE seot_clsdeferrds_r,
+  intdeferrds     TYPE seot_intdeferrds_r,
+  attribute       TYPE vseoattrib,
+  method          TYPE vseomethod,
+  event           TYPE vseoevent,
+  type            TYPE vseotype,
+  alias           TYPE seoaliases,
+  implementing    TYPE vseoimplem,
+  friendship      TYPE seofriends,
+  typepusage      TYPE vseotypep,
+  clsdeferrd      TYPE vseocdefer,
+  intdeferrd      TYPE vseoidefer,
+  new_clskey_save TYPE seoclskey.
+```
+
+Of course there are occasions where it does not make sense to reduce a larger method further.
+This is perfectly okay as long as the method remains [focused on one thing](#do-one-thing-do-it-well-do-it-only):
+
+```ABAP
+METHOD decide_what_to_do.
+  CASE temperature.
+    WHEN burning.
+      result = air_conditioning.
+    WHEN hot.
+      result = ice_cream.
+    WHEN moderate.
+      result = chill.
+    WHEN cold.
+      result = skiing.
+    WHEN freezing.
+      result = hot_cocoa.
+  ENDCASE.
+ENDMETHOD.
+```
+
+However, it still makes sense to validate whether the verbose code hides a more suitable pattern:
+
+```ABAP
+METHOD decide_what_to_do.
+  result = VALUE #( spare_time_activities[ temperature = temperature ] OPTIONAL ).
+ENDMETHOD.
+```
+
+> Cutting methods very small can have bad impact on performance because it increases the number of method calls.
+> The [section _Mind the performance_](#mind-the-performance) gives guidance on how to balance Clean Code and performance.
+
+### Control flow
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#control-flow)
+
+#### Fail fast
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#fail-fast)
+
+Validate and fail as early as possible:
+
+```ABAP
+METHOD do_something.
+  IF input IS INITIAL.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+  DATA(massive_object) = build_expensive_object_from( input ).
+  result = massive_object->do_some_fancy_calculation( ).
+ENDMETHOD.
+```
+
+Later validations are harder to spot and understand and may have already wasted resources to get there.
+
+```ABAP
+" anti-pattern
+METHOD do_something.
+  DATA(massive_object) = build_expensive_object_from( input ).
+  IF massive_object IS NOT BOUND. " happens if input is initial
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+  result = massive_object->do_some_fancy_calculation( ).
+ENDMETHOD.
+```
+
+#### CHECK or RETURN
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#check-or-return)
+
+There is no consensus on whether you should use `CHECK` or `RETURN` to exit a method
+if the input doesn't meet expectations.
+
+While `CHECK` definitely provides the shorter syntax
+
+```ABAP
+METHOD read_customizing.
+  CHECK keys IS NOT INITIAL.
+  " do whatever needs doing
+ENDMETHOD.
+```
+
+the statement's name is so obscure that people will probably understand the long form better:
+
+```ABAP
+METHOD read_customizing.
+  IF keys IS INITIAL.
+    RETURN.
+  ENDIF.
+  " do whatever needs doing
+ENDMETHOD:
+```
+
+You can also avoid the question completely by reversing the validation
+and adopting Dijkstra's single-entry-single-exit pattern for structured programming
+
+```ABAP
+METHOD read_customizing.
+  IF keys IS NOT INITIAL.
+    " do whatever needs doing
+  ENDIF.
+ENDMETHOD:
+```
+
+In any case, consider whether returning nothing is really the appropriate behavior.
+Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
+Returning nothing is in many cases similar to returning `null`, which should be avoided.
+
+> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> recommends using `CHECK` in this instance.
+> Community discussion suggests that the statement is so unclear
+> that many people will not understand the program's behavior.
+
+#### Avoid CHECK in other positions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#avoid-check-in-other-positions)
+
+Do not use `CHECK` outside of the initialization section of a method.
+The statement behaves differently in different positions and may lead to unclear, unexpected effects.
+
+For example,
+[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
+people might accidentally expect it to end the method or exit the loop.
+
+> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
+> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
