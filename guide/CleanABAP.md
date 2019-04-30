@@ -76,6 +76,10 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Strings](#strings)
   - [Use ` to define literals](#use--to-define-literals)
   - [Use | to assemble text](#use--to-assemble-text)
+- [Booleans](#booleans)
+  - [Use ABAP_BOOL for Booleans](#use-abap_bool-for-booleans)
+  - [Use ABAP_TRUE and ABAP_FALSE for comparisons](#use-abap_true-and-abap_false-for-comparisons)
+  - [Use XSDBOOL to set Boolean variables](#use-xsdbool-to-set-boolean-variables)
   
 ## About this guide
 
@@ -1118,4 +1122,96 @@ especially if you embed multiple variables in a text.
 ```ABAP
 " anti-pattern
 DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
+```
+
+## Booleans
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#booleans)
+
+### Use ABAP_BOOL for Booleans
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-abap_bool-for-booleans)
+
+```ABAP
+DATA has_entries TYPE abap_bool.
+```
+
+Don't use the generic type `char1`.
+Although it is technically compatible it obscures the fact that we're dealing with a Boolean variable.
+
+Also avoid other Boolean types as they often have strange side effects,
+for example `boolean` supports a third value "undefined" that results in subtle programming errors.
+
+In some cases you may need a data dictionary element, for example for DynPro fields.
+`abap_bool` cannot be used here because it is defined in the type pool `abap`, not in the data dictionary.
+In this case, resort to `boole_d` or `xfeld`.
+Create your own data element if you need a custom description.
+
+> ABAP may be the one single programming language that does not come with a universal Boolean data type.
+> However, having one is imperative.
+> This recommendation is based on the ABAP Programming Guidelines.
+
+### Use ABAP_TRUE and ABAP_FALSE for comparisons
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-abap_true-and-abap_false-for-comparisons)
+
+```ABAP
+has_entries = abap_true.
+IF has_entries = abap_false.
+```
+
+Don't use the character equivalents `'X'` and `' '` or `space`;
+they make it hard to see that this is a Boolean expression:
+
+```ABAP
+" anti-pattern
+has_entries = 'X'.
+IF has_entries = space.
+```
+
+Avoid comparisons with `INITIAL` - it forces readers to recollect that `abap_bool`'s default is `abap_false`:
+
+```ABAP
+" anti-pattern
+IF has_entries IS NOT INITIAL.
+```
+
+> ABAP may be the one single programming language that does not come with built-in "constants" for true and false.
+> However, having them is imperative.
+> This recommendation is based on the ABAP Programming Guidelines.
+
+### Use XSDBOOL to set Boolean variables
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-xsdbool-to-set-boolean-variables)
+
+```ABAP
+DATA(has_entries) = xsdbool( line IS NOT INITIAL ).
+```
+
+The equivalent `IF`-`THEN`-`ELSE` is much longer for nothing:
+
+```ABAP
+" anti-pattern
+IF line IS INITIAL.
+  has_entries = abap_false.
+ELSE.
+  has_entries = abap_true.
+ENDIF.
+```
+
+`xsdbool` is the best method for our purpose, as it directly produces a `char1`,
+which fits our boolean type `abap_bool` best.
+The equivalent functions `boolc` and `boolx` produce different types
+and add an unnecessary implicit type conversion.
+
+We agree that the name `xsdbool` is unlucky and misleading;
+after all, we're not at all interested in the "XML Schema Definition" parts that the "xsd" prefix suggests.
+
+A possible alternative to `xsdbool` is the `COND` ternary form.
+Its syntax is intuitive, but a little longer because it needlessly repeats the `THEN abap_true` segment,
+and requires knowledge of the implicit default value `abap_false` -
+which is why we suggest it only as secondary solution.
+
+```ABAP
+DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 ```
