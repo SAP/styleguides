@@ -50,16 +50,25 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
   - [Prefer object orientation over imperative programming](#prefer-object-orientation-over-imperative-programming)
+    - [Function Groups vs. Classes](#functions-vs-classes)
   - [Prefer functional over procedural language constructs](#prefer-functional-over-procedural-language-constructs)
   - [Use design patterns wisely](#use-design-patterns-wisely)
+- [Constants](#constants)
+  - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
+  - [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces)
+    - [Constant Pattern](#constant-pattern)
+    - [Object Pattern](#object-pattern)
+    - [Anti-Pattern](#anti-pattern)
+    - [Benefits](#benefits)
+  - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
   
 ## About this guide
 
-> [Clean ABAP](#clean-abap) > [Content](#content)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#about-this-guide)
 
 ### Public
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#publiuc)
 
 This document is **public**, as described in our
 SAP's _Global Information Classification & Handling Standard_
@@ -70,7 +79,7 @@ We believe that everybody should be enabled to code cleanly.
 
 ### Optional
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#optional)
 
 Following this guide is **optional**, meaning you -
 or more precisely: your team -
@@ -81,7 +90,7 @@ We believe that clean code comes from the heart, not from pressure.
 
 ### Continuous Release
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#continuous-release)
 
 This guide is updated **continuously**,
 meaning any change is reviewed and immediately put "live",
@@ -94,7 +103,7 @@ as agile developers, we welcome this.
 
 ### Open Source
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#open-source)
 
 This repository is **open source**,
 meaning it is written by a loose community of interested persons,
@@ -107,7 +116,7 @@ We believe that clean code should be discussed freely and openly.
 
 ### Grassroots Project
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#grassroots-project)
 
 This guide is a **grassroots project**, meaning it was started, and is still driven,
 by programmers who spend their day coding, and want to get better at it.
@@ -122,11 +131,11 @@ We respect all roles, ranks, and units, and welcome any suggestions and improvem
 
 ## How to
 
-> [Clean ABAP](#clean-abap) > [Content](#content)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#how-to)
 
 ### How to Get Started with Clean Code
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How To](#how-to)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-get-started-with-clean-code)
 
 If you are new to Clean Code, the [Clean Code Developer initiative](https://clean-code-developer.com/)
 may help you getting started with a didactically smooth stepwise introduction to the topic in general.
@@ -150,7 +159,7 @@ and should only be addressed by teams that already saw proof of Clean Code's pos
 
 ### How to Refactor Legacy Code
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How-to](#how-to)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-refactor-legacy-code)
 
 The topics [Booleans](#booleans), [Conditions](#conditions), [Ifs](#ifs), and [Methods](#methods)
 are most rewarding if you are working on a legacy project with tons of code that you cannot or do not want to change:
@@ -165,7 +174,7 @@ are better ignored.
 
 ### How to Relate to Other Guides
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How-to](#how-to)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-relate-to-other-guides)
 
 Our guide follows the _spirit_ of Clean Code,
 meaning we adjusted some things to the ABAP programming language
@@ -181,7 +190,7 @@ although we are more precise in most details.
 
 ### How to Disagree
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How-to](#how-to)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-disagree)
 
 We wrote this style guide for readers who are already acquainted with Clean Code or who are right now working on that,
 with a strong focus on how to apply Clean Code _specifically to ABAP_.
@@ -199,11 +208,11 @@ Just be sure to give things a fair chance before you discard them.
 
 ## Names
 
-> [Clean ABAP](#clean-abap) > [Content](#content)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#names)
 
 ### Use descriptive names
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-descriptive-names)
 
 Use names that convey the content and meaning of things.
 
@@ -231,7 +240,7 @@ CLASS /dirty/t005_reader ...
 
 ### Prefer solution domain and problem domain terms
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#prefer-solution-domain-and-problem-domain-terms)
 
 Search for good names in the solution domain, i.e. computer science terms such as "queue" or "tree",
 and in the problem domain, i.e. business field terms such as "account" or "ledger".
@@ -251,7 +260,7 @@ so choose names that all of these can relate to without a customized dictionary.
 
 ### Use plural
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-plural)
 
 There is a legacy practice at SAP to name tables of things in singular,
 for example `country` for a "table of countries".
@@ -262,7 +271,7 @@ We therefore recommend to prefer `countries` instead.
 
 ### Use pronounceable names
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-pronounceable-names)
 
 We think and talk a lot about objects, so use names that you can pronounce,
 for example prefer `detection_object_types` to something cryptic like `dobjt`.
@@ -271,7 +280,7 @@ for example prefer `detection_object_types` to something cryptic like `dobjt`.
 
 ### Avoid abbreviations
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-abbreviations)
 
 If you have enough space, write out names in full.
 Start abbreviating only if you exceed length limitations.
@@ -286,7 +295,7 @@ All three are common in SAP applications.
 
 ### Use same abbreviations everywhere
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-same-abbreviations-everywhere)
 
 People will search for keywords to find relevant code.
 Support this by using the same abbreviation for the same thing.
@@ -297,7 +306,7 @@ instead of mixing "dot", "dotype", "detobjtype" and so on.
 
 ### Use nouns for classes and verbs for methods
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-nouns-for-classes-and-verbs-for-methods)
 
 Use nouns or noun phrases to name classes, interfaces, and objects:
 
@@ -329,7 +338,7 @@ FUNCTION /clean/read_alerts
 
 ### Avoid noise words such as "data", "info", "object"
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-noise-words-such-as-data-info-object)
 
 Omit noise words
 
@@ -345,7 +354,7 @@ or replace them with something specific that really adds value
 
 ### Pick one word per concept
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#pick-one-word-per-concept)
 
 ```ABAP
 METHODS read_this.
@@ -367,7 +376,7 @@ METHODS query_those.
 
 ### Use pattern names only if you mean them
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-pattern-names-only-if-you-mean-them)
 
 Don't use the names of software design patterns for classes and interfaces unless you really mean them.
 For example, don't call your class `file_factory` unless it really implements the factory design pattern.
@@ -385,7 +394,7 @@ The most common patterns include:
 
 ### Avoid encodings, esp. Hungarian notation and prefixes
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-encodings-esp-hungarian-notation-and-prefixes)
 
 We encourage you to get rid of _all_ encoding prefixes.
 
@@ -408,7 +417,7 @@ ENDMETHOD.
 
 #### Reasoning
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes) > [This section](#reasoning)
 
 SAP has a bad, pervasive legacy practice of adding prefixes to each and everything, to encode things like
 
@@ -425,7 +434,7 @@ such that it is no longer needed to get readable code.
 
 #### Arguments
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes) > [This section](#arguments)
 
 Before you disagree, consider these:
 
@@ -451,7 +460,7 @@ Before you disagree, consider these:
 
 #### Compromises
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes) > [This section](#compromises)
 
 There is only one prefix that ABAP forces you to use: your application's namespace,
 to avoid conflicts with objects from other teams in the global dictionary, where every thing needs a unique name.
@@ -473,11 +482,11 @@ they may be your only remaining lifeline in a thousand-line legacy function with
 
 ## Language
 
-> [Clean ABAP](#clean-abap) > [Content](#content)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#language)
 
 ### Mind the legacy
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#mind-the-legacy)
 
 If you code for older ABAP releases, take the advice in this guide with care:
 Many recommendations below make use of relatively new syntax and constructs
@@ -488,7 +497,7 @@ the vast majority of rules (e.g. naming, commenting) will work in _any_ ABAP ver
 
 ### Mind the performance
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#mind-the-performance)
 
 If you code high performance components, take the advice in this guide with care:
 Some aspects of Clean Code may make things slower (more method calls) or consume more memory (more objects).
@@ -503,7 +512,7 @@ Only then should you take a fact-based decision to discard selected rules.
 
 ### Prefer object orientation over imperative programming
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-object-orientation-over-imperative-programming)
 
 Object-oriented programs (classes, interfaces) are segmented better
 and can be refactored and tested more easily than imperative code (functions, programs).
@@ -518,9 +527,52 @@ FUNCTION check_business_partner [...].
 ENDFUNCTION.
 ```
 
+#### Function Groups vs. Classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [Prefer object orientation over imperative programming](#prefer-object-orientation-over-imperative-programming) > [This section](#function-groups-vs-classes)
+
+New clean coders routinely ask for clarification,
+especially what the advantage of classes over function groups should be.
+
+Think of a function group as a `global abstract final class` with functions as `static public` members
+and form routines and global variables as `static private` members -
+with all positive and negative aspects this entails:
+
+- No instantiation.
+You cannot create multiple instances of the same function group.
+Makes it hard to prevent undesired sideways access to value-carrying fields.
+
+- No inheritance.
+You cannot inherit from or let inherit function groups.
+Prevents implementing some design patterns,
+such as [Composite](https://en.wikipedia.org/wiki/Composite_pattern).
+
+- No interfaces.
+You cannot provide two implementations for the same function group.
+Prevents mocking function calls in unit tests without dedicated techniques such as test seams.
+
+- No substitution.
+You cannot exchange a call to one function with a call to another one with different name but identical signature.
+Makes it hard to implement design patterns that overwrite methods,
+such as [Decorator](https://en.wikipedia.org/wiki/Decorator_pattern).
+
+- No overloading.
+You cannot provide two functions with identical names but different parameters.
+(This is not possible in ABAP OO too, by the way.)
+
+- Variable encapsulation.
+Function groups can hide internal state in private variables.
+Classes can do this a little better because they hide value on instance level with objects. 
+
+- Method encapsulation.
+Function groups can hide internal methods ("form routines");
+they are equal to classes in this respect.
+
+> Originally [answered on StackOverflow](https://stackoverflow.com/questions/55243044/function-groups-vs-classes/55244019#55244019).
+
 ### Prefer functional over procedural language constructs
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-functional-over-procedural-language-constructs)
 
 They are usually shorter and come more natural to modern programmers.
 
@@ -556,7 +608,29 @@ Many of the detailed rules below are just specific reiterations of this general 
 
 ### Use design patterns wisely
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#use-design-patterns-wisely)
 
 Where they are appropriate and provide noticeable benefit.
 Don't apply design patterns everywhere just for the sake of it.
+
+## Constants
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#constants)
+
+### Use constants instead of magic numbers
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#use-constants-instead-of-magic-numbers)
+
+```ABAP
+IF abap_type = cl_abap_typedescr=>typekind_date.
+```
+
+is clearer than
+
+```ABAP
+" anti-pattern
+IF abap_type = 'D'.
+```
+
+> Read more in _Chapter 17: Smells and Heuristics: G25:
+> Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
