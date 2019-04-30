@@ -162,7 +162,20 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE](#prefer-raise-exception-new-to-raise-exception-type)
   - [Catching](#catching)
     - [Wrap foreign exceptions instead of letting them invade your code](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
-    
+- [Comments](#comments)
+  - [Express yourself in code, not in comments](#express-yourself-in-code-not-in-comments)
+  - [Comments are no excuse for bad names](#comments-are-no-excuse-for-bad-names)
+  - [Use methods instead of comments to segment your code](#use-methods-instead-of-comments-to-segment-your-code)
+  - [Write comments to explain the why, not the what](#write-comments-to-explain-the-why-not-the-what)
+  - [Design goes into the design documents, not the code](#design-goes-into-the-design-documents-not-the-code)
+  - [Comment with ", not with *](#comment-with--not-with-)
+  - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
+  - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
+  - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
+  - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
+  - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
+  - [ABAP Doc only for public APIs](#abap-doc-only-for-public-apis)
+  
 ## About this guide
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#about-this-guide)
@@ -3165,3 +3178,298 @@ METHOD generate.
   generator->generate( ).
 ENDMETHOD.
 ```
+
+## Comments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#comments)
+
+### Express yourself in code, not in comments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#express-yourself-in-code-not-in-comments)
+
+```ABAP
+METHOD correct_day_to_last_in_month.
+  WHILE is_invalid( date ).
+    reduce_day_by_one( CHANGING date = date ).
+  ENDWHILE.
+ENDMETHOD.
+
+METHOD is_invalid.
+  DATA zero_if_invalid TYPE i.
+  zero_if_invalid = date.
+  result = xsdbool( zero_if_invalid = 0 ).
+ENDMETHOD.
+
+METHOD reduce_day_by_one.
+  date+6(2) = date+6(2) - 1.
+ENDMETHOD.
+```
+
+instead of
+
+```ABAP
+" anti-pattern
+" correct e.g. 29.02. in non-leap years as well as result of a date calculation would be
+" something like e.g. the 31.06. that example has to be corrected to 30.06.
+METHOD fix_day_overflow.
+  DO 3 TIMES.
+    " 31 - 28 = 3 => this correction is required not more than 3 times
+    lv_dummy = cv_date.
+    " lv_dummy is 0 if the date value is a not existing date - ABAP specific implementation
+    IF ( lv_dummy EQ 0 ).
+      cv_date+6(2) = cv_date+6(2) - 1. " subtract 1 day from the given date
+    ELSE.
+      " date exists => no correction required
+      EXIT.
+    ENDIF.
+  ENDDO.
+ENDMETHOD.
+```
+
+Clean Code does _not_ forbid you to comment your code - it encourages you to exploit _better_ means,
+and resort to comments only if that fails.
+
+> This example has been challenged from a performance point of view,
+> claiming that cutting the methods so small worsens performance too much.
+> Sample measurements show that the refactored code is 2.13 times slower than the original dirty variant.
+> The clean variant takes 9.6 microseconds to fix the input `31-02-2018`, the dirty variant only 4.5 microseconds.
+> This may be a problem when the method is run very often in a high-performance application;
+> for regular user input validation, it should be acceptable.
+> Resort to the section [Mind the performance](#mind-the-performance) to deal with Clean Code and performance issues.
+
+### Comments are no excuse for bad names
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#comments-are-no-excuse-for-bad-names)
+
+```ABAP
+DATA(input_has_entries) = has_entries( input ).
+```
+
+Improve your names instead of explaining what they really mean or why you chose bad ones.
+
+```ABAP
+" anti-pattern
+" checks whether the table input contains entries
+DATA(result) = check_table( input ).
+```
+
+### Use methods instead of comments to segment your code
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#use-methods-instead-of-comments-to-segment-your-code)
+
+```ABAP
+DATA(statement) = build_statement( ).
+DATA(data) = execute_statement( statement ).
+```
+
+This not only makes the intent, structure, and dependencies of the code much clearer,
+it also avoids carry-over errors when temporary variables aren't properly cleared between the sections.
+
+```ABAP
+" anti-pattern
+" -----------------
+" Build statement
+" -----------------
+DATA statement TYPE string.
+statement = |SELECT * FROM d_document_roots|.
+
+" -----------------
+" Execute statement
+" -----------------
+DATA(result_set) = adbc->execute_sql_query( statement ).
+result_set->next_package( IMPORTING data = data ).
+```
+
+### Write comments to explain the why, not the what
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#write-comments-to-explain-the-why-not-the-what)
+
+```ABAP
+" can't fail, existence of >= 1 row asserted above
+DATA(first_line) = table[ 1 ].
+```
+
+Nobody needs repeating the code in natural language
+
+```ABAP
+" anti-pattern
+" select alert root from database by key
+SELECT * FROM d_alert_root WHERE key = key.
+```
+
+### Design goes into the design documents, not the code
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#design-goes-into-the-design-documents-not-the-code)
+
+```ABAP
+" anti-pattern
+" This class serves a double purpose. First, it does one thing. Then, it does another thing.
+" It does so by executing a lot of code that is distributed over the local helper classes.
+" To understand what's going on, let us at first ponder the nature of the universe as such.
+" Have a look at this and that to get the details.
+```
+
+Nobody reads that - seriously.
+If people need to read a textbook to be able to use your code,
+this may be an indicator that your code has severe design issues that you should solve otherwise.
+Some code _does_ need some explanation beyond a single line of comment;
+consider linking the design document in these cases.
+
+### Comment with ", not with *
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#comment-with--not-with-)
+
+Quote comments indent along with the statements they comment
+
+```ABAP
+METHOD do_it.
+  IF input IS NOT INITIAL.
+    " delegate pattern
+    output = calculate_result( input ).
+  ENDIF.
+ENDMETHOD.
+```
+
+Asterisked comments tend to indent to weird places
+
+```ABAP
+METHOD do_it.
+  IF input IS NOT INITIAL.
+* delegate pattern
+    output = calculate_result( input ).
+  ENDIF.
+ENDMETHOD.
+```
+
+### Put comments before the statement they relate to
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#put-comments-before-the-statement-they-relate-to)
+
+```ABAP
+" delegate pattern
+output = calculate_result( input ).
+```
+
+Clearer than
+
+```ABAP
+" anti-pattern
+output = calculate_result( input ).
+" delegate pattern
+```
+
+And less invasive than
+
+```ABAP
+output = calculate_result( input ).  " delegate pattern
+```
+
+### Delete code instead of commenting it
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#delete-code-instead-of-commenting-it)
+
+```ABAP
+" anti-pattern
+* output = calculate_result( input ).
+```
+
+When you find something like this, delete it.
+The code is obviously not needed because your application works and all tests are green.
+Deleted code can be reproduced from the version history later on.
+If you need to preserve a piece of code permanently, copy it to a file or a `$TMP` or `HOME` object.
+
+### Use FIXME, TODO, and XXX and add your ID
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#use-fixme-todo-and-xxx-and-add-your-id)
+
+```ABAP
+METHOD do_something.
+  " XXX FH delete this method - it does nothing
+ENDMETHOD.
+```
+
+- `FIXME` points to errors that are too small or too much in-the-making for internal incidents.
+- `TODO`s are places where you want to complete something in the near(!) future.
+- `XXX` marks code that works but could be better.
+
+When you enter such a comment, add your nick, initials, or user to enable your co-developers to contact you
+and ask questions if the comment is unclear.
+
+### Don't add method signature and end-of comments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-add-method-signature-and-end-of-comments)
+
+Method signature comments don't help anybody.
+
+```ABAP
+" anti-pattern
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Static Public Method CALIBRATION_KPIS=>CALCULATE_KPI
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] STRATEGY_ID                 TYPE        STRATEGY_ID
+* | [--->] THRESHOLD                   TYPE        STRATEGY_THRESHOLD
+* | [--->] DETECTION_OBJECT_SCORE      TYPE        T_HIT_RESULT
+* | [<---] KPI                         TYPE        T_SIMULATED_KPI
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+```
+
+Decades ago, when you couldn't see the method signature when inspecting its code,
+or working with printouts that had dozens of pages, these comments may have made sense.
+But all modern ABAP IDEs (SE24, SE80, ADT) show the method signature easily
+such that these comments have become nothing but noise.
+
+> In the form-based editor of SE24/SE80, press button _Signature_.
+> In the ABAP Development Tools, mark the method name and press F2
+> or add the view _ABAP Element Info_ to your perspective.
+
+Similarly, end-of comments are superfluous.
+These comments may have been helpful decades ago,
+when programs and functions and the nested IFs inside were hundreds of lines of code long.
+But our modern coding style produces methods short enough to readily see
+what opening statement an `ENDIF` or `ENDMETHOD` belongs to:
+
+```ABAP
+" anti-pattern
+METHOD get_kpi_calc.
+  IF has_entries = abap_false.
+    result = 42.
+  ENDIF.  " IF has_entries = abap_false
+ENDMETHOD.   " get_kpi_calc
+```
+
+### Don't duplicate message texts as comments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-duplicate-message-texts-as-comments)
+
+```ABAP
+" anti-pattern
+" alert category not filled
+MESSAGE e003 INTO dummy.
+```
+
+Messages change independent from your code, and nobody will remember adjusting the comment,
+such that it will outdate and even become misleading quickly and without anybody noticing.
+
+The modern IDEs give you easy ways to see the text behind a message, for example in the ABAP Development Tools,
+mark the message ID and press Shift+F2.
+
+If you want it more explicit, consider extracting the message to a method of its own.
+
+```ABAP
+METHOD create_alert_not_found_message.
+  MESSAGE e003 INTO dummy.
+ENDMETHOD.
+```
+
+### ABAP Doc only for public APIs
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#abap-doc-only-for-public-apis)
+
+Write ABAP Doc to document public APIs, meaning APIs that are intended for developers in other teams or applications.
+Don't write ABAP Doc for internal stuff.
+
+ABAP Doc suffers from the same weaknesses as all comments, i.e. outdates and becomes misleading quickly.
+As a consequence, you should employ it only where it makes sense, not enforce writing ABAP Doc for each and everything.
+
+> Read more in _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
+> Javadocs in Nonpublic Code_ of [Robert C. Martin's _Clean Code_].
