@@ -66,6 +66,13 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO over FIELD-SYMBOL](#prefer-ref-to-over-field-symbol)
+- [Tables](#tables)
+  - [Use the right table type](#use-the-right-table-type)
+  - [Avoid DEFAULT KEY](#avoid-default-key)
+  - [Prefer INSERT INTO TABLE over APPEND TO](#prefer-insert-into-table-over-append-to)
+  - [Prefer LINE_EXISTS over READ TABLE or LOOP AT](#prefer-line_exists-over-read-table-or-loop-at)
+  - [Prefer READ TABLE over LOOP AT](#prefer-read-table-over-loop-at)
+  - [Prefer LOOP AT WHERE over nested IF](#prefer-loop-at-where-over-nested-if)
   
 ## About this guide
 
@@ -922,3 +929,145 @@ Similarly, speed is not an issue. As a consequence, there is no performance-rela
 
 > Read more in the article
 > [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
+
+## Tables
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#tables)
+
+### Use the right table type
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#use-the-right-table-type)
+
+- You typically use `HASHED` tables for **large tables**
+that are **filled in a single step**, **never modified**, and **read often by their key**.
+Their inherent memory and processing overhead makes hash tables only valuable
+for large amounts of data and lots of of read accesses.
+Each change to the table's content requires expensive recalculation of the hash,
+so don't use this for tables that are modified too often.
+
+- You typically use `SORTED` tables for **large tables**
+that need to be **sorted at all times**, that are **filled bit by bit** or **need to be modified**,
+and **read often by one or more full or partial keys** or processed **in a certain order**.
+Adding, changing, or removing content requires finding the right insertion spot,
+but doesn't require adjusting the rest of the table's index.
+Sorted tables demonstrate their value only for large numbers of read accesses.
+
+- Use `STANDARD` tables for **small tables**, where indexing produces more overhead than benefit,
+and **"arrays"**, where you either don't care at all for the order of the rows,
+or you want to process them in exactly the order they were appended.
+
+> These are only rough guidelines.
+> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
+
+### Avoid DEFAULT KEY
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#avoid-default-key)
+
+```ABAP
+" anti-pattern
+DATA itab TYPE STANDARD TABLE OF row_type WITH DEFAULT KEY.
+```
+
+Default keys are often only added to get the newer functional statements working.
+The keys themselves in fact are usually superfluous and waste resources for nothing.
+They can even lead to obscure mistakes because they ignore numeric data types.
+
+Either specify the key components explicitly
+
+```ABAP
+DATA itab2 TYPE STANDARD TABLE OF row_type WITH NON-UNIQUE KEY comp1 comp2.
+```
+
+or resort to `EMPTY KEY` if you don't need a key at all.
+
+```ABAP
+DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
+```
+
+> Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
+
+### Prefer INSERT INTO TABLE over APPEND TO
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-insert-into-table-over-append-to)
+
+```ABAP
+INSERT VALUE #( ... ) INTO TABLE itab.
+```
+
+`INSERT INTO TABLE` works with all table and key types,
+thus making it easier for you to refactor the table's type and key definitions if your performance requirements change.
+
+Use `APPEND TO` only if you use a `STANDARD` table in an array-like fashion,
+if you want to stress that the added entry shall be the last row.
+
+### Prefer LINE_EXISTS over READ TABLE or LOOP AT
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-line_exists-over-read-table-or-loop-at)
+
+```ABAP
+IF line_exists( my_table[ key = 'A' ] ).
+```
+
+expresses the intent clearer and shorter than
+
+```ABAP
+" anti-pattern
+READ TABLE my_table TRANSPORTING NO FIELDS WITH KEY key = 'A'.
+IF sy-subrc = 0.
+```
+
+or even
+
+```ABAP
+" anti-pattern
+LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
+  line_exists = abap_true.
+  EXIT.
+ENDLOOP.
+```
+
+### Prefer READ TABLE over LOOP AT
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-read-table-over-loop-at)
+
+```ABAP
+READ TABLE my_table ASSIGNING FIELD-SYMBOL(<line>) WITH KEY key = 'A'.
+```
+
+expresses the intent clearer and shorter than
+
+```ABAP
+" anti-pattern
+LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
+  EXIT.
+ENDLOOP.
+```
+
+or even
+
+```ABAP
+" anti-pattern
+LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>).
+  IF <line>-key = 'A'.
+    EXIT.
+  ENDIF.
+ENDLOOP.
+```
+
+### Prefer LOOP AT WHERE over nested IF
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-loop-at-where-over-nested-if)
+
+```ABAP
+LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
+``` 
+
+expresses the intent clearer and shorter than
+
+```ABAP
+LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>).
+  IF <line>-key = 'A'.
+    EXIT.
+  ENDIF.
+ENDLOOP.
+```
