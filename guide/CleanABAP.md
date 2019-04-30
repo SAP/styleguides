@@ -249,7 +249,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#public)
 
-This document is **public**, as described in our
+This document is **public**, as described in
 SAP's _Global Information Classification & Handling Standard_
 [(internal link)](https://wiki.wdf.sap.corp/wiki/pages/viewpage.action?pageId=1891700683),
 meaning you can freely share it with anybody.
@@ -4650,8 +4650,8 @@ If you are interested in a meta quality of the result,
 but not in the actual content itself, express that with a suitable assert:
 
 ```ABAP
-assert_all_lines_shorter_than( lines      = table
-                               max_length = 80 ).
+assert_all_lines_shorter_than( actual_lines        = table
+                               expected_max_length = 80 ).
 ```
 
 Asserting the precise content obscures what you actually want to test.
@@ -4685,9 +4685,9 @@ ENDMETHOD.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#forward-unexpected-exceptions-instead-of-catching-and-failing)
 
 ```ABAP
-METHODS read_entry FOR TESTING RAISING /clean/some_exception.
+METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
 
-METHOD read_entry.
+METHOD reads_entry.
   "when
   DATA(entry) = cut->read_something( ).
   "then
@@ -4714,11 +4714,16 @@ ENDMETHOD.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
 
 ```ABAP
-METHOD assert_contains
+METHODS assert_contains
+  IMPORTING
+    actual_entries TYPE STANDARD TABLE OF entries_tab
+    expected_key   TYPE key_structure.
+     
+METHOD assert_contains.
   TRY.
-      entries[ key = key ].
+      actual_entries[ key = expected_key ].
     CATCH cx_sy_itab_line_not_found.
-      cl_abap_unit_assert=>fail( ).
+      cl_abap_unit_assert=>fail( |Couldn't find the key { expected_key }| ).
   ENDTRY.
 ENDMETHOD.
 ```
