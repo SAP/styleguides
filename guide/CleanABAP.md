@@ -92,7 +92,24 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer simpler methods to regular expressions](#prefer-simpler-methods-to-regular-expressions)
   - [Prefer basis checks to regular expressions](#prefer-basis-checks-to-regular-expressions)
   - [Consider assembling complex regular expressions](#consider-assembling-complex-regular-expressions)
-  
+- [Classes](#classes)
+  - [Object orientation](#object-orientation)
+    - [Prefer objects to static classes](#prefer-objects-to-static-classes)
+    - [Prefer composition over inheritance](#prefer-composition-over-inheritance)
+    - [Don't mix stateful and stateless in the same class](#dont-mix-stateful-and-stateless-in-the-same-class)
+  - [Scope](#scope)
+    - [Global by default, local only in exceptional cases](#global-by-default-local-only-in-exceptional-cases)
+    - [FINAL if not designed for inheritance](#final-if-not-designed-for-inheritance)
+    - [Members PRIVATE by default, PROTECTED only if needed](#members-private-by-default-protected-only-if-needed)
+    - [Consider using immutable instead of getter](#consider-using-immutable-instead-of-getter)
+    - [Use READ-ONLY sparingly](#use-read-only-sparingly)
+  - [Constructors](#constructors)
+    - [Prefer NEW over CREATE OBJECT](#prefer-new-over-create-object)
+    - [If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public](#if-your-global-class-is-create-private-leave-the-constructor-public)
+    - [Prefer multiple static factory methods over optional parameters](#prefer-multiple-static-factory-methods-over-optional-parameters)
+    - [Use descriptive names for multiple constructor methods](#use-descriptive-names-for-multiple-constructor-methods)
+    - [Make singletons only where multiple instances don't make sense](#make-singletons-only-where-multiple-instances-dont-make-sense)
+    
 ## About this guide
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#about-this-guide)
@@ -1289,174 +1306,540 @@ IF ( example_a IS NOT INITIAL OR
      fits( example_b ) = abap_true ).
 ```
 
- > Use the ABAP Development Tools quick fixes to quickly extract conditions and create variables as shown above.
- 
- ### Consider extracting complex conditions
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-extracting-complex-conditions)
- 
- It's nearly always a good idea to extract complex conditions to methods of their own:
- 
- ```ABAP
- IF is_provided( example ).
- 
- METHOD is_provided.
-   DATA(is_filled) = xsdbool( example IS NOT INITIAL ).
-   DATA(is_working) = xsdbool( applies( example ) = abap_true OR
-                               fits( example ) = abap_true ).
-   result = xsdbool( is_filled = abap_true AND
-                     is_working = abap_true ).
- ENDMETHOD.
- ```
- 
- ## Ifs
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#ifs)
- 
- ### No empty IF branches
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#no-empty-if-branches)
- 
- ```ABAP
- IF has_entries = abap_false.
-   " do some magic
- ENDIF.
- ```
- 
+> Use the ABAP Development Tools quick fixes to quickly extract conditions and create variables as shown above.
+
+### Consider extracting complex conditions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-extracting-complex-conditions)
+
+It's nearly always a good idea to extract complex conditions to methods of their own:
+
+```ABAP
+IF is_provided( example ).
+
+METHOD is_provided.
+DATA(is_filled) = xsdbool( example IS NOT INITIAL ).
+DATA(is_working) = xsdbool( applies( example ) = abap_true OR
+                           fits( example ) = abap_true ).
+result = xsdbool( is_filled = abap_true AND
+                 is_working = abap_true ).
+ENDMETHOD.
+```
+
+## Ifs
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#ifs)
+
+### No empty IF branches
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#no-empty-if-branches)
+
+```ABAP
+IF has_entries = abap_false.
+" do some magic
+ENDIF.
+```
+
 is shorter and clearer than
- 
- ```ABAP
- " anti-pattern
- IF has_entries = abap_true.
- ELSE.
-   " do some magic
+
+```ABAP
+" anti-pattern
+IF has_entries = abap_true.
+ELSE.
+" do some magic
+ENDIF.
+```
+
+### Prefer CASE to ELSE IF for multiple alternative conditions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#prefer-case-to-else-if-for-multiple-alternative-conditions)
+
+```ABAP
+CASE type.
+WHEN type-some_type.
+ " ...
+WHEN type-some_other_type.
+ " ...
+WHEN OTHERS.
+ RAISE EXCEPTION NEW /clean/unknown_type_failure( ).
+ENDCASE.
+```
+
+`CASE` makes it easy to see a set of alternatives that exclude each other.
+It can be faster than a series of `IF`s because it can translate to a different microprocessor command
+instead of a series of subsequently evaluated conditions.
+You can introduce new cases quickly, without having to repeat the discerning variable over and over again.
+The statement even prevents some errors that can occur when accidentally nesting the `IF`-`ELSEIF`s.
+
+```ABAP
+" anti-pattern
+IF type = type-some_type.
+" ...
+ELSEIF type = type-some_other_type.
+" ...
+ELSE.
+RAISE EXCEPTION NEW /dirty/unknown_type_failure( ).
+ENDIF.
+```
+
+### Keep the nesting depth low
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#keep-the-nesting-depth-low)
+
+```ABAP
+" ani-pattern
+IF <this>.
+IF <that>.
+ENDIF.
+ELSE.
+IF <other>.
+ELSE.
+ IF <something>.
  ENDIF.
- ```
+ENDIF.
+ENDIF.
+```
+
+Nested `IF`s get hard to understand very quickly and require an exponential number of test cases for complete coverage.
+
+Decision trees can usually be taken apart by forming sub-methods and introducing boolean helper variables.
+
+Other cases can be simplified by merging IFs, such as
+
+```ABAP
+IF <this> AND <that>.
+```
+
+instead of the needlessly nested
+
+```ABAP
+" anti-pattern
+IF <this>.
+IF <that>.
+```
+
+## Regular expressions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#regular-expressions)
+
+### Prefer simpler methods to regular expressions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-simpler-methods-to-regular-expressions)
+
+```ABAP
+IF input IS NOT INITIAL.
+" IF matches( val = input  regex = '.+' ).
+
+WHILE contains( val = input  sub = 'abc' ).
+" WHILE contains( val = input  regex = 'abc' ).
+```
+
+Regular expressions become hard to understand very quickly.
+Simple cases are usually easier without them.
+
+Regular expressions also usually consume more memory and processing time
+because they need to be parsed into an expression tree and compiled at runtime into an executable matcher.
+Simple solutions may do with a straight-forward loop and a temporary variable.
+
+### Prefer basis checks to regular expressions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-basis-checks-to-regular-expressions)
+
+```ABAP
+CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
+EXPORTING
+ cls_name = class_name
+EXCEPTIONS
+ ...
+```
+
+instead of reinventing things
+
+```ABAP
+" anti-pattern
+DATA(is_valid) = matches( val     = class_name
+                       pattern = '[A-Z][A-Z0-9_]{0,29}' ).
+```
+
+> There seems to be a natural tendency to turn blind to the Don't-Repeat-Yourself (DRY) principle
+> when there are regular expressions around,
+> compare section _Chapter 17: Smells and Heuristics: General: G5: Duplication_ in [Robert C. Martin's _Clean Code_].
+
+### Consider assembling complex regular expressions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#consider-assembling-complex-regular-expressions)
+
+```ABAP
+CONSTANTS class_names TYPE string VALUE `CL\_.*`.
+CONSTANTS interface_names TYPE string VALUE `IF\_.*`.
+DATA(object_names) = |{ class_names }|{ interface_names }|.
+```
+
+Some complex regular expressions become easier
+when you demonstrate the reader how they are built up from more elementary pieces.
+
+## Classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#classes)
+
+### Object orientation
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#object-orientation)
+
+#### Prefer objects to static classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Object orientation](#object-orientation) > [This section](#prefer-objects-to-static-classes)
+
+Static classes give up all advantages gained by object orientation in the first place.
+They especially make it nearly impossible to replace productive dependencies with test doubles in unit tests.
+
+If you think about whether to make a class or method static, the answer will nearly always be: no.
+
+One accepted exception to this rule are plain type utils classes.
+Their methods make it easier to interact with certain ABAP types.
+They are not only completely stateless, but so basic that they look like ABAP statements or built-in functions.
+The discriminating factor is that their consumers tie them into their code so tightly
+that they actually don't want to mock them in unit tests.
+
+```ABAP
+CLASS /clean/string_utils DEFINITION [...].
+CLASS-METHODS trim
+ IMPORTING
+   string        TYPE string
+ RETURNING
+   VALUE(result) TYPE string.
+ENDCLASS.
+
+METHOD retrieve.
+DATA(trimmed_name) = /clean/string_utils=>trim( name ).
+result = read( trimmed_name ).
+ENDMETHOD.
+```
+
+#### Prefer composition over inheritance
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Object orientation](#object-orientation) > [This section](#prefer-composition-over-inheritance)
  
- ### Prefer CASE to ELSE IF for multiple alternative conditions
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#prefer-case-to-else-if-for-multiple-alternative-conditions)
- 
- ```ABAP
- CASE type.
-   WHEN type-some_type.
-     " ...
-   WHEN type-some_other_type.
-     " ...
-   WHEN OTHERS.
-     RAISE EXCEPTION NEW /clean/unknown_type_failure( ).
- ENDCASE.
- ```
- 
- `CASE` makes it easy to see a set of alternatives that exclude each other.
- It can be faster than a series of `IF`s because it can translate to a different microprocessor command
- instead of a series of subsequently evaluated conditions.
- You can introduce new cases quickly, without having to repeat the discerning variable over and over again.
- The statement even prevents some errors that can occur when accidentally nesting the `IF`-`ELSEIF`s.
- 
- ```ABAP
- " anti-pattern
- IF type = type-some_type.
-   " ...
- ELSEIF type = type-some_other_type.
-   " ...
- ELSE.
-   RAISE EXCEPTION NEW /dirty/unknown_type_failure( ).
- ENDIF.
- ```
- 
- ### Keep the nesting depth low
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#keep-the-nesting-depth-low)
- 
- ```ABAP
- " ani-pattern
- IF <this>.
-   IF <that>.
-   ENDIF.
- ELSE.
-   IF <other>.
-   ELSE.
-     IF <something>.
-     ENDIF.
-   ENDIF.
- ENDIF.
- ```
- 
- Nested `IF`s get hard to understand very quickly and require an exponential number of test cases for complete coverage.
- 
- Decision trees can usually be taken apart by forming sub-methods and introducing boolean helper variables.
- 
- Other cases can be simplified by merging IFs, such as
- 
- ```ABAP
- IF <this> AND <that>.
- ```
- 
- instead of the needlessly nested
- 
- ```ABAP
- " anti-pattern
- IF <this>.
-   IF <that>.
- ```
- 
- ## Regular expressions
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#regular-expressions)
- 
- ### Prefer simpler methods to regular expressions
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-simpler-methods-to-regular-expressions)
- 
- ```ABAP
- IF input IS NOT INITIAL.
- " IF matches( val = input  regex = '.+' ).
- 
- WHILE contains( val = input  sub = 'abc' ).
- " WHILE contains( val = input  regex = 'abc' ).
- ```
- 
- Regular expressions become hard to understand very quickly.
- Simple cases are usually easier without them.
- 
- Regular expressions also usually consume more memory and processing time
- because they need to be parsed into an expression tree and compiled at runtime into an executable matcher.
- Simple solutions may do with a straight-forward loop and a temporary variable.
- 
- ### Prefer basis checks to regular expressions
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-basis-checks-to-regular-expressions)
- 
- ```ABAP
- CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
+Avoid building hierarchies of classes with inheritance. Instead, favor composition.
+
+Clean inheritance is hard to design because you need to respect rules
+like the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
+It is also hard to understand because people need to realize and digest the guiding principles behind the hierarchy.
+Inheritance reduces reuse because methods tend to be made available only to sub-classes.
+It also complicates refactoring because moving or changing members tend to require changes to the whole hierarchy tree.
+
+Composition means that you design small, independent objects, each of which serves one specific purpose.
+These objects can be recombined into more complex objects by simple delegation and facade patterns.
+Composition may produce more classes, but has otherwise no further disadvantages.
+
+Don't let this rule discourage you from using inheritance in the right places.
+There are good applications for inheritance,
+for example the [Composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern).
+Just ask yourself critically whether inheritance in your case will really provide more benefits than disadvantages.
+If in doubt, composition generally is the safer choice.
+
+#### Don't mix stateful and stateless in the same class
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Object orientation](#object-orientation)
+
+Don't mix the stateless and the stateful programming paradigms in the same class.
+
+In stateless programming, methods get input and produce output, _without any side effects_,
+resulting in methods that produce the same result no matter when and in what order they are called.
+
+```ABAP
+CLASS /clean/xml_converter DEFINITION PUBLIC FINAL CREATE PUBLIC.
+PUBLIC SECTION.
+ METHODS convert
+   IMPORTING
+     file_content  TYPE xstring
+   RETURNING
+     VALUE(result) TYPE /clean/some_inbound_message.
+ENDCLASS.
+
+CLASS /clean/xml_converter IMPLEMENTATION.
+METHOD convert.
+ cl_proxy_xml_transform=>xml_xstring_to_abap(
    EXPORTING
-     cls_name = class_name
-   EXCEPTIONS
-     ...
- ```
+     xml       = file_content
+     ext_xml   = abap_true
+     svar_name = 'ROOT_NODE'
+   IMPORTING
+     abap_data = result ).
+ENDMETHOD.
+ENDCLASS.
+```
  
- instead of reinventing things
+In stateful programming, we manipulate the internal state of objects through their methods,
+meaning this is _full of side effects_.
+
+```ABAP
+CLASS /clean/log DEFINITION PUBLIC CREATE PUBLIC.
+PUBLIC SECTION.
+ METHODS add_message IMPORTING message TYPE /clean/message.
+PRIVATE SECTION.
+ DATA messages TYPE /clean/message_table.
+ENDCLASS.
+
+CLASS /clean/log IMPLEMENTATION.
+METHOD add_message.
+ INSERT message INTO TABLE messages.
+ENDMETHOD.
+ENDCLASS.
+```
  
- ```ABAP
- " anti-pattern
- DATA(is_valid) = matches( val     = class_name
-                           pattern = '[A-Z][A-Z0-9_]{0,29}' ).
- ```
- 
- > There seems to be a natural tendency to turn blind to the Don't-Repeat-Yourself (DRY) principle
- > when there are regular expressions around,
- > compare section _Chapter 17: Smells and Heuristics: General: G5: Duplication_ in [Robert C. Martin's _Clean Code_].
- 
- ### Consider assembling complex regular expressions
- 
- > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#consider-assembling-complex-regular-expressions)
- 
- ```ABAP
- CONSTANTS class_names TYPE string VALUE `CL\_.*`.
- CONSTANTS interface_names TYPE string VALUE `IF\_.*`.
- DATA(object_names) = |{ class_names }|{ interface_names }|.
- ```
- 
- Some complex regular expressions become easier
- when you demonstrate the reader how they are built up from more elementary pieces.
+Both paradigms are okay and have their applications.
+However, _mixing_ them in the same object produces code that is hard to understand and sure to fail
+with obscure carry-over errors and synchronicity problems.
+Don't do that.
+
+### Scope
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#scope)
+
+#### Global by default, local only in exceptional cases
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#global-by-default-local-only-in-exceptional-cases)
+
+Work with global classes as default (meaning the ones that are visible in the dictionary).
+
+Use local classes only in exceptional cases,
+for example for very specific data structures or to facilitate writing unit tests.
+
+Local classes hinder reuse because they cannot be used elsewhere.
+Although they are easy to extract, people will usually fail to even find them.
+
+A clear indication that a local class should be made global is if you have the urge to write tests for it.
+A local class is a natural private cogwheel in its greater global class that you will usually not test.
+The need for tests indicates that the class is independent from its surrounding and so complex
+that it should become an object of its own.
+
+#### FINAL if not designed for inheritance
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#final-if-not-designed-for-inheritance)
+
+Make classes that are not explicitly designed for inheritance `FINAL`.
+
+When designing class cooperation,
+your first choice should be [composition, not inheritance](#prefer-composition-over-inheritance).
+Enabling inheritance is not something that should be done lightly,
+as it requires you to think about things like `PROTECTED` vs. `PRIVATE`
+and the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle),
+and freezes a lot of design internals.
+If you didn't consider these things in your class design,
+you should thus prevent accidental inheritance by making your class `FINAL`.
+
+There _are_ some good applications for inheritance, of course,
+for example the design pattern [composite](https://en.wikipedia.org/wiki/Composite_pattern).
+Business Add-Ins can also become more useful by allowing sub-classes,
+enabling the customer to reuse most of the original code.
+However, note that all of these cases have inheritance built in by design from the start.
+
+Unclean classes that don't [implement interfaces](#public-instance-methods-should-be-part-of-an-interface)
+should be left non-`FINAL` to allow consumers mocking them in their unit tests.
+
+#### Members PRIVATE by default, PROTECTED only if needed
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#members-private-by-default-protected-only-if-needed)
+
+Make attributes, methods, and other class members `PRIVATE` by default.
+
+Make them only `PROTECTED` if you want to enable sub-classes that override them.
+
+Internals of classes should be made available to others only on a need-to-know basis.
+This includes not only outside callers but also sub-classes.
+Making information over-available can cause subtle errors by unexpected redefinitions and hinder refactoring
+because outsiders freeze members in place that should still be liquid.
+
+#### Consider using immutable instead of getter
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#consider-using-immutable-instead-of-getter)
+
+An immutable is an object that never changes after its construction.
+For this kind of object consider using public read-only attributes instead of getter methods.
+
+```ABAP
+CLASS /clean/some_data_container DEFINITION.
+  PUBLIC SECTION.
+    METHODS constructor
+      IMPORTING
+        a TYPE i
+        b TYPE c
+        c TYPE d.
+    DATA a TYPE i READ-ONLY.
+    DATA b TYPE c READ-ONLY.
+    DATA c TYPE d READ-ONLY.
+ENDCLASS.
+```
+
+instead of
+
+```ABAP
+CLASS /dirty/some_data_container DEFINITION.
+  PUBLIC SECTION.
+    METHODS get_a ...
+    METHODS get_b ...
+    METHODS get_c ...
+  PRIVATE SECTION.
+    DATA a TYPE i.
+    DATA b TYPE c.
+    DATA c TYPE d.
+ENDCLASS.
+```
+
+> **Caution**: For objects which **do** have changing values, do not use public read-only attributes.
+> Otherwise this attributes always have to be kept up to date,
+> regardless if their value is needed by any other code or not.
+
+#### Use READ-ONLY sparingly
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#use-read-only-sparingly)
+
+Many modern programming languages, especially Java, recommend making class members read-only
+wherever appropriate to prevent accidental side effects.
+
+While ABAP _does_ offer the `READ-ONLY` addition for data declarations, we recommend to use it sparingly.
+
+First, the addition is only available in the `PUBLIC SECTION`, reducing its applicability drastically.
+You can neither add it to protected or private members nor to local variables in a method.
+
+Second, the addition works subtly different from what people might expect from other programming languages:
+READ-ONLY data can still be modified freely from any method within the class itself, its friends, and its sub-classes.
+This contradicts the more widespread write-once-modify-never behavior found in other languages.
+The difference may lead to bad surprises.
+
+> To avoid misunderstandings: Protecting variables against accidental modification is a good practice.
+> We would recommend applying it to ABAP as well if there was an appropriate statement.
+
+### Constructors
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#constructors)
+
+#### Prefer NEW over CREATE OBJECT
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-new-over-create-object)
+
+```ABAP
+DATA object TYPE REF TO /clean/some_number_range.
+object = NEW #( '/CLEAN/CXTGEN' )
+...
+DATA(object) = NEW /clean/some_number_range( '/CLEAN/CXTGEN' ).
+...
+DATA(object) = CAST /clean/number_range( NEW /clean/some_number_range( '/CLEAN/CXTGEN' ) ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+DATA object TYPE REF TO /dirty/some_number_range.
+CREATE OBJECT object
+  EXPORTING
+    number_range = '/DIRTY/CXTGEN'.
+```
+
+except where you need dynamic types, of course
+
+```ABAP
+CREATE OBJECT number_range TYPE (dynamic_type)
+  EXPORTING
+    number_range = '/CLEAN/CXTGEN'.
+```
+
+#### If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#if-your-global-class-is-create-private-leave-the-constructor-public)
+
+```ABAP
+CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
+  PUBLIC SECTION.
+    METHODS constructor.
+```
+
+We agree that this contradicts itself.
+However, according to the article
+[_Instance Constructor_ of the ABAP Help](https://ldcifri.wdf.sap.corp:44300/sap/public/bc/abap/docu?input=guideline&format=standard&object=abeninstance_constructor_guidl&sap-language=EN&sap-client=100&full_text=X&tree=x),
+specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
+
+This applies only to global classes.
+In local classes, make the constructor private, as it should be.
+
+#### Prefer multiple static factory methods over optional parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-over-optional-parameters)
+
+```ABAP
+CLASS-METHODS describe_by_data IMPORTING p_data TYPE any [...]
+CLASS-METHODS describe_by_name IMPORTING p_name TYPE any [...]
+CLASS-METHODS describe_by_object_ref IMPORTING p_object_ref TYPE REF TO object [...]
+CLASS-METHODS describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
+```
+
+Don't try to "remedy" ABAP's missing support
+for [overloading](https://en.wikipedia.org/wiki/Function_overloading) by adding optional parameters.
+
+```ABAP
+" anti-pattern
+METHODS constructor
+  IMPORTING
+    p_data       TYPE any OPTIONAL
+    p_name       TYPE any OPTIONAL
+    p_object_ref TYPE REF TO object OPTIONAL
+    p_data_ref   TYPE REF TO data OPTIONAL
+  [...]
+```
+
+The general guideline
+[_Split methods instead of adding OPTIONAL parameters_](#split-methods-instead-of-adding-optional-parameters)
+explains the reasoning behind this.
+
+Consider resolving complex constructions to a multi-step construction with the
+[design pattern _builder_](https://en.wikipedia.org/wiki/Builder_pattern).
+
+#### Use descriptive names for multiple constructor methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#use-descriptive-names-for-multiple-constructor-methods)
+
+```ABAP
+CLASS-METHODS describe_by_data IMPORTING p_data TYPE any [...]
+CLASS-METHODS describe_by_name IMPORTING p_name TYPE any [...]
+CLASS-METHODS describe_by_object_ref IMPORTING p_object_ref TYPE REF TO object [...]
+CLASS-METHODS describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
+```
+
+instead of something meaningless like
+
+```ABAP
+CLASS-METHODS create_1 IMPORTING p_data TYPE any [...]
+CLASS-METHODS create_2 IMPORTING p_name TYPE any [...]
+CLASS-METHODS create_3 IMPORTING p_object_ref TYPE REF TO object [...]
+CLASS-METHODS create_4 IMPORTING p_data_ref TYPE REF TO data [...]
+```
+
+Good words to start constructors are `new_`, `create_`, and `construct_`.
+People intuitively connect them to the construction of objects.
+They also add up nicely to verb phrases like `new_from_template`, `create_as_copy`, or `create_by_name`.
+
+#### Make singletons only where multiple instances don't make sense
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#make-singletons-only-where-multiple-instances-dont-make-sense)
+
+```ABAP
+METHOD new.
+  IF singleton IS NOT BOUND.
+    singleton = NEW /clean/my_class( ).
+  ENDIF.
+  result = singleton.
+ENDMETHOD.
+```
+
+Apply the singleton pattern where your object-oriented design says
+that having a second instance of something doesn't make sense.
+Use it to ensure that every consumer is working with the same thing in the same state and with the same data.
+
+Do not use the singleton pattern out of habit or because some performance rule tells you so.
+It is the most overused and wrongly applied pattern and
+produces unexpected cross-effects and needlessly complicates testing.
+If there are no design-driven reasons for a unitary object,
+leave that decision to the consumer - he can still reach the same by means outside the constructor,
+for example by means of a factory.
