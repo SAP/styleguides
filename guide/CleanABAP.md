@@ -93,7 +93,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer basis checks to regular expressions](#prefer-basis-checks-to-regular-expressions)
   - [Consider assembling complex regular expressions](#consider-assembling-complex-regular-expressions)
 - [Classes](#classes)
-  - [Object orientation](#object-orientation)
+  - [Classes: Object orientation](#classes-object-orientation)
     - [Prefer objects to static classes](#prefer-objects-to-static-classes)
     - [Prefer composition over inheritance](#prefer-composition-over-inheritance)
     - [Don't mix stateful and stateless in the same class](#dont-mix-stateful-and-stateless-in-the-same-class)
@@ -109,6 +109,20 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Prefer multiple static factory methods over optional parameters](#prefer-multiple-static-factory-methods-over-optional-parameters)
     - [Use descriptive names for multiple constructor methods](#use-descriptive-names-for-multiple-constructor-methods)
     - [Make singletons only where multiple instances don't make sense](#make-singletons-only-where-multiple-instances-dont-make-sense)
+- [Methods](#methods)
+  - [Calls](#calls)
+    - [Prefer functional over procedural calls](#prefer-functional-over-procedural-calls)
+    - [Omit RECEIVING](#omit-receiving)
+    - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
+    - [Omit the parameter name in single parameter calls](#omit-the-parameter-name-in-single-parameter-calls)
+  - [Methods: Object orientation](#methods-object-orientation)
+    - [Prefer instance to static methods](#prefer-instance-to-static-methods)
+    - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
+  - [Parameter Number](#parameter-number)
+    - [Aim for few IMPORTING parameters, at best less than three](#aim-for-few-importing-parameters-at-best-less-than-three)
+    - [Split methods instead of adding OPTIONAL parameters](#split-methods-instead-of-adding-optional-parameters)
+    - [Use PREFERRED PARAMETER sparingly](#use-preferred-parameter-sparingly)
+    - [RETURN, EXPORT, or CHANGE exactly one parameter](#return-export-or-change-exactly-one-parameter)
     
 ## About this guide
 
@@ -1482,13 +1496,13 @@ when you demonstrate the reader how they are built up from more elementary piece
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#classes)
 
-### Object orientation
+### Classes: Object orientation
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#object-orientation)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#classes-object-orientation)
 
 #### Prefer objects to static classes
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Object orientation](#object-orientation) > [This section](#prefer-objects-to-static-classes)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-objects-to-static-classes)
 
 Static classes give up all advantages gained by object orientation in the first place.
 They especially make it nearly impossible to replace productive dependencies with test doubles in unit tests.
@@ -1518,7 +1532,7 @@ ENDMETHOD.
 
 #### Prefer composition over inheritance
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Object orientation](#object-orientation) > [This section](#prefer-composition-over-inheritance)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-composition-over-inheritance)
  
 Avoid building hierarchies of classes with inheritance. Instead, favor composition.
 
@@ -1540,7 +1554,7 @@ If in doubt, composition generally is the safer choice.
 
 #### Don't mix stateful and stateless in the same class
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Object orientation](#object-orientation)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation)
 
 Don't mix the stateless and the stateful programming paradigms in the same class.
 
@@ -1769,23 +1783,24 @@ In local classes, make the constructor private, as it should be.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-over-optional-parameters)
 
 ```ABAP
-CLASS-METHODS describe_by_data IMPORTING p_data TYPE any [...]
-CLASS-METHODS describe_by_name IMPORTING p_name TYPE any [...]
-CLASS-METHODS describe_by_object_ref IMPORTING p_object_ref TYPE REF TO object [...]
-CLASS-METHODS describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
+CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
+CLASS-METHODS describe_by_name IMPORTING name TYPE any [...]
+CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [...]
+CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 ```
 
-Don't try to "remedy" ABAP's missing support
-for [overloading](https://en.wikipedia.org/wiki/Function_overloading) by adding optional parameters.
+Don't try to "remedy" ABAP's missing support for
+[overloading](https://en.wikipedia.org/wiki/Function_overloading)
+by adding optional parameters.
 
 ```ABAP
 " anti-pattern
 METHODS constructor
   IMPORTING
-    p_data       TYPE any OPTIONAL
-    p_name       TYPE any OPTIONAL
-    p_object_ref TYPE REF TO object OPTIONAL
-    p_data_ref   TYPE REF TO data OPTIONAL
+    data       TYPE any OPTIONAL
+    name       TYPE any OPTIONAL
+    object_ref TYPE REF TO object OPTIONAL
+    data_ref   TYPE REF TO data OPTIONAL
   [...]
 ```
 
@@ -1794,7 +1809,7 @@ The general guideline
 explains the reasoning behind this.
 
 Consider resolving complex constructions to a multi-step construction with the
-[design pattern _builder_](https://en.wikipedia.org/wiki/Builder_pattern).
+[Builder design pattern](https://en.wikipedia.org/wiki/Builder_pattern).
 
 #### Use descriptive names for multiple constructor methods
 
@@ -1810,6 +1825,7 @@ CLASS-METHODS describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
 instead of something meaningless like
 
 ```ABAP
+" anti-pattern
 CLASS-METHODS create_1 IMPORTING p_data TYPE any [...]
 CLASS-METHODS create_2 IMPORTING p_name TYPE any [...]
 CLASS-METHODS create_3 IMPORTING p_object_ref TYPE REF TO object [...]
@@ -1842,4 +1858,300 @@ It is the most overused and wrongly applied pattern and
 produces unexpected cross-effects and needlessly complicates testing.
 If there are no design-driven reasons for a unitary object,
 leave that decision to the consumer - he can still reach the same by means outside the constructor,
-for example by means of a factory.
+for example with a factory.
+
+## Methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#methods)
+
+These rules apply to methods in classes and function modules.
+
+### Calls
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#calls)
+
+#### Prefer functional over procedural calls
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#prefer-functional-over-procedural-calls)
+
+```ABAP
+modify->update( node           = /clean/my_bo_c=>node-item
+                key            = item->key
+                data           = item
+                changed_fields = changed_fields ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+CALL METHOD modify->update
+  EXPORTING
+    node           = /dirty/my_bo_c=>node-item
+    key            = item->key
+    data           = item
+    changed_fields = changed_fields.
+```
+
+If dynamic typing forbids functional calls, resort to the procedural style
+
+```ABAP
+CALL METHOD modify->(method_name)
+  EXPORTING
+    node           = /clean/my_bo_c=>node-item
+    key            = item->key
+    data           = item
+    changed_fields = changed_fields.
+```
+
+Many of the detailed rules below are just more specific variations of this advice.
+
+#### Omit RECEIVING
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-receiving)
+
+```ABAP
+DATA(sum) = aggregate_values( values ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+aggregate_values(
+  EXPORTING
+    values = values
+  RECEIVING
+    result = DATA(sum) ).
+```
+
+#### Omit the optional keyword EXPORTING
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-optional-keyword-exporting)
+
+```ABAP
+modify->update( node           = /clean/my_bo_c=>node-item
+                key            = item->key
+                data           = item
+                changed_fields = changed_fields ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+modify->update(
+  EXPORTING
+    node           = /dirty/my_bo_c=>node-item
+    key            = item->key
+    data           = item
+    changed_fields = changed_fields ).
+```
+
+#### Omit the parameter name in single parameter calls
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-parameter-name-in-single-parameter-calls)
+
+```ABAP
+DATA(unique_list) = remove_duplicates( list ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+DATA(unique_list) = remove_duplicates( list = list ).
+```
+
+There are cases, however, where the method name alone is not clear enough
+and repeating the parameter name may further understandability:
+
+```ABAP
+car->drive( speed = 50 ).
+```
+
+### Methods: Object orientation
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#methods-object-orientation)
+
+#### Prefer instance to static methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#prefer-instance-to-static-methods)
+
+Methods should be instance members by default.
+Instance methods better reflect the "object-hood" of the class.
+They can be mocked easier in unit tests.
+
+```ABAP
+METHODS publish.
+```
+
+Methods should be static only in exceptional cases, such as static constructor methods.
+
+```ABAP
+CLASS-METHODS create_instance
+  RETURNING
+    VALUE(result) TYPE REF TO /clean/blog_post.
+```
+
+#### Public instance methods should be part of an interface
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#public-instance-methods-should-be-part-of-an-interface)
+
+Public instance methods should always be part of an interface.
+This decouples dependencies and simplifies mocking them in unit tests.
+
+```ABAP
+METHOD /clean/blog_post~publish.
+```
+
+In clean object orientation, having a method public without an interface does not make much sense -
+with few exceptions such as enumeration classes
+which will never have an alternative implementation and will never be mocked in test cases.
+
+### Parameter Number
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-number)
+
+#### Aim for few IMPORTING parameters, at best less than three
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#aim-for-few-importing-parameters-at-best-less-than-three)
+
+```ABAP
+FUNCTION seo_class_copy
+  IMPORTING
+    clskey      TYPE seoclskey
+    new_clskey  TYPE seoclskey
+    config      TYPE class_copy_config
+  EXPORTING
+    ...
+```
+
+would be much clearer than
+
+```ABAP
+" anti-pattern
+FUNCTION seo_class_copy
+  IMPORTING
+    clskey                 TYPE seoclskey
+    new_clskey             TYPE seoclskey
+    access_permission      TYPE seox_boolean DEFAULT seox_true
+    VALUE(save)            TYPE seox_boolean DEFAULT seox_true
+    VALUE(suppress_corr)   TYPE seox_boolean DEFAULT seox_false
+    VALUE(suppress_dialog) TYPE seox_boolean DEFAULT seox_false
+    VALUE(authority_check) TYPE seox_boolean DEFAULT seox_true
+    lifecycle_manager      TYPE REF TO if_adt_lifecycle_manager OPTIONAL
+    lock_handle            TYPE REF TO if_adt_lock_handle OPTIONAL
+    VALUE(suppress_commit) TYPE seox_boolean DEFAULT seox_false
+  EXPORTING
+    ...
+```
+
+Too many input parameters let the complexity of a method explode
+because it needs to handle an exponential number of combinations.
+Many parameters are an indicator that the method may do more than one thing.
+
+You can reduce the number of parameters by combining them into meaningful sets with structures and objects.
+
+#### Split methods instead of adding OPTIONAL parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#split-methods-instead-of-adding-optional-parameters)
+
+```ABAP
+METHODS do_one_thing IMPORTING what_i_need TYPE string.
+METHODS do_another_thing IMPORTING something_else TYPE i.
+```
+
+instead of trying to compensate ABAP's missing support for
+[overloading](https://en.wikipedia.org/wiki/Function_overloading)
+by adding optional parameters
+
+```ABAP
+" anti-pattern
+METHODS do_one_or_the_other
+  IMPORTING
+    what_i_need    TYPE string
+    something_else TYPE i.
+```
+
+Optional parameters confuse callers:
+Which ones are really required?
+Which combinations are valid?
+Which ones exclude each other?
+
+Multiple methods avoid this confusion by giving clear guidance which parameter combinations are valid and expected.
+
+#### Use PREFERRED PARAMETER sparingly
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#use-preferred-parameter-sparingly)
+
+The addition `PREFERRED PARAMETER` makes it hard to see which parameter is actually supplied,
+making it harder to understand the code.
+Minimizing the number of parameters, especially optional ones,
+automatically reduces the need for `PREFERRED PARAMETER`.
+
+#### RETURN, EXPORT, or CHANGE exactly one parameter
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#return-export-or-change-exactly-one-parameter)
+
+A good method does _one thing_, and that should be reflected by the method also returning exactly one thing.
+If the output parameters of your method do _not_ form a logical entity,
+your method does more than one thing and you should split it.
+
+There are cases where the output is a logical entity that consists of multiple things.
+These are easiest represented by returning a structure or object:
+
+```ABAP
+TYPES:
+  BEGIN OF check_result,
+    result      TYPE result_type,
+    failed_keys TYPE /bobf/t_frw_key,
+    messages    TYPE /bobf/t_frw_message,
+  END OF check_result.
+
+METHODS check_business_partners
+  IMPORTING
+    business_partners TYPE business_partners
+  RETURNING
+    VALUE(result)     TYPE check_result.
+```
+
+instead of
+
+```ABAP
+" anti-pattern
+METHODS check_business_partners
+  IMPORTING
+    business_partners TYPE business_partners
+  EXPORTING
+    result            TYPE result_type
+    failed_keys       TYPE /bobf/t_frw_key
+    messages          TYPE /bobf/t_frw_message.
+```
+
+Especially in comparison to multiple EXPORTING parameters, this allows people to use the functional call style,
+spares you having to think about `IS SUPPLIED` and saves people from accidentally forgetting
+to retrieve a vital `ERROR_OCCURRED` information.
+
+Instead of multiple optional output parameters, consider splitting the method according to meaningful call patterns:
+
+```ABAP
+TYPES:
+  BEGIN OF check_result,
+    result      TYPE result_type,
+    failed_keys TYPE /bobf/t_frw_key,
+    messages    TYPE /bobf/t_frw_message,
+  END OF check_result.
+
+METHODS check
+  IMPORTING
+    business_partners TYPE business_partners
+  RETURNING
+    VALUE(result)     TYPE result_type.
+
+METHODS check_and_report
+  IMPORTING
+    business_partners TYPE business_partners
+  RETURNING
+    VALUE(result)     TYPE check_result.
+```
