@@ -39,7 +39,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Avoid abbreviations](#avoid-abbreviations)
   - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
   - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
-  - [Avoid noise words such as "data", "controller", "object"](#avoid-noise-words-such-as-data-controller-object)
+  - [Avoid noise words such as "data", "info", "object"](#avoid-noise-words-such-as-data-info-object)
   - [Pick one word per concept](#pick-one-word-per-concept)
   - [Use pattern names only if you mean them](#use-pattern-names-only-if-you-mean-them)
   - [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
@@ -50,7 +50,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
   - [Prefer object orientation over imperative programming](#prefer-object-orientation-over-imperative-programming)
-    - [Function Groups vs. Classes](#functions-vs-classes)
+    - [Function Groups vs. Classes](#function-groups-vs-classes)
   - [Prefer functional over procedural language constructs](#prefer-functional-over-procedural-language-constructs)
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
@@ -61,6 +61,11 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Enumerations: Anti-Pattern](#enumerations-anti-pattern)
     - [Enumerations: Benefits](#enumerations-benefits)
   - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
+- [Variables](#variables)
+  - [Prefer inline over up-front declarations](#prefer-inline-over-up-front-declarations)
+  - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
+  - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
+  - [Prefer REF TO over FIELD-SYMBOL](#prefer-ref-to-over-field-symbol)
   
 ## About this guide
 
@@ -68,7 +73,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 ### Public
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#publiuc)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#public)
 
 This document is **public**, as described in our
 SAP's _Global Information Classification & Handling Standard_
@@ -707,7 +712,7 @@ object-severity = /clean/message_severity=>warning->value.
 
 #### Enumerations: Anti-Pattern
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#enumerations-prefer-enumeration-classes-over-constants-interfaces) > [This section](#anti-pattern)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-anti-pattern)
 
 ```ABAP
 " anti-pattern
@@ -782,3 +787,138 @@ ENDWHILE.
 ```
 
 > Read more in _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ of [Robert C. Martin's _Clean Code_].
+
+## Variables
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#variables)
+
+### Prefer inline over up-front declarations
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-inline-over-up-front-declarations)
+
+If you follow these guidelines, your methods will become so short (3-5 statements)
+that declaring variables inline at first occurrence will look more natural
+
+```ABAP
+METHOD do_something.
+  DATA(name) = 'something'.
+  DATA(reader) = /clean/reader=>get_instance_for( name ).
+  result = reader->read_it( ).
+ENDMETHOD.
+```
+
+than declaring variables with a separate `DATA` section at the beginning of the method
+
+```ABAP
+" anti-pattern
+METHOD do_something.
+  DATA:
+    name   TYPE seoclsname,
+    reader TYPE REF TO /dirty/reader.
+  name = 'something'.
+  reader = /dirty/reader=>get_instance_for( name ).
+  result = reader->read_it( ).
+ENDMETHOD.
+```
+
+> Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
+
+### Don't declare inline in optional branches
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#dont-declare-inline-in-optional-branches)
+
+```ABAP
+" anti-pattern
+IF has_entries = abap_true.
+  DATA(value) = 1.
+ELSE.
+  value = 2.
+ENDIF.
+```
+
+This works fine because ABAP handles inline declarations as if they were at the beginning of the method.
+However, it is extremely confusing for readers,
+especially if the method is longer and you don't spot the declaration right away.
+In this case, break with inlining and put the declaration up-front:
+
+```ABAP
+DATA value TYPE i.
+IF has_entries = abap_true.
+  value = 1.
+ELSE.
+  value = 2.
+ENDIF.
+```
+
+> Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
+
+### Do not chain up-front declarations
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-chain-up-front-declarations)
+
+```ABAP
+DATA name TYPE seoclsname
+DATA reader TYPE REF TO /dirty/reader.
+```
+
+Chaining suggests the defined variables are related on a logical level.
+To consistently use it, you would have to ensure that all chained variables belong together,
+and introduce additional chain groups to add variables.
+While this is possible, it is usually not worth the effort.
+
+Chaining also needlessly complicates reformatting and refactoring
+because each line looks different and changing them requires meddling with
+colons, dots, and commas, that are not worth the effort.
+
+```ABAP
+" anti-pattern
+DATA:
+  name   TYPE seoclsname,
+  reader TYPE REF TO /dirty/reader.
+```
+
+> Also refer to [Don't align type clauses](#dont-align-type-clauses)
+
+### Prefer REF TO over FIELD-SYMBOL
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-over-field-symbol)
+
+```ABAP
+LOOP AT components REFERENCE INTO DATA(component).
+```
+
+instead of the equivalent
+
+```ABAP
+" anti-pattern
+LOOP AT components ASSIGNING FIELD-SYMBOL(<component>).
+```
+
+except where you need field symbols
+
+```ABAP
+ASSIGN generic->* TO FIELD-SYMBOL(<generic>).
+ASSIGN COMPONENT name OF STRUCTURE structure TO FIELD-SYMBOL(<component>).
+ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
+```
+
+Code reviews demonstrate that people tend to choose between the two arbitrarily,
+"just because", "because we are always LOOPing that way", or "for no special reason".
+Arbitrary choices make the reader waste time on the pointless question why one is used over the other
+and thus should be replaced with well-founded, precise decisions.
+Our recommendation is based on this reasoning:
+
+- Field symbols can do some things that references cannot, such as dynamically accessing the components of a structure.
+Likewise, references can do things that field symbols can't, such as constructing a dynamically typed data structure.
+In summary, settling for one alone is not possible.
+
+- In object-oriented ABAP, references are all over the place and cannot be avoided,
+as any object is a `REF TO <class-name>`.
+In contrast, field symbols are only strictly required in few, special cases concerned with dynamic typing.
+References thus form a natural preference in any object-oriented program.
+
+- Field symbols are shorter than references, but the resulting memory saving is so tiny that it can be safely neglected.
+Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one over the other.
+
+> Read more in the article
+> [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
