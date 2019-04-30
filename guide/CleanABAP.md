@@ -144,6 +144,24 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Fail fast](#fail-fast)
     - [CHECK or RETURN](#check-or-return)
     - [Avoid CHECK in other positions](#avoid-check-in-other-positions)
+- [Error Handling](#error-handling)
+  - [Return Codes](#return-codes)
+    - [Prefer exceptions to return codes](#prefer-exceptions-to-return-codes)
+    - [Don't let failures slip through](#dont-let-failures-slip-through)
+  - [Exceptions](#exceptions)
+    - [Exceptions are for errors, not for regular cases](#exceptions-are-for-errors-not-for-regular-cases)
+    - [Use class-based exceptions](#use-class-based-exceptions)
+  - [Throwing](#throwing)
+    - [Use own super classes](#use-own-super-classes)
+    - [Throw one type of exception](#throw-one-type-of-exception)
+    - [Use sub-classes to enable callers to distinguish error situations](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
+    - [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions)
+    - [Throw CX_NO_CHECK for usually unrecoverable situations](#throw-cx_no_check-for-usually-unrecoverable-situations)
+    - [Consider CX_DYNAMIC_CHECK for avoidable exceptions](#consider-cx_dynamic_check-for-avoidable-exceptions)
+    - [Dump for totally unrecoverable situations](#dump-for-totally-unrecoverable-situations)
+    - [Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE](#prefer-raise-exception-new-to-raise-exception-type)
+  - [Catching](#catching)
+    - [Wrap foreign exceptions instead of letting them invade your code](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
     
 ## About this guide
 
@@ -2772,3 +2790,378 @@ people might accidentally expect it to end the method or exit the loop.
 
 > Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
 > Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
+
+## Error Handling
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#error-handling)
+
+### Return Codes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#return-codes)
+
+#### Prefer exceptions to return codes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Return Codes](#return-codes) > [This section](#prefer-exceptions-to-return-codes)
+
+```ABAP
+METHOD try_this_and_that.
+  RAISE EXCEPTION NEW cx_failed( ).
+ENDMETHOD.
+```
+
+instead of
+
+```ABAP
+" anti-pattern
+METHOD try_this_and_that.
+  error_occurred = abap_true.
+ENDMETHOD.
+```
+
+Exceptions have multiple advantages over return codes:
+
+- Exceptions keep your method signatures clean:
+you can return the result of the method as a `RETURNING` parameter and still throw exceptions alongside.
+Return codes pollute your signatures with additional parameters for error handling.
+
+- The caller doesn't have to react to them immediately.
+He can simply write down the happy path of his code.
+The exception-handling `CATCH` can be at the very end of his method, or completely outside.
+
+- Exceptions can provide details on the error in their attributes and through methods.
+Return codes require you to devise a different solution on your own, such as also returning a log.
+
+- The environment reminds the caller with syntax errors to handle exceptions.
+Return codes can be accidentally ignored without anybody noticing.
+
+#### Don't let failures slip through
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Return Codes](#return-codes) > [This section](#dont-let-failures-slip-through)
+
+If you do have to use return codes, for example because you call Functions and older code not under your control,
+make sure you don't let failures slip through.
+
+```ABAP
+DATA:
+  current_date TYPE string,
+  response     TYPE bapiret2.
+
+CALL FUNCTION 'BAPI_GET_CURRENT_DATE'
+  IMPORTING
+    current_date = current_date
+  CHANGING
+    response     = response.
+
+IF response-type = 'E'.
+  RAISE EXCEPTION NEW /clean/some_error( );
+ENDIF.
+```
+
+### Exceptions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#exceptions)
+
+#### Exceptions are for errors, not for regular cases
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Exceptions](#exceptions) > [This section](#exceptions-are-for-errors-not-for-regular-cases)
+
+```ABAP
+" anti-pattern
+METHODS entry_exists_in_db
+  IMPORTING
+    key TYPE char10
+  RAISING
+    cx_not_found_exception.
+```
+
+If something is a regular, valid case, it should be handled with regular result parameters.
+
+```ABAP
+METHODS entry_exists_in_db
+  IMPORTING
+    key           TYPE char10
+  RETURNING
+    VALUE(result) TYPE abap_bool.
+```
+
+Exceptions should be reserved for cases that you don't expect and that reflect error situations.
+
+```ABAP
+METHODS assert_user_input_is_valid
+  IMPORTING
+    user_input TYPE string
+  RAISING
+    cx_bad_user_input.
+```
+
+Misusing exceptions misguides the reader into thinking something went wrong, when really everything is just fine.
+Exceptions are also much slower than regular code because they need to be constructed
+and often gather lots of context information.
+
+#### Use class-based exceptions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Exceptions](#exceptions) > [This section](#use-class-based-exceptions)
+
+```ABAP
+TRY.
+    get_component_types( ).
+  CATCH cx_has_deep_components_error.
+ENDTRY.
+```
+
+The outdated non-class-based exceptions have the same features as return codes and shouldn't be used anymore.
+
+```ABAP
+" anti-pattern
+get_component_types(
+  EXCEPTIONS
+    has_deep_components = 1
+    OTHERS              = 2 ).
+```
+
+### Throwing
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#throwing)
+
+#### Use own super classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#use-own-super-classes)
+
+```ABAP
+CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_dynamic_check.
+CLASS cx_fra_no_check DEFINITION ABSTRACT INHERITING FROM cx_no_check.
+```
+
+Consider creating abstract super classes for each exception type for your application,
+instead of sub-classing the foundation classes directly.
+Allows you to `CATCH` all _your_ exceptions.
+Enables you to add common functionality to all exceptions, such as special text handling.
+`ABSTRACT` prevents people from accidentally using these non-descriptive errors directly.
+
+#### Throw one type of exception
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#throw-one-type-of-exception)
+
+```ABAP
+METHODS generate
+  RAISING
+    cx_generation_error.
+```
+
+In the vast majority of cases, throwing multiple types of exceptions has no use.
+The caller usually is neither interested nor able to distinguish the error situations.
+He will therefore typically handle them all in the same way -
+and if this is the case, why distinguish them in the first place?
+
+```ABAP
+    " anti-pattern
+    METHODS generate
+      RAISING
+        cx_abap_generation
+        cx_hdbr_access_error
+        cx_model_read_error.
+```
+
+A better solution to recognize different error situations is using one exception type
+but adding sub-classes that allow - but don't require - reacting to individual error situations,
+as described in [Use sub-classes to enable callers to distinguish error situations](#use-sub-classes-to-enable-callers-to-distinguish-error-situations).
+
+#### Use sub-classes to enable callers to distinguish error situations
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
+
+```ABAP
+CLASS cx_bad_generation_variable DEFINITION INHERITING FROM cx_generation_error.
+CLASS cx_bad_code_composer_template DEFINITION INHERITING FROM cx_generation_error.
+
+TRY.
+    generator->generate( ).
+  CATCH cx_bad_generation_variable.
+    log_failure( ).
+  CATCH cx_bad_code_composer_template INTO DATA(bad_template_exception).
+    show_error_to_user( bad_template_exception ).
+  CATCH cx_generation_error INTO DATA(other_exception).
+    RAISE EXCEPTION NEW cx_application_error( previous =  other_exception ).
+ENDTRY.
+```
+
+If there are many different error situations, use error codes instead:
+
+```ABAP
+CLASS cx_generation_error DEFINITION ...
+  PUBLIC SECTION.
+    TYPES error_code_type TYPE i.
+    CONSTANTS:
+      BEGIN OF error_code_enum,
+        bad_generation_variable    TYPE error_code_type VALUE 1,
+        bad_code_composer_template TYPE error_code_type VALUE 2,
+        ...
+      END OF error_code_enum.
+    DATA error_code TYPE error_code_type.
+
+TRY.
+    generator->generate( ).
+  CATCH cx_generation_error INTO DATA(exception).
+    CASE exception->error_code.
+      WHEN cx_generation_error=>error_code_enum-bad_generation_variable.
+      WHEN cx_generation_error=>error_code_enum-bad_code_composer_variable.
+      ...
+    ENDCASE.
+ENDTRY.
+```
+
+#### Throw CX_STATIC_CHECK for manageable exceptions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#throw-cx_static_check-for-manageable-exceptions)
+
+If an exception can be expected to occur and be reasonably handled by the receiver,
+throw a checked exception inheriting from `CX_STATIC_CHECK`: failing user input validation,
+missing resource for which there are fallbacks, etc.
+
+```ABAP
+CLASS cx_file_not_found DEFINITION INHERITING FROM cx_static_check.
+
+METHODS read_file
+  IMPORTING
+    file_name_enterd_by_user TYPE string
+  RAISING
+    cx_file_not_found.
+```
+
+This exception type _must_ be given in method signatures and _must_ be caught or forwarded to avoid syntax errors.
+It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
+and will take care of reacting to the error situation.
+
+> This guideline contradicts [Robert C. Martin's _Clean Code_], which recommends to resort to unchecked exceptions
+> in all cases to facilitate refactoring.
+> This is because ABAP's unchecked exceptions `CX_DYNAMIC_CHECK` and `CX_NO_CHECK` behave differently than Java's:
+> While Java allows declaring unchecked exceptions on methods, if you want to, ABAP forbids this.
+> As a consequence, Java is able to warn consumers of potential exceptions, while ABAP isn't.
+
+#### Throw CX_NO_CHECK for usually unrecoverable situations
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#throw-cx_no_check-for-usually-unrecoverable-situations)
+
+If an exception is so severe that the receiver is unlikely to recover from it, use `CX_NO_CHECK`:
+failure to read a must-have resource, failure to resolve the requested dependency, etc.
+
+```ABAP
+CLASS cx_out_of_memory DEFINITION INHERITING FROM cx_no_check.
+
+METHODS create_guid
+  RETURNING
+    VALUE(result) TYPE /bobf/conf_key.
+```
+
+`CX_NO_CHECK` _cannot_ be declared in method signatures,
+such that its occurrence will come as a bad surprise to the consumer.
+In the case of unrecoverable situations, this is okay
+because the consumer will not be able to do anything useful about it anyway.
+
+However, there _may_ be cases where the consumer actually wants to recognize and react to this kind of failure.
+For example, a dependency manager could throw a `CX_NO_CHECK` if it's unable to provide an implementation
+for a requested interface because regular application code will not be able to continue.
+However, there may be a test report that tries to instantiate all kinds of things just to see if it's working,
+and that will report failure simply as a red entry in a list -
+this service should be able to catch and ignore the exception instead of being forced to dump.
+
+#### Consider CX_DYNAMIC_CHECK for avoidable exceptions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#consider-cx_dynamic_check-for-avoidable-exceptions)
+
+Use cases for `CX_DYNAMIC_CHECK` are rare and in general, we recommend to rather resort to the other exception types.
+However, you may want to consider this kind of exception as a replacement for `CX_STATIC_CHECK` if the caller has full,
+conscious control over whether an exception can occur.
+
+```ABAP
+DATA value TYPE decfloat.
+value = '7.13'.
+cl_abap_math=>get_db_length_decs(
+  EXPORTING
+    in     = value
+  IMPORTING
+    length = DATA(length) ).
+```
+
+For example, consider the method `get_db_length_decs` of class `cl_abap_math`,
+that tells you the number of digits and decimal places of a decimal floating point number.
+This method raises the dynamic exception `cx_parameter_invalid_type`
+if the input parameter does not reflect a decimal floating point number.
+Usually, this method will be called for a fully and statically typed variable,
+such that the developer knows whether that exception can ever occur or not.
+In this case, the dynamic exception would enable the caller to omit the unnecessary `CATCH` clause.
+
+#### Dump for totally unrecoverable situations
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#dump-for-totally-unrecoverable-situations)
+
+If a situation is so severe that you are totally sure the receiver is unlikely to recover from it,
+or that clearly indicates a programming error, dump instead of throwing an exception:
+failure to acquire memory, failed index reads on a table that must be filled, etc.
+
+```ABAP
+RAISE SHORTDUMP TYPE cx_sy_create_object_error.  " >= NW 7.53
+MESSAGE x666(general).                           " < NW 7.53
+```
+
+This behavior will prevent any kind of consumer from doing anything useful afterwards.
+Use this only if you are sure about that.
+
+#### Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#prefer-raise-exception-new-to-raise-exception-type)
+
+```ABAP<f
+RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
+```
+
+in general is shorter than the needlessly longer
+
+```ABAP
+RAISE EXCEPTION TYPE cx_generation_error
+  EXPORTING
+    previous = exception.
+```
+
+However, if you make massive use of the addition `MESSAGE`, you may want to stick with the `TYPE` variant:
+
+```ABAP
+RAISE EXCEPTION TYPE cx_generation_error
+  EXPORTING
+    previous = exception
+  MESSAGE e136(messages).
+```
+
+### Catching
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#catching)
+
+#### Wrap foreign exceptions instead of letting them invade your code
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Catching](#catching) > [This section](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
+
+```ABAP
+METHODS generate RAISING cx_generation_failure.
+
+METHOD generate.
+  TRY.
+      generator->generate( ).
+    CATCH cx_amdp_generation_failure INTO DATA(exception).
+      RAISE EXCEPTION NEW cx_generation_failure( previous = exception ).
+  ENDTRY.
+ENDMETHOD.
+```
+
+The [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter) recommends de-coupling things.
+Forwarding exceptions from other components violates this principle.
+Make yourself independent from the foreign code by catching those exceptions
+and wrapping them in an exception type of your own.
+
+```ABAP
+" anti-pattern
+METHODS generate RAISING cx_sy_gateway_failure.
+
+METHOD generate.
+  generator->generate( ).
+ENDMETHOD.
+```
