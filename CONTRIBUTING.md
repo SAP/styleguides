@@ -26,4 +26,4 @@ If you generally agree with this styleguide, but want to adapt certain things to
 we recommend to fork this repository and add your changes there.
 
 You are neither obliged to make your fork public nor inform us about it,
-but we are always happy to learn from different views.
+but we are always happy to learn about and from different views.
