@@ -196,7 +196,51 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Indent and snap to tab](#indent-and-snap-to-tab)
   - [Indent in-line declarations like method calls](#indent-in-line-declarations-like-method-calls)
   - [Don't align type clauses](#dont-align-type-clauses)
-  
+- [Testing](#testing)
+  - [Principles](#principles)
+    - [Write testable code](#write-testable-code)
+    - [Enable others to mock you](#enable-others-to-mock-you)
+    - [Readability rules](#readability-rules)
+    - [Don't make copies or write test reports](#dont-make-copies-or-write-test-reports)
+    - [Test publics, not private internals](#test-publics-not-private-internals)
+    - [Don't obsess about coverage](#dont-obsess-about-coverage)
+  - [Test Classes](#test-classes)
+    - [Call local test classes by their purpose](#call-local-test-classes-by-their-purpose)
+    - [Put tests in local classes](#put-tests-in-local-classes)
+    - [How to execute test classes](#how-to-execute-test-classes)
+  - [Code Under Test](#code-under-test)
+    - [Name the code under test meaningfully, or default to CUT](#name-the-code-under-test-meaningfully-or-default-to-cut)
+    - [Test interfaces, not classes](#test-interfaces-not-classes)
+    - [Extract the call to the code under test to its own method](#extract-the-call-to-the-code-under-test-to-its-own-method)
+  - [Injection](#injection)
+    - [Use dependency inversion to inject test doubles](#use-dependency-inversion-to-inject-test-doubles)
+    - [Use CL_ABAP_TESTDOUBLE](#use-cl_abap_testdouble)
+    - [Exploit the test tools](#exploit-the-test-tools)
+    - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
+    - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
+    - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
+    - [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable)
+    - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
+    - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
+    - [Don't build test frameworks](#dont-build-test-frameworks)
+  - [Test Methods](#test-methods)
+    - [Test method names: reflect what's given and expected](#test-method-names-reflect-whats-given-and-expected)
+    - [Use given-when-then](#use-given-when-then)
+    - ["When" is exactly one call](#when-is-exactly-one-call)
+    - [Don't add a TEARDOWN unless you really need it](#dont-add-a-teardown-unless-you-really-need-it)
+  - [Test Data](#test-data)
+    - [Make it easy to spot meaning](#make-it-easy-to-spot-meaning)
+    - [Make it easy to spot differences](#make-it-easy-to-spot-differences)
+    - [Use constants to describe purpose and importance of test data](#use-constants-to-describe-purpose-and-importance-of-test-data)
+  - [Assertions](#assertions)
+    - [Few, focused assertions](#few-focused-assertions)
+    - [Use the right assert type](#use-the-right-assert-type)
+    - [Assert content, not quantity](#assert-content-not-quantity)
+    - [Assert quality, not content](#assert-quality-not-content)
+    - [Use FAIL to check for expected exceptions](#use-fail-to-check-for-expected-exceptions)
+    - [Forward unexpected exceptions instead of catching and failing](#forward-unexpected-exceptions-instead-of-catching-and-failing)
+    - [Write custom asserts to shorten code and avoid duplication](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+    
 ## About this guide
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#about-this-guide)
@@ -3904,3 +3948,779 @@ Alignment also produces needless editing overhead, requiring you to adjust all i
 DATA name   TYPE seoclsname.
 DATA reader TYPE REF TO /clean/reader.
 ```
+
+## Testing
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#testing)
+
+### Principles
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#principles)
+
+#### Write testable code
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#write-testable-code)
+
+Write all code in a way that allows you to test it in an automatic fashion.
+
+If this requires refactoring your code, do it.
+Do that first, before you start adding other features.
+
+If you add to legacy code that is too badly structured to be tested,
+refactor it at least to the extent that you can test your additions.
+
+#### Enable others to mock you
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#enable-others-to-mock-you)
+
+If you write code to be consumed by others, enable them to write unit tests for their own code,
+for example by adding interfaces in all outward-facing places,
+providing helpful test doubles that facilitate integration tests,
+or applying dependency inversion to enable them to substitute the productive configuration with a test config.
+
+#### Readability rules
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#readability-rules)
+
+Make your test code even more readable than your productive code.
+You can tackle bad productive code with good tests, but if you don't even get the tests, you're lost.
+
+Keep your test code so simple and stupid that you will still understand it in a year from now.
+
+Stick to standards and patterns, to enable your co-workers to quickly get into the code.
+
+#### Don't make copies or write test reports
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#dont-make-copies-or-write-test-reports)
+
+Don't start working on a backlog item by making a `$TMP` copy of a development object and playing around with it.
+Others won't notice these objects and therefore won't know the status of your work.
+You will probably waste a lot of time by making the working copy in the first place.
+You will also forget to delete the copy afterwards, spamming our system and dependencies.
+(Don't believe this? Go to your development system and check your `$TMP` right now.)
+
+Also, don't start by writing a test report that calls something in a specific way,
+and repeat that to verify that things are still working when you're working on it.
+This is poor man's testing: repeating a test report by hand and verifying by eye whether everything is still fine.
+Take the next step and automate this report in a unit test,
+with an automatic assertion that tells you whether the code is still okay.
+First, you will spare yourself the effort of having to write the unit tests afterwards.
+Second, you will save a lot of time for the manual repetitions, plus avoid getting bored and tired over it.
+
+#### Test publics, not private internals
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#test-publics-not-private-internals)
+
+Public parts of classes, especially the interfaces they implement, are rather stable and unlikely to change.
+Let your unit tests validate only the publics to make them robust
+and minimize the effort you have to spend when you refactor the class.
+Protected and private internals, in contrast, may change very quickly through refactoring,
+such that each refactoring would needlessly break your tests.
+
+An urgent need to test private or protected methods may be an early warning sign for several kinds of design flaws.
+Ask yourself:
+
+- Did you accidentally bury a concept in your class that wants to come out into its own class,
+with its own dedicated suite of tests?
+
+- Did you forget to separate the domain logic from the glue code?
+For example, implementing the domain logic directly in the class that is plugged into BOPF as an action,
+determination, or validation, or that was generated by SAP Gateway as a `*_DPC_EXT` data provider, may not the best idea.
+
+- Are your interfaces too complicated and request too much data that is irrelevant or that cannot be mocked easily?
+
+#### Don't obsess about coverage
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#dont-obsess-about-coverage)
+
+Code coverage is there to help you find code you forgot to test, not to meet some random KPI:
+
+Don't make up tests without or with dummy asserts just to reach the coverage.
+Better leave things untested to make transparent that you cannot safely refactor them.
+You can have < 100% coverage and still have perfect tests.
+There are cases - such as IFs in the constructor to insert test doubles -
+that may make it unpractical to reach 100%.
+Good tests tend to cover the same statement multiple times, for different branches and conditions.
+They will in fact have imaginary > 100% coverage.
+
+### Test Classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#test-classes)
+
+#### Call local test classes by their purpose
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#call-local-test-classes-by-their-purpose)
+
+```ABAP
+CLASS ltc_unit_tests DEFINITION FOR TESTING ... .
+CLASS ltc_integration_tests DEFINITION FOR TESTING ... .
+CLASS ltc_unit_tests_with_mocks DEFINITION FOR TESTING ... .
+```
+
+Good names reveal the level of the tests and what's common to their setup.
+
+```ABAP
+" anti-patterns
+CLASS ltc_fra_online_detection_api DEFINITION FOR TESTING ... . " We know that's the class under test - why repeat it?
+CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's a test, what else should it be?
+```
+
+#### Put tests in local classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-tests-in-local-classes)
+
+Put unit tests into the local test include of the class under test.
+This ensures that people find these tests when refactoring the class
+and allows them to run all associated tests with a single key press,
+as described in [How to execute test classes](#how-to-execute-test-classes).
+
+Put component/integration/system tests, that do not directly relate to a single class under test,
+into the local test include of a separate global class.
+Mark this global "container" class as `FOR TESTING` and `ABSTRACT`
+to avoid that it is accidentally delivered or referenced in production code.
+Putting tests into other classes has the danger that people overlook them
+and forget to run them when refactoring the involved classes,
+such that this choice is only second-best.
+
+#### How to execute test classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#how-to-execute-test-classes)
+
+In the ABAP Development Tools, press Ctrl+Shift+F10 to run all tests in a class.
+Press Ctrl+Shift+F11 to include coverage measurements.
+Press Ctrl+Shift+F12 to also run tests in other classes that are maintained as test relations.
+
+> On macOS, use `Cmd` instead of `Ctrl`.
+
+### Code Under Test
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#code-under-test)
+
+#### Name the code under test meaningfully, or default to CUT
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#name-the-code-under-test-meaningfully-or-default-to-cut)
+
+Give the variable that represents the code under test a meaningful name:
+
+```ABAP
+DATA blog_post TYPE REF TO ...
+```
+
+Don't just repeat the class name with all its non-valuable namespaces and prefixes:
+
+```ABAP
+" anti-pattern
+DATA clean_fra_blog_post TYPE REF TO ...
+```
+
+If you have different test setups, it can be helpful to describe the object's varying state:
+
+```ABAP
+DATA empty_blog_post TYPE REF TO ...
+DATA simple_blog_post TYPE REF TO ...
+DATA very_long_blog_post TYPE REF TO ...
+```
+
+If you have problems finding a meaningful name, resort to `cut` as a default.
+The abbreviation stands for "code under test".
+
+```ABAP
+DATA cut TYPE REF TO ...
+```
+
+Especially in unclean and confusing tests, calling the variable `cut`
+can temporarily help the reader see what's actually tested.
+However, tidying up the tests is the actual way to go for the long run.
+
+#### Test interfaces, not classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#test-interfaces-not-classes)
+
+A practical consequence of the [_Test publics, not private internals_](#test-publics-not-private-internals),
+type your code under test with an _interface_
+
+```ABAP
+DATA code_under_test TYPE REF TO some_interface.
+```
+
+rather than a _class_
+
+```ABAP
+" anti-pattern
+DATA code_under_test TYPE REF TO some_class.
+```
+
+#### Extract the call to the code under test to its own method
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#extract-the-call-to-the-code-under-test-to-its-own-method)
+
+If the method to be tested requires a lot of parameters or prepared data,
+it can help to extract the call to it to a helper method of its own that defaults the uninteresting parameters:
+
+```ABAP
+METHODS map_xml_to_itab
+  IMPORTING
+    xml_string TYPE string
+    config     TYPE /clean/xml2itab_config DEFAULT default_config
+    format     TYPE /clean/xml2itab_format DEFAULT default_format.
+
+METHOD map_xml_to_itab.
+  result = cut->map_xml_to_itab( xml_string = xml_string
+                                 config     = config
+                                 format     = format ).
+ENDMETHOD.
+
+DATA(itab) = map_xml_to_itab( '<xml></xml>' ).
+```
+
+Calling the original method directly can swamp your test with a lot of meaningless details:
+
+```ABAP
+" anti-pattern
+DATA(itab) = cut->map_xml_to_itab( xml_string = '<xml></xml>'
+                                   config     = VALUE #( 'some meaningless stuff' )
+                                   format     = VALUE #( 'more meaningless stuff' ) ).
+```
+
+### Injection
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#injection)
+
+#### Use dependency inversion to inject test doubles
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-dependency-inversion-to-inject-test-doubles)
+
+Dependency inversion means that you hand over all dependencies to the constructor:
+
+```ABAP
+METHODS constructor
+  IMPORTING
+    customizing_reader TYPE REF TO if_fra_cust_obj_model_reader.
+
+METHOD constructor.
+  me->customizing_reader = customizing_reader.
+ENDMETHOD.
+```
+
+Don't use setter injection.
+It enables using the productive code in ways that are not intended:
+
+```ABAP
+" anti-pattern
+METHODS set_customizing_reader
+  IMPORTING
+    customizing_reader TYPE REF TO if_fra_cust_obj_model_reader.
+
+METHOD do_something.
+  object->set_customizing_reader( a ).
+  object->set_customizing_reader( b ). " would you expect that somebody does this?
+ENDMETHOD.
+```
+
+Don't use FRIENDS injection.
+It will initialize productive dependencies before they are replaced, with probably unexpected consequences.
+It will break as soon as you rename the internals.
+It also circumvents initializations in the constructor.
+
+```ABAP
+" anti-pattern
+METHOD setup.
+  cut = NEW fra_my_class( ). " <- builds a productive customizing_reader first - what will it break with that?
+  cut->customizing_reader ?= cl_abap_testdouble=>create( 'if_fra_cust_obj_model_reader' ).
+ENDMETHOD.
+
+METHOD constructor.
+  customizing_reader = fra_cust_obj_model_reader=>s_get_instance( ).
+  customizing_reader->fill_buffer( ). " <- won't be called on your test double, so no chance to test this
+ENDMETHOD.
+```
+
+#### Use CL_ABAP_TESTDOUBLE
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-cl_abap_testdouble)
+
+```ABAP
+DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
+cl_abap_testdouble=>configure_call( customizing_reader)->returning( sub_claim_customizing ).
+customizing_reader->read( 'SOME_ID' ).
+```
+
+Shorter and easier to understand than custom test doubles:
+
+```ABAP
+" anti-pattern
+CLASS /dirty/default_custom_reader DEFINITION FOR TESTING CREATE PUBLIC.
+  PUBLIC SECTION.
+    INTERFACES /dirty/customizing_reader.
+    DATA customizing TYPE /dirty/customizing_table.
+ENDCLASS.
+
+CLASS /dirty/default_custom_reader IMPLEMENTATION.
+  METHOD /dirty/customizing_reader~read.
+    result = customizing.
+  ENDMETHOD.
+ENDCLASS.
+
+METHOD test_something.
+  DATA(customizing_reader) = NEW /dirty/customizing_reader( ).
+  customizing_reader->customizing = sub_claim_customizing.
+ENDMETHOD.
+```
+
+#### Exploit the test tools
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#exploit-the-test-tools)
+
+In general, a clean programming style will let you do much of the work with standard ABAP unit tests and test doubles.
+However, there are several tools that will allow you to tackle trickier cases in elegant ways:
+
+- Use the `CL_OSQL_REPLACE` service to test complex OpenSQL statements by redirecting them to a test data bin
+that can be filled with test data without interfering with the rest of the system.
+
+- Use the CDS test framework to test your CDS views.
+
+- Use Avalon to test AMDPs and HANA-native database procedures.
+
+#### Use test seams as temporary workaround
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
+
+If all other techniques fail, or when in dangerous shallow waters of legacy code,
+refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm)
+to make things testable.
+
+Although they look comfortable at first sight, test seams are invasive and tend to get entangled
+in private dependencies, such that they are hard to keep alive and stable in the long run.
+
+We therefore recommend to refrain to test seams only as a temporary workaround
+to allow you refactoring the code into a more testable form.
+
+#### Use LOCAL FRIENDS to access the dependency-inverting constructor
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-local-friends-to-access-the-dependency-inverting-constructor)
+
+```ABAP
+CLASS /clean/unit_tests DEFINITION.
+  PRIVATE SECTION.
+    DATA cut TYPE REF TO /clean/interface_under_test.
+    METHODS setup.
+ENDCLASS.
+
+CLASS /clean/class_under_test DEFINITION LOCAL FRIENDS unit_tests.
+
+CLASS unit_tests IMPLEMENTATION.
+  METHOD setup.
+    DATA(mock) = cl_abap_testdouble=>create( '/clean/some_mock' ).
+    " /clean/class_under_test is CREATE PRIVATE
+     " so this only works because of the LOCAL FRIENDS
+    cut = NEW /clean/class_under_test( mock ).
+  ENDMETHOD.
+ENDCLASS.
+```
+
+#### Don't misuse LOCAL FRIENDS to invade the tested code
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-misuse-local-friends-to-invade-the-tested-code)
+
+Unit tests that access private and protected members to insert mock data are fragile:
+they break when the internal structure of the tested code changes.
+
+```ABAP
+" anti-pattern
+CLASS /dirty/class_under_test DEFINITION LOCAL FRIENDS unit_tests.
+CLASS unit_tests IMPLEMENTATION.
+  METHOD returns_right_result.
+    cut->some_private_member = 'AUNIT_DUMMY'.
+  ENDMETHOD.
+ENDCLASS.
+```
+
+#### Don't change the productive code to make the code testable
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-change-the-productive-code-to-make-the-code-testable)
+
+```ABAP
+" anti-pattern
+IF me->in_test_mode = abap_true.
+```
+
+#### Don't sub-class to mock methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-sub-class-to-mock-methods)
+
+Don't sub-class and overwrite methods to mock them in your unit tests.
+Although this works, it is fragile because the tests break easily when refactoring the code.
+It also enables real consumers to inherit your class,
+which [may hit you unprepared when not explicitly designing for it](https://github.wdf.sap.corp/CleanCode/ABAPCleanCode#final-if-not-designed-for-inheritance).
+
+```ABAP
+" anti-pattern
+CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
+  PROTECTED SECTION.
+    METHODS needs_to_be_mocked REDEFINITION.
+```
+
+To get legacy code under test,
+[resort to test seams instead](https://github.wdf.sap.corp/CleanCode/ABAPCleanCode#use-test-seams-as-temporary-workaround).
+They are just as fragile but still the cleaner way because they at least don't change the class's productive behavior,
+as would happen when enabling inheritance by removing a previous `FINAL` flag or by changing method scope from `PRIVATE` to `PROTECTED`.
+
+When writing new code, take this testability issue into account directly when designing the class,
+and find a different, better way.
+Common best practices include [resorting to other test tools](https://github.wdf.sap.corp/CleanCode/ABAPCleanCode#exploit-the-test-tools)
+and extracting the problem method to a separate class with its own interface.
+
+> A more specific variant of
+> [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
+
+#### Don't mock stuff that's not needed
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-mock-stuff-thats-not-needed)
+
+```ABAP
+cut = NEW /clean/class_under_test( db_reader = db_reader
+                                   config    = VALUE #( )
+                                   writer    = VALUE #( ) ).
+```
+
+Define your givens as precisely as possible: don't set data that your test doesn't need,
+and don't mock objects that are never called.
+These things distract the reader from what's really going on.
+
+```ABAP
+" anti-pattern
+cut = NEW /dirty/class_under_test( db_reader = db_reader
+                                   config    = config
+                                   writer    = writer ).
+```
+
+There are also cases where it's not necessary to mock something at all -
+this is usually the case with data structures and data containers.
+For example, your unit tests may well work with the productive version of a `transient_log`
+because it only stores data without any side effects.
+
+#### Don't build test frameworks
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-build-test-frameworks)
+
+Unit tests should be data-in-data-out, with all test data being defined on the fly as needed.
+
+```ABAP
+cl_abap_testdouble=>configure_call( test_double )->returning( data ).
+```
+
+Don't start building frameworks that distinguish "test case IDs" to decide what data to provide.
+The resulting code will be so long and tangled that you won't be able to keep these tests alive in the long term.
+
+```ABAP
+" anti-pattern
+
+test_double->set_test_case( 1 ).
+
+CASE me->test_case.
+  WHEN 1.
+  WHEN 2.
+ENDCASE.
+```
+
+### Test Methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#test-methods)
+
+#### Test method names: reflect what's given and expected
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#test-method-names-reflect-whats-given-and-expected)
+
+Good names reflect the given and then of the test:
+
+```ABAP
+METHOD reads_existing_entry.
+METHOD throws_on_invalid_key.
+METHOD detects_invalid_input.
+```
+
+Bad names reflect the when, repeat meaningless facts, or are cryptic:
+
+```ABAP
+" anti-patterns
+
+" What's expected, success or failure?
+METHOD get_conversion_exits.
+
+" It's a test method, what else should it do but "test"?
+METHOD test_loop.
+
+" So it's parameterized, but what is its aim?
+METHOD parameterized_test.
+
+" What's "_wo_w" supposed to mean and will you still remember that in a year from now?
+METHOD get_attributes_wo_w.
+```
+
+As ABAP allows only 30 characters in method names, it's fair to add an explanatory comment
+if the name is too short to convey enough meaning.
+ABAP Doc or the first line in the test method may be an appropriate choice for the comment.
+
+Having lots of test methods whose names are too long may be an indicator
+that you should split your single test class into several ones
+and express the differences in the givens in the class's names.
+
+#### Use given-when-then
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#use-given-when-then)
+
+Organize your test code along the given-when-then paradigm:
+First, initialize stuff in a given section ("given"),
+second call the actual tested thing ("when"),
+third validate the outcome ("then").
+
+If the given or then sections get so long
+that you cannot visually separate the three sections anymore, extract sub-methods.
+Blank lines or comments as separators may look good at first glance
+but don't really reduce the visual clutter.
+Still they are helpful for the reader to and the novice test writer to separate the section
+
+#### "When" is exactly one call
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#when-is-exactly-one-call)
+
+Make sure that the "when" section of your test method contains exactly one call to the class under test:
+
+```ABAP
+METHOD rejects_invalid_input.
+  " when
+  DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
+  " then
+  cl_abap_unit_assert=>assert_true( is_valid ).
+ENDMETHOD.
+```
+
+Calling multiple things indicates that the method has no clear focus and tests too much.
+This makes it harder to find the cause when the test fails:
+was it the first, second, or third call that caused the failure?
+It also confuses the reader because he is not sure what the exact feature under test is.
+
+#### Don't add a TEARDOWN unless you really need it
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#dont-add-a-teardown-unless-you-really-need-it)
+
+`teardown` methods are usually only needed to clear up database entries
+or other external resources in integration tests.
+
+Resetting members of the test class, esp. `cut` and the used test doubles, is superfluous;
+they are overwritten by the `setup` method before the next test method is started.
+
+### Test Data
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#test-data)
+
+#### Make it easy to spot meaning
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Data](#test-data) > [This section](#make-it-easy-to-spot-meaning)
+
+In unit tests, you want to be able to quickly tell which data and doubles are important,
+and which ones are only there to keep the code from crashing.
+Support this by giving things that have no meaning obvious names and values, for example:
+
+```ABAP
+DATA(alert_id) = '42'.                  " well-known meaningless numbers
+DATA(detection_object_type) = '?=/"&'.  " 'keyboard accidents'
+CONSTANTS some_random_number = 782346.  " revealing variable names
+```
+
+Don't trick people into believing something connects to real objects or real customizing if it doesn't:
+
+```ABAP
+" anti-pattern
+DATA(alert_id) = '00000001223678871'.        " this alert really exists
+DATA(detection_object_type) = 'FRA_SCLAIM'.  " this detection object type, too
+CONSTANTS memory_limit = 4096.               " this number looks carefully chosen
+```
+
+#### Make it easy to spot differences
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Data](#test-data) > [This section](#make-it-easy-to-spot-differences)
+
+```ABAP
+exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END1' )
+                            ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END2' ) ).
+```
+
+Don't force readers to compare long meaningless strings to spot tiny differences.
+
+#### Use constants to describe purpose and importance of test data
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Data](#test-data) > [This section](#use-constants-to-describe-purpose-and-importance-of-test-data)
+
+```ABAP
+CONSTANTS some_nonsense_key TYPE char8 VALUE 'ABCDEFGH'.
+
+METHOD throws_on_invalid_entry.
+  TRY.
+      " when
+      cut->read_entry( some_nonsense_key ).
+      cl_abap_unit_assert=>fail( ).
+    CATCH /clean/customizing_reader_error.
+      " then
+  ENDTRY.
+ENDMETHOD.
+```
+
+### Assertions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#assertions)
+
+#### Few, focused assertions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#few-focused-assertions)
+
+Assert only exactly what the test method is about, and this with a small number of assertions.
+
+```ABAP
+METHOD rejects_invalid_input.
+  " when
+  DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
+  " then
+  cl_abap_unit_assert=>assert_true( is_valid ).
+ENDMETHOD.
+```
+
+Asserting too much is an indicator that the method has no clear focus.
+This couples productive and test code in too many places: changing a feature
+will require rewriting a large number of tests although they are not really involved with the changed feature.
+It also confuses the reader with a large variety of assertions,
+obscuring the one important, distinguishing assertion among them.
+
+```ABAP
+" anti-pattern
+METHOD rejects_invalid_input.
+  " when
+  DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
+  " then
+  cl_abap_unit_assert=>assert_true( is_valid ).
+  cl_abap_unit_assert=>assert_not_initial( log->get_messages( ) ).
+  cl_abap_unit_assert=>assert_equals( act = sy-langu
+                                      exp = 'E' ).
+ENDMETHOD.
+```
+
+#### Use the right assert type
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#use-the-right-assert-type)
+
+```ABAP
+cl_abap_unit_assert=>assert_equals( act = table
+                                    exp = test_data ).
+```
+
+Asserts often do more than meets the eye, for example `assert_equals`
+includes type matching and providing precise descriptions if values differ.
+Using the wrong, too-common asserts will force you into the debugger immediately
+instead of allowing you to see what is wrong right from the error message.
+
+```ABAP
+" anti-pattern
+cl_abap_unit_assert=>assert_true( xsdbool( act = exp ) ).
+```
+
+#### Assert content, not quantity
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#assert-content-not-quantity)
+
+```ABAP
+assert_contains_exactly( actual   = table
+                         expected = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
+```
+
+Don't write magic-number-quantity assertions if you can express the actual content you expect.
+Numbers may vary although the expectations are still met.
+In reverse, the numbers may match although the content is something completely unexpected.
+
+```ABAP
+" anti-pattern
+assert_equals( act = lines( log_messages )
+               exp = 3 ).
+```
+
+#### Assert quality, not content
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#assert-quality-not-content)
+
+If you are interested in a meta quality of the result,
+but not in the actual content itself, express that with a suitable assert:
+
+```ABAP
+assert_all_lines_shorter_than( lines      = table
+                               max_length = 80 ).
+```
+
+Asserting the precise content obscures what you actually want to test.
+It is also fragile because refactoring may produce a different
+but perfectly acceptable result although it breaks all your too-precise unit tests.
+
+```ABAP
+" anti-pattern
+assert_equals( act = table
+               exp = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
+```
+
+#### Use FAIL to check for expected exceptions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#use-fail-to-check-for-expected-exceptions)
+
+```ABAP
+METHOD throws_on_empty_input.
+  TRY.
+      " when
+      cut->do_something( '' ).
+      cl_abap_unit_assert=>fail( ).
+    CATCH /clean/some_exception.
+      " then
+  ENDTRY.
+ENDMETHOD.
+```
+
+#### Forward unexpected exceptions instead of catching and failing
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#forward-unexpected-exceptions-instead-of-catching-and-failing)
+
+```ABAP
+METHODS read_entry FOR TESTING RAISING /clean/some_exception.
+
+METHOD read_entry.
+  "when
+  DATA(entry) = cut->read_something( ).
+  "then
+  cl_abap_unit_assert=>assert_not_initial( entry ).
+ENDMETHOD.
+```
+
+Your test code remains focused on the happy path and is therefore much easier to read and understand, as compared to:
+
+```ABAP
+" anti-pattern
+METHOD reads_entry.
+  TRY.
+      DATA(entry) = cut->read_something( ).
+    CATCH /clean/some_exception INTO DATA(unexpected_exception).
+      cl_abap_unit_assert=>fail( unexpected_exception->get_text( ) ).
+  ENDTRY.
+  cl_abap_unit_assert=>assert_not_initial( entry ).
+ENDMETHOD.
+```
+
+#### Write custom asserts to shorten code and avoid duplication
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+
+```ABAP
+METHOD assert_contains
+  TRY.
+      entries[ key = key ].
+    CATCH cx_sy_itab_line_not_found.
+      cl_abap_unit_assert=>fail( ).
+  ENDTRY.
+ENDMETHOD.
+```
+
+Instead of copy-pasting this over and over again.
