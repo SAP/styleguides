@@ -84,6 +84,10 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Try to make conditions positive](#try-to-make-conditions-positive)
   - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
   - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
+- [Ifs](#ifs)
+  - [No empty IF branches](#no-empty-if-branches)
+  - [Prefer CASE to ELSE IF for multiple alternative conditions](#prefer-case-to-else-if-for-multiple-alternative-conditions)
+  - [Keep the nesting depth low](#keep-the-nesting-depth-low)
   
 ## About this guide
 
@@ -1299,4 +1303,96 @@ IF ( example_a IS NOT INITIAL OR
    result = xsdbool( is_filled = abap_true AND
                      is_working = abap_true ).
  ENDMETHOD.
+ ```
+ 
+ ## Ifs
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#ifs)
+ 
+ ### No empty IF branches
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#no-empty-if-branches)
+ 
+ ```ABAP
+ IF has_entries = abap_false.
+   " do some magic
+ ENDIF.
+ ```
+ 
+is shorter and clearer than
+ 
+ ```ABAP
+ " anti-pattern
+ IF has_entries = abap_true.
+ ELSE.
+   " do some magic
+ ENDIF.
+ ```
+ 
+ ### Prefer CASE to ELSE IF for multiple alternative conditions
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#prefer-case-to-else-if-for-multiple-alternative-conditions)
+ 
+ ```ABAP
+ CASE type.
+   WHEN type-some_type.
+     " ...
+   WHEN type-some_other_type.
+     " ...
+   WHEN OTHERS.
+     RAISE EXCEPTION NEW /clean/unknown_type_failure( ).
+ ENDCASE.
+ ```
+ 
+ `CASE` makes it easy to see a set of alternatives that exclude each other.
+ It can be faster than a series of `IF`s because it can translate to a different microprocessor command
+ instead of a series of subsequently evaluated conditions.
+ You can introduce new cases quickly, without having to repeat the discerning variable over and over again.
+ The statement even prevents some errors that can occur when accidentally nesting the `IF`-`ELSEIF`s.
+ 
+ ```ABAP
+ " anti-pattern
+ IF type = type-some_type.
+   " ...
+ ELSEIF type = type-some_other_type.
+   " ...
+ ELSE.
+   RAISE EXCEPTION NEW /dirty/unknown_type_failure( ).
+ ENDIF.
+ ```
+ 
+ ### Keep the nesting depth low
+ 
+ > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#keep-the-nesting-depth-low)
+ 
+ ```ABAP
+ " ani-pattern
+ IF <this>.
+   IF <that>.
+   ENDIF.
+ ELSE.
+   IF <other>.
+   ELSE.
+     IF <something>.
+     ENDIF.
+   ENDIF.
+ ENDIF.
+ ```
+ 
+ Nested `IF`s get hard to understand very quickly and require an exponential number of test cases for complete coverage.
+ 
+ Decision trees can usually be taken apart by forming sub-methods and introducing boolean helper variables.
+ 
+ Other cases can be simplified by merging IFs, such as
+ 
+ ```ABAP
+ IF <this> AND <that>.
+ ```
+ 
+ instead of the needlessly nested
+ 
+ ```ABAP
+ " anti-pattern
+ IF <this>.
+   IF <that>.
  ```
