@@ -1,4 +1,4 @@
-# Avoid encodings, esp. Hungarian notation and prefixes
+# Avoid Encodings
 
 > [Back to the guide](../CleanABAP.md)
 

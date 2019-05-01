@@ -160,7 +160,6 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
   - [Use the Pretty Printer before activating](#use-the-pretty-printer-before-activating)
   - [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings)
-    - [Upper vs. lower case](#upper-vs-lower-case)
   - [No more than one statement per line](#no-more-than-one-statement-per-line)
   - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
   - [Condense your code](#condense-your-code)
@@ -3433,9 +3432,11 @@ DATA:
 
 Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating an object.
 
-> If you modify existing unformatted code, you might want to apply the Pretty Printer only to the changed code
-> to avoid additional changes in the code, which would hide the functional changes. 
-> You may pretty print the complete code in a separate transport.
+If you modify a larger unformatted legacy code base,
+you may want to apply the Pretty Printer only to selected lines
+to avoid huge change lists and transport dependencies.
+Consider pretty-printing the complete development object
+in a separate Transport Request or Note.
 
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
@@ -3443,35 +3444,17 @@ Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating a
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-pretty-printer-team-settings)
 
-Use our team settings. Go to Menu > Utilities > Settings ... > ABAP Editor > Pretty Printer.
+Always use our team settings.
+Specify them under
+_Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
 
-Set "Indent" and "Convert Uppercase/Lowercase" > "Uppercase Keyword" as agreed in your team.
+Set _Indent_ and _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
+as agreed in your team.
+
+> [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) explains
+> why we do not give clear guidance for the type case of keywords.
 
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
-
-#### Upper vs. lower case
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings) > [This section](#upper-vs-lower-case)
-
-We don't have a clear guidance on whether keywords and identifiers should be uppercased or not.
-Here is why:
-
-General perception is that we should lowercase keywords and put identifiers in camel case.
-This is the prevalent formatting in most today's programming languages
-and commonly perceived as concise and readable style.
-
-However, ABAP is case-insensitive, such that camel-casing identifiers remains a mere optical improvement
-that tends to get lost in pretty-printing and database storages.
-Also, decades ago, people decided to uppercase ABAP keywords to make them easier to identify
-in black-and-white printouts and monochrome displays.
-Even though this main argument no longer holds,
-the keywords-uppercase-identifiers-lowercase format turned into a de facto standard.
-
-The [section _Case_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenlower_upper_case_guidl.htm)
-follows this de facto standard.
-The [section _Using Pretty Printer_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenuse_pretty_printer_guidl.htm)
-contradicts and says the recommendation _should_ actually be lowercase keywords and uppercase identifiers.
-We _do_ see foundation code that prefers lowercased keywords.
 
 ### No more than one statement per line
 
