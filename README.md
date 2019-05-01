@@ -17,7 +17,7 @@ While all of them may be correct, some may be more efficient,
 easier to understand, and more robust than others.
 
 Our style guides want to show up differences and guide you
-towards code that has a healthy balance between all of these.
+towards code that has a healthy balance between all of qualities.
 
 ## Style Guides
 
@@ -34,8 +34,8 @@ We believe that everybody should be enabled to code cleanly.
 
 ## Optional
 
-Following this guide is **optional**, meaning you -
-or more precisely: your team -
+Following these style guides is **optional**,
+meaning you - or more precisely: your team -
 can choose whether you want to adhere to it.
 This applies equally to in-house developers, partners, and customers.
 
