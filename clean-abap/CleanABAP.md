@@ -1,15 +1,5 @@
 # Clean ABAP
 
-[**Public**](#public)
-&nbsp;·&nbsp;
-[**Optional**](#optional)
-&nbsp;·&nbsp;
-[**Continuous Release**](#continuous-release)
-&nbsp;·&nbsp;
-[**Open Source**](#open-source)
-&nbsp;·&nbsp;
-[**Grassroots Project**](#grassroots-project)
-
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
 for [ABAP](https://en.wikipedia.org/wiki/ABAP).
@@ -20,12 +10,6 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 ## Content
 
-- [About this guide](#about-this-guide)
-  - [Public](#public)
-  - [Optional](#optional)
-  - [Continuous Release](#continuous-release)
-  - [Open Source](#open-source)
-  - [Grassroots Project](#grassroots-project)
 - [How to](#how-to)
   - [How to Get Started with Clean Code](#how-to-get-started-with-clean-code)
   - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
@@ -241,73 +225,6 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Forward unexpected exceptions instead of catching and failing](#forward-unexpected-exceptions-instead-of-catching-and-failing)
     - [Write custom asserts to shorten code and avoid duplication](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
     
-## About this guide
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#about-this-guide)
-
-### Public
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#public)
-
-This document is **public**, as described in
-SAP's _Global Information Classification & Handling Standard_
-[(internal link)](https://wiki.wdf.sap.corp/wiki/pages/viewpage.action?pageId=1891700683),
-meaning you can freely share it with anybody.
-
-We believe that everybody should be enabled to code cleanly.
-
-### Optional
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#optional)
-
-Following this guide is **optional**, meaning you -
-or more precisely: your team -
-can choose whether you want to adhere to it.
-This applies equally to in-house developers, partners, and customers.
-
-We believe that clean code comes from the heart, not from pressure.
-
-### Continuous Release
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#continuous-release)
-
-This guide is updated **continuously**,
-meaning any change is reviewed and immediately put "live",
-without special publication versions.
-
-As ABAP and our understanding of Clean Code evolve,
-we believe that this document is "work in progress"
-and will probably never see a status "finished";
-as agile developers, we welcome this.
-
-### Open Source
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#open-source)
-
-This repository is **open source**,
-meaning it is written by a loose community of interested persons,
-and anybody from within and without SAP is invited to contribute.
-
-[LICENSE.md](../LICENSE.md) describes how you may use this material,
-while [CONTRIBUTING.md](../CONTRIBUTING.md) describes how you can contribute.
-
-We believe that clean code should be discussed freely and openly.
-
-### Grassroots Project
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [About this guide](#about-this-guide) > [This section](#grassroots-project)
-
-This guide is a **grassroots project**, meaning it was started, and is still driven,
-by programmers who spend their day coding, and want to get better at it.
-
-It was first conceived as a team-specific Wiki, then turned into an SAP-wide private repository,
-before being published here. It was thus distilled from many many years of ABAP experience and thorough code reviews.
-
-We are developers, architects, quality engineers, and consultants,
-from associates to chief experts, from language creators to tool developers,
-from S/4HANA to the ABAP language group.
-We respect all roles, ranks, and units, and welcome any suggestions and improvements.
-
 ## How to
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#how-to)
