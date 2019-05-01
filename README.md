@@ -14,7 +14,7 @@ This repository provides SAP's style guides for coding.
 
 Programming languages enable us to say the same thing in different ways.
 While all of them may be correct, some may be more efficient,
-easier to understand, and more robust and than others.
+easier to understand, and more robust than others.
 
 Our style guides want to show up differences and guide you
 towards code that has a healthy balance between all of these.
@@ -39,7 +39,7 @@ or more precisely: your team -
 can choose whether you want to adhere to it.
 This applies equally to in-house developers, partners, and customers.
 
-We believe that clean code comes from the heart, not from pressure.
+We believe that clean code comes from conviction, not from pressure.
 
 ## Continuous Release
 
