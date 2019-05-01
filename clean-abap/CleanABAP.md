@@ -1396,7 +1396,7 @@ instead of the needlessly nested
 ```ABAP
 " anti-pattern
 IF <this>.
-IF <that>.
+  IF <that>.
 ```
 
 ## Regular expressions
