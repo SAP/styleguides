@@ -7,14 +7,20 @@ For your convenience ("is this printout on my desk still up to date?"),
 the cheat sheet - in contrast to the general styleguide -
 is versioned according to the [Semantic Versioning specification](https://semver.org/).
 
+## Download
+
+[**Latest version (PDF)**](CleanABAPCheatSheetV1.1.0.pdf)
+
 ## Versions
 
-- **Latest** (v1.1.0) · [**PDF**](CleanABAPCheatSheetV1.1.0.pdf) · [Word](CleanABAPCheatSheetV1.1.0.docx)
-- v1.0.2 · [**PDF**](CleanABAPCheatSheetV1.0.2.pdf) · [Word](CleanABAPCheatSheetV1.0.2.docx)
-
-## Change Log
-
-- v1.1.0
+- [v1.1.0](CleanABAPCheatSheetV1.1.0.pdf) - 30 Apr 2019
   - Added two sub-sections to _Tables_
-- v1.0.2
+- [v1.0.2](CleanABAPCheatSheetV1.0.2.pdf) - 29 Apr 2019
   - First public version
+- v1.0.1
+  - Improved some examples
+  - Released only internally
+- v1.0.0
+  - First version
+  - Released only internally
+- [Working document](CleanABAPCheatSheet.docx)
