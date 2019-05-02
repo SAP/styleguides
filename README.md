@@ -21,7 +21,7 @@ towards code that has a healthy balance between all of these qualities.
 
 ## Style Guides
 
-- [**Clean ABAP**](guide/CleanABAP.md)
+- [**Clean ABAP**](clean-abap/CleanABAP.md)
 
 ## Public
 
