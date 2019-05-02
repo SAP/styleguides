@@ -30,30 +30,26 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Language](#language)
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
-  - [Prefer object orientation over imperative programming](#prefer-object-orientation-over-imperative-programming)
+  - [Prefer object orientation to imperative programming](#prefer-object-orientation-to-imperative-programming)
     - [Function Groups vs. Classes](#function-groups-vs-classes)
-  - [Prefer functional over procedural language constructs](#prefer-functional-over-procedural-language-constructs)
+  - [Prefer functional to procedural language constructs](#prefer-functional-to-procedural-language-constructs)
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
-  - [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces)
-    - [Enumerations: Constant Pattern](#enumerations-constant-pattern)
-    - [Enumerations: Object Pattern](#enumerations-object-pattern)
-    - [Enumerations: Anti-Pattern](#enumerations-anti-pattern)
-    - [Enumerations: Benefits](#enumerations-benefits)
+  - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
   - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
 - [Variables](#variables)
-  - [Prefer inline over up-front declarations](#prefer-inline-over-up-front-declarations)
+  - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
-  - [Prefer REF TO over FIELD-SYMBOL](#prefer-ref-to-over-field-symbol)
+  - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
   - [Use the right table type](#use-the-right-table-type)
   - [Avoid DEFAULT KEY](#avoid-default-key)
-  - [Prefer INSERT INTO TABLE over APPEND TO](#prefer-insert-into-table-over-append-to)
-  - [Prefer LINE_EXISTS over READ TABLE or LOOP AT](#prefer-line_exists-over-read-table-or-loop-at)
-  - [Prefer READ TABLE over LOOP AT](#prefer-read-table-over-loop-at)
-  - [Prefer LOOP AT WHERE over nested IF](#prefer-loop-at-where-over-nested-if)
+  - [Prefer INSERT INTO TABLE to APPEND TO](#prefer-insert-into-table-to-append-to)
+  - [Prefer LINE_EXISTS to READ TABLE or LOOP AT](#prefer-line_exists-to-read-table-or-loop-at)
+  - [Prefer READ TABLE to LOOP AT](#prefer-read-table-to-loop-at)
+  - [Prefer LOOP AT WHERE to nested IF](#prefer-loop-at-where-to-nested-if)
 - [Strings](#strings)
   - [Use ` to define literals](#use--to-define-literals)
   - [Use | to assemble text](#use--to-assemble-text)
@@ -76,7 +72,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Classes](#classes)
   - [Classes: Object orientation](#classes-object-orientation)
     - [Prefer objects to static classes](#prefer-objects-to-static-classes)
-    - [Prefer composition over inheritance](#prefer-composition-over-inheritance)
+    - [Prefer composition to inheritance](#prefer-composition-to-inheritance)
     - [Don't mix stateful and stateless in the same class](#dont-mix-stateful-and-stateless-in-the-same-class)
   - [Scope](#scope)
     - [Global by default, local only in exceptional cases](#global-by-default-local-only-in-exceptional-cases)
@@ -85,14 +81,14 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Consider using immutable instead of getter](#consider-using-immutable-instead-of-getter)
     - [Use READ-ONLY sparingly](#use-read-only-sparingly)
   - [Constructors](#constructors)
-    - [Prefer NEW over CREATE OBJECT](#prefer-new-over-create-object)
+    - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
     - [If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public](#if-your-global-class-is-create-private-leave-the-constructor-public)
-    - [Prefer multiple static factory methods over optional parameters](#prefer-multiple-static-factory-methods-over-optional-parameters)
+    - [Prefer multiple static factory methods to optional parameters](#prefer-multiple-static-factory-methods-to-optional-parameters)
     - [Use descriptive names for multiple constructor methods](#use-descriptive-names-for-multiple-constructor-methods)
     - [Make singletons only where multiple instances don't make sense](#make-singletons-only-where-multiple-instances-dont-make-sense)
 - [Methods](#methods)
   - [Calls](#calls)
-    - [Prefer functional over procedural calls](#prefer-functional-over-procedural-calls)
+    - [Prefer functional to procedural calls](#prefer-functional-to-procedural-calls)
     - [Omit RECEIVING](#omit-receiving)
     - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
     - [Omit the parameter name in single parameter calls](#omit-the-parameter-name-in-single-parameter-calls)
@@ -105,7 +101,7 @@ The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use PREFERRED PARAMETER sparingly](#use-preferred-parameter-sparingly)
     - [RETURN, EXPORT, or CHANGE exactly one parameter](#return-export-or-change-exactly-one-parameter)
   - [Parameter Types](#parameter-types)
-    - [Prefer RETURNING over EXPORTING](#prefer-returning-over-exporting)
+    - [Prefer RETURNING to EXPORTING](#prefer-returning-to-exporting)
     - [RETURNING large tables is usually okay](#returning-large-tables-is-usually-okay)
     - [Use either RETURNING or EXPORTING or CHANGING, but not a combination](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
     - [Use CHANGING sparingly, where suited](#use-changing-sparingly-where-suited)
@@ -539,9 +535,9 @@ Try to build things in a clean, object-oriented way.
 If something is too slow, make a performance measurement.
 Only then should you take a fact-based decision to discard selected rules.
 
-### Prefer object orientation over imperative programming
+### Prefer object orientation to imperative programming
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-object-orientation-over-imperative-programming)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-object-orientation-to-imperative-programming)
 
 Object-oriented programs (classes, interfaces) are segmented better
 and can be refactored and tested more easily than imperative code (functions, programs).
@@ -558,7 +554,7 @@ ENDFUNCTION.
 
 #### Function Groups vs. Classes
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [Prefer object orientation over imperative programming](#prefer-object-orientation-over-imperative-programming) > [This section](#function-groups-vs-classes)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [Prefer object orientation to imperative programming](#prefer-object-orientation-to-imperative-programming) > [This section](#function-groups-vs-classes)
 
 New clean coders routinely ask for clarification,
 especially what the advantage of classes over function groups should be.
@@ -599,9 +595,9 @@ they are equal to classes in this respect.
 
 > Originally [answered on StackOverflow](https://stackoverflow.com/questions/55243044/function-groups-vs-classes/55244019#55244019).
 
-### Prefer functional over procedural language constructs
+### Prefer functional to procedural language constructs
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-functional-over-procedural-language-constructs)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-functional-to-procedural-language-constructs)
 
 They are usually shorter and come more natural to modern programmers.
 
@@ -664,15 +660,9 @@ IF abap_type = 'D'.
 > Read more in _Chapter 17: Smells and Heuristics: G25:
 > Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
 
-### Prefer enumeration classes over constants interfaces
+### Prefer enumeration classes to constants interfaces
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-over-constants-interfaces)
-
-There are two common patterns that reflect enumerations.
-
-#### Enumerations: Constant Pattern
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-constant-pattern)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-to-constants-interfaces)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
@@ -681,18 +671,9 @@ CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
       warning TYPE symsgty VALUE 'W',
       error   TYPE symsgty VALUE 'E'.
 ENDCLASS.
-
-CLASS /clean/message_severity IMPLEMENTATION.
-ENDCLASS.
 ```
 
-```ABAP
-IF log_contains( /clean/message_severity=>warning ).
-```
-
-#### Enumerations: Object Pattern
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-object-pattern)
+or
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
@@ -700,43 +681,11 @@ CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
     CLASS-DATA:
       warning TYPE REF TO /clean/message_severity READ-ONLY,
       error   TYPE REF TO /clean/message_severity READ-ONLY.
-    CLASS-METHODS class_constructor.
-    METHODS constructor IMPORTING value TYPE /clean/severity.
-    METHODS equals
-      IMPORTING
-        value         TYPE symsgty
-      RETURNING
-        VALUE(result) TYPE abap_bool.
-    DATA value TYPE symsgty READ-ONLY.
-ENDCLASS.
-
-CLASS /clean/message_severity IMPLEMENTATION.
-
-  METHOD class_constructor.
-    warning = NEW /clean/message_severity( 'W' ).
-    error = NEW /clean/message_severity( 'E' ).
-  ENDMETHOD.
-
-  METHOD constructor.
-    me->value = value.
-  ENDMETHOD.
-
-  METHOD equals.
-    result = xsdbool( value = me->value ).
-  ENDMETHOD.
-
+  " ...
 ENDCLASS.
 ```
 
-```ABAP
-METHODS to_string IMPORTING severity TYPE REF TO /clean/message_severity.
-IF /clean/message_severity=>warning->equals( worst_severity ).
-object-severity = /clean/message_severity=>warning->value.
-```
-
-#### Enumerations: Anti-Pattern
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-anti-pattern)
+instead of mixing unrelated things
 
 ```ABAP
 " anti-pattern
@@ -749,24 +698,9 @@ INTERFACE /dirty/common_constants.
 ENDINTERFACE.
 ```
 
-#### Enumerations: Benefits
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [Prefer enumeration classes over constants interfaces](#prefer-enumeration-classes-over-constants-interfaces) > [This section](#enumerations-benefits)
-
-- An enumeration class groups all possible values for a data type at one glance.
-- In contrast to the ABAP statement `ENUM`, these constants can be used on all levels,
-including data exchange with the database.
-- Enumeration classes improve cohesion because you depend only on those constants that you need,
-not everything in a large interface.
-- Enumeration classes can be found by their name via the data dictionary,
-using _Display other object..._ in SE24 and SE80 or _Ctrl+Shift+A_ in ADT.
-- The `FINAL` and `ABSTRACT` prevents people from "inheriting" or "implementing" the constants list,
-which would sacrifice cohesion for a slightly shorter syntax.
-- You can add type-related methods such as conversions, validation, etc. to the enumeration class.
-- You can add unit tests to the enumeration,
-for example to assert that it's still in sync with the fixed values of its underlying DDIC Domain.
-- The object-oriented pattern comes with value-safety,
-meaning it is not possible to provide a value that's not contained in the enumeration.
+> [Enumerations](sub-sections/Enumerations.md)
+> describes common enumeration patterns
+> and discusses their advantages and disadvantages.
 
 > Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
 
@@ -816,9 +750,9 @@ ENDWHILE.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#variables)
 
-### Prefer inline over up-front declarations
+### Prefer inline to up-front declarations
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-inline-over-up-front-declarations)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-inline-to-up-front-declarations)
 
 If you follow these guidelines, your methods will become so short (3-5 statements)
 that declaring variables inline at first occurrence will look more natural
@@ -903,9 +837,9 @@ DATA:
 
 > Also refer to [Don't align type clauses](#dont-align-type-clauses)
 
-### Prefer REF TO over FIELD-SYMBOL
+### Prefer REF TO to FIELD-SYMBOL
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-over-field-symbol)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
 
 ```ABAP
 LOOP AT components REFERENCE INTO DATA(component).
@@ -942,7 +876,7 @@ In contrast, field symbols are only strictly required in few, special cases conc
 References thus form a natural preference in any object-oriented program.
 
 - Field symbols are shorter than references, but the resulting memory saving is so tiny that it can be safely neglected.
-Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one over the other.
+Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
 
 > Read more in the article
 > [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
@@ -1003,9 +937,9 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 
 > Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
 
-### Prefer INSERT INTO TABLE over APPEND TO
+### Prefer INSERT INTO TABLE to APPEND TO
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-insert-into-table-over-append-to)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-insert-into-table-to-append-to)
 
 ```ABAP
 INSERT VALUE #( ... ) INTO TABLE itab.
@@ -1017,9 +951,9 @@ thus making it easier for you to refactor the table's type and key definitions i
 Use `APPEND TO` only if you use a `STANDARD` table in an array-like fashion,
 if you want to stress that the added entry shall be the last row.
 
-### Prefer LINE_EXISTS over READ TABLE or LOOP AT
+### Prefer LINE_EXISTS to READ TABLE or LOOP AT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-line_exists-over-read-table-or-loop-at)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-line_exists-to-read-table-or-loop-at)
 
 ```ABAP
 IF line_exists( my_table[ key = 'A' ] ).
@@ -1043,9 +977,9 @@ LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
 ENDLOOP.
 ```
 
-### Prefer READ TABLE over LOOP AT
+### Prefer READ TABLE to LOOP AT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-read-table-over-loop-at)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-read-table-to-loop-at)
 
 ```ABAP
 READ TABLE my_table ASSIGNING FIELD-SYMBOL(<line>) WITH KEY key = 'A'.
@@ -1071,9 +1005,9 @@ LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>).
 ENDLOOP.
 ```
 
-### Prefer LOOP AT WHERE over nested IF
+### Prefer LOOP AT WHERE to nested IF
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-loop-at-where-over-nested-if)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-loop-at-where-to-nested-if)
 
 ```ABAP
 LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
@@ -1497,9 +1431,9 @@ METHOD retrieve.
 ENDMETHOD.
 ```
 
-#### Prefer composition over inheritance
+#### Prefer composition to inheritance
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-composition-over-inheritance)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-composition-to-inheritance)
  
 Avoid building hierarchies of classes with inheritance. Instead, favor composition.
 
@@ -1602,7 +1536,7 @@ that it should become an object of its own.
 Make classes that are not explicitly designed for inheritance `FINAL`.
 
 When designing class cooperation,
-your first choice should be [composition, not inheritance](#prefer-composition-over-inheritance).
+your first choice should be [composition, not inheritance](#prefer-composition-to-inheritance).
 Enabling inheritance is not something that should be done lightly,
 as it requires you to think about things like `PROTECTED` vs. `PRIVATE`
 and the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle),
@@ -1696,9 +1630,9 @@ The difference may lead to bad surprises.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#constructors)
 
-#### Prefer NEW over CREATE OBJECT
+#### Prefer NEW to CREATE OBJECT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-new-over-create-object)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-new-to-create-object)
 
 ```ABAP
 DATA object TYPE REF TO /clean/some_number_range.
@@ -1745,9 +1679,9 @@ specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee co
 This applies only to global classes.
 In local classes, make the constructor private, as it should be.
 
-#### Prefer multiple static factory methods over optional parameters
+#### Prefer multiple static factory methods to optional parameters
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-over-optional-parameters)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-to-optional-parameters)
 
 ```ABAP
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
@@ -1837,9 +1771,9 @@ These rules apply to methods in classes and function modules.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#calls)
 
-#### Prefer functional over procedural calls
+#### Prefer functional to procedural calls
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#prefer-functional-over-procedural-calls)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#prefer-functional-to-procedural-calls)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -2127,9 +2061,9 @@ METHODS check_and_report
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-types)
 
-#### Prefer RETURNING over EXPORTING
+#### Prefer RETURNING to EXPORTING
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#prefer-returning-over-exporting)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#prefer-returning-to-exporting)
 
 ```ABAP
 METHODS square
