@@ -1,5 +1,10 @@
 # Contributing
 
+- [Pull Requests](#pull-requests)
+- [Issues](#issues)
+- [Discussions](#discussions)
+- [Forks](#forks)
+
 ## Pull Requests
 
 Create [pull requests](https://github.com/SAP/clean-abap/compare)
@@ -24,11 +29,24 @@ taking over text and examples unchanged.
 If you disagree, we will produce variations
 that reflect the spirit of the intended change.
 
-## Forking
+## Discussions
+
+Join our [Slack](https://slack.com)
+workspace [`sapcodestyleguides.slack.com`](https://sapcodestyleguides.slack.com)
+if you want to discuss guidelines or possible changes
+without actually submitting anything.
+
+We will ask you for permission before
+taking over anything you write there into the repository.
+If you disagree, we will produce variations
+that reflect the spirit of the intended change.
+
+## Forks
 
 If you generally agree with this styleguide,
 but want to adapt certain things to your team's personal needs,
 we recommend to fork this repository and add your changes there.
 
 You are neither obliged to make your fork public nor inform us about it,
-but [we are always happy to learn about your work and views](mailto:fl.hoffmann@sap.com).
+but we are always happy to learn about your work and views;
+just contact us on Slack.
