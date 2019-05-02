@@ -5,20 +5,47 @@
 ABAP does not support enumerations as natively and completely as
 other programming languages.
 
-Over time, ABAPers came up with two patterns that we consider clean
-and recommend to realize enumerations,
-the **[constant pattern](#constant-pattern)**
-and the **[object pattern](#object-pattern)**.
+ABAPers therefore were forced to think up their own solutions
+and came up with a set of [patterns](#patterns) that can be
+found in the majority of today's object-oriented ABAP code.
 
-The [interface pattern](#interface-pattern),
+When deciding for an enumeration pattern,
+or wanting to design one of your own,
+consider the [guidelines](#guidelines).
+
+- [Patterns](#patterns)
+  - [Constant pattern](#constant-pattern)
+  - [Object pattern](#object-pattern)
+  - [Interface pattern](#interface-pattern)
+  - [Collection pattern](#collection-pattern)
+- [Guidelines](#guidelines)
+  - [Use one development object per enumeration](#use-one-development-object-per-enumeration)
+  - [Prefer classes to interfaces](#prefer-classes-to-interfaces)
+  - [Try to enforce type safety](#try-to-enforce-type-safety)
+- [What about ENUM?](#what-about-enum)
+
+## Patterns
+
+> [Enumerations](#enumerations) > [This section](#patterns)
+
+We recommend using either
+the **[constant pattern](#constant-pattern)**
+or the **[object pattern](#object-pattern)**
+because they combine most advantages
+and can be generally considered clean.
+
+The widely used [interface pattern](#interface-pattern)
 is also acceptable, but has some slight drawbacks.
 
 Think twice before resorting to the
 [collection pattern](#collection-pattern).
-Although it has become widely spread through BOPF and looks clean,
+Although it has become widely spread through BOPF,
+and can be quite convenient in some scenarios,
 it harbors the danger of degrading into a mess.
 
-## Constant Pattern
+### Constant Pattern
+
+> [Enumerations](#enumerations) > [Patterns](#patterns) > [This section](#constant-pattern)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
@@ -38,7 +65,9 @@ used as
 IF log_contains( /clean/message_severity=>warning ).
 ```
 
-## Object Pattern
+### Object Pattern
+
+> [Enumerations](#enumerations) > [Patterns](#patterns) > [This section](#object-pattern)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
@@ -75,13 +104,16 @@ used as
 IF log_contains( /clean/message_severity=>warning->value ).
 ```
 
-## Interface Pattern
+### Interface Pattern
+
+> [Enumerations](#enumerations) > [Patterns](#patterns) > [This section](#interface-pattern)
 
 ```ABAP
+" inferior pattern
 INTERFACE /dirty/message_severity.
   CONSTANTS:
-    warning      TYPE symsgty VALUE 'W',
-    error        TYPE symsgty VALUE 'E',
+    warning TYPE symsgty VALUE 'W',
+    error   TYPE symsgty VALUE 'E'.
 ENDINTERFACE.
 ```
 
@@ -91,20 +123,22 @@ used as
 IF log_contains( /clean/message_severity=>warning ).
 ```
 
-## Collection Pattern
+### Collection Pattern
+
+> [Enumerations](#enumerations) > [Patterns](#patterns) > [This section](#collection-pattern)
 
 ```ABAP
-" anti-pattern
+" inferior pattern
 INTERFACE /dirty/message_constants.
   CONSTANTS:
     BEGIN OF message_severity,
-      warning      TYPE symsgty VALUE 'W',
-      error        TYPE symsgty VALUE 'E',
+      warning TYPE symsgty VALUE 'W',
+      error   TYPE symsgty VALUE 'E',
     END OF message_severity,
     BEGIN OF message_lifecycle,
-      transitional TYPE i       VALUE 1,
-      persisted    TYPE i       VALUE 2,
-    END OF message_lifecycle,
+      transitional TYPE i VALUE 1,
+      persisted    TYPE i VALUE 2,
+    END OF message_lifecycle.
 ENDINTERFACE.
 ```
 
@@ -114,188 +148,145 @@ used as
 IF log_contains( /clean/message_constants=>message_severity-warning ).
 ```
 
-## Enum Pattern
+## Guidelines
+
+> [Enumerations](#enumerations) > [This section](#guidelines)
+
+### Use one development object per enumeration
+
+> [Enumerations](#enumerations) > [Guidelines](#guidelines) > [This section](#use-one-development-object-per-enumeration)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
   PUBLIC SECTION.
-    TYPES:
-      BEGIN OF ENUM,
-        warning TYPE symsgty VALUE 'W',
-        error   TYPE symsgty VALUE 'E',
-      END OF ENUM.
+    CONSTANTS:
+      warning TYPE symsgty VALUE 'W',
+      error   TYPE symsgty VALUE 'E'.
 ENDCLASS.
 
-CLASS /clean/message_severity IMPLEMENTATION.
+CLASS /clean/document_type DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    CONSTANTS:
+      sales_order    TYPE char02 VALUE '01',
+      purchase_order TYPE char02 VALUE '02'.
 ENDCLASS.
 ```
 
-used as
+This simplifies searching for enumerations
+because you can search for the name of the development object
+instead of hassling with where-used lists and fulltext code searches.
+
+Effective search is important as observations suggest
+that being unable to find the required enumeration
+causes people to quickly create constants
+a second and third time in different places,
+violating the don't-repeat-yourself principle. 
+
+Separate development objects also improve cohesion of your classes
+because consumers depend only on exactly what they need,
+not some other enumerations that only accidentally happen
+to reside in the same development object.
 
 ```ABAP
-IF log_contains( /clean/message_constants=>warning ).
+" anti-pattern
+CLASS /dirty/common_constants DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    CONSTANTS:
+      BEGIN OF message_severity,
+        warning TYPE symsgty VALUE 'W',
+        error   TYPE symsgty VALUE 'E',
+      END OF message_severity,
+      BEGIN OF document_type,
+        sales_order    TYPE char02 VALUE '01',
+        purchase_order TYPE char02 VALUE '02',
+      END OF document_type.
+ENDCLASS.
 ```
 
-## Comparison
+### Prefer classes to interfaces
 
-### Type Safety
+> [Enumerations](#enumerations) > [Guidelines](#guidelines) > [This section](#prefer-classes-to-interfaces)
 
-The [object pattern](#object-pattern) is the only enumeration pattern
-that adds type safety, meaning it prevents people from supplying
-invalid values.
+```ABAP
+CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    CONSTANTS:
+      warning TYPE symsgty VALUE 'W',
+      error   TYPE symsgty VALUE 'E'.
+ENDCLASS.
+```
 
-By requiring object references instead of plain character symbols,
-you can prevent callers from supplying invalid content:
+Classes allow adding supportive methods,
+such as the often-encountered
+`is_valid`, `equals`, `contains`, and `to_string` methods,
+or enumeration-specific ones such as `is_more_severe_than`.
+
+They also provide a natural place for unit tests,
+especially if you added supportive methods,
+but also for common cases such as
+`in_sync_with_domain_fixed_vals`.
+
+Moreover, classes enforce clean object orientation
+through the additions `ABSTRACT` and `FINAL`.
+Interfaces tempt people to "implement" them.
+While this shortens their syntax by using the constants
+without a leading `/dirty/message_severity=>`,
+this kind of "inheritance out of convenience"
+makes no sense in object orientation
+and should be avoided.
+
+```ABAP
+" inferior pattern
+INTERFACE /dirty/message_severity.
+  CONSTANTS:
+    warning TYPE symsgty VALUE 'W',
+    error   TYPE symsgty VALUE 'E'.
+ENDINTERFACE.
+```
+
+### Try to enforce type safety
+
+> [Enumerations](#enumerations) > [Guidelines](#guidelines) > [This section](#try-to-enforce-type-safety)
 
 ```ABAP
 METHODS log_contains
   IMPORTING
     minimum_severity TYPE REF TO /clean/message_severity.
-
-" not possible to do this
-log_contains( '42' ).
 ```
 
-The other patterns don't allow this, such that you will have to add
-validity checks in various places.
+The real advantage of enumerations in other programming languages
+is not that they provide constants,
+but that they provide _all_ constants,
+meaning they enforce type safety
+by making the compiler reject invalid values.
 
-### Methods
-
-The class-based patterns [constant](#constant-pattern)
-and [object](#object-pattern) allow adding methods
-that simplify dealing with the enumeration,
-for example common ones like
+Without type safety, you still get helpful constants
+but will find yourself repeating `is_valid( )` validations
+all over the place.
 
 ```ABAP
-METHODS is_valid ...
-METHODS contains ...
-METHODS equals ...
-METHODS to_string ...
+" inferior pattern
+METHODS log_contains
+  IMPORTING
+    minimum_severity TYPE symsgty.
 ```
 
-or enumeration-specific ones such as
+## What about ENUM?
 
-```ABAP
-METHODS is_more_severe_than ...
-```
+> [Enumerations](#enumerations) > [This section](#what-about-enum)
 
-### Tests
+So far we have not seen an efficient wide-spread pattern
+that exploits the ABAP keyword `ENUM`.
+We assume there are such patterns
+but that people haven't explored them in depth so far.
 
-The class-based patterns [constant](#constant-pattern)
-and [object](#object-pattern) allow adding unit tests
-that ensure that your enumeration is correct,
-for example to cover the [methods](#methods) you created for your enum
-or for the common situation
+One of the problems with `ENUM` is that it
+does not only create constants,
+but also new data types alongside.
+This makes it harder to apply it to common cases
+where the data types already exist,
+especially communication with APIs and the database.
 
-```ABAP
-METHOD in_sync_with_fixed_domain_vals.
-```
-
-Interface-based patterns have to store such tests in more obscure
-locations.
-
-### Cohesion
-
-Classes that use an enumeration should depend on this enumeration,
-and this enumeration alone.
-
-Collecting different enumerations in the same development object,
-as in the [collection pattern](#collection-pattern),
-may couple consumers to undesired, unrelated values.
-
-### Search
-
-The patterns [constant](#constant-pattern), [object](#object-pattern),
-and [interface](#interface) allow searching enumerations by searching
-for the development object's name.
-
-Patterns that collect multiple different enumerations in the same
-development object must resort to a slower and less convenient
-where-used or fulltext search.
-
-Observations suggest that people search for a constant value
-only a couple of seconds before resigning and violating the
-don't-repeat-yourself principle by
-"quickly creating it here as a local constant".
-
-### Object-Orientation
-
-A good enumeration pattern should support object orientation
-instead of standing in its way or allowing weird practices.
-
-The interface-based patterns [interface](#interface-pattern) and
-[collection](#collection-pattern) tempt consumers to "implement"
-the enumeration interface to shorten the syntax from
-
-```ABAP
-IF log_contains( /dirty/message_severity=>warning ).
-```
-
-to
-
-```ABAP
-IF log_contains( warning ).
-```
-
-However, although technically possible, this doesn't make sense from
-an object-orientation point of view and should be avoided.
-
-### Universality
-
-Enumerations should be applicable to all parts of your programming,
-including data exchange through APIs and with the database.
-
-Although ABAP's built-in statement `ENUM` allows defining value lists
-for variables and methods, it does not allow using those values
-for data exchange.
-As a consequence, you will find yourself defining the same value list
-twice, once as constants, once as an enum, which contradicts the
-don't-repeat-yourself principle.
-Also, any data exchange needs an inbound or outbound conversion to
-get the enum values, which quickly becomes tedious and inefficient.
-
-The [object pattern](#object-pattern) also suffers from this weakness,
-but at least offers the possibility.
-
-The class-based patterns [constant](#constant-pattern) and
-[object](#object-pattern) prevent misuse by making their classes
-`ABSTRACT FINAL`, likewise shutting down inheritance and instantation.
-
-The [constant](#constant-pattern) and [object pattern](#object-pattern)
-support this
-The  has procedural roots but
-is still okay.
-
-The [interface pattern](#interface-pattern
-
-An enumeration should group all possible values for a data type in
-one place and at one glance.
-
-Constant | Object | Interface | Collection
---- | --- | --- | ---
-X | X | X | X
-
-The enumeration should be focused, such that classes that depend on it
-depend only on the enumeration, not on other things that they don't
-need.
-
-Constant | Object | Interface | Collection
---- | --- | --- | ---
-X | X | X | -
-
-
-
-- An enumeration class groups all possible values for a data type at one glance.
-- In contrast to the ABAP statement `ENUM`, these constants can be used on all levels,
-including data exchange with the database.
-- Enumeration classes improve cohesion because you depend only on those constants that you need,
-not everything in a large interface.
-- Enumeration classes can be found by their name via the data dictionary,
-using _Display other object..._ in SE24 and SE80 or _Ctrl+Shift+A_ in ADT.
-- The `FINAL` and `ABSTRACT` prevents people from "inheriting" or "implementing" the constants list,
-which would sacrifice cohesion for a slightly shorter syntax.
-- You can add type-related methods such as conversions, validation, etc. to the enumeration class.
-- You can add unit tests to the enumeration,
-for example to assert that it's still in sync with the fixed values of its underlying DDIC Domain.
-- The object-oriented pattern comes with value-safety,
-meaning it is not possible to provide a value that's not contained in the enumeration.
+If you know a good enum-based pattern,
+or designed one on your own,
+[let us know about it](https://github.com/SAP/clean-abap/blob/master/CONTRIBUTING.md).
