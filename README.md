@@ -1,4 +1,4 @@
-# SAP Style Guides
+# SAP Code Style Guides
 
 [**Public**](#public)
 &nbsp;·&nbsp;
