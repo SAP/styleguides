@@ -3,24 +3,36 @@
 The Clean ABAP **Cheat Sheet** summarizes the [Clean ABAP](../CleanABAP.md)
 guidelines in a shortened format optimized for printout.
 
+**The Golden Rules** summarizes the most important guidelines
+on a single page.
+
 For your convenience ("is this printout on my desk still up to date?"),
 the cheat sheet - in contrast to the general styleguide -
 is versioned according to the [Semantic Versioning specification](https://semver.org/).
 
 ## Download
 
-[**Latest version (PDF)**](CleanABAPCheatSheetV1.1.0.pdf)
+- [**Cheat Sheet**](CleanABAPCheatSheetV1.1.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
+
+- [**The Golden Rules**](CleanABAPTheGoldenRulesV1.0.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
 
 ## Versions
 
-- [v1.1.0](CleanABAPCheatSheetV1.1.0.pdf) - 30 Apr 2019
+### Cheat Sheet
+
+- [v1.1.0](CleanABAPCheatSheetV1.1.0.pdf)&nbsp;·&nbsp;30 Apr 2019
   - Added two sub-sections to _Tables_
-- [v1.0.2](CleanABAPCheatSheetV1.0.2.pdf) - 29 Apr 2019
+- [v1.0.2](CleanABAPCheatSheetV1.0.2.pdf)&nbsp;·&nbsp;29 Apr 2019
   - First public version
-- v1.0.1
+- v1.0.1&nbsp;·&nbsp;late 2018
   - Improved some examples
   - Released only internally
-- v1.0.0
+- v1.0.0&nbsp;·&nbsp;late 2018
   - First version
   - Released only internally
 - [Working document](CleanABAPCheatSheet.docx)
+
+### The Golden Rules
+
+- [v1.0.0](CleanABAPTheGoldenRulesV1.1.0.pdf)&nbsp;·&nbsp;2 May 2019
+- [Working document](CleanABAPTheGoldenRules.docx)
