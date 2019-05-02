@@ -49,4 +49,4 @@ we recommend to fork this repository and add your changes there.
 
 You are neither obliged to make your fork public nor inform us about it,
 but we are always happy to learn about your work and views;
-just contact us on Slack.
+just [contact us on Slack](#discussions).
