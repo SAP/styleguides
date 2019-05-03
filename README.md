@@ -1,14 +1,12 @@
 # SAP Code Style Guides
 
-[**Public**](#public)
-&nbsp;·&nbsp;
-[**Optional**](#optional)
-&nbsp;·&nbsp;
 [**Continuous Release**](#continuous-release)
 &nbsp;·&nbsp;
 [**Open Source**](#open-source)
 &nbsp;·&nbsp;
 [**Grassroots Project**](#grassroots-project)
+&nbsp;·&nbsp;
+[**Optional**](#optional)
 
 This repository provides SAP's style guides for coding.
 
@@ -22,24 +20,6 @@ towards code that has a healthy balance between all of these qualities.
 ## Style Guides
 
 - [**Clean ABAP**](clean-abap/CleanABAP.md)
-
-## Public
-
-This material is **public**, as described in
-SAP's _Global Information Classification & Handling Standard_
-[(internal link)](https://wiki.wdf.sap.corp/wiki/pages/viewpage.action?pageId=1891700683),
-meaning you can freely share it with anybody.
-
-We believe that everybody should be enabled to code cleanly.
-
-## Optional
-
-Following these style guides is **optional**,
-meaning you - or more precisely: your team -
-can choose whether you want to adhere to it.
-This applies equally to in-house developers, partners, and customers.
-
-We believe that clean code comes from conviction, not from pressure.
 
 ## Continuous Release
 
@@ -75,3 +55,12 @@ from language creators to tool developers,
 from S/4HANA to the ABAP language group.
 We respect all roles, ranks, and units,
 and welcome any suggestions and improvements.
+
+## Optional
+
+Following these style guides is **optional**,
+meaning you - or more precisely: your team -
+can choose whether you want to adhere to it.
+This applies equally to in-house developers, partners, and customers.
+
+We believe that clean code comes from conviction, not from pressure.
