@@ -3401,6 +3401,8 @@ Even if some occurrences may trick you into the misconception that this was read
 DATA do_this TYPE i. do_this = input + 3.
 ```
 
+> Covered by [abapOpenCheck #11](https://docs.abapopenchecks.org/checks/11/).
+
 ### Stick to a reasonable line length
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#stick-to-a-reasonable-line-length)
@@ -3433,7 +3435,7 @@ instead of adding unneeded blanks
 DATA(result)        =      calculate(    items =   items )   .
 ```
 
-> Covered by [abapOpenCheck #49](https://docs.abapopenchecks.org/checks/49/).
+> Covered by abapOpenCheck [#28](https://docs.abapopenchecks.org/checks/28/) and [#49](https://docs.abapopenchecks.org/checks/49/).
 
 ### Add a single blank line to separate things, but not more
 
@@ -3457,6 +3459,8 @@ DATA(else) = calculate_this( result ).
 ```
 
 The urge to add separating blank lines may be an indicator that your method doesn't [do one thing](#do-one-thing-do-it-well-do-it-only).
+
+> Covered by [abapOpenCheck #13](https://docs.abapopenchecks.org/checks/13/).
 
 ### Don't obsess with separating blank lines
 
