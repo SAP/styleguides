@@ -3566,7 +3566,7 @@ When this makes the lines very long, you can break the parameters into the next 
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = ( round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
+                   value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
                    value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
 ```
 
