@@ -590,6 +590,8 @@ IF line_exists( value_pairs[ name = 'A' ] ).
 
 Many of the detailed rules below are just specific reiterations of this general advice.
 
+> Some cases covered by [abapOpenCheck #45](https://docs.abapopenchecks.org/checks/45/).
+
 ### Use design patterns wisely
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#use-design-patterns-wisely)
@@ -895,6 +897,8 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 ```
 
 > Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
+
+> Covered by [abapOpenCheck #48](https://docs.abapopenchecks.org/checks/48/).
 
 ### Prefer INSERT INTO TABLE to APPEND TO
 
@@ -1624,6 +1628,8 @@ CREATE OBJECT number_range TYPE (dynamic_type)
     number_range = '/CLEAN/CXTGEN'.
 ```
 
+> Covered by [abapOpenCheck #45](https://docs.abapopenchecks.org/checks/45/).
+
 #### If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#if-your-global-class-is-create-private-leave-the-constructor-public)
@@ -1812,6 +1818,8 @@ modify->update(
     changed_fields = changed_fields ).
 ```
 
+> Covered by [abapOpenCheck #30](https://docs.abapopenchecks.org/checks/30/).
+
 #### Omit the parameter name in single parameter calls
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-parameter-name-in-single-parameter-calls)
@@ -1833,6 +1841,8 @@ and repeating the parameter name may further understandability:
 ```ABAP
 car->drive( speed = 50 ).
 ```
+
+> Covered by [abapOpenCheck #43](https://docs.abapopenchecks.org/checks/43/).
 
 ### Methods: Object orientation
 
@@ -2057,6 +2067,8 @@ square(
 
 `RETURNING` not only makes the call shorter,
 it also allows method chaining and prevents [same-input-and-output errors](#take-care-if-input-and-output-could-be-the-same).
+
+> Covered by [abapOpenCheck #44](https://docs.abapopenchecks.org/checks/44/).
 
 #### RETURNING large tables is usually okay
 
@@ -3420,6 +3432,8 @@ instead of adding unneeded blanks
 " anti-pattern
 DATA(result)        =      calculate(    items =   items )   .
 ```
+
+> Covered by [abapOpenCheck #49](https://docs.abapopenchecks.org/checks/49/).
 
 ### Add a single blank line to separate things, but not more
 
