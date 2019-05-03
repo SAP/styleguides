@@ -1,12 +1,12 @@
 # Clean ABAP
 
 This guide is an adoption of
-[Robert C. Martin's _Clean Code_]
+[Robert C. Martin's _Clean Code]
 for [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
 The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
-[Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
+[Robert C. Martin's _Clean Code]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
 ## Content
 
@@ -2947,7 +2947,7 @@ Use this only if you are sure about that.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#prefer-raise-exception-new-to-raise-exception-type)
 
-```ABAP<f
+```ABAP
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
 
