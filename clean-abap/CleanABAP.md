@@ -3499,7 +3499,7 @@ or even better
 
 ```ABAP
 structure = VALUE #( type = 'A'
-                        id   = '4711' ).
+                     id   = '4711' ).
 ```
 
 But leave things ragged that have nothing to do with each other:
