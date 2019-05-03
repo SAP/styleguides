@@ -1155,6 +1155,8 @@ ENDIF.
 
 > Read more in _Chapter 17: Smells and Heuristics: G29: Avoid Negative Conditionals_ of [Robert C. Martin's _Clean Code_].
 
+> Covered by [abapOpenCheck #18](https://docs.abapopenchecks.org/checks/18/).
+
 ### Consider decomposing complex conditions
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-decomposing-complex-conditions)
@@ -1295,6 +1297,8 @@ instead of the needlessly nested
 IF <this>.
   IF <that>.
 ```
+
+> Partially covered by [abapOpenCheck #01](https://docs.abapopenchecks.org/checks/01/).
 
 ## Regular expressions
 
@@ -1775,6 +1779,8 @@ CALL METHOD modify->(method_name)
 ```
 
 Many of the detailed rules below are just more specific variations of this advice.
+
+> Covered by [abapOpenCheck #07](https://docs.abapopenchecks.org/checks/07/).
 
 #### Omit RECEIVING
 
@@ -2627,6 +2633,8 @@ people might accidentally expect it to end the method or exit the loop.
 
 > Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
 > Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
+
+> Partially covered by [abapOpenCheck #02](https://docs.abapopenchecks.org/checks/02/).
 
 ## Error Handling
 
@@ -3550,6 +3558,8 @@ modify->update( node           = if_fra_alert_c=>node-item
                 changed_fields = changed_fields
 ).
 ```
+
+> Covered by [abapOpenCheck #16](https://docs.abapopenchecks.org/checks/16/).
 
 ### Keep single parameter calls on one line
 
