@@ -3539,7 +3539,7 @@ modify->update( node           = if_fra_alert_c=>node-item
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
-remove_duplicates( CHANGING list =  list  ).
+remove_duplicates( CHANGING list = list ).
 ```
 
 instead of the needlessly longer
@@ -3547,10 +3547,10 @@ instead of the needlessly longer
 ```ABAP
 " anti-pattern
 DATA(unique_list) = remove_duplicates(
-                           list  ).
+                           list ).
 DATA(unique_list) = remove_duplicates(
                          CHANGING
-                           list =  list  ).
+                           list = list ).
 ```
 
 ### Keep parameters behind the call
@@ -3662,7 +3662,7 @@ If you have no keywords, indent the parameters by 4 spaces.
 ```ABAP
 DATA(sum) = add_two_numbers(
                 value_1 = 5
-                value_2 = 6  ).
+                value_2 = 6 ).
 ```
 
 Use the Tab key to indent. It's okay if this adds one more space than needed.
