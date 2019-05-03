@@ -36,7 +36,7 @@ MAX_WAIT_TIME_IN_SECONDS
 
 At the same time, they decided to uppercase ABAP keywords
 to make them easier to spot
-in black-and-white printouts and monochrome displays.
+in black-and-white printouts and on monochrome displays.
 
 ```ABAP
 DATA max_wait_time_in_seconds TYPE i.

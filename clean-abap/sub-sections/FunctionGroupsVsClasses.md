@@ -1,4 +1,4 @@
-#### Function Groups vs. Classes
+# Function Groups vs. Classes
 
 > [Back to the guide](../CleanABAP.md)
 

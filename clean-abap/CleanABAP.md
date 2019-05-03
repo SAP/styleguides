@@ -4,7 +4,7 @@ This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
 for [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
-The [Cheat Sheet](../cheat-sheet/CheatSheet.md) is a print-optimized version.
+The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 [Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
@@ -1416,10 +1416,13 @@ If in doubt, composition generally is the safer choice.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation)
 
-Don't mix the stateless and the stateful programming paradigms in the same class.
+Don't mix the stateless and the stateful
+programming paradigms in the same class.
 
-In stateless programming, methods get input and produce output, _without any side effects_,
-resulting in methods that produce the same result no matter when and in what order they are called.
+In stateless programming, methods get input and produce output,
+_without any side effects_, resulting in methods
+that produce the same result
+no matter when and in what order they are called.
 
 ```ABAP
 CLASS /clean/xml_converter DEFINITION PUBLIC FINAL CREATE PUBLIC.
@@ -1444,26 +1447,27 @@ CLASS /clean/xml_converter IMPLEMENTATION.
 ENDCLASS.
 ```
  
-In stateful programming, we manipulate the internal state of objects through their methods,
-meaning this is _full of side effects_.
+In stateful programming, we manipulate the internal state of objects
+through their methods, meaning it is _full of side effects_.
 
 ```ABAP
 CLASS /clean/log DEFINITION PUBLIC CREATE PUBLIC.
-PUBLIC SECTION.
- METHODS add_message IMPORTING message TYPE /clean/message.
-PRIVATE SECTION.
- DATA messages TYPE /clean/message_table.
+  PUBLIC SECTION.
+    METHODS add_message IMPORTING message TYPE /clean/message.
+  PRIVATE SECTION.
+    DATA messages TYPE /clean/message_table.
 ENDCLASS.
 
 CLASS /clean/log IMPLEMENTATION.
-METHOD add_message.
- INSERT message INTO TABLE messages.
-ENDMETHOD.
+  METHOD add_message.
+    INSERT message INTO TABLE messages.
+  ENDMETHOD.
 ENDCLASS.
 ```
  
 Both paradigms are okay and have their applications.
-However, _mixing_ them in the same object produces code that is hard to understand and sure to fail
+However, _mixing_ them in the same object produces code
+that is hard to understand and sure to fail
 with obscure carry-over errors and synchronicity problems.
 Don't do that.
 
@@ -2579,7 +2583,7 @@ ENDMETHOD:
 ```
 
 You can also avoid the question completely by reversing the validation
-and adopting Dijkstra's single-entry-single-exit pattern for structured programming
+and adopting Dijkstra's single-exit pattern for structured programming
 
 ```ABAP
 METHOD read_customizing.
@@ -2775,12 +2779,12 @@ He will therefore typically handle them all in the same way -
 and if this is the case, why distinguish them in the first place?
 
 ```ABAP
-    " anti-pattern
-    METHODS generate
-      RAISING
-        cx_abap_generation
-        cx_hdbr_access_error
-        cx_model_read_error.
+" anti-pattern
+METHODS generate
+  RAISING
+    cx_abap_generation
+    cx_hdbr_access_error
+    cx_model_read_error.
 ```
 
 A better solution to recognize different error situations is using one exception type
@@ -2853,11 +2857,16 @@ This exception type _must_ be given in method signatures and _must_ be caught or
 It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
 and will take care of reacting to the error situation.
 
-> This guideline contradicts [Robert C. Martin's _Clean Code_], which recommends to resort to unchecked exceptions
+> This guideline contradicts [Robert C. Martin's _Clean Code_],
+> which recommends to resort to unchecked exceptions
 > in all cases to facilitate refactoring.
-> This is because ABAP's unchecked exceptions `CX_DYNAMIC_CHECK` and `CX_NO_CHECK` behave differently than Java's:
-> While Java allows declaring unchecked exceptions on methods, if you want to, ABAP forbids this.
-> As a consequence, Java is able to warn consumers of potential exceptions, while ABAP isn't.
+> This is because ABAP's unchecked exceptions
+> `CX_DYNAMIC_CHECK` and `CX_NO_CHECK` behave differently than Java's:
+> While Java allows declaring unchecked exceptions on methods
+> if you want to, ABAP forbids this.
+> As a consequence,
+> Java is able to warn consumers of potential exceptions,
+> while ABAP isn't.
 
 #### Throw CX_NO_CHECK for usually unrecoverable situations
 
@@ -2890,8 +2899,10 @@ this service should be able to catch and ignore the exception instead of being f
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#consider-cx_dynamic_check-for-avoidable-exceptions)
 
-Use cases for `CX_DYNAMIC_CHECK` are rare and in general, we recommend to rather resort to the other exception types.
-However, you may want to consider this kind of exception as a replacement for `CX_STATIC_CHECK` if the caller has full,
+Use cases for `CX_DYNAMIC_CHECK` are rare,
+and in general we recommend to resort to the other exception types.
+However, you may want to consider this kind of exception
+as a replacement for `CX_STATIC_CHECK` if the caller has full,
 conscious control over whether an exception can occur.
 
 ```ABAP
@@ -2904,13 +2915,17 @@ cl_abap_math=>get_db_length_decs(
     length = DATA(length) ).
 ```
 
-For example, consider the method `get_db_length_decs` of class `cl_abap_math`,
-that tells you the number of digits and decimal places of a decimal floating point number.
+For example, consider the method `get_db_length_decs`
+of class `cl_abap_math`, that tells you the number of digits
+and decimal places of a decimal floating point number.
 This method raises the dynamic exception `cx_parameter_invalid_type`
 if the input parameter does not reflect a decimal floating point number.
-Usually, this method will be called for a fully and statically typed variable,
-such that the developer knows whether that exception can ever occur or not.
-In this case, the dynamic exception would enable the caller to omit the unnecessary `CATCH` clause.
+Usually, this method will be called
+for a fully and statically typed variable,
+such that the developer knows
+whether that exception can ever occur or not.
+In this case, the dynamic exception would enable the caller
+to omit the unnecessary `CATCH` clause.
 
 #### Dump for totally unrecoverable situations
 
@@ -3141,6 +3156,7 @@ ENDMETHOD.
 Asterisked comments tend to indent to weird places
 
 ```ABAP
+" anti-pattern
 METHOD do_it.
   IF input IS NOT INITIAL.
 * delegate pattern
@@ -3255,13 +3271,17 @@ ENDMETHOD.   " get_kpi_calc
 MESSAGE e003 INTO dummy.
 ```
 
-Messages change independent from your code, and nobody will remember adjusting the comment,
-such that it will outdate and even become misleading quickly and without anybody noticing.
+Messages change independently from your code,
+and nobody will remember adjusting the comment,
+such that it will outdate and even become misleading quickly
+and without anybody noticing.
 
-The modern IDEs give you easy ways to see the text behind a message, for example in the ABAP Development Tools,
+The modern IDEs give you easy ways to see the text behind a message,
+for example in the ABAP Development Tools,
 mark the message ID and press Shift+F2.
 
-If you want it more explicit, consider extracting the message to a method of its own.
+If you want it more explicit,
+consider extracting the message to a method of its own.
 
 ```ABAP
 METHOD create_alert_not_found_message.
@@ -3273,11 +3293,15 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#abap-doc-only-for-public-apis)
 
-Write ABAP Doc to document public APIs, meaning APIs that are intended for developers in other teams or applications.
+Write ABAP Doc to document public APIs,
+meaning APIs that are intended for developers
+in other teams or applications.
 Don't write ABAP Doc for internal stuff.
 
-ABAP Doc suffers from the same weaknesses as all comments, i.e. outdates and becomes misleading quickly.
-As a consequence, you should employ it only where it makes sense, not enforce writing ABAP Doc for each and everything.
+ABAP Doc suffers from the same weaknesses as all comments,
+that is, it outdates quickly and then becomes misleading.
+As a consequence, you should employ it only where it makes sense,
+not enforce writing ABAP Doc for each and everything.
 
 > Read more in _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
 > Javadocs in Nonpublic Code_ of [Robert C. Martin's _Clean Code_].
@@ -3515,7 +3539,7 @@ modify->update( node           = if_fra_alert_c=>node-item
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
-remove_duplicates( CHANGING list =  list  ).
+remove_duplicates( CHANGING list = list ).
 ```
 
 instead of the needlessly longer
@@ -3523,10 +3547,10 @@ instead of the needlessly longer
 ```ABAP
 " anti-pattern
 DATA(unique_list) = remove_duplicates(
-                           list  ).
+                           list ).
 DATA(unique_list) = remove_duplicates(
                          CHANGING
-                           list =  list  ).
+                           list = list ).
 ```
 
 ### Keep parameters behind the call
@@ -3638,7 +3662,7 @@ If you have no keywords, indent the parameters by 4 spaces.
 ```ABAP
 DATA(sum) = add_two_numbers(
                 value_1 = 5
-                value_2 = 6  ).
+                value_2 = 6 ).
 ```
 
 Use the Tab key to indent. It's okay if this adds one more space than needed.
