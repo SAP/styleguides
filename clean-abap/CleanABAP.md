@@ -2285,7 +2285,7 @@ square_dirty(
   EXPORTING
     number = value
   IMPORTING
-    result = value.
+    result = value ).
 
 METHOD square_dirty.
   CLEAR result.
