@@ -19,7 +19,18 @@ ENDMETHOD.
 ```
 
 > Read more in _Chapter 2: Meaningful Names: Avoid Encodings_ of [Robert C. Martin's _Clean Code_].
-> The examples in the Clean ABAP style guide are written without prefixes to demonstrate the value.
+> The examples in this style guide are written without prefixes to demonstrate the value.
+
+> This section contradicts the sections [_Names of Repository Objects_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> of the ABAP Programming Guidelines which recommend to use prefixes.
+> We think that avoiding prefixes is the more modern and readable variant and that the guideline should be adjusted.
+
+> Prefixing is one of the most controversially discussed topics in ABAP.
+> [[1]](https://blogs.sap.com/2009/08/30/nomen-est-omen-abap-naming-conventions/)
+> [[2]](https://blogs.sap.com/2016/02/05/fanning-the-flames-prefixing-variableattribute-names/)
+> [[3]](https://blogs.sap.com/2018/04/30/are-30-characters-enough-to-make-your-code-better/)
+> [[4]](https://blogs.sap.com/2018/05/11/all-your-abap-prefixes-are-belong-to-us/)
 
 [Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
@@ -82,10 +93,3 @@ We agree that following this suggestion will work out only if the code is alread
 especially short methods and good method and variable names.
 While prefixes needlessly complicate a clean method with two statements,
 they may be your only remaining lifeline in a thousand-line legacy function with cryptic variable names.
-
-> Read more in _Chapter 2: Meaningful Names: Avoid Encodings_ of [Robert C. Martin's _Clean Code_].
-
-> This section contradicts the sections [_Names of Repository Objects_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
-> and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
-> of the ABAP Programming Guidelines which recommend to use prefixes.
-> We think that avoiding prefixes is the more modern and readable variant and that the guideline should be adjusted.
