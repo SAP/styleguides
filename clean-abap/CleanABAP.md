@@ -2285,7 +2285,7 @@ square_dirty(
   EXPORTING
     number = value
   IMPORTING
-    result = value.
+    result = value ).
 
 METHOD square_dirty.
   CLEAR result.
@@ -2947,7 +2947,7 @@ Use this only if you are sure about that.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#prefer-raise-exception-new-to-raise-exception-type)
 
-```ABAP<f
+```ABAP
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
 
@@ -3499,7 +3499,7 @@ or even better
 
 ```ABAP
 structure = VALUE #( type = 'A'
-                        id   = '4711' ).
+                     id   = '4711' ).
 ```
 
 But leave things ragged that have nothing to do with each other:
