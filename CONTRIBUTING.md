@@ -16,7 +16,7 @@ When creating a pull request,
 we will ask you to sign our Contributor Licence Agreement (CLA).
 By signing, you will give up ownership of your material
 and make it part of this repository,
-under [this repository's license](LICENSE.md).
+under [this repository's license](LICENSE).
 
 ## Issues
 
@@ -35,6 +35,10 @@ Join our [Slack](https://slack.com)
 workspace [`sapcodestyleguides.slack.com`](https://sapcodestyleguides.slack.com)
 if you want to discuss guidelines or possible changes
 without actually submitting anything.
+
+You can join freely with your `@sap.com` e-mail address
+or [ask the workspace admins to invite you](mailto:fl.hoffmann@sap.com?subject=Please%20invite%20me%20to%20sapcodestyleguides.slack.com)
+to join with other e-mail addresses.
 
 We will ask you for permission before
 taking over anything you write there into the repository.
