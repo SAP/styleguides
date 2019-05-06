@@ -53,6 +53,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use ` to define literals](#use--to-define-literals)
   - [Use | to assemble text](#use--to-assemble-text)
 - [Booleans](#booleans)
+  - [Use Booleans wisely](#use-booleans-wisely)
   - [Use ABAP_BOOL for Booleans](#use-abap_bool-for-booleans)
   - [Use ABAP_TRUE and ABAP_FALSE for comparisons](#use-abap_true-and-abap_false-for-comparisons)
   - [Use XSDBOOL to set Boolean variables](#use-xsdbool-to-set-boolean-variables)
@@ -1030,6 +1031,42 @@ DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message 
 ## Booleans
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#booleans)
+
+### Use Booleans wisely
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-booleans-wisely)
+
+We often encounter cases where Booleans seem to be a natural choice
+
+```ABAP
+" anti-pattern
+is_archived = abap_true.
+```
+
+until a change of viewpoint suggests
+we should have chosen an enumeration
+
+```ABAP
+archiving_status = /clean/archivation_status=>archiving_in_process.
+```
+
+Generally, Booleans are a bad choice
+to distinguish types of things
+because you will nearly always encounter cases
+that are not exclusively one or the other
+
+```ABAP
+assert_true( xsdbool( document->is_archived( ) = abap_true AND
+                      document->is_partially_archived( ) = abap_true ) ).
+```
+
+[Split methods instead of Boolean input parameter](#split-methods-instead-of-boolean-input-parameter)
+moreover explains why you should always challenge Boolean parameters.
+
+> Read more in
+> [1](http://www.beyondcode.org/articles/booleanVariables.html)
+> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
+> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Use ABAP_BOOL for Booleans
 

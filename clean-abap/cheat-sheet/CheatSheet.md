@@ -20,6 +20,8 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ### Cheat Sheet
 
+- [v1.2.0](CleanABAPCheatSheetV1.1.0.pdf)&nbsp;·&nbsp;6 May 2019
+  - Added section _Use Booleans wisely_
 - [v1.1.0](CleanABAPCheatSheetV1.1.0.pdf)&nbsp;·&nbsp;30 Apr 2019
   - Added two sub-sections to _Tables_
 - [v1.0.2](CleanABAPCheatSheetV1.0.2.pdf)&nbsp;·&nbsp;29 Apr 2019
