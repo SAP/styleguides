@@ -1065,8 +1065,6 @@ moreover explains why you should always challenge Boolean parameters.
 
 > Read more in
 > [1](http://www.beyondcode.org/articles/booleanVariables.html)
-> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Use ABAP_BOOL for Booleans
 
@@ -1869,6 +1867,7 @@ and repeating the parameter name may further understandability:
 
 ```ABAP
 car->drive( speed = 50 ).
+update( asynchronous = abap_true ).
 ```
 
 ### Methods: Object orientation
@@ -2233,10 +2232,10 @@ tend to obscure the parameter's meaning.
 
 ```ABAP
 " anti-pattern
-update( abap_true ).
+update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
 ```
 
-Splitting the method may simplify the method's code 
+Splitting the method may simplify the methods' code 
 and describe the different intentions better
 
 ```ABAP
@@ -2251,6 +2250,11 @@ METHODS set_is_deleted
   IMPORTING
     new_value TYPE abap_bool.
 ```
+
+> Read more in
+> [1](http://www.beyondcode.org/articles/booleanVariables.html)
+> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
+> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Parameter Names
 
