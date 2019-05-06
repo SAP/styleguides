@@ -2220,15 +2220,19 @@ Do not use `CHANGING` parameters to initially fill a previously empty variable.
 
 Boolean input parameters are often an indicator
 that a method does _two_ things instead of one.
-Also, method calls with a single - and thus unnamed - Boolean parameter
-tend to obscure the parameter's meaning.
 
 ```ABAP
 " anti-pattern
 METHODS update
   IMPORTING
     do_save TYPE abap_bool.
+```
 
+Also, method calls with a single - and thus unnamed - Boolean parameter
+tend to obscure the parameter's meaning.
+
+```ABAP
+" anti-pattern
 update( abap_true ).
 ```
 
