@@ -1671,7 +1671,7 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
 
 We agree that this contradicts itself.
 However, according to the article
-[_Instance Constructor_ of the ABAP Help](https://ldcifri.wdf.sap.corp:44300/sap/public/bc/abap/docu?input=guideline&format=standard&object=abeninstance_constructor_guidl&sap-language=EN&sap-client=100&full_text=X&tree=x),
+[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
 specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
 
 This applies only to global classes.
