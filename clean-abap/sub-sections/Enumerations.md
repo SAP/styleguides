@@ -120,7 +120,7 @@ ENDINTERFACE.
 used as
 
 ```ABAP
-IF log_contains( /clean/message_severity=>warning ).
+IF log_contains( /dirty/message_severity=>warning ).
 ```
 
 ### Collection Pattern
@@ -145,7 +145,7 @@ ENDINTERFACE.
 used as
 
 ```ABAP
-IF log_contains( /clean/message_constants=>message_severity-warning ).
+IF log_contains( /dirty/message_constants=>message_severity-warning ).
 ```
 
 ## Guidelines
