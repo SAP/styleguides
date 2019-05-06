@@ -2218,21 +2218,26 @@ Do not use `CHANGING` parameters to initially fill a previously empty variable.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#split-method-instead-of-boolean-input-parameter)
 
-Boolean input parameters are often an indicator that the method does _two_ things instead of one.
-Challenge these parameters and investigate whether it would make more sense to split the method.
-
-```ABAP
-METHODS update_without_saving.
-METHODS update_and_save.
-```
-
-may be clearer than
+Boolean input parameters are often an indicator
+that a method does _two_ things instead of one.
+Also, method calls with a single - and thus unnamed - Boolean parameter
+tend to obscure the parameter's meaning.
 
 ```ABAP
 " anti-pattern
 METHODS update
   IMPORTING
     do_save TYPE abap_bool.
+
+update( abap_true ).
+```
+
+Splitting the method may simplify the method's code 
+and describe the different intentions better
+
+```ABAP
+update_without_saving( ).
+update_and_save( ).
 ```
 
 Common perception suggests that setters for Boolean variables are okay:
