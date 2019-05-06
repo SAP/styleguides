@@ -1971,8 +1971,8 @@ by adding optional parameters
 " anti-pattern
 METHODS do_one_or_the_other
   IMPORTING
-    what_i_need    TYPE string
-    something_else TYPE i.
+    what_i_need    TYPE string OPTIONAL
+    something_else TYPE i OPTIONAL.
 ```
 
 Optional parameters confuse callers:
