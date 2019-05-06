@@ -1040,27 +1040,24 @@ We often encounter cases where Booleans seem to be a natural choice
 
 ```ABAP
 " anti-pattern
-female = abap_true.
-is_deleted = abap_true.
+is_archived = abap_true.
 ```
 
 until a change of viewpoint suggests
 we should have chosen an enumeration
 
 ```ABAP
-gender = /clean/gender=>intersex.
-deletion_status = /clean/deletion_status=>marked_for_archiving.
+archiving_status = /clean/archivation_status=>archiving_in_process.
 ```
 
 Generally, Booleans are a bad choice
-to distinguish two types of things
+to distinguish types of things
 because you will nearly always encounter cases
 that are not exclusively one or the other
 
 ```ABAP
-animal->set_gender( /clean/gender=>hermaphrodite )
-assert_true( snail->is_male( ) ).
-assert_true( snail->is_female( ) ).
+assert_true( xsdbool( document->is_archived( ) = abap_true AND
+                      document->is_partially_archived( ) = abap_true ) ).
 ```
 
 [Split methods instead of Boolean input parameter](#split-methods-instead-of-boolean-input-parameter)
