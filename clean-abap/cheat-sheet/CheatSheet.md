@@ -20,7 +20,7 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ### Cheat Sheet
 
-- [v1.2.1](CleanABAPCheatSheetV1.2.1.pdf)&nbsp;·&nbsp;6 May 2019
+- [v1.2.1](CleanABAPCheatSheetV1.2.1.pdf)&nbsp;·&nbsp;7 May 2019
   - Replaced _imperative programming_ with _procedural programming_
 - [v1.2.0](CleanABAPCheatSheetV1.2.0.pdf)&nbsp;·&nbsp;6 May 2019
   - Added section _Use Booleans wisely_
