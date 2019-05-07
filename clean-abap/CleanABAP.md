@@ -30,7 +30,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Language](#language)
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
-  - [Prefer object orientation to imperative programming](#prefer-object-orientation-to-imperative-programming)
+  - [Prefer object orientation to procedural programming](#prefer-object-orientation-to-procedural-programming)
   - [Prefer functional to procedural language constructs](#prefer-functional-to-procedural-language-constructs)
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
@@ -535,13 +535,13 @@ Try to build things in a clean, object-oriented way.
 If something is too slow, make a performance measurement.
 Only then should you take a fact-based decision to discard selected rules.
 
-### Prefer object orientation to imperative programming
+### Prefer object orientation to procedural programming
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-object-orientation-to-imperative-programming)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-object-orientation-to-procedural-programming)
 
 Object-oriented programs (classes, interfaces) are segmented better
-and can be refactored and tested more easily than imperative code (functions, programs).
-Although there are situations where you must provide imperative objects
+and can be refactored and tested more easily than procedural code (functions, programs).
+Although there are situations where you must provide procedural objects
 (a function for an RFC, a program for a transaction),
 these objects should do little more than call a corresponding class that provides the actual feature:
 
