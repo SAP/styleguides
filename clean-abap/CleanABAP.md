@@ -1381,9 +1381,9 @@ DATA(is_valid) = matches( val     = class_name
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#consider-assembling-complex-regular-expressions)
 
 ```ABAP
-CONSTANTS class_names TYPE string VALUE `CL\_.*`.
-CONSTANTS interface_names TYPE string VALUE `IF\_.*`.
-DATA(object_names) = |{ class_names }|{ interface_names }|.
+CONSTANTS class_name TYPE string VALUE `CL\_.*`.
+CONSTANTS interface_name TYPE string VALUE `IF\_.*`.
+DATA(object_name) = |{ class_name }\|{ interface_name }|.
 ```
 
 Some complex regular expressions become easier
