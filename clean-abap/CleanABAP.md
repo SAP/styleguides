@@ -14,7 +14,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [How to Get Started with Clean Code](#how-to-get-started-with-clean-code)
   - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
   - [How to Relate to Other Guides](#how-to-relate-to-other-guides)
-  - [How to Disagree](#how-to-disagree)  
+  - [How to Check Automatically](#how-to-find-check-automatically)
+  - [How to Disagree](#how-to-disagree)
 - [Names](#names)
   - [Use descriptive names](#use-descriptive-names)
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
@@ -277,6 +278,21 @@ which this guide is mostly compatible to; deviations are indicated and always in
 This guide also respects the
 [DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf),
 although we are more precise in most details.
+
+### How to Check Automatically
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-check-automatically)
+
+There is no comprehensive suite of static code checks
+that automatically detect the code smells we describe here.
+
+Extended Check, Code Inspector, and Checkman provide
+some checks that may help you find certain issues.
+
+You may also want to have a look at
+[abapOpenChecks](https://github.com/larshp/abapOpenChecks),
+an Open Source collection of Code Inspector checks
+that cover some of the described anti-patterns.
 
 ### How to Disagree
 
