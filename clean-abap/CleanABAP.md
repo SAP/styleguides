@@ -931,7 +931,7 @@ or even
 
 ```ABAP
 " anti-pattern
-LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
+LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
   line_exists = abap_true.
   EXIT.
 ENDLOOP.
@@ -942,14 +942,14 @@ ENDLOOP.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-read-table-to-loop-at)
 
 ```ABAP
-READ TABLE my_table ASSIGNING FIELD-SYMBOL(<line>) WITH KEY key = 'A'.
+READ TABLE my_table REFERENCE INTO DATA(line) WITH KEY key = 'A'.
 ```
 
 expresses the intent clearer and shorter than
 
 ```ABAP
 " anti-pattern
-LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
+LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
   EXIT.
 ENDLOOP.
 ```
@@ -958,8 +958,8 @@ or even
 
 ```ABAP
 " anti-pattern
-LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>).
-  IF <line>-key = 'A'.
+LOOP AT my_table REFERENCE INTO DATA(line).
+  IF line->key = 'A'.
     EXIT.
   ENDIF.
 ENDLOOP.
@@ -970,14 +970,14 @@ ENDLOOP.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-loop-at-where-to-nested-if)
 
 ```ABAP
-LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>) WHERE key = 'A'.
+LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ``` 
 
 expresses the intent clearer and shorter than
 
 ```ABAP
-LOOP AT my_table ASSIGNING FIELD-SYMBOL(<line>).
-  IF <line>-key = 'A'.
+LOOP AT my_table REFERENCE INTO DATA(line).
+  IF line->key = 'A'.
     EXIT.
   ENDIF.
 ENDLOOP.
