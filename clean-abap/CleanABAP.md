@@ -13,8 +13,9 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [How to](#how-to)
   - [How to Get Started with Clean Code](#how-to-get-started-with-clean-code)
   - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
+  - [How to Check Automatically](#how-to-check-automatically)
   - [How to Relate to Other Guides](#how-to-relate-to-other-guides)
-  - [How to Disagree](#how-to-disagree)  
+  - [How to Disagree](#how-to-disagree)
 - [Names](#names)
   - [Use descriptive names](#use-descriptive-names)
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
@@ -262,6 +263,20 @@ as it may introduce a breach between old and new code,
 up to a degree where sections like
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
 are better ignored.
+
+### How to Check Automatically
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-check-automatically)
+
+There is no comprehensive suite of static code checks
+that automatically detect the anti-patterns we describe here.
+
+ABAP Test Cockpit, Code Inspector, Extended Check, and Checkman provide
+some checks that may help you find certain issues.
+
+[abapOpenChecks](https://github.com/larshp/abapOpenChecks),
+an Open Source collection of Code Inspector checks,
+also covers some of the described anti-patterns.
 
 ### How to Relate to Other Guides
 
