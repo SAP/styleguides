@@ -270,7 +270,7 @@ are better ignored.
 There is no comprehensive suite of static code checks
 that automatically detect the anti-patterns we describe here.
 
-Extended Check, Code Inspector, and Checkman provide
+ABAP Test Cockpit, Code Inspector, Extended Check, and Checkman provide
 some checks that may help you find certain issues.
 
 [abapOpenChecks](https://github.com/larshp/abapOpenChecks),
