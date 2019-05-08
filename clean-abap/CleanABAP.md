@@ -600,7 +600,9 @@ When upgrading your ABAP version,
 make sure to check for obsolete language elements
 and refrain from using them.
 
-For example, prefer
+For example, the `@`-escaped "host" variables
+in the following statement make a little clearer
+what's a program variable and what's a column in the database,
 
 ```ABAP
 SELECT *
@@ -610,7 +612,7 @@ SELECT *
   INTO TABLE @itab.
 ```
 
-to the obsolete unescaped form
+as compared to the [obsolete unescaped form](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenopen_sql_hostvar_obsolete.htm)
 
 ```ABAP
 SELECT *
