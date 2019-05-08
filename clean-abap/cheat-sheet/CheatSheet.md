@@ -12,7 +12,7 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ## Download
 
-- [**Cheat Sheet**](CleanABAPCheatSheetV1.2.1.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
+- [**Cheat Sheet**](CleanABAPCheatSheetV1.3.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
 
 - [**The Golden Rules**](CleanABAPTheGoldenRulesV1.0.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
 
@@ -20,6 +20,8 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ### Cheat Sheet
 
+- [v1.3.0](CleanABAPCheatSheetV1.3.0.pdf)&nbsp;·&nbsp;8 May 2019
+  - Added section _Avoid obsolete language elements_
 - [v1.2.1](CleanABAPCheatSheetV1.2.1.pdf)&nbsp;·&nbsp;7 May 2019
   - Replaced _imperative programming_ with _procedural programming_
 - [v1.2.0](CleanABAPCheatSheetV1.2.0.pdf)&nbsp;·&nbsp;6 May 2019
