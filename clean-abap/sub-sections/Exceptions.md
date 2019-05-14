@@ -130,6 +130,5 @@ use unchecked exceptions for _internal_ methods
 that are fully under your team's control
 and where people anticipate them,
 and resort to checked exceptions for _borderline_ methods
-that may be called from outside stakeholders,
+that may be called from other stakeholders,
 to clearly communicate where something can go wrong.
-
