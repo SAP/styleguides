@@ -13,30 +13,30 @@ For more information please consult the ABAP online documentation.
 ## Table of Contents
 
 - [Functional statements and expressions in ABAP](#functional-statements-and-expressions-in-abap)
-  - [Inline declaration of variables](#inline-declaration-of-variables)
-  - [Compound Assignment Operators](#compound-assignment-operators)
-  - [Booleans](#booleans)
-  - [Enumerations](#enumerations)
-  - [Internal Tables](#internal-tables)
-    - [Count table lines](#count-table-lines)
-    - [Check existence of a table line](#check-existence-of-a-table-line)
-    - [Access table key with uncertain result](#access-table-key-with-uncertain-result)
-    - [Access table index](#access-table-index)
-  - [Conditions](#conditions)
-    - [Conditional distinction](#conditional-distinction)
-    - [Case distinction](#case-distinction)
-    - [Case distinctions of reference types class and interface](#case-distinctions-of-reference-types-class-and-interface)
-  - [Conversions](#conversions)
-    - [Cast data references](#cast-data-references)
-    - [Create data references](#create-data-references)
-    - [Convert data types](#convert-data-types)
-    - [Copy fields with matching names](#copy-fields-with-matching-names)
-  - [Constructors](#constructors)
-    - [Construct objects and data](#construct-objects-and-data)
-    - [Construct data types](#construct-data-types)
-    - [Filter tables](#filter-tables)
-  - [Character Handling](#character-handling)
-    - [Lower and upper case conversion](#lower-and-upper-case-conversion)
+- [Inline declaration of variables](#inline-declaration-of-variables)
+- [Compound Assignment Operators](#compound-assignment-operators)
+- [Booleans](#booleans)
+- [Enumerations](#enumerations)
+- [Internal Tables](#internal-tables)
+  - [Count lines](#count-table-lines)
+  - [Check existence of a table line](#check-existence-of-a-table-line)
+  - [Access table key with uncertain result](#access-table-key-with-uncertain-result)
+  - [Access table index](#access-table-index)
+- [Conditions](#conditions)
+  - [Conditional distinction](#conditional-distinction)
+  - [Case distinction](#case-distinction)
+  - [Case distinctions of reference types class and interface](#case-distinctions-of-reference-types-class-and-interface)
+- [Conversions](#conversions)
+  - [Cast data references](#cast-data-references)
+  - [Create data references](#create-data-references)
+  - [Convert data types](#convert-data-types)
+  - [Copy fields with matching names](#copy-fields-with-matching-names)
+- [Constructors](#constructors)
+  - [Construct objects and data](#construct-objects-and-data)
+  - [Construct data types](#construct-data-types)
+  - [Filter tables](#filter-tables)
+- [Character Handling](#character-handling)
+  - [Lower and upper case conversion](#lower-and-upper-case-conversion)
 - [Flow control](#flow-control)
   - [Loop with control break](#loop-with-control-break)
 - [Interface implementation](#interface-implementation)
@@ -58,9 +58,12 @@ if the compiler can determine the data type from the context.
 > are very powerful and versatile in their usage.
 > When using them, always keep the clean code principles in mind.
 
-### Inline declaration of variables
+## Inline declaration of variables
 
-Use the operators `data` and `field-symbol`
+Use the operators
+[`DATA`](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abendata_inline.htm)
+and
+[`FIELD-SYMBOL`](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-us/abenfield-symbol_inline.htm)
 to combine the declaration and initial value assignment
 of a variable or field symbol.
 
@@ -125,7 +128,7 @@ ENDLOOP.
 ASSIGN COMPONENT id OF acount_sap TO FIELD-SYMBOL(<account_id>).
 
 " old style
-FIELD-SYMBOL <account_id> TYPE account_structure.
+FIELD-SYMBOL <account_id> TYPE account_id_type.
 ASSIGN COMPONENT id OF acount_sap TO <account_id>.
 ```
 
@@ -136,72 +139,76 @@ SELECT * FROM t000 INTO TABLE @DATA(clients).
 DATA clients TYPE STANDARD TABLE OF t000.
 SELECT * FROM t000 INTO TABLE clients.
 ```
-### Compound Assignment Operators
-Shorthand versions of arithmetic assignments and string concatenation.
+## Compound Assignment Operators
+
+SAP NetWeaver 7.54 introduces shorthand versions
+for arithmetic assignments and string concatenation.
 These assignments also allow expressions in the operand position.
 
-| Name | Shorthand operator  | Meaning  |
-|---|---|---|
-| Addition assignment  | x += 1.  | x = x + 1.  |
-| Substraction assignment  | x -= 1.  | x = x - 1.  |
-| Multiplication assignment | x *= 1.  | x = x * 1.  |
-| Division assignment  | x /= 1.  | x = x / 1.  |
-| String assignment | x &&= \|abc\|. | x = x && \|abc\|. |
+Shorthand | Longhand  |
+---|---|
+x += 1.  | x = x + 1.  |
+x -= 1.  | x = x - 1.  |
+x *= 1.  | x = x * 1.  |
+x /= 1.  | x = x / 1.  |
+x &&= \`abc\`. | x = x && \`abc\`. |
 
-### Booleans
+## Non-Initial Conditions
 
-Comparison with the type `abap_bool` can be omitted in conditions.
+The comparison `IS INITIAL` can be omitted in certain places.
+This can, for example, be used to shorten Boolean comparisons:
 
 ```ABAP
-if method_returns_abap_bool( ).
-  "method returned abap_true
-else.
-  "method returned abap_false
-endif.
+IF is_valid( ).
+  " method returned abap_true
+ELSE.
+  " method returned abap_false = IS INITIAL
+ENDIF.
 ```
 
-### Enumerations
+## Enumerations
 
 Define enumerations instead of using constants.
 
 ```ABAP
-types: begin of enum scrum_status_type,
-         open,
-         in_progress,
-         blocked,
-         done,
-       end of enum scrum_status_type.
+TYPES:
+  BEGIN OF ENUM scrum_status_type,
+    open,
+    in_progress,
+    blocked,
+    done,
+  END OF ENUM scrum_status_type.
 
-data(scrum_status) = open.
+DATA(scrum_status) = open.
 ```
 
 Old style:
 
 ```ABAP
-constants scrum_status_open       type i value 1.
-constants scrum_status_in_process type i value 2.
-constants scrum_status_blocked    type i value 3.
-constants scrum_status_done       type i value 4.
-data scrum status type i.
+CONSTANTS scrum_status_open       TYPE i VALUE 1.
+CONSTANTS scrum_status_in_process TYPE i VALUE 2.
+CONSTANTS scrum_status_blocked    TYPE i VALUE 3.
+CONSTANTS scrum_status_done       TYPE i u 4.
+DATA scrum status TYPE i.
 
 scrum_status = scrum_status_open.
 ```
 
-### Internal Tables
+## Internal Tables
 
-#### Count table lines
+### Count lines
 
-Count the number of lines of an internal table use  the function `lines( )`.
+Count the number of lines of an internal table with [`lines( )`](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abendescriptive_functions_table.htm).
 
 ```ABAP
-data(number_of_lines) = lines( accounts ).
+DATA(number_of_lines) = lines( accounts ).
 ```
 
 Old style:
 
 ```ABAP
-data number_of_lines type i.
-describe table accounts lines number_of_lines.
+DATA number_of_lines TYPE i.
+DESCRIBE TABLE accounts LINES number_of_lines.
 ```
 
 #### Check existence of a table line
