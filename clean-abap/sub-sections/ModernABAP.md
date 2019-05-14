@@ -162,13 +162,13 @@ This can, for example, be used to shorten Boolean comparisons:
 IF is_valid( ).
   " method returned abap_true
 ELSE.
-  " method returned abap_false = IS INITIAL
+  " method returned abap_false
 ENDIF.
 ```
 
 ## Enumerations
 
-Define enumerations instead of using constants.
+Define [enumerations](#https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abaptypes_enum.htm#!ABAP_ADDITION_1@1@) instead of using constants.
 
 ```ABAP
 TYPES:
@@ -188,9 +188,9 @@ Old style:
 CONSTANTS scrum_status_open       TYPE i VALUE 1.
 CONSTANTS scrum_status_in_process TYPE i VALUE 2.
 CONSTANTS scrum_status_blocked    TYPE i VALUE 3.
-CONSTANTS scrum_status_done       TYPE i u 4.
-DATA scrum status TYPE i.
+CONSTANTS scrum_status_done       TYPE i VALUE 4.
 
+DATA scrum status TYPE i.
 scrum_status = scrum_status_open.
 ```
 
@@ -198,7 +198,8 @@ scrum_status = scrum_status_open.
 
 ### Count lines
 
-Count the number of lines of an internal table with [`lines( )`](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abendescriptive_functions_table.htm).
+Count the number of lines of an internal table with
+[`lines( )`](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abendescriptive_functions_table.htm).
 
 ```ABAP
 DATA(number_of_lines) = lines( accounts ).
@@ -211,9 +212,10 @@ DATA number_of_lines TYPE i.
 DESCRIBE TABLE accounts LINES number_of_lines.
 ```
 
-#### Check existence of a table line
+### Check existence of a table line
 
-Check the existence of a line in an internal table, use the function `line_exists( )` within an if-clause.
+Check the existence of a line in an internal table,
+use the function `line_exists( )` within an if-clause.
 
 ```ABAP
 if line_exists( accounts[ id = 4711 ] ).
