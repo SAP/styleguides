@@ -1,8 +1,8 @@
 # Exceptions
 
 What type of exception to use for what is a hot topic
-that has been discussed controversially throughout the years,
-with no end in sight.
+that has been discussed controversially
+across time and programming languages.
 
 ## The Ideal
 
