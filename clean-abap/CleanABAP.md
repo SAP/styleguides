@@ -4152,15 +4152,19 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#exploit-the-test-tools)
 
-In general, a clean programming style will let you do much of the work with standard ABAP unit tests and test doubles.
-However, there are several tools that will allow you to tackle trickier cases in elegant ways:
+In general, a clean programming style
+will let you do much of the work
+with standard ABAP unit tests and test doubles.
+However, there are tools that will allow you
+to tackle trickier cases in elegant ways:
 
-- Use the `CL_OSQL_REPLACE` service to test complex OpenSQL statements by redirecting them to a test data bin
-that can be filled with test data without interfering with the rest of the system.
+- Use the `CL_OSQL_REPLACE` service
+to test complex OpenSQL statements
+by redirecting them to a test data bin
+that can be filled with test data
+without interfering with the rest of the system.
 
 - Use the CDS test framework to test your CDS views.
-
-- Use Avalon to test AMDPs and HANA-native database procedures.
 
 #### Use test seams as temporary workaround
 
