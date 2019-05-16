@@ -66,9 +66,9 @@ Although the syntax check throws "only" a warning,
 the ABAP Test Cockpit responds with an issue with Very High priority
 that will prevent transport release in standard system setups.
 
-Even if we were willing to accept this,
-`middle_method` would not simply forward `/clean/flexible_exception`
-if it actually occurred,
+Even if we were willing to accept these warnings,
+without redeclaring `/clean/flexible_exception`,
+`middle_method` would not forward it 
 but trigger a `cx_sy_no_handler` exception
 which ultimately leads to a dump.
 
