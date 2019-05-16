@@ -21,8 +21,8 @@ ENDMETHOD.
 > Read more in _Chapter 2: Meaningful Names: Avoid Encodings_ of [Robert C. Martin's _Clean Code_].
 > The examples in this style guide are written without prefixes to demonstrate the value.
 
-> This section contradicts the sections [_Names of Repository Objects_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
-> and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> This section contradicts the sections [_Names of Repository Objects_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abennames_repos_obj_guidl.htm)
+> and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenprog_intern_names_guidl.htm)
 > of the ABAP Programming Guidelines which recommend to use prefixes.
 > We think that avoiding prefixes is the more modern and readable variant and that the guideline should be adjusted.
 
