@@ -2987,16 +2987,10 @@ This exception type _must_ be given in method signatures and _must_ be caught or
 It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
 and will take care of reacting to the error situation.
 
-> This guideline contradicts [Robert C. Martin's _Clean Code_],
-> which recommends to resort to unchecked exceptions
-> in all cases to facilitate refactoring.
-> This is because ABAP's unchecked exceptions
-> `CX_DYNAMIC_CHECK` and `CX_NO_CHECK` behave differently than Java's:
-> While Java allows declaring unchecked exceptions on methods
-> if you want to, ABAP forbids this.
-> As a consequence,
-> Java is able to warn consumers of potential exceptions,
-> while ABAP isn't.
+> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
+> but contradicts [Robert C. Martin's _Clean Code_],
+> which recommends to prefer unchecked exceptions;
+> [Exceptions](sub-sections/Exceptions.md) explains why.
 
 #### Throw CX_NO_CHECK for usually unrecoverable situations
 
