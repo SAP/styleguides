@@ -51,7 +51,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer LINE_EXISTS to READ TABLE or LOOP AT](#prefer-line_exists-to-read-table-or-loop-at)
   - [Prefer READ TABLE to LOOP AT](#prefer-read-table-to-loop-at)
   - [Prefer LOOP AT WHERE to nested IF](#prefer-loop-at-where-to-nested-if)
-  - [Avoid unnecessary table reads](#avoid-unnecessary-talbe-reads)
+  - [Avoid unnecessary table reads](#avoid-unnecessary-table-reads)
 - [Strings](#strings)
   - [Use ` to define literals](#use--to-define-literals)
   - [Use | to assemble text](#use--to-assemble-text)
@@ -1064,9 +1064,9 @@ LOOP AT my_table REFERENCE INTO DATA(line).
 ENDLOOP.
 ```
 
-### Avoid unnecessary table reads]
+### Avoid unnecessary table reads
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#avoid-unnecessary-talbe-reads)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#avoid-unnecessary-table-reads)
 
 In the case where you need to get a row identified by a key and it is highly
 unlikely that the key is missing, prefer `TRY read CATCH re-RAISE` above
