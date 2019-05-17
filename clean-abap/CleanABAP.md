@@ -1083,11 +1083,12 @@ ENDTRY.
 which is more efficient than
 
 ```ABAP
+" anti-pattern
 IF NOT line_exists( my_table[ key = input ] ).
   RAISE EXCEPTION NEW /clean/my_data_not_found( ).
 ENDTRY.
 
-DATA(row) = my_table[ key = intup ].
+DATA(row) = my_table[ key = input ].
 ```
 
 ## Strings
