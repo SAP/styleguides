@@ -1068,9 +1068,8 @@ ENDLOOP.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#avoid-unnecessary-table-reads)
 
-In the case where you need to get a row identified by a key and it is highly
-unlikely that the key is missing, prefer `TRY read CATCH re-RAISE` above
-`IF line_exists( ... ) raise ENDIF. read`
+In case you _expect_ a row to be there,
+read once and react to the exception,
 
 ```ABAP
 TRY.
@@ -1080,16 +1079,20 @@ TRY.
 ENDTRY.
 ```
 
-which is more efficient than
+instead of littering and slowing down
+the main control flow with a double read
 
 ```ABAP
 " anti-pattern
 IF NOT line_exists( my_table[ key = input ] ).
   RAISE EXCEPTION NEW /clean/my_data_not_found( ).
 ENDTRY.
-
 DATA(row) = my_table[ key = input ].
 ```
+
+> Besides being a performance improvement,
+> this is a special variant of the more general
+> [Focus on the happy path or error handling, but not both](focus-on-the-happy-path-or-error-handling-but-not-both).
 
 ## Strings
 
