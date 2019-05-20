@@ -2558,7 +2558,6 @@ ENDMETHOD.
 or, to stress the validation part
 
 ```ABAP
-" anti-pattern
 METHOD append_xs.
   IF input > 0.
     result = append_xs_without_check( input ).
