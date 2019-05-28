@@ -19,6 +19,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Names](#names)
   - [Use descriptive names](#use-descriptive-names)
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
+  - [Document problem domain terms](#document-problem-domain-terms)
   - [Use plural](#use-plural)
   - [Use pronounceable names](#use-pronounceable-names)
   - [Avoid abbreviations](#avoid-abbreviations)
@@ -131,6 +132,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Exceptions](#exceptions)
     - [Exceptions are for errors, not for regular cases](#exceptions-are-for-errors-not-for-regular-cases)
     - [Use class-based exceptions](#use-class-based-exceptions)
+    - [Name exception classes properly](#name-exception-classes-properly)
   - [Throwing](#throwing)
     - [Use own super classes](#use-own-super-classes)
     - [Throw one type of exception](#throw-one-type-of-exception)
@@ -142,6 +144,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE](#prefer-raise-exception-new-to-raise-exception-type)
   - [Catching](#catching)
     - [Wrap foreign exceptions instead of letting them invade your code](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
+    - [Exceptions in legacy code dependencies](#exceptions-in-legacy-code-dependencies)
 - [Comments](#comments)
   - [Express yourself in code, not in comments](#express-yourself-in-code-not-in-comments)
   - [Comments are no excuse for bad names](#comments-are-no-excuse-for-bad-names)
@@ -366,6 +369,8 @@ so choose names that all of these can relate to without a customized dictionary.
 > Use Problem Domain Names_ of [Robert C. Martin's _Clean Code_].
 
 ### Document problem domain terms
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#document-problem-domain-terms)
 
 The definition of the problem domain terms used by the business owners are
 difficult to interpret out of the domain code. Consider to document these definitions separatly.
@@ -2918,10 +2923,12 @@ get_component_types(
     OTHERS              = 2 ).
 ```
 
-#### Name the exception-classes properly
+#### Name exception classes properly
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Exceptions](#exceptions) > [This section](#name-exception-classes-properly)
 
 Use generic names like "system_failure" or "some_fault" only in abstract
-exception-classes. Don't use generic names in concrete exception
+exception classes. Don't use generic names in concrete exception
 classes. Instead of describe the exception cause in the class name.
 
 The exceptions, which can be thrown from a flight booking framework, can be
@@ -2931,13 +2938,13 @@ described properly with the following names.
 " The bass-class for all booking faults
 CLASS cx_booking_flight DEFINITION ABSTRACT INHERITING FROM cx_static_check.
 " The concrete subclasses
-CLASS cx_passenger_data_invalid DEFINITON INHERITING FROM cx_booking_flight.
-CLASS cx_payment_data_invalid DEFINITON INHERITING FROM cx_booking_flight.
+CLASS cx_passenger_data_invalid DEFINITION INHERITING FROM cx_booking_flight.
+CLASS cx_payment_data_invalid DEFINITION INHERITING FROM cx_booking_flight.
 ```
 The anti-pattern is an concrete exception class with a generic name. This name doesn't describe the exception cause.
 ```ABAP
 " anti-pattern
-CLASS cx_booking_flight_failure DEFINITON INHERITING FROM cx_static_check.
+CLASS cx_booking_flight_failure DEFINITION INHERITING FROM cx_static_check.
 ```
 
 ### Throwing
@@ -3194,9 +3201,14 @@ ENDMETHOD.
 
 #### Exceptions in legacy code dependencies
 
-Legacy code dependencies often throw a lot of non-class-based exceptions. Only
-catch the exceptions, which you can react on. Don't catch all
-exceptions. Programming errors, which cause an exception to raise up in the dependency, are found quickly, if they are not catched. 
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error
+  Handling](#error-handling) > [Catching](#catching) > [This section](#exceptions-in-legacy-code-dependencies)
+
+Legacy code dependencies often throw a lot of non-class-based exceptions. These
+exceptions are not classified as managable, avoidable and unrecoverable
+situations. This classification must be done while using the dependency. 
+Catch only the exceptions, which you classify as managable. Don't catch all
+exceptions. Programming errors, which causes the dependency to raise an exception, are found during testing, if the exception is not catched.
 
 ```ABAP
 " The non-class-based exception "log_not_found" is not catched,
@@ -3205,7 +3217,7 @@ exceptions. Programming errors, which cause an exception to raise up in the depe
 CALL FUNCTION 'BAL_LOG_MSG_ADD'
   EXPORTING
     i_log_handle = log_handle
-    i_s_msg = message.
+    i_s_msg = message_to_be_logged.
 ```
 
 The anti-pattern is to catch the exception. The programming error will not produce an dump anymore.
@@ -3214,7 +3226,7 @@ The anti-pattern is to catch the exception. The programming error will not produ
 CALL FUNCTION 'BAL_LOG_MSG_ADD'
   EXPORTING
     i_log_handle = log_handle
-    i_s_msg = message
+    i_s_msg = message_to_be_logged
   EXCEPTIONS
     log_not_found = 4.
 ```
