@@ -3205,7 +3205,7 @@ ENDMETHOD.
   Handling](#error-handling) > [Catching](#catching) > [This section](#exceptions-in-legacy-code-dependencies)
 
 Legacy code dependencies often throw a lot of non-class-based exceptions. These
-exceptions are not classified as managable, avoidable and unrecoverable
+exceptions are not classified as managable, avoidable or unrecoverable
 situations. This classification must be done while using the dependency. 
 Catch only the exceptions, which you classify as managable. Don't catch all
 exceptions. Programming errors, which causes the dependency to raise an exception, are found during testing, if the exception is not catched.
@@ -3213,7 +3213,8 @@ exceptions. Programming errors, which causes the dependency to raise an exceptio
 ```ABAP
 " The non-class-based exception "log_not_found" is not catched,
 " because it is thrown, if the input parameter 
-" "log_handle" is not retrieved from the function module "BAL_LOG_CREATE" (programming error).
+" "log_handle" is not retrieved from the function 
+" module "BAL_LOG_CREATE" (programming error).
 CALL FUNCTION 'BAL_LOG_MSG_ADD'
   EXPORTING
     i_log_handle = log_handle
