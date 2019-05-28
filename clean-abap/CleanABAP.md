@@ -365,6 +365,11 @@ so choose names that all of these can relate to without a customized dictionary.
 > Read more in _Chapter 2: Meaningful Names: Use Solution Domain Names_ and _[...]:
 > Use Problem Domain Names_ of [Robert C. Martin's _Clean Code_].
 
+### Document problem domain terms
+
+The definition of the problem domain terms used by the business owners are
+difficult to interpret out of the domain code. Consider to document these definitions separatly.
+
 ### Use plural
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-plural)
@@ -2715,6 +2720,15 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
+A failing method should not alter any behaviour. This means fail before:
+- the first database record is created or modified
+- class attributes are modified
+- exporting or changing-parameters are overwritten
+
+When using dependencies to manipulate the database records, it's not always possible to fail before the first database record is
+created or modified (i.e. customized code using a chain of BAPIs and the second or third BAPI failed). In
+this case the database modifications must be rolled back with the statement ```ROLLBACK WORK```.
+
 #### CHECK vs. RETURN
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#check-vs-return)
@@ -2902,6 +2916,28 @@ get_component_types(
   EXCEPTIONS
     has_deep_components = 1
     OTHERS              = 2 ).
+```
+
+#### Name the exception-classes properly
+
+Use generic names like "system_failure" or "some_fault" only in abstract
+exception-classes. Don't use generic names in concrete exception
+classes. Instead of describe the exception cause in the class name.
+
+The exceptions, which can be thrown from a flight booking framework, can be
+described properly with the following names.
+
+```ABAP
+" The bass-class for all booking faults
+CLASS cx_booking_flight DEFINITION ABSTRACT INHERITING FROM cx_static_check.
+" The concrete subclasses
+CLASS cx_passenger_data_invalid DEFINITON INHERITING FROM cx_booking_flight.
+CLASS cx_payment_data_invalid DEFINITON INHERITING FROM cx_booking_flight.
+```
+The anti-pattern is an concrete exception class with a generic name. This name doesn't describe the exception cause.
+```ABAP
+" anti-pattern
+CLASS cx_booking_flight_failure DEFINITON INHERITING FROM cx_static_check.
 ```
 
 ### Throwing
@@ -3154,6 +3190,33 @@ METHODS generate RAISING cx_sy_gateway_failure.
 METHOD generate.
   generator->generate( ).
 ENDMETHOD.
+```
+
+#### Exceptions in legacy code dependencies
+
+Legacy code dependencies often throw a lot of non-class-based exceptions. Only
+catch the exceptions, which you can react on. Don't catch all
+exceptions. Programming errors, which cause an exception to raise up in the dependency, are found quickly, if they are not catched. 
+
+```ABAP
+" The non-class-based exception "log_not_found" is not catched,
+" because it is thrown, if the input parameter 
+" "log_handle" is not retrieved from the function module "BAL_LOG_CREATE" (programming error).
+CALL FUNCTION 'BAL_LOG_MSG_ADD'
+  EXPORTING
+    i_log_handle = log_handle
+    i_s_msg = message.
+```
+
+The anti-pattern is to catch the exception. The programming error will not produce an dump anymore.
+```ABAP
+" anti-pattern
+CALL FUNCTION 'BAL_LOG_MSG_ADD'
+  EXPORTING
+    i_log_handle = log_handle
+    i_s_msg = message
+  EXCEPTIONS
+    log_not_found = 4.
 ```
 
 ## Comments
