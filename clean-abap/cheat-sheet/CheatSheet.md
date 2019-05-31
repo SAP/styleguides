@@ -20,6 +20,8 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ### Cheat Sheet
 
+- [v1.4.0](CleanABAPCheatSheetV1.4.0.pdf)&nbsp;·&nbsp;31 May 2019
+  - Added section _Be consistent_
 - [v1.3.0](CleanABAPCheatSheetV1.3.0.pdf)&nbsp;·&nbsp;8 May 2019
   - Added section _Avoid obsolete language elements_
 - [v1.2.1](CleanABAPCheatSheetV1.2.1.pdf)&nbsp;·&nbsp;7 May 2019
@@ -40,5 +42,8 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ### The Golden Rules
 
-- [v1.0.0](CleanABAPTheGoldenRulesV1.1.0.pdf)&nbsp;·&nbsp;2 May 2019
+- [v1.1.0](CleanABAPTheGoldenRulesV1.1.0.pdf)&nbsp;·&nbsp;31 May 2019
+  - Added section _Be consistent_
+- [v1.0.0](CleanABAPTheGoldenRulesV1.0.0.pdf)&nbsp;·&nbsp;2 May 2019
+  - First version
 - [Working document](CleanABAPTheGoldenRules.docx)

@@ -156,6 +156,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
   - [ABAP Doc only for public APIs](#abap-doc-only-for-public-apis)
 - [Formatting](#formatting)
+  - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
   - [Use the Pretty Printer before activating](#use-the-pretty-printer-before-activating)
   - [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings)
@@ -3468,6 +3469,20 @@ The suggestions below are [optimized for reading, not for writing](#optimize-for
 As ABAP's Pretty Printer doesn't cover them, some of them produce additional manual work to reformat statements
 when name lengths etc. change; if you want to avoid this, consider dropping rules like
 [Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones).
+
+### Be consistent
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#be-consistent)
+
+Format all code of a project in the same way.
+Let all team members use the same formatting style.
+
+If you edit foreign code, adhere to that project's formatting style
+instead of insisting on your personal style.
+
+If you change your formatting rules over time,
+use [refactoring best practices](#how-to-refactor-legacy-code)
+to update your code over time.
 
 ### Optimize for reading, not for writing
 
