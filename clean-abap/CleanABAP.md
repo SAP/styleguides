@@ -255,16 +255,38 @@ and should only be addressed by teams that already saw proof of Clean Code's pos
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-refactor-legacy-code)
 
-The topics [Booleans](#booleans), [Conditions](#conditions), [Ifs](#ifs), and [Methods](#methods)
-are most rewarding if you are working on a legacy project with tons of code that you cannot or do not want to change:
-they can be applied to new code without conflicts, and may be applied to old code following the boy scout rule
-_("always leave the code you're editing a little better than you found it")_.
-
+The topics [Booleans](#booleans), [Conditions](#conditions), [Ifs](#ifs),
+and [Methods](#methods) are most rewarding if you are working on a legacy project
+with tons of code that you cannot or do not want to change
+because they can be applied to new code without conflicts.
+ 
 The topic [Names](#names) is very demanding for legacy projects,
 as it may introduce a breach between old and new code,
 up to a degree where sections like
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
 are better ignored.
+
+We observed good results with a four-step plan for refactoring:
+
+1. Get the team aboard. Communicate and explain the new style,
+and get everybody on the project team to agree to it.
+You don't need to commit all guidelines at once, just start
+with an undisputed small subset and evolve from there.
+
+2. Follow the _boy scout rule_ to your daily work routine:
+_always leave the code you edit a little cleaner than you found it_.
+Don't obsess with this by sinking hours into "cleaning the campsite",
+just spend a couple of minutes extra and observe how the
+improvements accumulate over time.
+
+3. Build _clean islands_: from time to time, pick a small object or component and
+try to make it clean in all aspects. These islands demonstrate the benefit
+of what you're doing and form solidly tested home bases for further refactoring.
+
+4. Talk about it. No matter whether you set up old-school Fagan code reviews,
+hold info sessions, or form discussion boards in your favorite chat tool:
+you will need to talk about your experiences and learnings, to enable the
+team to grow a common understanding. 
 
 ### How to Check Automatically
 
