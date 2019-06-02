@@ -376,9 +376,9 @@ Search for good names in the solution domain, i.e. computer science terms such a
 and in the problem domain, i.e. business field terms such as "account" or "ledger".
 
 Layers that are business-like will sound best when named according to the problem domain.
-This is especially true for components that are design with Domain-Driven Design, such as APIs and business objects.
+This is especially true for components that are designed with Domain-Driven Design, such as APIs and business objects.
 
-Layers that provide mostly technical functionality, such as factory classes and abstract algorithm,
+Layers that provide mostly technical functionality, such as factory classes and abstract algorithms,
 will sound best when named according to the solution domain.
 
 In any case, do not attempt to make up your own language.
@@ -956,7 +956,7 @@ Similarly, speed is not an issue. As a consequence, there is no performance-rela
 - You typically use `HASHED` tables for **large tables**
 that are **filled in a single step**, **never modified**, and **read often by their key**.
 Their inherent memory and processing overhead makes hash tables only valuable
-for large amounts of data and lots of of read accesses.
+for large amounts of data and lots of read accesses.
 Each change to the table's content requires expensive recalculation of the hash,
 so don't use this for tables that are modified too often.
 
@@ -1519,7 +1519,7 @@ DATA(object_name) = |{ class_name }\|{ interface_name }|.
 ```
 
 Some complex regular expressions become easier
-when you demonstrate the reader how they are built up from more elementary pieces.
+when you demonstrate to the reader how they are built up from more elementary pieces.
 
 ## Classes
 
