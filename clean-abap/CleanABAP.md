@@ -2936,7 +2936,7 @@ get_component_types(
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#use-own-super-classes)
 
 ```ABAP
-CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_dynamic_check.
+CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_static_check.
 CLASS cx_fra_no_check DEFINITION ABSTRACT INHERITING FROM cx_no_check.
 ```
 
