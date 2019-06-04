@@ -283,7 +283,7 @@ improvements accumulate over time.
 try to make it clean in all aspects. These islands demonstrate the benefit
 of what you're doing and form solidly tested home bases for further refactoring.
 
-4. Talk about it. No matter whether you set up old-school Fagan code reviews,
+4. Talk about it. No matter whether you set up old-school [Fagan code reviews](https://en.wikipedia.org/wiki/Fagan_inspection),
 hold info sessions, or form discussion boards in your favorite chat tool:
 you will need to talk about your experiences and learnings, to enable the
 team to grow a common understanding. 
@@ -3552,7 +3552,7 @@ in a separate Transport Request or Note.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-pretty-printer-team-settings)
 
-Always use our team settings.
+Always use your team settings.
 Specify them under
 _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
 
@@ -3596,6 +3596,7 @@ maybe because of the general verbosity of the language.
 
 > As a reminder you can configure in ADT the print margin to 120 characters,
 > which then is visualized in the code view as a vertical line.
+> Configure it under _Menu_ > _Window_ > _Preferences_ > _General_ > _Editors_ > _Text Editors_.
 
 ### Condense your code
 
@@ -3938,7 +3939,7 @@ Stick to standards and patterns, to enable your co-workers to quickly get into t
 Don't start working on a backlog item by making a `$TMP` copy of a development object and playing around with it.
 Others won't notice these objects and therefore won't know the status of your work.
 You will probably waste a lot of time by making the working copy in the first place.
-You will also forget to delete the copy afterwards, spamming our system and dependencies.
+You will also forget to delete the copy afterwards, spamming your system and dependencies.
 (Don't believe this? Go to your development system and check your `$TMP` right now.)
 
 Also, don't start by writing a test report that calls something in a specific way,
@@ -4424,7 +4425,7 @@ If the given or then sections get so long
 that you cannot visually separate the three sections anymore, extract sub-methods.
 Blank lines or comments as separators may look good at first glance
 but don't really reduce the visual clutter.
-Still they are helpful for the reader to and the novice test writer to separate the section
+Still they are helpful for the reader and the novice test writer to separate the sections.
 
 #### "When" is exactly one call
 
