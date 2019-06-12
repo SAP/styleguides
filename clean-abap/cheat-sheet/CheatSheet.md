@@ -12,9 +12,9 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ## Download
 
-- [**Cheat Sheet**](CleanABAPCheatSheetV1.3.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
+- [**Cheat Sheet**](CleanABAPCheatSheetV1.4.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
 
-- [**The Golden Rules**](CleanABAPTheGoldenRulesV1.0.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
+- [**The Golden Rules**](CleanABAPTheGoldenRulesV1.1.0.pdf)&nbsp;·&nbsp;Latest version&nbsp;·&nbsp;PDF
 
 ## Versions
 
