@@ -110,7 +110,7 @@ to handle different exceptions in different ways.
 
 The code required to identify the actual exception -
 either a series of trial-and-error casts,
-or an RTTI request for the class name, followed by case branches -
+or an [RTTI](https://en.wikipedia.org/wiki/Run-time_type_information) request for the class name, followed by case branches -
 is rather bulky and repetitive.
 
 Catching `cx_sy_no_handler` everywhere also dilutes its original purpose -
