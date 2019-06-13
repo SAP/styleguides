@@ -1115,7 +1115,7 @@ DATA(row) = my_table[ key = input ].
 
 > Besides being a performance improvement,
 > this is a special variant of the more general
-> [Focus on the happy path or error handling, but not both](focus-on-the-happy-path-or-error-handling-but-not-both).
+> [Focus on the happy path or error handling, but not both](#focus-on-the-happy-path-or-error-handling-but-not-both).
 
 ## Strings
 
