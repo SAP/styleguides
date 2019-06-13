@@ -110,7 +110,7 @@ to handle different exceptions in different ways.
 
 The code required to identify the actual exception -
 either a series of trial-and-error casts,
-or an RTTI request for the class name, followed by case branches -
+or an [RTTI](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenrtti.htm) request for the class name, followed by case branches -
 is rather bulky and repetitive.
 
 Catching `cx_sy_no_handler` everywhere also dilutes its original purpose -
