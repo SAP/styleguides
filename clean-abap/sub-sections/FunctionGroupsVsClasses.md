@@ -29,7 +29,7 @@ such as [Decorator](https://en.wikipedia.org/wiki/Decorator_pattern).
 
 - **No overloading.**
 You cannot provide two functions with identical names but different parameters.
-(This is not possible in ABAP OO too, by the way.)
+(This is not possible in ABAP OO either, by the way.)
 
 - **Variable encapsulation.**
 Function groups can hide internal state in private variables.
