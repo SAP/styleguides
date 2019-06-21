@@ -7,10 +7,10 @@ that improve readability of the code
 and therefore should be in the tool set
 of any professional ABAPer.
 
-The new ABAP statements are not described to full detail.
-For more information please consult the ABAP online documentation.
+The new ABAP statements are only outlined in short;
+refer to the ABAP online documentation for more details.
 
-## Table of Contents
+## Content
 
 - [Functional statements and expressions in ABAP](#functional-statements-and-expressions-in-abap)
 - [Inline declaration of variables](#inline-declaration-of-variables)
@@ -54,9 +54,10 @@ Data type information in functional statements
 can be abbreviated by a `#`
 if the compiler can determine the data type from the context.
 
-> **Caution**: Some of the functional statements
-> are very powerful and versatile in their usage.
-> When using them, always keep the clean code principles in mind.
+> **Keep the clean code principles in mind**
+> when using these statements.
+> They are very compact and powerful and may tempt you to
+> compress your code so much that it becomes unintelligible. 
 
 ## Inline declaration of variables
 
