@@ -218,35 +218,36 @@ Check the existence of a line in an internal table,
 use the function `line_exists( )` within an if-clause.
 
 ```ABAP
-if line_exists( accounts[ id = 4711 ] ).
+IF line_exists( accounts[ id = 4711 ] ).
   "line has been found
-endif.
+ENDIF.
 ```
 
 Old style:
 
 ```ABAP
-read table accounts with key id = 4711 transporting no fields.
-if sy-subrc = 0.
+READ TABLE accounts WITH KEY id = 4711 TRANSPORTING NO FIELDS.
+IF sy-subrc = 0.
   "line has been found
-endif.
+ENDIF.
 ```
 
 #### Access table key with uncertain result
 
 ```ABAP
-data(account) = value #( accounts[ id = '4711' ] optional ).
+DATA(account) = VALUE #( accounts[ id = '4711' ] OPTIONAL ).
 ```
 
-By default, failing functional key accesses throw an exception. The addition `value ... optional` suppresses this.
+By default, failing functional key accesses throw an exception.
+The addition `VALUE ... OPTIONAL` suppresses this.
 
 Old style:
 
 ```ABAP
-try.
+TRY.
     account = accounts[ id = '4711' ]
-  catch cx_sy_itab_line_not_found.
-endtry.
+  CATCH cx_sy_itab_line_not_found.
+ENDTRY.
 ```
 
 #### Access table index
@@ -254,150 +255,150 @@ endtry.
 Access a specific index of an internal table directly, use the bracket notation `table_name[ ]`.
 
 ```ABAP
-data(id_of_account_5) = accounts[ 5 ]-id.
+DATA(id_of_account_5) = accounts[ 5 ]-id.
 ```
 
 Old style:
 
 ```ABAP
-read table accounts index 5 into data(account_5).
-if sy-subrc = 0.
-  data(id_of_account_5) = account_5-id.
-endif.
+READ TABLE accounts INDEX 5 INTO DATA(account_5).
+IF sy-subrc = 0.
+  DATA(id_of_account_5) = account_5-id.
+ENDIF.
 ```
 
 ### Conditions
 
 #### Conditional distinction
 
-To evaluate conditions, use the `cond #( )` operator.
+To evaluate conditions, use the `COND #( )` operator.
 
 ```ABAP
-data(value) = cond #( when status = open then 1
-                      when status = blocked then 3
-                      else 7 ).
+DATA(value) = COND #( WHEN status = open THEN 1
+                      WHEN status = blocked THEN 3
+                      ELSE 7 ).
 ```
 
 Old style:
 
 ```ABAP
-data value type i.
-if status = open.
+DATA value TYPE i.
+IF status = open.
   value = 1.
-elseif status = blocked.
+ELSEIF status = blocked.
   value = 3.
-else.
+ELSE.
   value = 7.
-endif.
+ENDIF.
 ```
 
-> Alternatively you may use the function `xsdbool( )` described [here](readme.md#use-xsdbool-to-set-boolean-variables)
+> Alternatively you may use the [function `xsdbool( )`](readme.md#use-xsdbool-to-set-boolean-variables)
 
 #### Case distinction
 
-Evaluate case distinction with the `switch #( )` operator
+Evaluate case distinction with the `SWITCH #( )` operator
 
 ```ABAP
-data(status) = switch #( scrum_status
-                         when scrum_status_open then status_waiting
-                         when scrum_status_in_process then status_busy
-                         when scrum_status_blocked then status_alarm
-                   when scrum_status_done then status_ok ).
+DATA(status) = SWITCH #( scrum_status
+    WHEN scrum_status_open THEN status_waiting
+    WHEN scrum_status_in_process THEN status_busy
+    WHEN scrum_status_blocked THEN status_alarm
+    WHEN scrum_status_done THEN status_ok ).
 ```
 
 Old style:
 
 ```ABAP
-data status type status_enum.
-case scrum_status.
-  when scrum_status_open.
+DATA status TYPE status_enum.
+CASE scrum_status.
+  WHEN scrum_status_open.
     status = status_waiting.
-  when scrum_status_in_process.
+  WHEN scrum_status_in_process.
     status = status_busy.
-  when scrum_status_blocked.
+  WHEN scrum_status_blocked.
     status = status_alarm.
-  when scrum_status_done.
+  WHEN scrum_status_done.
     status = status_ok.
-endcase.
+ENDCASE.
 ```
 
 #### Case distinctions of reference types class and interface
 
-Switch on a reference types class and interface using the `case` extension `type of`.
+Switch on a reference types class and interface using the `CASE` extension `TYPE OF`.
 
 ```ABAP
-case type of account.
-  when type bank_account into data(bank_account).
+CASE type of account.
+  WHEN TYPE bank_account INTO DATA(bank_account).
     " some processing ...
-  when others.
+  WHEN OTHERS.
     " some processing ...
-endcase.
+ENDCASE.
 ```
 
-In a condition e.g. in an `if` statement the `is instance of` operator can be used.
+In a condition e.g. in an `IF` statement the `IS INSTANCE OF` operator can be used.
 
 ```ABAP
-if account is instance of bank_account.
+IF account IS INSTANCE OF bank_account.
   " some processing ...
-endif.
+ENDIF.
 ```
 
 ### Conversions
 
 #### Cast data references
 
-Cast reference types to other reference types use the `cast #( )` operator.
+Cast reference types to other reference types use the `CAST #( )` operator.
 
 ```ABAP
-data(my_account) = cast account( NEW bank_account( ) ).
+DATA(my_account) = CAST account( NEW bank_account( ) ).
 ```
 
 Old style:
 
 ```ABAP
-data my_account type ref to account.
-create object my_account type bank_account.
+DATA my_account TYPE REF TO account.
+CREATE OBJECT my_account TYPE bank_account.
 ```
 
 or
 
 ```ABAP
-data my_account type ref to account.
-data my_bank_account type ref to bank_account.
-create object my_bank_account.
+DATA my_account TYPE REF TO account.
+DATA my_bank_account TYPE REF TO bank_account.
+CREATE OBJECT my_bank_account.
 my_account ?= bank_account.
 ```
 
 #### Create data references
 
-Create data references to structures and tables with the operator `ref #( )`.
+Create data references to structures and tables with the operator `REF #( )`.
 
 ```ABAP
-data accounts type accounts_table.
-import_accounts_references( ref #( accounts ) ).
+DATA accounts TYPE accounts_table.
+import_accounts_references( REF #( accounts ) ).
 ```
 
 Old style:
 
 ```ABAP
-data accounts type accounts_table.
-data accounts_reference type ref to accounts_type.
-get reference of accounts into accounts_reference.
+DATA accounts TYPE accounts_table.
+DATA accounts_reference TYPE REF TO accounts_type.
+GET REFERENCE OF accounts INTO accounts_reference.
 import_accounts_references( accounts_reference ) ).
 ```
 
 #### Convert data types
 
-Use the operator `conv #( )` to convert data types and save temporary variables.
+Use the operator `CONV #( )` to convert data types and save temporary variables.
 
 ```ABAP
-method_takes_string( conv #( a_char ) ).
+method_takes_string( CONV #( a_char ) ).
 ```
 
 Old style:
 
 ```ABAP
-data a_string type string.
+DATA a_string TYPE string.
 a_string = a_char.
 method_takes_string( a_string ).
 ```
@@ -407,33 +408,35 @@ method_takes_string( a_string ).
 Copy fields with matching names from one data type to another with `corresponding #( )`.
 
 ```ABAP
-target_structure = corresponding #( source_structure ).
+target_structure = CORRESPONDING #( source_structure ).
 ```
 
 Old style:
 
 ```ABAP
-move-corresponding source_structure to target_structure.
+MOVE-CORRESPONDING source_structure TO target_structure.
 ```
+
+> The two differ slightly in behavior.
 
 ### Constructors
 
 #### Construct objects and data
 
-Construct objects and data with the `new #( )` operator.
+Construct objects and data with the `NEW #( )` operator.
 
 ```ABAP
-data(acount) = new cl_account( ).
+DATA(acount) = NEW cl_account( ).
 
-data(dref) = new struct_type( component_1 = 10
+DATA(dref) = NEW struct_type( component_1 = 10
                               component_2 = 'a' ).
 ```
 
 ```ABAP
-data(account) = cast if_account( new cl_account( ) ).
+DATA(account) = CAST if_account( NEW cl_account( ) ).
 
-data data_structure TYPE REF TO struct_type.
-create data data_structure.
+DATA data_structure TYPE REF TO struct_type.
+CREATE DATA data_structure.
 data_reference->component_1 = 10.
 data_reference->component_2 = 'a'.
 ```
@@ -441,32 +444,33 @@ data_reference->component_2 = 'a'.
 Old style:
 
 ```ABAP
-data account type ref to cl_account.
-create object account.
+DATA account TYPE REF TO cl_account.
+CREATE OBJECT account.
 ```
 
 ```ABAP
-data account type ref to if_account.
-create object account type cl_account.
+DATA account TYPE REF TO if_account.
+CREATE OBJECT account TYPE cl_account.
 ```
 
 #### Construct data types
 
-Construct structures and tables using the `value #( )` operator. It also constructs initial values for most data types.
+Construct structures and tables using the `VALUE #( )` operator.
+It also constructs initial values for most data types.
 
 > This statement is a life saver when writing ABAP unit tests.
 
 Structure:
 
 ```ABAP
-data(account) = value account_structure( id = 5
+DATA(account) = VALUE account_structure( id = 5
                                          name = 'SAP' ).
 ```
 
 Old style:
 
 ```ABAP
-data account type account_structure.
+DATA account TYPE account_structure.
 account-id = 5.
 account-name = 'SAP'.
 ```
@@ -474,53 +478,53 @@ account-name = 'SAP'.
 Table:
 
 ```ABAP
-data(accounts) = value accounts_table( ( id = 5  name = 'SAP' )
+DATA(accounts) = VALUE accounts_table( ( id = 5  name = 'SAP' )
                                        ( id = 6  name = 'ABCDE' ) ).
 ```
 
 Old style:
 
 ```ABAP
-data accounts type accounts_table.
-data account type account_structure.
+DATA accounts TYPE accounts_table.
+DATA account TYPE account_structure.
 account-id = 5.
 account-name = 'SAP'.
-insert account into table accounts.
+INSERT account INTO TABLE accounts.
 account-id = 6.
 account-name = 'ABCDE'.
-insert account into table accounts.
+INSERT ACCOUNT INTO TABLE accounts.
 ```
 
 Construct tables based on other tables:
 
 ```ABAP
-result = value #( for row in input ( row-text ) ).
+result = VALUE #( FOR row IN input ( row-text ) ).
 ```
 
 Old style:
 
 ```ABAP
-loop at input into data(row).
-  insert row-text into table result.
+LOOP AT input INTO DATA(row).
+  INSERT row-text INTO TABLE result.
 ENDLOOP.
 ```
 
 #### Filter tables
 
-Construct a table as a subset of another stable using `filter #( )`.
+Construct a table as a subset of another stable using `FILTER #( )`.
 
 ```ABAP
-bank_accounts = filter #( accounts
-                          where account_type = 'B' ).
+bank_accounts = FILTER #( accounts
+                          WHERE account_type = 'B' ).
 ```
 
 Old style:
 
 ```ABAP
-data bank_account type bank_account.
-loop at accounts into bank_account where account_type = 'B'.
-  insert bank_account into table bank_accounts.
-endloop.
+DATA bank_account TYPE bank_account.
+LOOP AT accounts INTO bank_account WHERE account_type = 'B'.
+  INSERT bank_account INTO TABLE bank_accounts.
+ENDLOOP.
 ```
 
 ### Character Handling
@@ -530,14 +534,14 @@ endloop.
 Convert characters between cases using `to_upper( )` or `to_lower( )`.
 
 ```ABAP
-data(uppercase) = to_upper( lowercase ).
-data(lowercase) = to_lower( uppercase ).
+DATA(uppercase) = to_upper( lowercase ).
+DATA(lowercase) = to_lower( uppercase ).
 ```
 
 Old style:
 
 ```ABAP
-translate lowercase to upper case.
+TRANSLATE lowercase TO UPPER CASE.
 ```
 
 ## Flow control
@@ -547,34 +551,34 @@ translate lowercase to upper case.
 Process data on defined groups using the new features with the `loop` statement extension `group by ...` and `loop at group`.
 
 ```ABAP
-loop at accounts into data(account) group by grouping_id.
+LOOP AT accounts INTO DATA(account) GROUP BY grouping_id.
   " once per group before group ...
-  loop at group account into data(account_group).
+  LOOP AT GROUP account INTO DATA(account_group).
     " for each group member ...
-  endloop.
+  ENDLOOP.
   " once per group after group ...
-endloop.
+ENDLOOP.
 ```
 
 Old style:
 
 ```ABAP
-data previous_grouping_id type i.
-data last_account type account.
-loop at accounts into data(account).
-  if account-grouping_id <> previous_grouping_id.
+DATA previous_grouping_id TYPE i.
+DATA last_account TYPE account.
+LOOP AT accounts INTO data(account).
+  IF account-grouping_id <> previous_grouping_id.
     previous_grouping_id = account-grouping_id
     " once per group before group ...
-    if last_account is not initial.
+    IF last_account IS NOT INITIAL.
       " once per group after group ...
-    endif.
-  endif.
+    ENDIF.
+  ENDIF.
   " for each group member ...
   last_account = account.
-endloop.
-if last_account is not initial.
+ENDLOOP.
+IF last_account IS NOT INITIAL.
   " once per group after group
-endif.
+ENDIF.
 ```
 
 ## Interface implementation
@@ -583,20 +587,20 @@ endif.
 
 Define the effect on not implemented interface methods.
 
-Add `default ignore` to advise ABAP to handle the call to this method if not implemented as a call to an empty implementation.
+Add `DEFAULT IGNORE` to advise ABAP to handle the call to this method if not implemented as a call to an empty implementation.
 
 ```ABAP
-interface account.
-  methods new_method default ignore.
-endinterface.
+INTERFACE account.
+  METHODS new_method DEFAULT IGNORE.
+ENDINTERFACE.
 ```
 
-Add `default fail` to advise ABAP to raise an exception `CX_SY_DYN_CALL_ILLEGAL_METHOD` if the not implemented method is called. This is the default behavior.
+Add `DEFAULT FAIL` to advise ABAP to raise an exception `CX_SY_DYN_CALL_ILLEGAL_METHOD` if the not implemented method is called. This is the default behavior.
 
 ```ABAP
-interface account.
-  methods new_method default fail.
-endinterface.
+INTERFACE account.
+  METHODS new_method default FAIL.
+ENDINTERFACE.
 ```
 
 ### Partially implement interfaces in tests
@@ -604,22 +608,22 @@ endinterface.
 Implement in tests for e.g. test doubles only the interface methods which you need and skip the not needed with the `partially implemented` extension of the `interfaces` statement.
 
 ```ABAP
-interface account.
-  methods add_account importing account type account.
-  methods delete_account importing account_id type account_id.
-  methods get_account importing account_id type account_id
-                      returning value(result) type account.
-endinterface.
+INTERFACE account.
+  METHODS add_account IMPORTING account TYPE account.
+  METHODS delete_account IMPORTING account_id TYPE account_id.
+  METHODS get_account IMPORTING account_id TYPE account_id
+                      RETURNING value(result) TYPE account.
+ENDINTERFACE.
 
-class test_double definition for testing.
-  public section.
-  interfaces account partially implemented.
-  data account_stub type account.
-endclass.
+CLASS test_double DEFINITION FOR TESTING.
+  PUBLIC SECTION.
+  INTERFACES account PARTIALLY IMPLEMENTED.
+  DATA account_stub TYPE account.
+ENDCLASS.
 
-class test_double implementation.
-  method productive~get.
+CLASS test_double IMPLEMENTATION.
+  METHOD productive~get.
     result = account_stub.
-  endmethod.
-endclass.
+  ENDMETHOD.
+ENDCLASS.
 ```
