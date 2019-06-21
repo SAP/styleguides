@@ -20,6 +20,9 @@ is versioned according to the [Semantic Versioning specification](https://semver
 
 ### Cheat Sheet
 
+- [v1.3.1](CleanABAPCheatSheetV1.3.1.pdf)&nbsp;·&nbsp;21 June 2019
+  - Fixed some typos
+  - Fixed some formatting errors, esp. missing strike-through in anti-patterns
 - [v1.3.0](CleanABAPCheatSheetV1.3.0.pdf)&nbsp;·&nbsp;8 May 2019
   - Added section _Avoid obsolete language elements_
 - [v1.2.1](CleanABAPCheatSheetV1.2.1.pdf)&nbsp;·&nbsp;7 May 2019
