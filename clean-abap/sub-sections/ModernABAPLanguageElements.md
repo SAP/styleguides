@@ -15,7 +15,7 @@ For more information please consult the ABAP online documentation.
 - [Functional statements and expressions in ABAP](#functional-statements-and-expressions-in-abap)
 - [Inline declaration of variables](#inline-declaration-of-variables)
 - [Compound Assignment Operators](#compound-assignment-operators)
-- [Booleans](#booleans)
+- [Non-Initial Conditions](#non-initial-conditions)
 - [Enumerations](#enumerations)
 - [Internal Tables](#internal-tables)
   - [Count lines](#count-table-lines)
@@ -168,7 +168,7 @@ ENDIF.
 
 ## Enumerations
 
-Define [enumerations](#https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abaptypes_enum.htm#!ABAP_ADDITION_1@1@) instead of using constants.
+Define [enumerations](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abaptypes_enum.htm#!ABAP_ADDITION_1@1@) instead of using constants.
 
 ```ABAP
 TYPES:
@@ -196,7 +196,7 @@ scrum_status = scrum_status_open.
 
 ## Internal Tables
 
-### Count lines
+### Count table lines
 
 Count the number of lines of an internal table with
 [`lines( )`](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abendescriptive_functions_table.htm).
@@ -292,7 +292,7 @@ ELSE.
 ENDIF.
 ```
 
-> Alternatively you may use the [function `xsdbool( )`](readme.md#use-xsdbool-to-set-boolean-variables)
+> Alternatively you may use the [function `xsdbool( )`](../CleanABAP.md#use-xsdbool-to-set-boolean-variables)
 
 #### Case distinction
 
