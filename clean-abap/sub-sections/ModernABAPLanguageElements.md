@@ -98,21 +98,21 @@ method_with_exporting( IMPORTING parameter = accounts ).
 ```
 
 ```ABAP
-LOOP AT accounts INTO DATA (acount).
+LOOP AT accounts INTO DATA (account).
 ENDLOOP.
 
 " old style
-DATA account TYPE accounts_table.
-LOOP AT accounts INTO acount.
+DATA account TYPE account_structure.
+LOOP AT accounts INTO account.
 ENDLOOP.
 ```
 
 ```ABAP
-READ TABLE accounts INTO DATA(acount_sap) WITH KEY id = 5.
+READ TABLE accounts INTO DATA(account_sap) WITH KEY id = 5.
 
 " old style
 DATA account_sap TYPE account_structure.
-READ TABLE account INTO data(acount_sap) WITH u id = 5.
+READ TABLE account INTO data(account_sap) WITH u id = 5.
 ```
 
 ```ABAP
@@ -126,11 +126,11 @@ ENDLOOP.
 ```
 
 ```ABAP
-ASSIGN COMPONENT id OF acount_sap TO FIELD-SYMBOL(<account_id>).
+ASSIGN COMPONENT id OF account_sap TO FIELD-SYMBOL(<account_id>).
 
 " old style
 FIELD-SYMBOL <account_id> TYPE account_id_type.
-ASSIGN COMPONENT id OF acount_sap TO <account_id>.
+ASSIGN COMPONENT id OF account_sap TO <account_id>.
 ```
 
 ```ABAP
@@ -348,7 +348,7 @@ ENDIF.
 
 #### Cast data references
 
-Cast reference types to other reference types use the `CAST #( )` operator.
+Cast reference types to other reference types using the `CAST #( )` operator.
 
 ```ABAP
 DATA(my_account) = CAST account( NEW bank_account( ) ).
@@ -418,7 +418,9 @@ Old style:
 MOVE-CORRESPONDING source_structure TO target_structure.
 ```
 
-> The two differ slightly in behavior.
+> Caution: The two statements differ in behavior.
+> The `CORRESPONDING( )` statement is a constructor statement, meaning all fields in the `target_structure` are initialized before the corresponding `source_structure` values are copied to the `target_sructure`
+> The `MOVE-CORRESPONDING` statement in contrast leaves the content of the not matching fields in the `target_structure untouched.
 
 ### Constructors
 
