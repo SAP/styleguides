@@ -429,7 +429,7 @@ MOVE-CORRESPONDING source_structure TO target_structure.
 Construct objects and data with the `NEW #( )` operator.
 
 ```ABAP
-DATA(acount) = NEW cl_account( ).
+DATA(account) = NEW cl_account( ).
 
 DATA(dref) = NEW struct_type( component_1 = 10
                               component_2 = 'a' ).
