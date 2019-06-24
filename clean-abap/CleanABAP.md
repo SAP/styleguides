@@ -32,7 +32,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
   - [Prefer object orientation to procedural programming](#prefer-object-orientation-to-procedural-programming)
-  - [Prefer functional to procedural language constructs](#prefer-functional-to-procedural-language-constructs)
+  - [Prefer modern language constructs](#prefer-modern-language-constructs)
   - [Avoid obsolete language elements](#avoid-obsolete-language-elements)
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
@@ -612,9 +612,9 @@ ENDFUNCTION.
 > [Function Groups vs. Classes](sub-sections/FunctionGroupsVsClasses.md)
 > describes the differences in detail.
 
-### Prefer functional to procedural language constructs
+### Prefer modern language constructs
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-functional-to-procedural-language-constructs)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-modern-language-constructs)
 
 They are usually shorter and come more natural to modern programmers.
 
@@ -646,7 +646,8 @@ IF line_exists( value_pairs[ name = 'A' ] ).
 " DATA(exists) = xsdbool( sy-subrc = 0 ).
 ```
 
-Many of the detailed rules below are just specific reiterations of this general advice.
+[Modern ABAP Language Elements](sub-sections/ModernABAPLanguageElements.md)
+describes the most helpful language additions of the past years.
 
 ### Avoid obsolete language elements
 
