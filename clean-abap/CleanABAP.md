@@ -32,7 +32,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
   - [Prefer object orientation to procedural programming](#prefer-object-orientation-to-procedural-programming)
-  - [Prefer modern language constructs](#prefer-modern-language-constructs)
+  - [Prefer functional to procedural language constructs](#prefer-functional-to-procedural-language-constructs)
   - [Avoid obsolete language elements](#avoid-obsolete-language-elements)
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
@@ -62,6 +62,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use XSDBOOL to set Boolean variables](#use-xsdbool-to-set-boolean-variables)
 - [Conditions](#conditions)
   - [Try to make conditions positive](#try-to-make-conditions-positive)
+  - [Prefer IS NOT to NOT IS](#prefer-is-not-to-not-is)
   - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
   - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
 - [Ifs](#ifs)
@@ -612,9 +613,9 @@ ENDFUNCTION.
 > [Function Groups vs. Classes](sub-sections/FunctionGroupsVsClasses.md)
 > describes the differences in detail.
 
-### Prefer modern language constructs
+### Prefer functional to procedural language constructs
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-modern-language-constructs)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-functional-to-procedural-language-constructs)
 
 They are usually shorter and come more natural to modern programmers.
 
@@ -646,8 +647,7 @@ IF line_exists( value_pairs[ name = 'A' ] ).
 " DATA(exists) = xsdbool( sy-subrc = 0 ).
 ```
 
-[Modern ABAP Language Elements](sub-sections/ModernABAPLanguageElements.md)
-describes the most helpful language additions of the past years.
+Many of the detailed rules below are just specific reiterations of this general advice.
 
 ### Avoid obsolete language elements
 
@@ -1321,6 +1321,33 @@ ENDIF.
 ```
 
 > Read more in _Chapter 17: Smells and Heuristics: G29: Avoid Negative Conditionals_ of [Robert C. Martin's _Clean Code_].
+
+### Prefer IS NOT to NOT IS
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#prefer-is-not-to-not-is)
+
+```ABAP
+IF variable IS NOT INITIAL.
+IF variable NP 'TODO*'.
+IF variable <> 42.
+```
+
+Negation is logically equivalent
+but requires a "mental turnaround"
+that makes it harder to understand.
+
+```ABAP
+" anti-pattern
+IF NOT variable IS INITIAL.
+IF NOT variable CP 'TODO*'.
+IF NOT variable = 42.
+```
+
+> A more specific variant of
+[Try to make conditions positive](#try-to-make-conditions-positive).
+Also as described in the section
+[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
+in the ABAP programming guidelines.
 
 ### Consider decomposing complex conditions
 
