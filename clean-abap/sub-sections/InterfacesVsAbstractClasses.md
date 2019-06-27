@@ -99,6 +99,14 @@ but can inherit only one interface-like abstract class.
 disables inheriting from other classes,
 preventing the sub-class from exploiting inheritance for other aspects.
 
+- Interfaces have no optional methods,
+such that adding a method requires you
+to adjust all implementations.
+
+- Interfaces provide only `PUBLIC` components,
+while abstract classes can provide `PROTECTED` parts as well,
+sharing something with the sub-class but not with the rest of the world.
+
 - Sub-class constructors must call `super->constructor( )`,
 even if the abstract class does not have a constructor.
 
