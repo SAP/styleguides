@@ -62,8 +62,8 @@ On one hand, they unify code and design across objects-of-a-kind,
 making it easier to implement things by providing default implementations,
 frames, and helper methods.
 
-On the other hand, they force sub-classes into their predefined scheme,
-and to accept any code they provide,
+On the other hand, they squeeze sub-classes into their predefined scheme,
+and force them to accept any code they provide,
 
 ```ABAP
 CLASS /clean/specific_blog_post DEFINITION
