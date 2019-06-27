@@ -1610,6 +1610,9 @@ for example the [Composite design pattern](https://en.wikipedia.org/wiki/Composi
 Just ask yourself critically whether inheritance in your case will really provide more benefits than disadvantages.
 If in doubt, composition generally is the safer choice.
 
+> [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
+compares some details.
+
 #### Don't mix stateful and stateless in the same class
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation)
@@ -2088,6 +2091,9 @@ METHOD /clean/blog_post~publish.
 In clean object orientation, having a method public without an interface does not make much sense -
 with few exceptions such as enumeration classes
 which will never have an alternative implementation and will never be mocked in test cases.
+
+> [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
+describes why this also applies to classes that overwrite inherited methods.
 
 ### Parameter Number
 
