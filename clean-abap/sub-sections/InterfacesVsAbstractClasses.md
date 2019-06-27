@@ -104,3 +104,64 @@ being able to suppress instantiation completely with `CREATE PRIVATE`.
 - The abstract class has power over the sub-class's code,
 being able to add members and constructor code that may
 simplify but also interfere with or even break the sub-class's code.
+
+## Complementary
+
+Interfaces and abstract classes complement each other
+and can be combined to perfectly clean patterns.
+
+```ABAP
+INTERFACE /clean/blog_post.
+  PUBLIC.
+    METHODS publish.
+ENDINTERFACE.
+```
+
+```ABAP
+CLASS /clean/publishable_blog_post DEFINITION
+    PUBLIC ABSTRACT CREATE PROTECTED.
+  PUBLIC SECTION.
+    INTERFACES /clean/blog_post.
+    METHODS constructor
+      IMPORTING
+        text TYPE string.
+  PRIVATE SECTION.
+    DATA text TYPE string.
+    DATA rest_handler TYPE REF TO rest_handler.
+ENDCLASS.
+
+CLASS /clean/publishable_blog_post IMPLEMENTATION.
+
+  METHOD constructor.
+    rest_handler = NEW rest_handler( ... ).
+  ENDMETHOD.
+  
+  METHOD /clean/blog_post~publish.
+    rest_handler->post( text ).
+  ENDMETHOD.
+  
+ENDCLASS.
+```
+
+```ABAP
+CLASS /clean/markdown_blog_post DEFINITION
+    PUBLIC ABSTRACT CREATE PROTECTED.
+  PUBLIC SECTION.
+    INTERFACES /clean/blog_post.
+    METHODS constructor
+      IMPORTING
+        markdown_text TYPE string.
+ENDCLASS.
+
+CLASS /clean/publishable_blog_post IMPLEMENTATION.
+
+  METHOD constructor.
+    super->constructor( ).
+  ENDMETHOD.
+  
+  METHOD /clean/blog_post~publish.
+    post_to_the_web( text ).
+  ENDMETHOD.
+  
+ENDCLASS.
+```
