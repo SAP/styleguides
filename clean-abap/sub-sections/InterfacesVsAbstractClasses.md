@@ -88,9 +88,9 @@ ENDCLASS.
 
 ## Comparison
 
-- An abstract class needs more code,
-even if it is completely empty,
-because you always have to provide an `IMPLEMENTATION`.
+- An abstract class needs more code
+because you always have to provide an `IMPLEMENTATION`,
+even if it is completely empty.
 
 - A class can implement multiple interfaces,
 but can inherit only one interface-like abstract class.
