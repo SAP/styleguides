@@ -1,15 +1,22 @@
 # Interfaces vs. Abstract Classes
 
 Although interfaces and abstract classes share some properties,
-they are not equivalent and should not be confused.
-In short, you might say that:
+they are not equivalent and you should not treat one
+as an alternative for the other.
 
-Interfaces were designed to share definitions,
-while abstract classes were designed to share implementations.
+Interfaces are there to share definitions.
+They specify how things are supposed to interact,
+without imposing any expectations
+what the implementation should look like.
 
-In reverse, interfaces vs. abstract classes is not an either-or-question.
-The two serve different purposes that complement each other
-and can be added up nicely to clean patterns.
+Abstract classes are there to share implementations.
+They also specify interaction,
+but in a way that already plots a path how to implement it,
+probably even assisting that implementation with code.
+
+Instead of asking _"Should I use an interface or an abstract class?"_,
+usually the clean way will be to state that _"I will use an interface, full stop"_,
+followed by the question _"Should I use an abstract class to implement it?".
 
 ## Interfaces
 
@@ -30,18 +37,26 @@ In turn, they don't help implementing the required methods
 with default code or helper methods.
 
 ```ABAP
-CLASS /clean/specific_blog_post DEFINITION PUBLIC CREATE PUBLIC.
+CLASS /clean/markdown_blog_post DEFINITION PUBLIC CREATE PUBLIC.
   PUBLIC SECTION.
     INTERFACES /clean/blog_post.
 ENDCLASS.
 
-CLASS /clean/specific_blog_post IMPLEMENTATION.
+CLASS /clean/markdown_blog_post IMPLEMENTATION.
   
   METHOD publish.
   ENDMETHOD.
   
 ENDCLASS.
 ```
+
+![](interfaces-vs-abstract-classes/InterfacesVsAbstractClasses-Interface.png)
+
+> **Class diagram.**
+The `BlogPost` interface has two alternative
+implementations `MarkdownBlogPost` and `HTMLBlogPost`.
+Both fulfill the same "contract", specified by  `BlogPost`,
+but don't share any code.
 
 ## Abstract classes
 
@@ -66,7 +81,7 @@ On the other hand, they squeeze sub-classes into their predefined scheme,
 and force them to accept any code they provide,
 
 ```ABAP
-CLASS /clean/specific_blog_post DEFINITION
+CLASS /clean/markdown_blog_post DEFINITION
     PUBLIC CREATE PUBLIC
     INHERITING FROM /clean/blog_post.
   PUBLIC SECTION.
@@ -74,7 +89,7 @@ CLASS /clean/specific_blog_post DEFINITION
     METHODS publish REDEFINITION.
 ENDCLASS.
 
-CLASS /clean/specific_blog_post IMPLEMENTATION.
+CLASS /clean/markdown_blog_post IMPLEMENTATION.
 
   METHOD constructor.
     super->constructor( ).
@@ -85,6 +100,14 @@ CLASS /clean/specific_blog_post IMPLEMENTATION.
   
 ENDCLASS.
 ```
+
+![](interfaces-vs-abstract-classes/InterfacesVsAbstractClasses-AbstractClass.png)
+
+> **Class diagram.**
+The abstract class `BlogPost` has two sub-classes
+`MarkdownBlogPost` and `HTMLBlogPost`.
+Both fit into the "frame" specified by `BlogPost`,
+probably inheriting some methods and attributes from their super-class.
 
 ## Comparison
 
@@ -116,3 +139,48 @@ being able to suppress instantiation completely with `CREATE PRIVATE`.
 - The abstract class has power over the sub-class's code,
 being able to add members and constructor code that may
 simplify but also interfere with or even break the sub-class's code.
+
+- Unit testing is easier with interfaces,
+because they allow plugging in any kind of test double.
+Interface-like abstract classes require the test double
+to inherit the abstract class, probably involuntarily
+running code included in it, esp. its constructor.
+
+## Combination
+
+Instead of using abstract classes as alternative to interfaces,
+you should use both in combination to decouple dependencies.
+
+```ABAP
+INTERFACE /clean/blog_post.
+  PUBLIC.
+    METHODS publish.
+ENDINTERFACE.
+```
+
+```ABAP
+CLASS /clean/formatted_blog_post DEFINITION PUBLIC ABSTRACT CREATE PROTECTED.
+  PUBLIC SECTION.
+    INTERFACES /clean/blog_post.
+ENDCLASS.
+
+CLASS /clean/formatted_blog_post IMPLEMENTATION.
+
+  METHOD /clean/blog_post~publish.
+    " default implementation
+    " sub-classes can use it
+    " or override the method with something else
+  ENDMETHOD.
+  
+ENDCLASS.
+```
+
+![](interfaces-vs-abstract-classes/InterfacesVsAbstractClasses-Combined.png)
+
+> **Class diagram.**
+The interface `BlogPost` specifies the "contract"
+that all blog posts will fulfill.
+The developers decided to use an inheritance scheme to implement
+different "flavors" of blog posts,
+using an abstract class `FormattedBlogPost` with two sub-classes
+`MarkdownBlogPost` and `HTMLBlogPost`.
