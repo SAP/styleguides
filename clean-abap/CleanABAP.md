@@ -19,7 +19,6 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Names](#names)
   - [Use descriptive names](#use-descriptive-names)
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
-  - [Document problem domain terms](#document-problem-domain-terms)
   - [Use plural](#use-plural)
   - [Use pronounceable names](#use-pronounceable-names)
   - [Avoid abbreviations](#avoid-abbreviations)
@@ -367,13 +366,6 @@ so choose names that all of these can relate to without a customized dictionary.
 
 > Read more in _Chapter 2: Meaningful Names: Use Solution Domain Names_ and _[...]:
 > Use Problem Domain Names_ of [Robert C. Martin's _Clean Code_].
-
-### Document problem domain terms
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#document-problem-domain-terms)
-
-The definition of the problem domain terms used by the business owners are
-difficult to interpret out of the domain code. Consider to document these definitions separatly.
 
 ### Use plural
 
