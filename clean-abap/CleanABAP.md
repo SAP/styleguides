@@ -3170,6 +3170,7 @@ Use this only if you are sure about that.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#prefer-raise-exception-new-to-raise-exception-type)
 
+Note: Available from NW 7.52 onwards.
 ```ABAP
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
