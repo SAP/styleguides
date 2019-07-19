@@ -4230,7 +4230,7 @@ ENDMETHOD.
 
 ```ABAP
 DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
-cl_abap_testdouble=>configure_call( customizing_reader)->returning( sub_claim_customizing ).
+cl_abap_testdouble=>configure_call( customizing_reader )->returning( sub_claim_customizing ).
 customizing_reader->read( 'SOME_ID' ).
 ```
 
