@@ -69,6 +69,10 @@ ENDCLASS.
 CLASS /clean/blog_post IMPLEMENTATION.
 ENDCLASS.
 ```
+An abstract class differs from regular classes in that it can’t be instantiated. Only 
+sub-classes of the abstract class can be instantiated. An abstract class should contain 
+at least one abstract method. An abstract method is declared in the abstract class, 
+and then implemented in the sub-classes of the abstract class.
 
 Abstract classes allow connecting only code that
 fits the inheritance pattern.
