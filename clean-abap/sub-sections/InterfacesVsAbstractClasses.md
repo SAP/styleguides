@@ -78,7 +78,7 @@ making it easier to implement things by providing default implementations,
 frames, and helper methods.
 
 On the other hand, they squeeze sub-classes into their predefined scheme,
-and force them to accept any code they provide,
+and force them to accept any code they provide.
 
 ```ABAP
 CLASS /clean/markdown_blog_post DEFINITION
