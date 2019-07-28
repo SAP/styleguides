@@ -73,7 +73,7 @@ ENDCLASS.
 Abstract classes allow connecting only code that
 fits the inheritance pattern.
 
-On one hand, they unify code and design across objects-of-a-kind,
+On the one hand, they unify code and design across objects-of-a-kind,
 making it easier to implement things by providing default implementations,
 frames, and helper methods.
 
