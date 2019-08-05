@@ -119,8 +119,14 @@ probably inheriting some methods and attributes from their super-class.
 because you always have to provide an `IMPLEMENTATION`,
 even if it is completely empty.
 
+- An abstract class can reduce the amount of code needed by providing 
+a default behavior in a non-abstract method. If such a method 
+would have been part of the interface, it would have to be 
+implemented separately for each class implementing the interface.
+
 - A class can implement multiple interfaces,
-but can inherit only one interface-like abstract class.
+but can inherit only one interface-like abstract class. Remember to 
+[favor composition over inheritance](../CleanABAP.md#prefer-composition-to-inheritance), though.
 
 - Inheriting from the interface-like abstract class
 disables inheriting from other classes,
