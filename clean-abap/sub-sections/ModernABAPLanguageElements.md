@@ -233,7 +233,7 @@ IF sy-subrc = 0.
 ENDIF.
 ```
 
-#### Access table key with uncertain result
+### Access table key with uncertain result
 
 ```ABAP
 DATA(account) = VALUE #( accounts[ id = '4711' ] OPTIONAL ).
@@ -251,7 +251,7 @@ TRY.
 ENDTRY.
 ```
 
-#### Access table index
+### Access table index
 
 Access a specific index of an internal table directly, use the bracket notation `table_name[ ]`.
 
@@ -268,9 +268,9 @@ IF sy-subrc = 0.
 ENDIF.
 ```
 
-### Conditions
+## Conditions
 
-#### Conditional distinction
+### Conditional distinction
 
 To evaluate conditions, use the `COND #( )` operator.
 
@@ -295,7 +295,7 @@ ENDIF.
 
 > Alternatively you may use the [function `xsdbool( )`](../CleanABAP.md#use-xsdbool-to-set-boolean-variables)
 
-#### Case distinction
+### Case distinction
 
 Evaluate case distinction with the `SWITCH #( )` operator
 
@@ -323,7 +323,7 @@ CASE scrum_status.
 ENDCASE.
 ```
 
-#### Case distinctions of reference types class and interface
+### Case distinctions of reference types class and interface
 
 Switch on a reference types class and interface using the `CASE` extension `TYPE OF`.
 
@@ -344,9 +344,9 @@ IF account IS INSTANCE OF bank_account.
 ENDIF.
 ```
 
-### Conversions
+## Conversions
 
-#### Cast data references
+### Cast data references
 
 Cast reference types to other reference types using the `CAST #( )` operator.
 
@@ -370,7 +370,7 @@ CREATE OBJECT my_bank_account.
 my_account ?= bank_account.
 ```
 
-#### Create data references
+### Create data references
 
 Create data references to structures and tables with the operator `REF #( )`.
 
@@ -388,7 +388,7 @@ GET REFERENCE OF accounts INTO accounts_reference.
 import_accounts_references( accounts_reference ) ).
 ```
 
-#### Convert data types
+### Convert data types
 
 Use the operator `CONV #( )` to convert data types and save temporary variables.
 
@@ -404,7 +404,7 @@ a_string = a_char.
 method_takes_string( a_string ).
 ```
 
-#### Copy fields with matching names
+### Copy fields with matching names
 
 Copy fields with matching names from one data type to another with `corresponding #( )`.
 
@@ -422,9 +422,9 @@ MOVE-CORRESPONDING source_structure TO target_structure.
 > The `CORRESPONDING( )` statement is a constructor statement, meaning all fields in the `target_structure` are initialized before the corresponding `source_structure` values are copied to the `target_sructure`
 > The `MOVE-CORRESPONDING` statement in contrast leaves the content of the not matching fields in the `target_structure untouched.
 
-### Constructors
+## Constructors
 
-#### Construct objects and data
+### Construct objects and data
 
 Construct objects and data with the `NEW #( )` operator.
 
@@ -456,7 +456,7 @@ DATA account TYPE REF TO if_account.
 CREATE OBJECT account TYPE cl_account.
 ```
 
-#### Construct data types
+### Construct data types
 
 Construct structures and tables using the `VALUE #( )` operator.
 It also constructs initial values for most data types.
@@ -512,7 +512,7 @@ LOOP AT input INTO DATA(row).
 ENDLOOP.
 ```
 
-#### Filter tables
+### Filter tables
 
 Construct a table as a subset of another stable using `FILTER #( )`.
 
@@ -530,9 +530,9 @@ LOOP AT accounts INTO bank_account WHERE account_type = 'B'.
 ENDLOOP.
 ```
 
-### Character Handling
+## Character Handling
 
-#### Lower and upper case conversion
+### Lower and upper case conversion
 
 Convert characters between cases using `to_upper( )` or `to_lower( )`.
 
