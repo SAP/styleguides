@@ -2806,7 +2806,8 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-the statement's name is so obscure that people will probably understand the long form better:
+the statement's name doesn't reveal what happens if the condition fails,
+such that people will probably understand the long form better:
 
 ```ABAP
 METHOD read_customizing.
@@ -2817,8 +2818,8 @@ METHOD read_customizing.
 ENDMETHOD:
 ```
 
-You can also avoid the question completely by reversing the validation
-and adopting Dijkstra's single-exit pattern for structured programming
+You can avoid the question completely by reversing the validation
+and adopting a single-return control flow
 
 ```ABAP
 METHOD read_customizing.
