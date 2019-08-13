@@ -14,9 +14,9 @@ They also specify interaction,
 but in a way that already plots a path how to implement it,
 probably even assisting that implementation with code.
 
-Instead of asking _"Should I use an interface or an abstract class?"_,
-usually the clean way will be to state that _"I will use an interface, full stop"_,
-followed by the question _"Should I use an abstract class to implement it?".
+Instead of asking _"should I use an interface or an abstract class?"_,
+usually the clean way will be to state that _"I will use an interface"_,
+followed by the question _"should I use an abstract class to implement it?"_.
 
 ## Interfaces
 
