@@ -2872,7 +2872,7 @@ To make messages easy to find through a where-used search from transaction SE91,
 MESSAGE e001(ad) INTO DATA(lv_message).
 ```
 
-In case lv_message is not needed, add the pragma `##NEEDED`:
+In case `lv_message` is not needed, add the pragma `##NEEDED`:
 
 ```ABAP
 MESSAGE e001(ad) INTO DATA(lv_message) ##NEEDED.
