@@ -4492,7 +4492,7 @@ METHOD rejects_invalid_input.
   " when
   DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
   " then
-  cl_abap_unit_assert=>assert_true( is_valid ).
+  cl_abap_unit_assert=>assert_false( is_valid ).
 ENDMETHOD.
 ```
 
@@ -4582,7 +4582,7 @@ METHOD rejects_invalid_input.
   " when
   DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
   " then
-  cl_abap_unit_assert=>assert_true( is_valid ).
+  cl_abap_unit_assert=>assert_false( is_valid ).
 ENDMETHOD.
 ```
 
@@ -4598,7 +4598,7 @@ METHOD rejects_invalid_input.
   " when
   DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
   " then
-  cl_abap_unit_assert=>assert_true( is_valid ).
+  cl_abap_unit_assert=>assert_false( is_valid ).
   cl_abap_unit_assert=>assert_not_initial( log->get_messages( ) ).
   cl_abap_unit_assert=>assert_equals( act = sy-langu
                                       exp = 'E' ).
