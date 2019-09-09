@@ -222,7 +222,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use FAIL to check for expected exceptions](#use-fail-to-check-for-expected-exceptions)
     - [Forward unexpected exceptions instead of catching and failing](#forward-unexpected-exceptions-instead-of-catching-and-failing)
     - [Write custom asserts to shorten code and avoid duplication](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
-    
+
 ## How to
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#how-to)
@@ -261,7 +261,7 @@ The topics [Booleans](#booleans), [Conditions](#conditions), [Ifs](#ifs),
 and [Methods](#methods) are most rewarding if you are working on a legacy project
 with tons of code that you cannot or do not want to change
 because they can be applied to new code without conflicts.
- 
+
 The topic [Names](#names) is very demanding for legacy projects,
 as it may introduce a breach between old and new code,
 up to a degree where sections like
@@ -288,7 +288,7 @@ of what you're doing and form solidly tested home bases for further refactoring.
 4. Talk about it. No matter whether you set up old-school [Fagan code reviews](https://en.wikipedia.org/wiki/Fagan_inspection),
 hold info sessions, or form discussion boards in your favorite chat tool:
 you will need to talk about your experiences and learnings, to enable the
-team to grow a common understanding. 
+team to grow a common understanding.
 
 ### How to Check Automatically
 
@@ -474,13 +474,17 @@ FUNCTION /clean/read_alerts
 
 Omit noise words
 
-    account  " instead of account_data
-    alert    " instead of alert_object
+```ABAP
+account  " instead of account_data
+alert    " instead of alert_object
+```
 
 or replace them with something specific that really adds value
 
-    user_preferences          " instead of user_info
-    response_time_in_seconds  " instead of response_time_variable
+```ABAP
+user_preferences          " instead of user_info
+response_time_in_seconds  " instead of response_time_variable
+```
 
 > Read more in _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ of [Robert C. Martin's _Clean Code_]
 
@@ -577,20 +581,20 @@ Try to build things in a clean, object-oriented way.
 If something is too slow, make a performance measurement.
 Only then should you take a fact-based decision to discard selected rules.
 
-Some further thoughts, taken in part from Chapter 2 of 
+Some further thoughts, taken in part from Chapter 2 of
 [Martin Fowler's _Refactoring_](https://martinfowler.com/books/refactoring.html):
 
-In a typical application the majority of the runtime is spent in a very small proportion 
-of the code. As little as 10% of the code can account for 90% of the runtime, and especially 
-in ABAP a large proportion of runtime is likely to be database time. 
+In a typical application the majority of the runtime is spent in a very small proportion
+of the code. As little as 10% of the code can account for 90% of the runtime, and especially
+in ABAP a large proportion of runtime is likely to be database time.
 
-Thus it is not the best use of resources to spend significant effort on trying to make _all_ 
-code super-efficient all the time. We're not suggesting ignoring performance, but rather 
-focus more on clean and well structured code during initial development, and use the 
-profiler to identify critical areas to optimize. 
+Thus it is not the best use of resources to spend significant effort on trying to make _all_
+code super-efficient all the time. We're not suggesting ignoring performance, but rather
+focus more on clean and well structured code during initial development, and use the
+profiler to identify critical areas to optimize.
 
-In fact, we would argue that such an approach will have a net positive effect on performance 
-because it is a more targeted optimization effort, and it should be easier 
+In fact, we would argue that such an approach will have a net positive effect on performance
+because it is a more targeted optimization effort, and it should be easier
 to identify performance bottlenecks and easier to refactor and tune well structured code.
 
 ### Prefer object orientation to procedural programming
@@ -767,7 +771,7 @@ ENDINTERFACE.
 > [Enumerations](sub-sections/Enumerations.md)
 > describes common enumeration patterns
 > and discusses their advantages and disadvantages.
-
+>
 > Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
 
 ### If you don't use enumeration classes, group your constants
@@ -1077,7 +1081,7 @@ ENDLOOP.
 
 ```ABAP
 LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
-``` 
+```
 
 expresses the intent clearer and shorter than
 
@@ -1591,7 +1595,7 @@ ENDMETHOD.
 #### Prefer composition to inheritance
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-composition-to-inheritance)
- 
+
 Avoid building hierarchies of classes with inheritance. Instead, favor composition.
 
 Clean inheritance is hard to design because you need to respect rules
@@ -1647,7 +1651,7 @@ CLASS /clean/xml_converter IMPLEMENTATION.
    ENDMETHOD.
 ENDCLASS.
 ```
- 
+
 In stateful programming, we manipulate the internal state of objects
 through their methods, meaning it is _full of side effects_.
 
@@ -1665,7 +1669,7 @@ CLASS /clean/log IMPLEMENTATION.
   ENDMETHOD.
 ENDCLASS.
 ```
- 
+
 Both paradigms are okay and have their applications.
 However, _mixing_ them in the same object produces code
 that is hard to understand and sure to fail
@@ -2421,7 +2425,7 @@ tend to obscure the parameter's meaning.
 update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
 ```
 
-Splitting the method may simplify the methods' code 
+Splitting the method may simplify the methods' code
 and describe the different intentions better
 
 ```ABAP
@@ -2460,7 +2464,7 @@ Repeating a member name can even produce conflicts that need to be resolved by a
 METHODS get_name
   RETURNING
     VALUE(name) TYPE string.
-    
+
 METHOD get_name.
   name = me->name.
 ENDMETHOD.
@@ -2501,7 +2505,7 @@ ENDMETHOD.
 ```
 
 > Code inspector and Checkman point out `EXPORTING` variables that are never written.
-Use these static checks to avoid this otherwise rather obscure error source. 
+Use these static checks to avoid this otherwise rather obscure error source.
 
 ##### Take care if input and output could be the same
 
@@ -3178,6 +3182,7 @@ Use this only if you are sure about that.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#prefer-raise-exception-new-to-raise-exception-type)
 
 Note: Available from NW 7.52 onwards.
+
 ```ABAP
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
@@ -3615,7 +3620,7 @@ as agreed in your team.
 
 > [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) explains
 > why we do not give clear guidance for the type case of keywords.
-
+>
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
 ### No more than one statement per line
@@ -4719,7 +4724,7 @@ METHODS assert_contains
   IMPORTING
     actual_entries TYPE STANDARD TABLE OF entries_tab
     expected_key   TYPE key_structure.
-     
+
 METHOD assert_contains.
   TRY.
       actual_entries[ key = expected_key ].
