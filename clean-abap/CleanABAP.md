@@ -2165,11 +2165,12 @@ METHODS do_one_or_the_other
 ```
 
 Optional parameters confuse callers:
-Which ones are really required?
-Which combinations are valid?
-Which ones exclude each other?
 
-Multiple methods avoid this confusion by giving clear guidance which parameter combinations are valid and expected.
+- Which ones are really required?
+- Which combinations are valid?
+- Which ones exclude each other?
+
+Multiple methods with specific parameters for the use case avoid this confusion by giving clear guidance which parameter combinations are valid and expected.
 
 #### Use PREFERRED PARAMETER sparingly
 
@@ -4409,13 +4410,13 @@ because it only stores data without any side effects.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-build-test-frameworks)
 
-Unit tests should be data-in-data-out, with all test data being defined on the fly as needed.
+Unit tests - in contrast to integration tests - should be data-in-data-out, with all test data being defined on the fly as needed.
 
 ```ABAP
 cl_abap_testdouble=>configure_call( test_double )->returning( data ).
 ```
 
-Don't start building frameworks that distinguish "test case IDs" to decide what data to provide.
+Don't start building frameworks that distinguish "*test case IDs*" to decide what data to provide.
 The resulting code will be so long and tangled that you won't be able to keep these tests alive in the long term.
 
 ```ABAP
