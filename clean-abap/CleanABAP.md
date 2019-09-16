@@ -88,7 +88,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
     - [If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public](#if-your-global-class-is-create-private-leave-the-constructor-public)
     - [Prefer multiple static factory methods to optional parameters](#prefer-multiple-static-factory-methods-to-optional-parameters)
-    - [Use descriptive names for multiple constructor methods](#use-descriptive-names-for-multiple-constructor-methods)
+    - [Use descriptive names for multiple creation methods](#use-descriptive-names-for-multiple-creation-methods)
     - [Make singletons only where multiple instances don't make sense](#make-singletons-only-where-multiple-instances-dont-make-sense)
 - [Methods](#methods)
   - [Calls](#calls)
@@ -1880,15 +1880,19 @@ explains the reasoning behind this.
 Consider resolving complex constructions to a multi-step construction with the
 [Builder design pattern](https://en.wikipedia.org/wiki/Builder_pattern).
 
-#### Use descriptive names for multiple constructor methods
+#### Use descriptive names for multiple creation methods
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#use-descriptive-names-for-multiple-constructor-methods)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#use-descriptive-names-for-multiple-creation-methods)
+
+Good words to start creation methods are `new_`, `create_`, and `construct_`.
+People intuitively connect them to the construction of objects.
+They also add up nicely to verb phrases like `new_from_template`, `create_as_copy`, or `create_by_name`.
 
 ```ABAP
-CLASS-METHODS describe_by_data IMPORTING p_data TYPE any [...]
-CLASS-METHODS describe_by_name IMPORTING p_name TYPE any [...]
-CLASS-METHODS describe_by_object_ref IMPORTING p_object_ref TYPE REF TO object [...]
-CLASS-METHODS describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
+CLASS-METHODS create_describe_by_data IMPORTING p_data TYPE any [...]
+CLASS-METHODS create_describe_by_name IMPORTING p_name TYPE any [...]
+CLASS-METHODS create_describe_by_object_ref IMPORTING p_object_ref TYPE REF TO object [...]
+CLASS-METHODS create_describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
 ```
 
 instead of something meaningless like
@@ -1900,10 +1904,6 @@ CLASS-METHODS create_2 IMPORTING p_name TYPE any [...]
 CLASS-METHODS create_3 IMPORTING p_object_ref TYPE REF TO object [...]
 CLASS-METHODS create_4 IMPORTING p_data_ref TYPE REF TO data [...]
 ```
-
-Good words to start constructors are `new_`, `create_`, and `construct_`.
-People intuitively connect them to the construction of objects.
-They also add up nicely to verb phrases like `new_from_template`, `create_as_copy`, or `create_by_name`.
 
 #### Make singletons only where multiple instances don't make sense
 
