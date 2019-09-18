@@ -198,7 +198,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Extract the call to the code under test to its own method](#extract-the-call-to-the-code-under-test-to-its-own-method)
   - [Injection](#injection)
     - [Use dependency inversion to inject test doubles](#use-dependency-inversion-to-inject-test-doubles)
-    - [Use CL_ABAP_TESTDOUBLE](#use-cl_abap_testdouble)
+    - [Consider to use the tool ABAP test double](#consider-to-use-the-tool-abap-test-double)
     - [Exploit the test tools](#exploit-the-test-tools)
     - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
     - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
@@ -4267,9 +4267,9 @@ METHOD constructor.
 ENDMETHOD.
 ```
 
-#### Use CL_ABAP_TESTDOUBLE
+#### Consider to use the tool ABAP test double
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-cl_abap_testdouble)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#consider-to-use-the-tool-abap-test-double)
 
 ```ABAP
 DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
