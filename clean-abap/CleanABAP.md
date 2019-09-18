@@ -905,7 +905,8 @@ DATA:
   reader TYPE REF TO /dirty/reader.
 ```
 
-> Also refer to [Don't align type clauses](#dont-align-type-clauses)
+> Also refer to [Don't align type clauses](#dont-align-type-clauses)  
+> If chaining of data declaration is used, then use one chain for each group of variables belonging together.
 
 ### Prefer REF TO to FIELD-SYMBOL
 
