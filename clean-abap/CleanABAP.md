@@ -2695,7 +2695,7 @@ The bullets (s)he numbers are the sub-methods the method should call or the stat
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#keep-methods-small)
 
-Methods should be very small, optimally around 3 to 5 statements.
+Methods should have less than 20 statements, optimal around 3 to 5 statements.
 
 ```ABAP
 METHOD read_and_parse_version_filters.
