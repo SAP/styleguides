@@ -127,6 +127,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [CHECK vs. RETURN](#check-vs-return)
     - [Avoid CHECK in other positions](#avoid-check-in-other-positions)
 - [Error Handling](#error-handling)
+  - [Messages](#messages)
+    - [Make messages easy to find](#make-messages-easy-to-find)
   - [Return Codes](#return-codes)
     - [Prefer exceptions to return codes](#prefer-exceptions-to-return-codes)
     - [Don't let failures slip through](#dont-let-failures-slip-through)
@@ -2856,6 +2858,37 @@ people might accidentally expect it to end the method or exit the loop.
 ## Error Handling
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#error-handling)
+
+### Messages
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#messages)
+
+#### Make messages easy to find
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Messages](#messages) > [This section](#make-messages-easy-to-find)
+
+To make messages easy to find through a where-used search from transaction SE91, use the following pattern:
+
+```ABAP
+MESSAGE e001(ad) INTO DATA(message).
+```
+
+In case variable `message` is not needed, add the pragma `##NEEDED`:
+
+```ABAP
+MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
+```
+
+Avoid the following:
+
+```ABAP
+" anti-pattern
+IF 1 = 2. MESSAGE e001(ad). ENDIF.
+```
+
+This is an anti-pattern since:
+- It contains unreachable code.
+- It tests a condition which can never be true for equality.
 
 ### Return Codes
 
