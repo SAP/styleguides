@@ -3608,7 +3608,7 @@ to update your code over time.
 Developers spend most time _reading_ code.
 Actually _writing_ code takes up a way smaller portion of the day.
 
-As a consequence, you should optimize your code formatting for reading, not for writing.
+As a consequence, you should optimize your code formatting for reading and debugging, not for writing.
 
 For example, you should prefer
 
