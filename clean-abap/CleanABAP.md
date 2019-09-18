@@ -1858,9 +1858,8 @@ CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [..
 CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 ```
 
-Don't try to "remedy" ABAP's missing support for
-[overloading](https://en.wikipedia.org/wiki/Function_overloading)
-by adding optional parameters.
+ABAP does not support [overloading](https://en.wikipedia.org/wiki/Function_overloading).
+Use name variations and not optional parameters to achieve the desired semantics.
 
 ```ABAP
 " anti-pattern
@@ -2152,9 +2151,7 @@ METHODS do_one_thing IMPORTING what_i_need TYPE string.
 METHODS do_another_thing IMPORTING something_else TYPE i.
 ```
 
-instead of trying to compensate ABAP's missing support for
-[overloading](https://en.wikipedia.org/wiki/Function_overloading)
-by adding optional parameters
+to achieve the desired semantic as ABAP does not support [overloading](https://en.wikipedia.org/wiki/Function_overloading).
 
 ```ABAP
 " anti-pattern
