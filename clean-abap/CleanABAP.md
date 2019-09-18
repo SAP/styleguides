@@ -2869,13 +2869,13 @@ people might accidentally expect it to end the method or exit the loop.
 To make messages easy to find through a where-used search from transaction SE91, use the following pattern:
 
 ```ABAP
-MESSAGE e001(ad) INTO DATA(lv_message).
+MESSAGE e001(ad) INTO DATA(message).
 ```
 
-In case `lv_message` is not needed, add the pragma `##NEEDED`:
+In case variable `message` is not needed, add the pragma `##NEEDED`:
 
 ```ABAP
-MESSAGE e001(ad) INTO DATA(lv_message) ##NEEDED.
+MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 ```
 
 Avoid the following:
