@@ -79,7 +79,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Prefer composition to inheritance](#prefer-composition-to-inheritance)
     - [Don't mix stateful and stateless in the same class](#dont-mix-stateful-and-stateless-in-the-same-class)
   - [Scope](#scope)
-    - [Global by default, local only in exceptional cases](#global-by-default-local-only-in-exceptional-cases)
+    - [Global by default, local only where appropriate](#global-by-default-local-only-where-appropriate)
     - [FINAL if not designed for inheritance](#final-if-not-designed-for-inheritance)
     - [Members PRIVATE by default, PROTECTED only if needed](#members-private-by-default-protected-only-if-needed)
     - [Consider using immutable instead of getter](#consider-using-immutable-instead-of-getter)
@@ -1688,22 +1688,48 @@ Don't do that.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#scope)
 
-#### Global by default, local only in exceptional cases
+#### Global by default, local only where appropriate
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#global-by-default-local-only-in-exceptional-cases)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#global-by-default-local-only-where-appropriate)
 
-Work with global classes as default (meaning the ones that are visible in the dictionary).
+Work with global classes as default.
+Use local classes only where appropriate.
 
-Use local classes only in exceptional cases,
-for example for very specific data structures or to facilitate writing unit tests.
+> Global classes are the ones that are visible in the data dictionary.
+> Local classes live within an include of another development object
+> and are only visible to this other object.
+
+Local classes are suited
+
+- for very specific private data structures,
+for example an iterator for the global class's data,
+which will only ever be needed here,
+
+- to extract a complex private piece algorithm,
+for example to disentangle that special purpose multi-method
+sort-aggregate algorithm from the rest of your class's code,
+
+- to enable mocking certain aspects of the global class,
+for example by extracing all database access to a separate local class
+that can the be replaced with a test double in the unit tests.
 
 Local classes hinder reuse because they cannot be used elsewhere.
-Although they are easy to extract, people will usually fail to even find them.
+Although they are easy to extract, people will usually fail to even find them,
+leading to undesired code duplication.
+Orientation, navigation, and debugging in very long local class includes
+is tedious and annoying. 
+As ABAP locks on include level, people will not be able to work on
+different parts of the local include simultaneously
+(which would be possible if they were separate global classes).
 
-A clear indication that a local class should be made global is if you have the urge to write tests for it.
-A local class is a natural private cogwheel in its greater global class that you will usually not test.
-The need for tests indicates that the class is independent from its surrounding and so complex
-that it should become an object of its own.
+Reconsider your use of local classes if
+
+- your local include spans dozens of classes and thousands of lines of code,
+- you think about global classes as "packages" that hold other classes,
+- your global classes degenerate into empty hulls,
+- you find duplicate code repeated throughout separate local includes,
+- your developers start locking each other out and become unable to work in parallel,
+- your backlog estimates go sky-high because your teams fail to understand each other's local sub-trees.
 
 #### FINAL if not designed for inheritance
 
