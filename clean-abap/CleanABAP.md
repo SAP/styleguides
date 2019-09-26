@@ -87,7 +87,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Constructors](#constructors)
     - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
     - [If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public](#if-your-global-class-is-create-private-leave-the-constructor-public)
-    - [Prefer multiple static factory methods to optional parameters](#prefer-multiple-static-factory-methods-to-optional-parameters)
+    - [Prefer multiple static creation methods to optional parameters](#prefer-multiple-static-factory-methods-to-optional-parameters)
     - [Use descriptive names for multiple creation methods](#use-descriptive-names-for-multiple-creation-methods)
     - [Make singletons only where multiple instances don't make sense](#make-singletons-only-where-multiple-instances-dont-make-sense)
 - [Methods](#methods)
@@ -797,6 +797,7 @@ CONSTANTS:
 Makes the relation clearer than:
 
 ```ABAP
+" Anti-pattern
 CONSTANTS:
   warning      TYPE symsgty VALUE 'W',
   transitional TYPE i       VALUE 1,
@@ -1854,7 +1855,7 @@ specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee co
 This applies only to global classes.
 In local classes, make the constructor private, as it should be.
 
-#### Prefer multiple static factory methods to optional parameters
+#### Prefer multiple static creation methods to optional parameters
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-to-optional-parameters)
 
@@ -2079,7 +2080,7 @@ They can be mocked easier in unit tests.
 METHODS publish.
 ```
 
-Methods should be static only in exceptional cases, such as static constructor methods.
+Methods should be static only in exceptional cases, such as static creation methods.
 
 ```ABAP
 CLASS-METHODS create_instance
@@ -3870,13 +3871,12 @@ DATA(sum) = add_two_numbers(
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
 
 ```ABAP
-" anti-pattern
 DATA(sum) = add_two_numbers(
     value_1 = 5
     value_2 = 6 ).
 ```
 
-> This is on the other side the best pattern if you want to avoid the formatting to be broken by a name length change.
+However, this is the best pattern if you want to avoid the formatting to be broken by a name length change.
 
 ### Line-break multiple parameters
 
