@@ -2,6 +2,14 @@
 
 > [Back to the guide](../CleanABAP.md)
 
+- [Abstract](#abstract)
+- [Reasoning](#reasoning)
+- [Arguments](#arguments)
+- [Avoiding name clashes](#avoiding-name-clashes)
+- [Compromises](#compromises)
+
+## Abstract
+
 We encourage you to get rid of _all_ encoding prefixes.
 
 ```ABAP
@@ -13,6 +21,7 @@ ENDMETHOD.
 instead of the needlessly longer
 
 ```ABAP
+" anti-pattern
 METHOD add_two_numbers.
   rv_result = iv_a + iv_b.
 ENDMETHOD.
@@ -20,12 +29,12 @@ ENDMETHOD.
 
 > Read more in _Chapter 2: Meaningful Names: Avoid Encodings_ of [Robert C. Martin's _Clean Code_].
 > The examples in this style guide are written without prefixes to demonstrate the value.
-
+>
 > This section contradicts the sections [_Names of Repository Objects_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abennames_repos_obj_guidl.htm)
 > and [_Program-Internal Names_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenprog_intern_names_guidl.htm)
 > of the ABAP Programming Guidelines which recommend to use prefixes.
 > We think that avoiding prefixes is the more modern and readable variant and that the guideline should be adjusted.
-
+>
 > Prefixing is one of the most controversially discussed topics in ABAP.
 > [[1]](https://blogs.sap.com/2009/08/30/nomen-est-omen-abap-naming-conventions/)
 > [[2]](https://blogs.sap.com/2016/02/05/fanning-the-flames-prefixing-variableattribute-names/)
@@ -36,13 +45,15 @@ ENDMETHOD.
 
 ## Reasoning
 
-SAP has a bad, pervasive legacy practice of adding prefixes to each and everything, to encode things like
+With ABAP there is a legacy practice of adding prefixes to each and everything, to encode things like
 
-- kind, such as "cl_" for classes,
-- direction, such as "is_" for an input parameter,
-- scope, such as "mo_" for a class member,
-- type, such as "lt_" for a table-like variable, and
-- mutability, such as "sc_" for a constant.
+- `cl_` for classes
+- `if_` for interfaces
+- `is_` for an importing parameter
+- `mo_` for a class member attribute
+- `lt_` for a table-like variable
+- `sc_` for a constant
+- ...
 
 This kind of prefixing is a relic from the early days of programming, when code was printed out and read on paper,
 and you didn't want to flip around just to find some variable's type.
@@ -65,7 +76,7 @@ Before you disagree, consider these:
   leads to pointless conflicts.
   
 - Different team styles create confusion:
-  is "lr_" an object reference or a range table?
+  is `lr_` an object reference or a range table?
   You'll stumble over this in code that connects different things,
   for example your determinations within BOPF.
 
@@ -77,7 +88,7 @@ Before you disagree, consider these:
   is not lost at all.
 
 - Changes create needless work: turning a table from `STANDARD` to `SORTED` shouldn't require you
-  to rename all variables from "lt_" to "lts_".
+  to rename all variables from `lt_` to `lts_`.
   
 - Prefixing doesn't make it easier to tell global from local things.
   If you fill a `gt_sum` from an `lt_sum`, both are still only sums and it's not clear what distinguishes the two.
@@ -102,16 +113,73 @@ Before you disagree, consider these:
 - Other languages like Java use absolutely no prefixes,
   and still Java code is perfectly readable.
 
+## Avoiding name clashes 
+
+One consequence of removing the prefixes is a potential name clash of entities which are in the the same namespace. So far it was a common practice to have interfaces and classes named identical, only differentiated by the prefix.
+
+While this practice was not correct in the first place, as an interface is something more generic than an implementing class, there is now the need to be more precise in the naming of entities.
+
+Name the interface more generic and the implementing classes more specific:
+
+```ABAP
+interface game_board.
+  ...
+endinterface.
+
+class game_board_as_list definition.
+  public section.
+    interfaces game_board.
+  ...
+endclass.
+
+class game_board_as_array definition.
+  public section.
+    interfaces game_board.
+  ...
+endclass.
+```
+
+To avoid name clashes with method e.g. importing parameters use the self reference `me->`:
+
+```ABAP
+class game_board_as_list definition.
+  public section.
+    methods constructor
+      importing x_dimension type i
+                y_dimension type i.
+  private section.
+    data x_dimension type i.
+    data y_dimension type i.
+endclass.
+
+class game_board_as_list implementation.
+  method constructor.
+    me->x_dimension = x_dimension.
+    me->y_dimension = y_dimension.
+  endmethod.
+endclass.
+```
+
+For tables and structures use singular and plural:
+
+```ABAP
+types: begin of coordinate,
+         x type i,
+         y type i,
+       end of coordinate.
+type coordinates type standard table of coordinate with default key.
+```
+
 ## Compromises
 
-There is only one prefix that ABAP forces you to use: your application's namespace,
+The only prefix that ABAP forces you to use is your application's namespace,
 to avoid conflicts with objects from other teams in the global dictionary, where every thing needs a unique name.
 
-If this rule is too hard for you, consider a compromise:
-avoid encodings in local contexts (within a method body, method parameters, local classes, etc.),
+If this rule is too hard for you, consider a compromise:  
+Avoid encodings in local contexts (within a method body, method parameters, local classes, etc.),
 and apply them only to global objects that are stored in the same global Dictionary namespace.
 
 We agree that following this suggestion will work out only if the code is already _clean_ in some other aspects,
 especially short methods and good method and variable names.
-While prefixes needlessly complicate a clean method with two statements,
+While prefixes needlessly complicate a clean code with extra three characters in names,
 they may be your only remaining lifeline in a thousand-line legacy function with cryptic variable names.
