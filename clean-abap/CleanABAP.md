@@ -306,6 +306,8 @@ some checks that may help you find certain issues.
 an Open Source collection of Code Inspector checks,
 also covers some of the described anti-patterns.
 
+[abaplint](https://github.com/abaplint/abaplint) is an open source reimplementation of the ABAP parser. It works without a SAP system and is meant to be used on code serialized using abapGit. It offers multiple integrations (GitHub Actions, Jenkins, text editors...), covers some of the antipatterns and can also be used to check formatting and code conventions.
+
 ### How to Relate to Other Guides
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-relate-to-other-guides)
