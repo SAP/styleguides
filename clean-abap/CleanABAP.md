@@ -159,6 +159,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
   - [ABAP Doc only for public APIs](#abap-doc-only-for-public-apis)
+  - [Prefer pragmas to pseudo comments](#prefer-pragmas-to-pseudo-comments)
 - [Formatting](#formatting)
   - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
@@ -3606,6 +3607,24 @@ not enforce writing ABAP Doc for each and everything.
 
 > Read more in _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
 > Javadocs in Nonpublic Code_ of [Robert C. Martin's _Clean Code_].
+
+### Prefer pragmas to pseudo comments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#prefer-pragmas-to-pseudo-comments)
+
+Prefer pragmas to pseudo comments to blend out irrelevant warnings and errors identified by the ATC. Pseudo comments 
+have mostly become obsolete and have been replaced by pragmas.
+
+```ABAP
+" pattern
+MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
+
+" anti-pattern
+MESSAGE e001(ad) INTO DATA(message). "#EC NEEDED
+```
+
+Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that 
+have replaced them.
 
 ## Formatting
 
