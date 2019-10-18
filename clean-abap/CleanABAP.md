@@ -191,6 +191,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Test Classes](#test-classes)
     - [Call local test classes by their purpose](#call-local-test-classes-by-their-purpose)
     - [Put tests in local classes](#put-tests-in-local-classes)
+    - [Put help methods in help classes](#put-help-methods-in-help-classes)
     - [How to execute test classes](#how-to-execute-test-classes)
   - [Code Under Test](#code-under-test)
     - [Name the code under test meaningfully, or default to CUT](#name-the-code-under-test-meaningfully-or-default-to-cut)
@@ -4161,6 +4162,38 @@ class hiring_test defintion
   abstract.
   ...
 endclass.
+```
+
+#### Put help methods in help classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-help-methods-in-help-classes)
+
+Put help methods used by several test classes in an abstract help class.
+
+```abap
+CLASS lth_unit_tests DEFINITION ABSTRACT FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+
+  PROTECTED SECTION.
+    CLASS-METHODS assert_activity_entity
+      IMPORTING
+        !actual_activity_entity TYPE REF TO zcl_activity_entity
+        !expected_activity_entity TYPE REF TO zcl_activity_entity.
+    ...
+ENDCLASS.
+
+CLASS lth_unit_tests IMPLEMENTATION.
+
+  METHOD assert_activity_entity.
+    ...
+  ENDMETHOD.
+
+CLASS ltc_unit_tests DEFINITION INHERITING FROM lth_unit_tests FINAL FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+  ...
+ENDCLASS.
 ```
 
 #### How to execute test classes
