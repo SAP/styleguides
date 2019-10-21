@@ -4178,8 +4178,8 @@ CLASS lth_unit_tests DEFINITION ABSTRACT FOR TESTING
   PROTECTED SECTION.
     CLASS-METHODS assert_activity_entity
       IMPORTING
-        !actual_activity_entity TYPE REF TO zcl_activity_entity
-        !expected_activity_entity TYPE REF TO zcl_activity_entity.
+        actual_activity_entity TYPE REF TO zcl_activity_entity
+        expected_activity_entity TYPE REF TO zcl_activity_entity.
     ...
 ENDCLASS.
 
