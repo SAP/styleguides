@@ -4168,9 +4168,12 @@ endclass.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-help-methods-in-help-classes)
 
-Put help methods used by several test classes in an abstract help class.
+Put help methods used by several test classes in a help class. Make the help methods available through 
+inheritance (is-a relationship) or delegation (has-a relationship).
 
 ```abap
+" inheritance example
+
 CLASS lth_unit_tests DEFINITION ABSTRACT FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
