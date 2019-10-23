@@ -3612,7 +3612,7 @@ not enforce writing ABAP Doc for each and everything.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#prefer-pragmas-to-pseudo-comments)
 
-Prefer pragmas to pseudo comments to blend out irrelevant warnings and errors identified by the ATC. Pseudo comments 
+Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments 
 have mostly become obsolete and have been replaced by pragmas.
 
 ```ABAP
