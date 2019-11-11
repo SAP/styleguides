@@ -896,7 +896,7 @@ ENDIF.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-chain-up-front-declarations)
 
 ```ABAP
-DATA name TYPE seoclsname
+DATA name TYPE seoclsname.
 DATA reader TYPE REF TO /dirty/reader.
 ```
 
