@@ -4,6 +4,7 @@
 - [Issues](#issues)
 - [Discussions](#discussions)
 - [Forks](#forks)
+- [Use English](#use-english)
 
 ## Pull Requests
 
@@ -54,3 +55,9 @@ we recommend to fork this repository and add your changes there.
 You are neither obliged to make your fork public nor inform us about it,
 but we are always happy to learn about your work and views;
 just [contact us on Slack](#discussions).
+
+## Use English
+
+Kindly use English language for issues, pull requests, and discussions.
+SAP uses English as common language to facilitate cross-culture communication,
+so this will reach most people.
