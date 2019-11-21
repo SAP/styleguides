@@ -4,7 +4,7 @@
 <!-- > [English](CleanABAP.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
 <!-- [Chinese](CleanABAP_fr_FR.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
 <!-- [French](CleanABAP_fr_FR.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-<!-- [German](CleanABAP_fr_FR.md)
+<!-- [German](CleanABAP_fr_FR.md) -->
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
