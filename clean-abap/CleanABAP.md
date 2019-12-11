@@ -910,7 +910,7 @@ ENDIF.
 
 ```ABAP
 DATA name TYPE seoclsname.
-DATA reader TYPE REF TO /dirty/reader.
+DATA reader TYPE REF TO reader.
 ```
 
 Chaining suggests the defined variables are related on a logical level.
@@ -926,7 +926,7 @@ colons, dots, and commas, that are not worth the effort.
 " anti-pattern
 DATA:
   name   TYPE seoclsname,
-  reader TYPE REF TO /dirty/reader.
+  reader TYPE REF TO reader.
 ```
 
 > Also refer to [Don't align type clauses](#dont-align-type-clauses)  
