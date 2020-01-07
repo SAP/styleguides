@@ -7,13 +7,13 @@
 <!-- [Französisch](CleanABAP_fr.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
 
 Dieser Leitfaden legt das Standardwerk
-[Robert C. Martin _Clean Code_]
+[_Clean Code_ von Robert C. Martin]
 speziell für [ABAP](https://de.wikipedia.org/wiki/ABAP) aus.
 
 Das [Cheat Sheet](cheat-sheet/CheatSheet.md)
 ist eine druckoptimierte Version.
 
-[Robert C. Martin _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
+[_Clean Code_ von Robert C. Martin]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
 > Diese Übersetzung entspricht dem Stand des
 > englischen Originals vom 14. November 2019.
@@ -248,23 +248,24 @@ ist eine druckoptimierte Version.
 
 ### How-to: Erste Schritte mit Clean Code
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-get-started-with-clean-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-erste-schritte-mit-clean-code)
 
-Wenn das Thema Clean Code neu für Sie ist, empfehlen wir,
-zunächst das Buch [Robert C. Martin _Clean Code_] zu lesen.
-Zusätzlich kann Ihnen die didaktisch aufbereitete
+Wenn das Thema Clean Code neu für Sie ist,
+lesen Sie zum Einstieg am besten
+zunächst das Buch [_Clean Code_ von Robert C. Martin].
+Die didaktisch aufbereitete
 Schritt-für-Schritt-Einführung der Initiative [Clean Code Developer ](https://clean-code-developer.com/)
-den Einstieg in das allgemeine Thema erleichtern.
+kann Ihnen ebenfalls den Einstieg in das Thema erleichtern.
 
-Wir empfehlen Ihnen, mit einfach verständlichen
-und weithin akzeptierten Dingen zu beginnen,
-wie z.B. [booleschen Ausdrücken](#booleans),
-[Bedingungen](#conditions) und [IFs](#ifs).
+Wir empfehlen Ihnen, mit Dingen zu beginnen,
+die einfach verständlich und weithin akzeptiert sind,
+wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke),
+[Bedingungen](#bedingungen) und [IFs](#if).
 
-Sie werden wahrscheinlich am meisten
-vom Abschnitt [Methoden](#methods) profitieren,
+Am meisten werden Sie wahrscheinlich
+vom Abschnitt [Methoden](#methoden) profitieren,
 insbesondere von den Themen [Mache eine Sache zur Zeit, und mache sie gut](#do-one-thing-do-it-well-do-it-only)
-und [Methoden klein halten](#keep-methods-small),
+und [Methoden klein halten](#methoden-klein-halten),
 weil diese zu einer enormen Verbesserung
 der Gesamtstruktur Ihres Codes beitragen.
 
