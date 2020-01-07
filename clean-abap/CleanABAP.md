@@ -22,7 +22,6 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 ## Content
 
-- [Content](#content)
 - [How to](#how-to)
   - [How to Get Started with Clean Code](#how-to-get-started-with-clean-code)
   - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
