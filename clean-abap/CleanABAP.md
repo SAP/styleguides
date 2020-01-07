@@ -22,6 +22,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 ## Content
 
+- [Content](#content)
 - [How to](#how-to)
   - [How to Get Started with Clean Code](#how-to-get-started-with-clean-code)
   - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
@@ -36,7 +37,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Avoid abbreviations](#avoid-abbreviations)
   - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
   - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
-  - [Avoid noise words such as "data", "info", "object"](#avoid-noise-words-such-as-data-info-object)
+  - [Avoid noise words such as &quot;data&quot;, &quot;info&quot;, &quot;object&quot;](#avoid-noise-words-such-as-quotdataquot-quotinfoquot-quotobjectquot)
   - [Pick one word per concept](#pick-one-word-per-concept)
   - [Use pattern names only if you mean them](#use-pattern-names-only-if-you-mean-them)
   - [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
@@ -60,7 +61,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use the right table type](#use-the-right-table-type)
   - [Avoid DEFAULT KEY](#avoid-default-key)
   - [Prefer INSERT INTO TABLE to APPEND TO](#prefer-insert-into-table-to-append-to)
-  - [Prefer LINE_EXISTS to READ TABLE or LOOP AT](#prefer-line_exists-to-read-table-or-loop-at)
+  - [Prefer LINE_EXISTS to READ TABLE or LOOP AT](#prefer-lineexists-to-read-table-or-loop-at)
   - [Prefer READ TABLE to LOOP AT](#prefer-read-table-to-loop-at)
   - [Prefer LOOP AT WHERE to nested IF](#prefer-loop-at-where-to-nested-if)
   - [Avoid unnecessary table reads](#avoid-unnecessary-table-reads)
@@ -69,8 +70,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use | to assemble text](#use--to-assemble-text)
 - [Booleans](#booleans)
   - [Use Booleans wisely](#use-booleans-wisely)
-  - [Use ABAP_BOOL for Booleans](#use-abap_bool-for-booleans)
-  - [Use ABAP_TRUE and ABAP_FALSE for comparisons](#use-abap_true-and-abap_false-for-comparisons)
+  - [Use ABAP_BOOL for Booleans](#use-abapbool-for-booleans)
+  - [Use ABAP_TRUE and ABAP_FALSE for comparisons](#use-abaptrue-and-abapfalse-for-comparisons)
   - [Use XSDBOOL to set Boolean variables](#use-xsdbool-to-set-boolean-variables)
 - [Conditions](#conditions)
   - [Try to make conditions positive](#try-to-make-conditions-positive)
@@ -151,9 +152,9 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use own super classes](#use-own-super-classes)
     - [Throw one type of exception](#throw-one-type-of-exception)
     - [Use sub-classes to enable callers to distinguish error situations](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
-    - [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions)
-    - [Throw CX_NO_CHECK for usually unrecoverable situations](#throw-cx_no_check-for-usually-unrecoverable-situations)
-    - [Consider CX_DYNAMIC_CHECK for avoidable exceptions](#consider-cx_dynamic_check-for-avoidable-exceptions)
+    - [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cxstaticcheck-for-manageable-exceptions)
+    - [Throw CX_NO_CHECK for usually unrecoverable situations](#throw-cxnocheck-for-usually-unrecoverable-situations)
+    - [Consider CX_DYNAMIC_CHECK for avoidable exceptions](#consider-cxdynamiccheck-for-avoidable-exceptions)
     - [Dump for totally unrecoverable situations](#dump-for-totally-unrecoverable-situations)
     - [Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE](#prefer-raise-exception-new-to-raise-exception-type)
   - [Catching](#catching)
@@ -164,7 +165,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use methods instead of comments to segment your code](#use-methods-instead-of-comments-to-segment-your-code)
   - [Write comments to explain the why, not the what](#write-comments-to-explain-the-why-not-the-what)
   - [Design goes into the design documents, not the code](#design-goes-into-the-design-documents-not-the-code)
-  - [Comment with ", not with *](#comment-with--not-with-)
+  - [Comment with &quot;, not with *](#comment-with-quot-not-with)
   - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
   - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
   - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
@@ -224,7 +225,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Test Methods](#test-methods)
     - [Test method names: reflect what's given and expected](#test-method-names-reflect-whats-given-and-expected)
     - [Use given-when-then](#use-given-when-then)
-    - ["When" is exactly one call](#when-is-exactly-one-call)
+    - [&quot;When&quot; is exactly one call](#quotwhenquot-is-exactly-one-call)
     - [Don't add a TEARDOWN unless you really need it](#dont-add-a-teardown-unless-you-really-need-it)
   - [Test Data](#test-data)
     - [Make it easy to spot meaning](#make-it-easy-to-spot-meaning)
@@ -283,6 +284,19 @@ as it may introduce a breach between old and new code,
 up to a degree where sections like
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
 are better ignored.
+
+Try not to mix different development styles within the same
+development object when carrying out a refactoring. If the
+legacy code contains only up-front declarations, and a complete
+refactoring into using inline declarations is not feasible, it
+is probably better to stick with the legacy style rather than
+mixing the two styles. There are several similar situations
+where mixing styles could cause confusion, for example:
+
+- Mixing `REF TO` and `FIELD-SYMBOL` when looping.
+- Mixing `NEW` and `CREATE OBJECT` when calling a `CONSTRUCTOR`.
+- Mixing `RETURNING` and `EXPORTING` in the method signatures of
+methods only returning / exporting one parameter.
 
 We observed good results with a four-step plan for refactoring:
 
