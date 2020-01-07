@@ -32,8 +32,8 @@ ist eine druckoptimierte Version.
    - [How-to: Weitere Leitfäden](#how-to-weitere-leitfden)
    - [How-to: Kritik, Änderungsvorschläge](#how-to-kritik-nderungsvorschlge)
 - [Namen](#namen)
-   - [Aussagekräftige Namen verwenden](#aussagekrftige-namen-verwenden)
-   - [Begriffe der Lösungsdomäne und Problemdomäne bevorzugen](#begriffe-der-lsungsdomne-und-problemdomne-bevorzugen)
+   - [Verwende sprechende Namen](#verwende-sprechende-namen)
+   - [Bevorzuge Begriffe der Lösungsdomäne und Problemdomäne](#bevorzuge-begriffe-der-lsungsdomne-und-problemdomne)
    - [Plural verwenden](#plural-verwenden)
    - [Aussprechbare Namen verwenden](#aussprechbare-namen-verwenden)
    - [Abkürzungen vermeiden](#abkrzungen-vermeiden)
@@ -346,11 +346,11 @@ Sie sind frei, alles hier Beschriebene zu hinterfragen und abzulehnen. Eine der 
 
 ## Namen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#names)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#namen)
 
-### Aussagekräftige Namen verwenden
+### Verwende sprechende Namen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Namen](#names) > [Dieser Abschnitt](#use-descriptive-names)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Namen](#names) > [Dieser Abschnitt](#verwende-sprechende-namen)
 
 Verwenden Sie Namen, die Inhalt und Bedeutung vermitteln.
 
@@ -361,9 +361,8 @@ METHODS read_user_preferences ...
 CLASS /clean/user_preference_reader ...
 ```
 
-Konzentrieren Sie sich nicht auf den Datentyp
-oder die technische Codierung -
-sie tragen wenig zum Verständnis des Codes bei.
+Klammern Sie sich nicht auf den Datentyp oder die technische Codierung -
+diese tragen wenig zum Verständnis des Codes bei.
 
 ```ABAP
 " Anti-Pattern
@@ -377,29 +376,30 @@ CLASS /dirty/t005_reader ...
 
 > Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Zweckbeschreibende Namen wählen_ in [Robert C. Martin _Clean Code_].
 
-### Begriffe der Lösungsdomäne und Problemdomäne bevorzugen
+### Bevorzuge Begriffe der Lösungsdomäne und Problemdomäne
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Namen](#names) > [Dieser Abschnitt](#prefer-solution-domain-and-problem-domain-terms)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Namen](#names) > [Dieser Abschnitt](#bevorzuge-begriffe-der-lsungsdomne-und-problemdomne)
 
 Suchen Sie nach geeigneten Namen in der Lösungsdomäne,
-z.B. Begriffe der Informatik wie „Queue“ oder „Tree“,
-und in der Problemdomäne, z.B. betriebswirtschaftliche Begriffe wie „Account“ oder „Ledger“.
+z.B. bekannte Begriffe der Informatik wie „Queue“ oder „Tree“,
+und in der Problemdomäne,
+z.B. betriebswirtschaftliche Begriffe wie „Account“ oder „Ledger“.
 
-Für Layer, die betriebswirtschaftliche Funktionen bereitstellen,
-eignet sich am besten eine Benennung nach der Problemdomäne.
+Module mit betriebswirtschaftlichem Fokus klingen am besten,
+wenn sie Namen aus der Problemdomäne verwenden.
 Dies gilt insbesondere für Komponenten,
-die mit Domain-Driven Design entworfen wurden,
+die mit Domain-Driven-Design entworfen wurden,
 wie z.B. APIs und Business Objects.
 
-Layer, die hauptsächlich technische Funktionen bereitstellen,
+Module mit technischem Fokus,
 wie z.B. Factory-Klassen und abstrakte Algorithmen,
-klingen am besten, wenn sie nach der Lösungsdomäne benannt werden.
+klingen am besten, wenn sie Namen aus der Lösungsdomäne verwenden.
 
 Versuchen Sie auf keinen Fall, eine eigene Sprache zu erfinden.
 Entwickler, Product Owner, Partner und Kunden
 müssen in der Lage bleiben, Informationen auszutauschen,
 ohne ein speziell für Ihren Code erstelltes Wörterbuch
-konsuliteren zu müssen.
+konsultieren zu müssen.
 
 > Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Namen der Lösungsdomäne verwenden_ und _[...]:
 > Namen der Problemdomäne verwenden_ in [Robert C. Martin_Clean Code_].
