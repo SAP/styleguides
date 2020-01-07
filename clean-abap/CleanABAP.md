@@ -1,10 +1,10 @@
 # Clean ABAP
 
-<!-- Once the translations are available, we will add in the following link bar. -->
-<!-- > [English](CleanABAP.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-<!-- [Chinese](CleanABAP_fr_FR.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-<!-- [French](CleanABAP_fr_FR.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-<!-- [German](CleanABAP_fr_FR.md) -->
+> [**English**](CleanABAP.md)
+> &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+> [German](CleanABAP_de.md)
+<!-- [Chinese](CleanABAP_zh.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+<!-- [French](CleanABAP_fr.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
@@ -13,7 +13,6 @@ for [ABAP](https://en.wikipedia.org/wiki/ABAP).
 The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 [Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
-
 
 <!-- @Translators: kindly add the following disclaimer to the document. -->
 <!-- > This is a snapshot translation of the [English version from 14 Nov 2019](). -->
