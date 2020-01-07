@@ -361,7 +361,7 @@ METHODS read_user_preferences ...
 CLASS /clean/user_preference_reader ...
 ```
 
-Klammern Sie sich nicht auf den Datentyp oder die technische Codierung -
+Klammern Sie sich nicht an den Datentyp oder die technische Codierung -
 diese tragen wenig zum Verständnis des Codes bei.
 
 ```ABAP
@@ -374,7 +374,7 @@ CLASS /dirty/t005_reader ...
 
 [Versuchen Sie nicht, eine ungeeignete Namenswahl durch Kommentare wieder gutzumachen.](#comments-are-no-excuse-for-bad-names)
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Zweckbeschreibende Namen wählen_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Zweckbeschreibende Namen wählen_ in [_Clean Code_ von Robert C. Martin].
 
 ### Bevorzuge Begriffe der Lösungsdomäne und Problemdomäne
 
@@ -402,7 +402,7 @@ ohne ein speziell für Ihren Code erstelltes Wörterbuch
 konsultieren zu müssen.
 
 > Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Namen der Lösungsdomäne verwenden_ und _[...]:
-> Namen der Problemdomäne verwenden_ in [Robert C. Martin_Clean Code_].
+> Namen der Problemdomäne verwenden_ in [_Clean Code_ von Robert C. Martin].
 
 ### Plural verwenden
 
@@ -421,7 +421,7 @@ Wir empfehlen daher, stattdessen `countries` zu bevorzugen.
 > z.B. die weit verbreitete Konvention,
 > Datenbanktabellen („transparente Tabellen“) im Singular zu benennen.
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Zweckbeschreibende Namen wählen_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Zweckbeschreibende Namen wählen_ in [_Clean Code_ von Robert C. Martin].
 
 ### Aussprechbare Namen verwenden
 
@@ -432,7 +432,7 @@ Verwenden Sie daher Namen, die jeder aussprechen kann.
 Verwenden Sie z.B. eher `detection_object_types`
 als etwas Kryptisches wie `dobjt`.
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Aussprechbare Namen verwenden_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Aussprechbare Namen verwenden_ in [_Clean Code_ von Robert C. Martin].
 
 ### Abkürzungen vermeiden
 
@@ -449,7 +449,7 @@ So ist z.B. unklar, ob sich „cust“ in `cust` auf „customizing“,
 „customer“ oder „custom“ bezieht.
 Alle drei Begriffe sind in SAP-Anwendungen geläufig.
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Unterschiede deutlich machen_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Unterschiede deutlich machen_ in [_Clean Code_ von Robert C. Martin].
 
 ### Abkürzungen konsistent verwenden
 
@@ -460,7 +460,7 @@ Unterstützen Sie dies, indem Sie für eine Sache immer dieselbe Abkürzung verw
 Kürzen Sie z.B. „detection object type“ immer mit „dot“ ab,
 und nicht zusätzlich mit „dotype“, „detobjtype“ usw.
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Suchbare Namen verwenden_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Suchbare Namen verwenden_ in [_Clean Code_ von Robert C. Martin].
 
 ### Nomen für Klassen, Verben für Methoden
 
@@ -515,7 +515,7 @@ user_preferences          " instead of user_info
 response_time_in_seconds  " instead of response_time_variable
 ```
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Unterschiede deutlich machen_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Unterschiede deutlich machen_ in [_Clean Code_ von Robert C. Martin].
 
 ### Ein Wort pro Konzept wählen
 
@@ -536,7 +536,7 @@ METHODS retrieve_that.
 METHODS query_those.
 ```
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Wählen Sie ein Wort pro Konzept_ in [Robert C. Martin _Clean Code_]
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Wählen Sie ein Wort pro Konzept_ in [_Clean Code_ von Robert C. Martin]
 
 ### Musternamen nur mit Absicht verwenden
 
@@ -550,7 +550,7 @@ Verwenden Sie die Namen von Software-Entwurfsmustern nicht für Klassen und Schn
 [iterator](https://en.wikipedia.org/wiki/Iterator_pattern),
 [observer](https://en.wikipedia.org/wiki/Observer_pattern) und [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
 
-> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Fehlinformationen vermeiden_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Fehlinformationen vermeiden_ in [_Clean Code_ von Robert C. Martin].
 
 ### Codierungen vermeiden, insbes. Ungarische Notation und Präfixe
 
@@ -716,7 +716,7 @@ IF abap_type = 'D'.
 ```
 
 > Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: G25:
-> Magische Zahlen durch benannte Konstanten ersetzen_ in [Robert C. Martin _Clean Code_].
+> Magische Zahlen durch benannte Konstanten ersetzen_ in [_Clean Code_ von Robert C. Martin].
 
 ### Besser Enumerationsklassen als Konstanten-Interfaces
 
@@ -760,7 +760,7 @@ ENDINTERFACE.
 > beschreibt allgemeine Enumerationsmuster
 > und erläutert ihre Vor- und Nachteile.
 > 
-> Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: J3: Konstanten im Gegensatz zu Enums_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: J3: Konstanten im Gegensatz zu Enums_ in [_Clean Code_ von Robert C. Martin].
 
 ### Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten
 
@@ -803,7 +803,7 @@ DO number_of_constants TIMES.
 ENDWHILE.
 ```
 
-> Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: G27: Struktur ist wichtiger als Konvention_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: G27: Struktur ist wichtiger als Konvention_ in [_Clean Code_ von Robert C. Martin].
 
 ## Variablen
 
@@ -837,7 +837,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-> Mehr erfahren Sie in _Kapitel 5: Formatierung: Vertikaler Abstand_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 5: Formatierung: Vertikaler Abstand_ in [_Clean Code_ von Robert C. Martin].
 
 ### Keine Inline-Deklaration in optionalen Verzweigungen
 
@@ -863,7 +863,7 @@ ELSE.
 ENDIF.
 ```
 
-> Mehr erfahren Sie in _Kapitel 5: Formatierung: Vertikaler Abstand_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 5: Formatierung: Vertikaler Abstand_ in [_Clean Code_ von Robert C. Martin].
 
 ### Keine Verkettung von voranstehenden Deklarationen
 
@@ -1249,7 +1249,7 @@ ELSE.
 ENDIF.
 ```
 
-> Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: G29: Negative Bedingungen vermeiden_ von [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: G29: Negative Bedingungen vermeiden_ von [_Clean Code_ von Robert C. Martin].
 
 ### Besser IS NOT als NOT IS
 
@@ -1459,7 +1459,7 @@ DATA(is_valid) = matches( val     = class_name
 > Es gibt scheinbar einen natürlichen blinden Fleck
 > für das Don't-Repeat-Yourself-Prinzip (DRY) („wiederhole dich nicht“),
 > wenn es um reguläre Ausdrücke geht.
-> Siehe auch Abschnitt _Kapitel 17: Smells und Heuristiken: Allgemein: G5: Duplizierung_ in [Robert C. Martin _Clean Code_].
+> Siehe auch Abschnitt _Kapitel 17: Smells und Heuristiken: Allgemein: G5: Duplizierung_ in [_Clean Code_ von Robert C. Martin].
 
 ### Komplexe reguläre Ausdrücke zusammensetzen
 
@@ -3316,7 +3316,7 @@ Schreiben Sie ein ABAP Doc zur Dokumentation von öffentlichen APIs, d.h. APIs, 
 
 ABAP Doc leidet unter denselben Schwächen wie alle Kommentare - schnelle Veraltung und anschließende Missverständlichkeit. Folglich sollte ABAP Doc nur dort verwendet werden, wo es Sinn macht, und nicht zu jedem Zweck und überall.
 
-> Mehr erfahren Sie in _Kapitel 4: Gute Kommentare: Javadocs in öffentlichen APIs_ und _Kapitel 4: Schlechte Kommentare: Javadocs in nicht-öffentlichem Code_ in [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 4: Gute Kommentare: Javadocs in öffentlichen APIs_ und _Kapitel 4: Schlechte Kommentare: Javadocs in nicht-öffentlichem Code_ in [_Clean Code_ von Robert C. Martin].
 
 ### Besser Pragmas als Pseudokommentare
 
@@ -3387,7 +3387,7 @@ Verwenden Sie Pretty Printer - Shift+F1 in SE80, SE24 und ADT - vor dem Aktivier
 
 Wenn Sie eine größere, unformatierte Legacy-Codebasis ändern, empfiehlt sich die Anwendung von Pretty Printer nur auf ausgewählte Zeilen, um umfangreiche Änderungslisten und Transportabhängigkeiten zu vermeiden. Wenn Sie das vollständige Entwicklungsobjekt mit Pretty Printer bearbeiten möchten, können Sie dies per separaten Transportauftrag oder Hinweis tun.
 
-> Mehr erfahren Sie in _Kapitel 5: Formatierung: Team-Regeln_ von [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 5: Formatierung: Team-Regeln_ von [_Clean Code_ von Robert C. Martin].
 
 ### Ihre Pretty-Printer-Teameinstellungen verwenden
 
@@ -3398,7 +3398,7 @@ Verwenden Sie immer Ihre Teameinstellungen. Diese geben Sie an unter _Menü_ > _
 Legen Sie _Einrücken_ und _Groß-/Kleinkonvertierung durchführen_ > _Schlüsselwort groß_ fest, wie in Ihrem Team vereinbart.
 
 > [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) erläutert, warum wir keine klare Anweisung für Groß-/Kleinschreibung von Schlüsselwörtern geben.
-Mehr erfahren Sie in _Kapitel 5: Formatierung: Team-Regeln_ von [Robert C. Martin _Clean Code_].
+Mehr erfahren Sie in _Kapitel 5: Formatierung: Team-Regeln_ von [_Clean Code_ von Robert C. Martin].
 
 ### Maximal eine Anweisung pro Zeile
 
@@ -3531,7 +3531,7 @@ customizing_reader = fra_cust_obj_model_reader=>s_get_instance( ).
 hdb_access = fra_hdbr_access=>s_get_instance( ).
 ```
 
-> Mehr erfahren Sie in _Kapitel 5: Formatierung: Horizontale Ausrichtung_ von [Robert C. Martin _Clean Code_].
+> Mehr erfahren Sie in _Kapitel 5: Formatierung: Horizontale Ausrichtung_ von [_Clean Code_ von Robert C. Martin].
 
 ### Klammern am Zeilenende schließen
 
