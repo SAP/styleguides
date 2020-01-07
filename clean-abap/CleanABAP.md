@@ -936,6 +936,12 @@ DATA:
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
 
+> This section [is being challenged](https://github.com/SAP/styleguides/issues/115).
+> `FIELD-SYMBOL`s seem to be considerably faster
+> when iterating internal tables,
+> such that the recommendation to use `REF TO`
+> for these cases may worsen performance.
+
 ```ABAP
 LOOP AT components REFERENCE INTO DATA(component).
 ```
@@ -1904,7 +1910,7 @@ In local classes, make the constructor private, as it should be.
 
 #### Prefer multiple static creation methods to optional parameters
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-to-optional-parameters)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-creation-methods-to-optional-parameters)
 
 ```ABAP
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
