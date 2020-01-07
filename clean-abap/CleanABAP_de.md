@@ -1,23 +1,27 @@
 # Clean ABAP
 
-> [English](CleanABAP.md)
+> [Englisch](CleanABAP.md)
 > &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-> [**German**](CleanABAP_de.md)
-<!-- [Chinese](CleanABAP_zh.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-<!-- [French](CleanABAP_fr.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+> [**Deutsch**](CleanABAP_de.md)
+<!-- [Chinesisch](CleanABAP_zh.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+<!-- [Französisch](CleanABAP_fr.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
 
-Dieser Leitfaden ist eine Adaption des Standardwerks
+Dieser Leitfaden legt das Standardwerk
 [Robert C. Martin _Clean Code_]
-an [ABAP](https://de.wikipedia.org/wiki/ABAP).
+speziell für [ABAP](https://de.wikipedia.org/wiki/ABAP) aus.
 
 Das [Cheat Sheet](cheat-sheet/CheatSheet.md)
 ist eine druckoptimierte Version.
 
-[Robert C. Martin_Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
+[Robert C. Martin _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
-> This is a snapshot translation of the [English version from 14 Nov 2019]().
-> Kindly refer to the [current English version](CleanABAP.md) for the most recent information.
-> Please post issues and pull requests in English to simplify communication with the community.
+> Diese Übersetzung entspricht dem Stand des
+> englischen Originals vom 14. November 2019.
+> Ziehen Sie für den neuesten Stand bitte die
+> [aktuelle englische Version](CleanABAP.md) zu Rate.
+> Bitte erstellen Sie Issues und Pull Requests
+> in englischer Sprache, um die Kommunikation
+> mit anderen Teilnehmern zu vereinfachen.
 
 ## Inhalt
 
