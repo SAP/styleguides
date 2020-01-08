@@ -52,14 +52,14 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Keine Inline-Deklaration in optionalen Verzweigungen](#keine-inline-deklaration-in-optionalen-verzweigungen)
    - [Keine Verkettung von voranstehenden Deklarationen](#keine-verkettung-von-voranstehenden-deklarationen)
    - [Besser REF TO als FIELD-SYMBOL](#besser-ref-to-als-field-symbol)
-- [Tabellen](#tables)
-   - [Korrekte Tabellenart verwenden](#use-the-right-table-type)
-   - [DEFAULT KEY vermeiden](#avoid-default-key)
-   - [Besser INSERT INTO TABLE als APPEND TO](#prefer-insert-into-table-to-append-to)
-   - [Besser LINE_EXISTS als READ TABLE oder LOOP AT](#prefer-line_exists-to-read-table-or-loop-at)
-   - [Besser READ TABLE als LOOP AT](#prefer-read-table-to-loop-at)
-   - [Besser LOOP AT WHERE als verschachteltes IF](#prefer-loop-at-where-to-nested-if)
-   - [Überflüssige Lesezugriffe auf Tabelle vermeiden](#avoid-unnecessary-table-reads)
+- [Tabellen](#tabellen)
+   - [Korrekte Tabellenart verwenden](#korrekte-tabellenart-verwenden)
+   - [DEFAULT KEY vermeiden](#default-key-vermeiden)
+   - [Besser INSERT INTO TABLE als APPEND TO](#besser-insert-into-table-als-append-to)
+   - [Besser LINE_EXISTS als READ TABLE oder LOOP AT](#besser-line_exists-als-read-table-oder-loop-at)
+   - [Besser READ TABLE als LOOP AT](#besser-read-table-als-loop-at)
+   - [Besser LOOP AT WHERE als verschachteltes IF](#besser-loop-at-where-als-verschachteltes-if)
+   - [Überflüssige Lesezugriffe auf Tabelle vermeiden](#berflssige-lesezugriffe-auf-tabelle-vermeiden)
 - [Strings](#strings)
    - [Literale mit ` definieren](#use--to-define-literals)
    - [Text mit | assemblieren](#use--to-assemble-text)
@@ -855,11 +855,11 @@ Code-Prüfungen beweisen, dass Programmierer gerne Beides willkürlich einsetzen
 
 ## Tabellen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#tables)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#tabellen)
 
 ### Korrekte Tabellenart verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#use-the-right-table-type)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#korrekte-tabellenart-verwenden)
 
 - Sie verwenden `HASHED`-Tabellen in der Regen für **große Tabellen**, die in einem **einzigen Schritt befüllt**, **nie modifiziert** und **häufig anhand ihres Schlüssels gelesen** werden. Ihr inhärenter Speicher- und Verarbeitungsaufwand macht Hash-Tabellen nur bei großen Datenmengen und häufigen Lesezugriffen sinnvoll. Jede Änderung des Tabelleninhalts erfordert eine kostenintensive Hash-Neuberechnung. Somit ist diese Tabellenart ungeeignet für Tabellen, die häufig geändert werden.
 
@@ -873,7 +873,7 @@ Das Hinzufügen, Ändern oder Löschen von Inhalt setzt voraus, dass zunächst d
 
 ### DEFAULT KEY vermeiden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#avoid-default-key)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#default-key-vermeiden)
 
 ```ABAP
 " anti-pattern
@@ -899,7 +899,7 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 
 ### Besser INSERT INTO TABLE als APPEND TO
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#prefer-insert-into-table-to-append-to)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#besser-insert-into-table-als-append-to)
 
 ```ABAP
 INSERT VALUE #( ... ) INTO TABLE itab.
@@ -911,7 +911,7 @@ Verwenden Sie `APPEND TO` nur, wenn Sie eine `STANDARD`-Tabelle in einer Array-�
 
 ### Besser LINE_EXISTS als READ TABLE oder LOOP AT
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#prefer-line_exists-to-read-table-or-loop-at)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#besser-line_exists-als-read-table-oder-loop-at)
 
 ```ABAP
 IF line_exists( my_table[ key = 'A' ] ).
@@ -937,7 +937,7 @@ ENDLOOP.
 
 ### Besser READ TABLE als LOOP AT
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#prefer-read-table-to-loop-at)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#besser-read-table-als-loop-at)
 
 ```ABAP
 READ TABLE my_table REFERENCE INTO DATA(line) WITH KEY key = 'A'.
@@ -965,7 +965,7 @@ ENDLOOP.
 
 ### Besser LOOP AT WHERE als verschachteltes IF
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#prefer-loop-at-where-to-nested-if)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#besser-loop-at-where-als-verschachteltes-if)
 
 ```ABAP
 LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
@@ -983,7 +983,7 @@ ENDLOOP.
 
 ### Überflüssige Lesezugriffe auf Tabelle vermeiden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tables) > [Dieser Abschnitt](#avoid-unnecessary-table-reads)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Tabellen](#tabellen) > [Dieser Abschnitt](#berflssige-lesezugriffe-auf-tabelle-vermeiden)
 
 Sofern Sie hier eine Zeile _erwarten_, verwenden Sie einen Lesevorgang und reagieren auf die Ausnahme,
 
