@@ -154,20 +154,20 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [Besser RAISE EXCEPTION NEW als RAISE EXCEPTION TYPE](#besser-raise-exception-new-als-raise-exception-type)
    - [Ausnahmen abfangen](#ausnahmen-abfangen)
       - [Externe Ausnahmen umschließen, um das Eindringen in Ihren Code zu verhindern](#externe-ausnahmen-umschlieen-um-das-eindringen-in-ihren-code-zu-verhindern)
-- [Kommentare](#comments)
-   - [In Code ausdrücken, nicht in Kommentaren](#express-yourself-in-code-not-in-comments)
-   - [Kommentare sind keine Ausrede für schlechte Namenswahl](#comments-are-no-excuse-for-bad-names)
-   - [Methoden statt Kommentaren zur Code-Segmentierung verwenden](#use-methods-instead-of-comments-to-segment-your-code)
-   - [Mit Kommentaren das Warum, nicht das Was erläutern](#write-comments-to-explain-the-why-not-the-what)
-   - [Design gehört in das Design-Dokument, nicht in den Code](#design-goes-into-the-design-documents-not-the-code)
-   - [Kommentare mit ", nicht mit * markieren](#comment-with--not-with-)
-   - [Kommentare gehören vor die Anweisung, auf die sie sich beziehen](#put-comments-before-the-statement-they-relate-to)
-   - [Code löschen, nicht kommentieren](#delete-code-instead-of-commenting-it)
-   - [FIXME, TODO und XXX verwenden, und Ihre ID hinzufügen](#use-fixme-todo-and-xxx-and-add-your-id)
-   - [Kein Kommentar zu Methodensignatur und Ende](#dont-add-method-signature-and-end-of-comments)
-   - [Meldungstexte nicht in Kommentaren wiederholen](#dont-duplicate-message-texts-as-comments)
-   - [ABAP Doc nur für öffentliche APIs](#abap-doc-only-for-public-apis)
-   - [Besser Pragmas als Pseudokommentare](#prefer-pragmas-to-pseudo-comments)
+- [Kommentare](#kommentare)
+   - [In Code ausdrücken, nicht in Kommentaren](#in-code-ausdrcken-nicht-in-kommentaren)
+   - [Kommentare sind keine Ausrede für schlechte Namenswahl](#kommentare-sind-keine-ausrede-fr-schlechte-namenswahl)
+   - [Methoden statt Kommentaren zur Code-Segmentierung verwenden](#methoden-statt-kommentaren-zur-code-segmentierung-verwenden)
+   - [Mit Kommentaren das Warum, nicht das Was erläutern](#mit-kommentaren-das-warum-nicht-das-was-erlutern)
+   - [Design gehört in das Design-Dokument, nicht in den Code](#design-gehrt-in-das-design-dokument-nicht-in-den-code)
+   - [Kommentare mit ", nicht mit * markieren](#kommentare-mit--nicht-mit--markieren)
+   - [Kommentare gehören vor die Anweisung, auf die sie sich beziehen](#kommentare-gehren-vor-die-anweisung-auf-die-sie-sich-beziehen)
+   - [Code löschen, nicht kommentieren](#code-lschen-nicht-kommentieren)
+   - [FIXME, TODO und XXX verwenden, und Ihre ID hinzufügen](#fixme-todo-und-xxx-verwenden-und-ihre-id-hinzufgen)
+   - [Kein Kommentar zu Methodensignatur und Ende](#kein-kommentar-zu-methodensignatur-und-ende)
+   - [Meldungstexte nicht in Kommentaren wiederholen](#meldungstexte-nicht-in-kommentaren-wiederholen)
+   - [ABAP Doc nur für öffentliche APIs](#abap-doc-nur-fr-ffentliche-apis)
+   - [Besser Pragmas als Pseudokommentare](#besser-pragmas-als-pseudokommentare)
 - [Formatierung](#formatting)
    - [Konsistent sein](#be-consistent)
    - [Zum Lesen optimieren, nicht zum Schreiben](#optimize-for-reading-not-for-writing)
@@ -252,7 +252,7 @@ Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methoden) profiti
 Einige der hier behandelten Themen können zu kontroversen Diskussionen in Teams führen, die zwar erfahren, jedoch nicht mit Clean Code vertraut sind. Diese Themen sind völlig „unbedenklich“, manchen Beteiligten kann es jedoch anfänglich schwerfallen, sich mit ihnen anzufreunden.
 
 Gehen Sie zu einem späteren Zeitpunkt zu diesen eher kontroversen Themen über.
-Insbesondere die Themen [Kommentare](#comments), [Namen](#namen) und [Formatierung](#formatting)
+Insbesondere die Themen [Kommentare](#kommentare), [Namen](#namen) und [Formatierung](#formatting)
 können zu nahezu fanatischen Diskussionen führen und sollten nur von Teams angegangen werden, die sich bereits von den positiven Auswirkungen des Clean Code überzeugt haben.
 
 ### How-to: Refactoring von Legacy Code
@@ -341,7 +341,7 @@ METHODS read_t005 ...
 CLASS /dirty/t005_reader ...
 ```
 
-[Versuchen Sie nicht, eine ungeeignete Namenswahl durch Kommentare wieder gutzumachen.](#comments-are-no-excuse-for-bad-names)
+[Versuchen Sie nicht, eine ungeeignete Namenswahl durch Kommentare wieder gutzumachen.](#kommentare-sind-keine-ausrede-fr-schlechte-namenswahl)
 
 > Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Zweckbeschreibende Namen wählen_ in [Robert C. Martins _Clean Code_].
 
@@ -2971,11 +2971,11 @@ ENDMETHOD.
 
 ## Kommentare
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#comments)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#kommentare)
 
 ### In Code ausdrücken, nicht in Kommentaren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#express-yourself-in-code-not-in-comments)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#in-code-ausdrcken-nicht-in-kommentaren)
 
 ```ABAP
 METHOD correct_day_to_last_in_month.
@@ -3023,7 +3023,7 @@ Die bereinigte Variante braucht 9,6 Mikrosekunden, um die Eingabe `31-02-2018` z
 
 ### Kommentare sind keine Ausrede für schlechte Namenswahl
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#comments-are-no-excuse-for-bad-names)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#kommentare-sind-keine-ausrede-fr-schlechte-namenswahl)
 
 ```ABAP
 DATA(input_has_entries) = has_entries( input ).
@@ -3039,7 +3039,7 @@ DATA(result) = check_table( input ).
 
 ### Methoden statt Kommentaren zur Code-Segmentierung verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#use-methods-instead-of-comments-to-segment-your-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#methoden-statt-kommentaren-zur-code-segmentierung-verwenden)
 
 ```ABAP
 DATA(statement) = build_statement( ).
@@ -3065,7 +3065,7 @@ result_set->next_package( IMPORTING data = data ).
 
 ### Mit Kommentaren das Warum, nicht das Was erläutern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#write-comments-to-explain-the-why-not-the-what)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#mit-kommentaren-das-warum-nicht-das-was-erlutern)
 
 ```ABAP
 " can't fail, existence of >= 1 row asserted above
@@ -3082,7 +3082,7 @@ SELECT * FROM d_alert_root WHERE key = key.
 
 ### Design gehört in das Design-Dokument, nicht in den Code
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#design-goes-into-the-design-documents-not-the-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#design-gehrt-in-das-design-dokument-nicht-in-den-code)
 
 ```ABAP
 " anti-pattern
@@ -3097,7 +3097,7 @@ Wenn Ihr Code _wirklich_ eine Erläuterung über eine einzelne Kommentarzeile hi
 
 ### Kommentare mit ", nicht mit * markieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#comment-with--not-with-)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#kommentare-mit--nicht-mit--markieren)
 
 Zitieren Sie Kommentare eingerückt, gemeinsam mit den Anweisungen, die sie kommentieren
 
@@ -3124,7 +3124,7 @@ ENDMETHOD.
 
 ### Kommentare gehören vor die Anweisung, auf die sie sich beziehen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#put-comments-before-the-statement-they-relate-to)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#kommentare-gehren-vor-die-anweisung-auf-die-sie-sich-beziehen)
 
 ```ABAP
 " delegate pattern
@@ -3147,7 +3147,7 @@ output = calculate_result( input ).  " delegate pattern
 
 ### Code löschen, nicht kommentieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#delete-code-instead-of-commenting-it)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#code-lschen-nicht-kommentieren)
 
 ```ABAP
 " anti-pattern
@@ -3160,7 +3160,7 @@ Wenn Sie Code permanent konservieren möchten, kopieren Sie ihn in eine Datei od
 
 ### FIXME, TODO und XXX verwenden, und Ihre ID hinzufügen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#use-fixme-todo-and-xxx-and-add-your-id)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#fixme-todo-und-xxx-verwenden-und-ihre-id-hinzufgen)
 
 ```ABAP
 METHOD do_something.
@@ -3176,7 +3176,7 @@ Wenn Sie einen solchen Kommentar erfassen, fügen Sie Ihren Nicknamen, Ihre Init
 
 ### Kein Kommentar zu Methodensignatur und Ende
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#dont-add-method-signature-and-end-of-comments)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#kein-kommentar-zu-methodensignatur-und-ende)
 
 Methodensignatur-Kommentare nützen niemandem etwas.
 
@@ -3210,7 +3210,7 @@ ENDMETHOD.   " get_kpi_calc
 
 ### Meldungstexte nicht in Kommentaren wiederholen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#dont-duplicate-message-texts-as-comments)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#meldungstexte-nicht-in-kommentaren-wiederholen)
 
 ```ABAP
 " anti-pattern
@@ -3232,7 +3232,7 @@ ENDMETHOD.
 
 ### ABAP Doc nur für öffentliche APIs
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#abap-doc-only-for-public-apis)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#abap-doc-nur-fr-ffentliche-apis)
 
 Schreiben Sie ein ABAP Doc zur Dokumentation von öffentlichen APIs, d.h. APIs, die für Entwickler in anderen Teams oder Anwendungen bestimmt sind. Schreiben Sie kein ABAP Doc für die interne Angelegenheiten.
 
@@ -3242,7 +3242,7 @@ ABAP Doc leidet unter denselben Schwächen wie alle Kommentare - schnelle Veralt
 
 ### Besser Pragmas als Pseudokommentare
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#comments) > [Dieser Abschnitt](#prefer-pragmas-to-pseudo-comments)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#besser-pragmas-als-pseudokommentare)
 
 Ziehen Sie Pragmas den Pseudokommentaren vor, um irrelevante Warnungen und Fehler zu unterdrücken, die vom ATC identifiziert werden. Pseudokommentare sind größtenteils obsolet geworden und wurden durch Pragmas ersetzt.
 
