@@ -5,25 +5,25 @@
 > [Englisch](CleanABAP.md)
 
 Dieser Leitfaden ist eine Adaption des Standardwerks [Robert C. Martins _Clean Code_]
-an [ABAP](https://en.wikipedia.org/wiki/ABAP).
+an [ABAP](https://de.wikipedia.org/wiki/ABAP).
 
 Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 
 [Robert C. Martins _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
-<!-- @Translators: kindly add the following disclaimer to the document. -->
-<!-- > This is a snapshot translation of the [English version from 14 Nov 2019](). -->
-<!-- > Kindly refer to the [current English version](CleanABAP.md) for the most recent information. -->
-<!-- > Please post issues and pull requests in English to simplify communication with the community. -->
+> Diese Übersetzung spiegelt den Stand
+> vom [14. November 2019 des englischen Originals](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c) wieder.
+> Den neuesten Stand finden Sie in der
+> [aktuellen Fassung des englischen Originals](CleanABAP.md).
 
 ## Inhalt
 
 - [How-to](#how-to)
-   - [How-to: Erste Schritte mit Clean Code](#how-to-get-started-with-clean-code)
-   - [How-to: Refactoring von Legacy Code](#how-to-refactor-legacy-code)
-   - [How-to: Automatische Prüfung](#how-to-check-automatically)
-   - [How-to: Weitere Leitfäden](#how-to-relate-to-other-guides)
-   - [How-to: Kritik, Änderungsvorschläge](#how-to-disagree)
+   - [How-to: Erste Schritte mit Clean Code](#how-to-erste-schritte-mit-clean-code)
+   - [How-to: Refactoring von Legacy Code](#how-to-refactoring-von-legacy-code)
+   - [How-to: Automatische Prüfung](#how-to-automatische-prfung)
+   - [How-to: Weitere Leitfäden](#how-to-weitere-leitfden)
+   - [How-to: Kritik, Änderungsvorschläge](#how-to-kritik-nderungsvorschlge)
 - [Namen](#names)
    - [Aussagekräftige Namen verwenden](#use-descriptive-names)
    - [Begriffe der Lösungsdomäne und Problemdomäne bevorzugen](#prefer-solution-domain-and-problem-domain-terms)
