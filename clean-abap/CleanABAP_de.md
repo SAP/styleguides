@@ -43,10 +43,10 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Besser funktionale als prozedurale Sprachkonstruktion](#besser-funktionale-als-prozedurale-sprachkonstruktion)
    - [Obsolete Sprachelemente vermeiden](#obsolete-sprachelemente-vermeiden)
    - [Entwurfsmuster mit Bedacht einsetzen](#entwurfsmuster-mit-bedacht-einsetzen)
-- [Konstanten](#constants)
-   - [Konstanten statt magischer Zahlen verwenden](#use-constants-instead-of-magic-numbers)
-   - [Besser Enumerationsklassen als Konstanten-Interfaces](#prefer-enumeration-classes-to-constants-interfaces)
-   - [Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten](#if-you-dont-use-enumeration-classes-group-your-constants)
+- [Konstanten](#konstanten)
+   - [Konstanten statt magischer Zahlen verwenden](#konstanten-statt-magischer-zahlen-verwenden)
+   - [Besser Enumerationsklassen als Konstanten-Interfaces](#besser-enumerationsklassen-als-konstanten-interfaces)
+   - [Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten](#konstanten-gruppieren-wenn-sie-auf-enumerationsklassen-verzichten)
 - [Variablen](#variables)
    - [Besser Inline-Deklaration als voranstehende Deklaration](#prefer-inline-to-up-front-declarations)
    - [Keine Inline-Deklaration in optionalen Verzweigungen](#dont-declare-inline-in-optional-branches)
@@ -631,11 +631,11 @@ Verwenden Sie Entwurfsmuster, wo sie geeignet sind und deutliche Vorteile mit si
 
 ## Konstanten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#constants)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#konstanten)
 
 ### Konstanten statt magischer Zahlen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Konstanten](#constants) > [Dieser Abschnitt](#use-constants-instead-of-magic-numbers)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Konstanten](#konstanten) > [Dieser Abschnitt](#konstanten-statt-magischer-zahlen-verwenden)
 
 ```ABAP
 IF abap_type = cl_abap_typedescr=>typekind_date.
@@ -653,7 +653,7 @@ IF abap_type = 'D'.
 
 ### Besser Enumerationsklassen als Konstanten-Interfaces
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Konstanten](#constants) > [Dieser Abschnitt](#prefer-enumeration-classes-to-constants-interfaces)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Konstanten](#konstanten) > [Dieser Abschnitt](#besser-enumerationsklassen-als-konstanten-interfaces)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
@@ -697,7 +697,7 @@ ENDINTERFACE.
 
 ### Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Konstanten](#constants) > [Dieser Abschnitt](#if-you-dont-use-enumeration-classes-group-your-constants)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Konstanten](#konstanten) > [Dieser Abschnitt](#konstanten-gruppieren-wenn-sie-auf-enumerationsklassen-verzichten)
 
 Wenn Sie Konstanten lose sammeln, beispielsweise in einer Schnittstelle, gruppieren Sie diese:
 
