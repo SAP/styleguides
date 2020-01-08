@@ -98,42 +98,42 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [Besser mehrere statische Erstellungsmethoden als optionale Parameter](#besser-mehrere-statische-erstellungsmethoden-als-optionale-parameter)
       - [Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
       - [Singletons nur, wenn Multi-Instanzen keinen Sinn machen](#singletons-nur-wenn-multi-instanzen-keinen-sinn-machen)
-- [Methoden](#methods)
-   - [Aufrufe](#calls)
-      - [Besser funktionale als prozedurale Aufrufe](#prefer-functional-to-procedural-calls)
-      - [RECEIVING weglassen](#omit-receiving)
-      - [Optionales Schlüsselwort EXPORTING weglassen](#omit-the-optional-keyword-exporting)
-      - [Parametername in einzelnen Parameteraufrufen weglassen](#omit-the-parameter-name-in-single-parameter-calls)
-      - [Eigenbezug me beim Aufruf einer Instanzmethode weglassen](#omit-the-self-reference-me-when-calling-an-instance-method)
-   - [Methoden: Objektorientierung](#methods-object-orientation)
-      - [Besser Instanzmethode als statische Methode](#prefer-instance-to-static-methods)
-      - [Öffentliche Instanzmethoden sollten Teil einer Schnittstelle sein](#public-instance-methods-should-be-part-of-an-interface)
-   - [Parameteranzahl](#parameter-number)
-      - [So wenig IMPORTING-Parameter wie möglich, im Bestfall weniger als drei](#aim-for-few-importing-parameters-at-best-less-than-three)
-      - [Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen](#split-methods-instead-of-adding-optional-parameters)
-      - [PREFERRED PARAMETER sparsam verwenden](#use-preferred-parameter-sparingly)
-      - [RETURN, EXPORT oder CHANGE - nur eins davon](#return-export-or-change-exactly-one-parameter)
-   - [Parametertypen](#parameter-types)
-      - [Besser RETURNING als EXPORTING](#prefer-returning-to-exporting)
-      - [RETURNING von großen Tabellen ist in der Regel problemlos](#returning-large-tables-is-usually-okay)
-      - [RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
-      - [CHANGING sparsam verwenden, wo geeignet](#use-changing-sparingly-where-suited)
-      - [Aufgeteilte Methode statt boolescher Eingabeparameter](#split-method-instead-of-boolean-input-parameter)
-   - [Parameternamen](#parameter-names)
-      - [RETURNING-Parameter evtl. RESULT nennen](#consider-calling-the-returning-parameter-result)
-   - [Parameterinitialisierung](#parameter-initialization)
-      - [EXPORTING-Referenzparameter löschen oder überschreiben](#clear-or-overwrite-exporting-reference-parameters)
-         - [Vorsicht bei identischer Ein- und Ausgabe](#take-care-if-input-and-output-could-be-the-same)
-      - [VALUE-Parameter nicht löschen](#dont-clear-value-parameters)
-   - [Methodenrumpf](#method-body)
-      - [Mache eine Sache zur Zeit, und mache sie gut](#do-one-thing-do-it-well-do-it-only)
-      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#focus-on-the-happy-path-or-error-handling-but-not-both)
-      - [Eine Abstraktionsebene tiefer steigen](#descend-one-level-of-abstraction)
-      - [Methoden klein halten](#keep-methods-small)
-   - [Kontrollfluss](#control-flow)
-      - [Früh scheitern](#fail-fast)
+- [Methoden](#methoden)
+   - [Aufrufe](#aufrufe)
+      - [Besser funktionale als prozedurale Aufrufe](#besser-funktionale-als-prozedurale-aufrufe)
+      - [RECEIVING weglassen](#receiving-weglassen)
+      - [Optionales Schlüsselwort EXPORTING weglassen](#optionales-schlsselwort-exporting-weglassen)
+      - [Parametername in einzelnen Parameteraufrufen weglassen](#parametername-in-einzelnen-parameteraufrufen-weglassen)
+      - [Eigenbezug me beim Aufruf einer Instanzmethode weglassen](#eigenbezug-me-beim-aufruf-einer-instanzmethode-weglassen)
+   - [Methoden: Objektorientierung](#methoden-objektorientierung)
+      - [Besser Instanzmethode als statische Methode](#besser-instanzmethode-als-statische-methode)
+      - [Öffentliche Instanzmethoden sollten Teil einer Schnittstelle sein](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein)
+   - [Parameteranzahl](#parameteranzahl)
+      - [So wenig IMPORTING-Parameter wie möglich, im Bestfall weniger als drei](#so-wenig-importing-parameter-wie-mglich-im-bestfall-weniger-als-drei)
+      - [Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen)
+      - [PREFERRED PARAMETER sparsam verwenden](#preferred-parameter-sparsam-verwenden)
+      - [RETURN, EXPORT oder CHANGE - nur eins davon](#return-export-oder-change---nur-eins-davon)
+   - [Parametertypen](#parametertypen)
+      - [Besser RETURNING als EXPORTING](#besser-returning-als-exporting)
+      - [RETURNING von großen Tabellen ist in der Regel problemlos](#returning-von-groen-tabellen-ist-in-der-regel-problemlos)
+      - [RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination](#returning-oder-exporting-oder-changing-verwenden-jedoch-keine-kombination)
+      - [CHANGING sparsam verwenden, wo geeignet](#changing-sparsam-verwenden-wo-geeignet)
+      - [Aufgeteilte Methode statt boolescher Eingabeparameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter)
+   - [Parameternamen](#parameternamen)
+      - [RETURNING-Parameter evtl. RESULT nennen](#returning-parameter-evtl-result-nennen)
+   - [Parameterinitialisierung](#parameterinitialisierung)
+      - [EXPORTING-Referenzparameter löschen oder überschreiben](#exporting-referenzparameter-lschen-oder-berschreiben)
+         - [Vorsicht bei identischer Ein- und Ausgabe](#vorsicht-bei-identischer-ein--und-ausgabe)
+      - [VALUE-Parameter nicht löschen](#value-parameter-nicht-lschen)
+   - [Methodenrumpf](#methodenrumpf)
+      - [Mache eine Sache zur Zeit, und mache sie gut](#mache-eine-sache-zur-zeit-und-mache-sie-gut)
+      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehebung-nicht-beides)
+      - [Eine Abstraktionsebene tiefer steigen](#eine-abstraktionsebene-tiefer-steigen)
+      - [Methoden klein halten](#methoden-klein-halten)
+   - [Kontrollfluss](#kontrollfluss)
+      - [Früh scheitern](#frh-scheitern)
       - [CHECK vs. RETURN](#check-vs-return)
-      - [CHECK an anderer Stelle vermeiden](#avoid-check-in-other-positions)
+      - [CHECK an anderer Stelle vermeiden](#check-an-anderer-stelle-vermeiden)
 - [Fehlerbehebung](#error-handling)
    - [Meldungen](#messages)
       - [Meldungen leicht auffindbar machen](#make-messages-easy-to-find)
@@ -247,7 +247,7 @@ Wenn das Thema Clean Code neu für Sie ist, empfehlen wir, zunächst das Buch [R
 
 Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke), [Bedingungen](#bedingungen) und [IFs](#if).
 
-Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methods) profitieren, insbesondere von den Themen [Mache eine Sache zur Zeit, und mache sie gut](#do-one-thing-do-it-well-do-it-only) und [Methoden klein halten](#keep-methods-small), weil diese zu einer enormen Verbesserung der Gesamtstruktur Ihres Codes beitragen.
+Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methoden) profitieren, insbesondere von den Themen [Mache eine Sache zur Zeit, und mache sie gut](#mache-eine-sache-zur-zeit-und-mache-sie-gut) und [Methoden klein halten](#methoden-klein-halten), weil diese zu einer enormen Verbesserung der Gesamtstruktur Ihres Codes beitragen.
 
 Einige der hier behandelten Themen können zu kontroversen Diskussionen in Teams führen, die zwar erfahren, jedoch nicht mit Clean Code vertraut sind. Diese Themen sind völlig „unbedenklich“, manchen Beteiligten kann es jedoch anfänglich schwerfallen, sich mit ihnen anzufreunden.
 
@@ -260,7 +260,7 @@ können zu nahezu fanatischen Diskussionen führen und sollten nur von Teams ang
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-refactoring-von-legacy-code)
 
 Die Themen [Boolesche Ausdrücke](#boolesche-ausdrcke), [Bedingungen](#bedingungen), [IFs](#if)
-und [Methoden](#methods) zahlen sich am meisten aus, wenn Sie an einem Legacy-Projekt mit Massen von Code arbeiten, den Sie nicht ändern können oder wollen, weil die Empfehlungen in diesen Themen ohne Konflikte auf den neuen Code angewendet werden können.
+und [Methoden](#methoden) zahlen sich am meisten aus, wenn Sie an einem Legacy-Projekt mit Massen von Code arbeiten, den Sie nicht ändern können oder wollen, weil die Empfehlungen in diesen Themen ohne Konflikte auf den neuen Code angewendet werden können.
 
 Das Thema [Namen](#namen) ist sehr anspruchsvoll für Legacy-Projekte, da es hier zu einem Bruch zwischen altem und neuem Code kommen kann. Dies kann so weit führen, dass die Informationen in Abschnitten wie [Codierungen vermeiden, insbes. Ungarische Notation und Präfixe](#codierungen-vermeiden-insbes-ungarische-notation-und-prfixe)
 besser ignoriert werden.
@@ -1005,7 +1005,7 @@ ENDTRY.
 DATA(row) = my_table[ key = input ].
 ```
 
-> Neben einer Performance-Verbesserung ist dies außerdem eine spezielle Variante des allgemeiner formulierten Prinzips [Konzentrieren Sie sich auf den glücklichen Pfad ODER die Fehlerbehebung](#focus-on-the-happy-path-or-error-handling-but-not-both).
+> Neben einer Performance-Verbesserung ist dies außerdem eine spezielle Variante des allgemeiner formulierten Prinzips [Konzentrieren Sie sich auf den glücklichen Pfad ODER die Fehlerbehebung](#glcklicher-pfad-oder-fehlerbehebung-nicht-beides).
 
 ## Strings
 
@@ -1078,7 +1078,7 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
                       document->is_partially_archived( ) = abap_true ) ).
 ```
 
-[Aufgeteilte Methode statt boolescher Eingabeparameter](#split-method-instead-of-boolean-input-parameter) erläutert, warum Sie boolesche Parameter immer hinterfragen sollten.
+[Aufgeteilte Methode statt boolescher Eingabeparameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter) erläutert, warum Sie boolesche Parameter immer hinterfragen sollten.
 
 > Mehr zu diesem Thema erfahren Sie in [1](http://www.beyondcode.org/articles/booleanVariables.html)
 
@@ -1551,7 +1551,7 @@ Das Aktivieren der Vererbung ist nichts, was leichtfertig getan werden sollte, d
 Es gibt selbstverständlich einige _gute Einsatzmöglichkeiten für die Vererbung_, wie z.B. das Entwurfsmuster [composite](https://en.wikipedia.org/wiki/Composite_pattern).
 Business Add-Ins können ebenfalls durch das Zulassen von Unterklassen nützlicher werden, da sie dem Kunde die Möglichkeit geben, den größten Teil des Ursprungscodes wiederzuverwenden. Beachten Sie jedoch, dass in all diesen Fällen die Vererbung von Anfang an mit Absicht eingebaut wird.
 
-Unbereinigte Klassen, die keine [Schnittstellen implementieren](#public-instance-methods-should-be-part-of-an-interface), sollten Nicht-`FINAL` bleiben, damit sie von den Konsumenten in ihren Modultests nachgestellt werden können.
+Unbereinigte Klassen, die keine [Schnittstellen implementieren](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein), sollten Nicht-`FINAL` bleiben, damit sie von den Konsumenten in ihren Modultests nachgestellt werden können.
 
 #### Mitglieder standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED
 
@@ -1689,7 +1689,7 @@ METHODS constructor
 ```
 
 Die allgemeine Richtlinie
-[_Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen_](#split-methods-instead-of-adding-optional-parameters) erläutert die Gründe, die dahinter stehen.
+[_Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen_](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen) erläutert die Gründe, die dahinter stehen.
 
 Erwägen Sie das Auflösen von komplexen Konstruktionen in eine Mehr-Schritte-Konstruktion mit dem [Entwurfsmuster Erbauer](https://en.wikipedia.org/wiki/Builder_pattern).
 
@@ -1736,17 +1736,17 @@ Sind keine entwurfsbasierten Gründe für ein einheitliches Objekt vorhanden, ü
 
 ## Methoden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#methods)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#methoden)
 
 Diese Regeln gelten für Methoden in Klassen und Funktionsbausteinen.
 
-### Anrufe
+### Aufrufe
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#calls)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#aufrufe)
 
 #### Besser funktionale als prozedurale Aufrufe
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Aufrufe](#calls) > [Dieser Abschnitt](#prefer-functional-to-procedural-calls)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Aufrufe](#aufrufe) > [Dieser Abschnitt](#besser-funktionale-als-prozedurale-aufrufe)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -1782,7 +1782,7 @@ Viele der im Folgenden angeführten Detailregeln sind lediglich spezifischere Va
 
 #### RECEIVING weglassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Aufrufe](#calls) > [Dieser Abschnitt](#omit-receiving)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Aufrufe](#aufrufe) > [Dieser Abschnitt](#receiving-weglassen)
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
@@ -1801,7 +1801,7 @@ aggregate_values(
 
 #### Optionales Schlüsselwort EXPORTING weglassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Aufrufe](#calls) > [Dieser Abschnitt](#omit-the-optional-keyword-exporting)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Aufrufe](#aufrufe) > [Dieser Abschnitt](#optionales-schlsselwort-exporting-weglassen)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -1824,7 +1824,7 @@ modify->update(
 
 #### Parametername in einzelnen Parameteraufrufen weglassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Aufrufe](#calls) > [Dieser Abschnitt](#omit-the-parameter-name-in-single-parameter-calls)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Aufrufe](#aufrufe) > [Dieser Abschnitt](#parametername-in-einzelnen-parameteraufrufen-weglassen)
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
@@ -1846,7 +1846,7 @@ update( asynchronous = abap_true ).
 
 #### Eigenbezug me beim Aufruf einer Instanzmethode weglassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Aufrufe](#calls) > [Dieser Abschnitt](#omit-the-self-reference-me-when-calling-an-instance-method)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Aufrufe](#aufrufe) > [Dieser Abschnitt](#eigenbezug-me-beim-aufruf-einer-instanzmethode-weglassen)
 
 Da der Eigenbezug `me->` implizit vom System festgelegt wird, lassen Sie ihn beim Aufruf einer Instanzmethode weg.
 
@@ -1863,11 +1863,11 @@ DATA(sum) = me->aggregate_values( values ).
 
 ### Methoden: Objektorientierung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#methods-object-orientation)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#methoden-objektorientierung)
 
 #### Besser Instanzmethode als statische Methode
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Methoden: Objektorientierung](#methods-object-orientation) > [Dieser Abschnitt](#prefer-instance-to-static-methods)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methoden: Objektorientierung](#methoden-objektorientierung) > [Dieser Abschnitt](#besser-instanzmethode-als-statische-methode)
 
 Methoden sollten standardmäßig Instanzmitglieder sein. Instanzmethoden reflektieren das „Objektartige“ der Klasse auf bessere Weise und können einfacher in Modultests nachgestellt werden.
 
@@ -1885,7 +1885,7 @@ CLASS-METHODS create_instance
 
 #### Öffentliche Instanzmethoden sollten Teil einer Schnittstelle sein
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Methoden: Objektorientierung](#methods-object-orientation) > [Dieser Abschnitt](#public-instance-methods-should-be-part-of-an-interface)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methoden: Objektorientierung](#methoden-objektorientierung) > [Dieser Abschnitt](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein)
 
 Öffentliche Instanzmethoden sollten immer Teil einer Schnittstelle sein. Hierdurch werden Abhängigkeiten entkoppelt, und das Nachstellen der Methoden in Modultests wird einfacher.
 
@@ -1900,11 +1900,11 @@ führt aus, warum dies auch für Klassen gilt, die vererbte Methoden überschrei
 
 ### Parameteranzahl
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#parameter-number)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#parameteranzahl)
 
 #### So wenig IMPORTING-Parameter wie möglich, im Bestfall weniger als drei
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameteranzahl](#parameter-number) > [Dieser Abschnitt](#aim-for-few-importing-parameters-at-best-less-than-three)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameteranzahl](#parameteranzahl) > [Dieser Abschnitt](#so-wenig-importing-parameter-wie-mglich-im-bestfall-weniger-als-drei)
 
 ```ABAP
 FUNCTION seo_class_copy
@@ -1942,7 +1942,7 @@ Sie können die Anzahl der Parameter reduzieren, indem Sie sie in sinnvollen Gru
 
 #### Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameteranzahl](#parameter-number) > [Dieser Abschnitt](#split-methods-instead-of-adding-optional-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameteranzahl](#parameteranzahl) > [Dieser Abschnitt](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen)
 
 ```ABAP
 METHODS do_one_thing IMPORTING what_i_need TYPE string.
@@ -1969,14 +1969,14 @@ Mehrere Methoden mit bestimmen Parametern für den Use-Case verhindern diese Ver
 
 #### PREFERRED PARAMETER sparsam verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameteranzahl](#parameter-number) > [Dieser Abschnitt](#use-preferred-parameter-sparingly)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameteranzahl](#parameteranzahl) > [Dieser Abschnitt](#preferred-parameter-sparsam-verwenden)
 
 Der Zusatz `PREFERRED PARAMETER` macht es schwer zu erkennen, welcher Parameter tatsächlich bereitgestellt wird, und erschwert somit die Verständlichkeit des Codes.
 Indem die Anzahl der Parameter, insbesondere der optionalen Parameter, reduziert wird, sinkt automatisch der Bedarf nach dem Zusatz `PREFERRED PARAMETER`.
 
 #### RETURN, EXPORT oder CHANGE - nur eins davon
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameteranzahl](#parameter-number) > [Dieser Abschnitt](#return-export-or-change-exactly-one-parameter)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameteranzahl](#parameteranzahl) > [Dieser Abschnitt](#return-export-oder-change---nur-eins-davon)
 
 Eine gute Methode tut _eine Sache_, und dies sollte sich darin widerspiegeln, dass die Methode auch genau eine Sache zurückgibt. Wenn die Ausgabeparameter Ihrer Methode _keine_ logische Einheit bilden, tut Ihre Methode mehr als eine Sache, und Sie sollten sie aufteilen.
 
@@ -2037,11 +2037,11 @@ METHODS check_and_report
 
 ### Parametertypen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#parameter-types)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#parametertypen)
 
 #### Besser RETURNING als EXPORTING
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parametertypen](#parameter-types) > [Dieser Abschnitt](#prefer-returning-to-exporting)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#besser-returning-als-exporting)
 
 ```ABAP
 METHODS square
@@ -2070,11 +2070,11 @@ square(
     result = DATA(result) ).
 ```
 
-`RETURNING` verkürzt nicht nur den Aufruf, sondern ermöglicht auch die Methodenverkettung und verhindert Fehler vom Typ [identische Ein- und Ausgabe](#take-care-if-input-and-output-could-be-the-same).
+`RETURNING` verkürzt nicht nur den Aufruf, sondern ermöglicht auch die Methodenverkettung und verhindert Fehler vom Typ [identische Ein- und Ausgabe](#vorsicht-bei-identischer-ein--und-ausgabe).
 
 #### RETURNING von großen Tabellen ist in der Regel problemlos
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parametertypen](#parameter-types) > [Dieser Abschnitt](#returning-large-tables-is-usually-okay)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#returning-von-groen-tabellen-ist-in-der-regel-problemlos)
 
 Trotz anderslautender Aussagen in der ABAP-Dokumentation und den Performance-Leitfäden stoßen wir selten auf Fälle, in denen die Übergabe einer großen oder stark verschachtelten Tabelle in einem VALUE-Parameter _tatsächlich zu Performanceproblemen führt_. Wir empfehlen daher, die aktuelle Verwendung
 
@@ -2109,7 +2109,7 @@ get_large_table( IMPORTING result = DATA(my_table) ).
 
 #### RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parametertypen](#parameter-types) > [Dieser Abschnitt](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#returning-oder-exporting-oder-changing-verwenden-jedoch-keine-kombination)
 
 ```ABAP
 METHODS copy_class
@@ -2161,7 +2161,7 @@ METHODS build_tree
 
 #### CHANGING sparsam verwenden, wo geeignet
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parametertypen](#parameter-types) > [Dieser Abschnitt](#use-changing-sparingly-where-suited)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#changing-sparsam-verwenden-wo-geeignet)
 
 `CHANGING` sollte für Fälle reserviert werden, in denen eine vorhandene lokale Variable, die bereits befüllt ist, nur an einigen Stellen aktualisiert wird:
 
@@ -2183,7 +2183,7 @@ Zwingen Sie Ihre Aufrufer nicht, unnötige lokale Variablen einzuführen, nur um
 
 #### Aufgeteilte Methode statt boolescher Eingabeparameter
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parametertypen](#parameter-types) > [Dieser Abschnitt](#split-method-instead-of-boolean-input-parameter)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#aufgeteilte-methode-statt-boolescher-eingabeparameter)
 
 Boolesche Eingabeparameter sind häufig ein Hinweis darauf, dass eine Methode _zwei_ Dinge anstelle von einem tut.
 
@@ -2223,11 +2223,11 @@ METHODS set_is_deleted
 
 ### Parameternamen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#parameter-names)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#parameternamen)
 
-#### RETURNING-Parameters evtl. RESULT nennen
+#### RETURNING-Parameter evtl. RESULT nennen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameternamen](#parameter-names) > [Dieser Abschnitt](#consider-calling-the-returning-parameter-result)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameternamen](#parameternamen) > [Dieser Abschnitt](#returning-parameter-evtl-result-nennen)
 
 Gute Methodennamen sind in der Regel so gut, dass der `RETURNING`-Parameter keinen eigenen Namen braucht. Der Name wäre nicht viel mehr als das Nachgeplapper des Methodennamens oder die Wiederholung von etwas Offensichtlichem.
 
@@ -2250,11 +2250,11 @@ Benennen Sie den `RETURNING`-Parameter, wenn es _nicht_ offensichtlich ist, wof�
 
 ### Parameterinitialisierung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#parameter-initialization)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#parameterinitialisierung)
 
 #### EXPORTING-Referenzparameter löschen oder überschreiben
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameterinitialisierung](#parameter-initialization) > [Dieser Abschnitt](#clear-or-overwrite-exporting-reference-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameterinitialisierung](#parameterinitialisierung) > [Dieser Abschnitt](#exporting-referenzparameter-lschen-oder-berschreiben)
 
 Referenzparameter beziehen sich auf vorhandene Speicherbereiche, die vorab befüllt werden können. Löschen oder überscheiben Sie diese, um zuverlässige Daten bereitzustellen:
 
@@ -2279,7 +2279,7 @@ ENDMETHOD.
 
 ##### Vorsicht bei identischer Ein- und Ausgabe
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameterinitialisierung](#parameter-initialization) > [Dieser Abschnitt](#take-care-if-input-and-output-could-be-the-same)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameterinitialisierung](#parameterinitialisierung) > [Dieser Abschnitt](#vorsicht-bei-identischer-ein--und-ausgabe)
 
 Im Allgemeinen ist es eine gute Idee, den Parameter als Erstes in der Methode nach den Typ- und Datendeklarationen zu löschen. Dies macht die Anweisung einfach auffindbar und verhindert, dass der noch enthaltene Wert versehentlich von späteren Anweisungen verwendet wird.
 
@@ -2305,7 +2305,7 @@ Erwägen Sie die Neugestaltung dieser Methoden, indem Sie `EXPORTING` durch `RET
 
 #### VALUE-Parameter nicht löschen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Parameterinitialisierung](#parameter-initialization) > [Dieser Abschnitt](#dont-clear-value-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameterinitialisierung](#parameterinitialisierung) > [Dieser Abschnitt](#value-parameter-nicht-lschen)
 
 Parameter, die mit `VALUE` arbeiten, werden als neue, separate Speicherbereiche übergeben, die per Definition leer sind. Löschen Sie diese nicht noch einmal:
 
@@ -2333,29 +2333,29 @@ ENDMETHOD.
 
 ### Methodenrumpf
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#method-body)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#methodenrumpf)
 
 #### Mache eine Sache zur Zeit, und mache sie gut
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Methodenrumpf](#method-body) > [Dieser Abschnitt](#do-one-thing-do-it-well-do-it-only)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#mache-eine-sache-zur-zeit-und-mache-sie-gut)
 
 Eine Methode sollte eine Sache tun, und nur eine Sache. Diese sollte sie auf bestmögliche Weise tun.
 
 Eine Methode tut wahrscheinlich eine Sache, wenn
 
-- sie [wenige Eingabeparameter](#aim-for-few-importing-parameters-at-best-less-than-three) hat,
-- die [keine booleschen Parameter](#split-method-instead-of-boolean-input-parameter) beinhalten
-- sie [genau einen Ausgabeparameter](#return-export-or-change-exactly-one-parameter) hat
-- sie [klein](#keep-methods-small) ist
-- sie [eine Abstraktionsebene tiefer ](#descend-one-level-of-abstraction) ist
+- sie [wenige Eingabeparameter](#so-wenig-importing-parameter-wie-mglich-im-bestfall-weniger-als-drei) hat,
+- die [keine booleschen Parameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter) beinhalten
+- sie [genau einen Ausgabeparameter](#return-export-oder-change---nur-eins-davon) hat
+- sie [klein](#methoden-klein-halten) ist
+- sie [eine Abstraktionsebene tiefer ](#eine-abstraktionsebene-tiefer-steigen) ist
 - Sie keine weiteren sinnvollen Methoden extrahieren können
 - Sie ihre Anweisungen nicht sinnvoll in Abschnitte gruppieren können
 
 #### Glücklicher Pfad oder Fehlerbehebung, nicht Beides
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Methodenrumpf](#method-body) > [Dieser Abschnitt](#focus-on-the-happy-path-or-error-handling-but-not-both)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#glcklicher-pfad-oder-fehlerbehebung-nicht-beides)
 
-Als Spezialfall der Regel [_Mache eine Sache zur Zeit, und mache sie gut_](#do-one-thing-do-it-well-do-it-only) sollte eine Methode entweder dem glücklichen Pfad folgen, für den sie erzeugt wurde, oder dem Umweg der Fehlerbehandlung, sofern der glückliche Pfad nicht möglich ist. Beides gleichzeitig ist keine gangbare Alternative.
+Als Spezialfall der Regel [_Mache eine Sache zur Zeit, und mache sie gut_](#mache-eine-sache-zur-zeit-und-mache-sie-gut) sollte eine Methode entweder dem glücklichen Pfad folgen, für den sie erzeugt wurde, oder dem Umweg der Fehlerbehandlung, sofern der glückliche Pfad nicht möglich ist. Beides gleichzeitig ist keine gangbare Alternative.
 
 ```ABAP
 " anti-pattern
@@ -2419,7 +2419,7 @@ ENDMETHOD.
 
 #### Eine Abstraktionsebene tiefer steigen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Methodenrumpf](#method-body) > [Dieser Abschnitt](#descend-one-level-of-abstraction)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#eine-abstraktionsebene-tiefer-steigen)
 
 Anweisungen in einer Methode sollten sich eine Abstraktionsebene unter der Methode selbst befinden. Dementsprechend sollten sie sich alle auf derselben Abstraktionsebene befinden.
 
@@ -2446,7 +2446,7 @@ Eine zuverlässige Methode, herauszufinden, welches die richtige Abstraktionsebe
 
 #### Methoden klein halten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Methodenrumpf](#method-body) > [Dieser Abschnitt](#keep-methods-small)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#methoden-klein-halten)
 
 Methoden sollten weniger als 20 Anweisungen haben, idealerweise 3 bis 5.
 
@@ -2488,7 +2488,7 @@ DATA:
   new_clskey_save TYPE seoclskey.
 ```
 
-Natürlich gibt es Fälle, in denen es keinen Sinn ergibt, eine umfangreiche Methode weiter aufzuteilen. Dies ist völlig in Ordnung, sofern die Methode [auf eine Sache fokussiert bleibt](#do-one-thing-do-it-well-do-it-only):
+Natürlich gibt es Fälle, in denen es keinen Sinn ergibt, eine umfangreiche Methode weiter aufzuteilen. Dies ist völlig in Ordnung, sofern die Methode [auf eine Sache fokussiert bleibt](#mache-eine-sache-zur-zeit-und-mache-sie-gut):
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2519,11 +2519,11 @@ ENDMETHOD.
 
 ### Kontrollfluss
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Dieser Abschnitt](#control-flow)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#kontrollfluss)
 
 #### Früh scheitern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Kontrollfluss](#control-flow) > [Dieser Abschnitt](#fail-fast)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Kontrollfluss](#kontrollfluss) > [Dieser Abschnitt](#frh-scheitern)
 
 Sie sollten so früh wie möglich validieren und scheitern.
 
@@ -2552,7 +2552,7 @@ ENDMETHOD.
 
 #### CHECK vs. RETURN
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Kontrollfluss](#control-flow) > [Dieser Abschnitt](#check-vs-return)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Kontrollfluss](#kontrollfluss) > [Dieser Abschnitt](#check-vs-return)
 
 Es gibt keinen Konsens darüber, ob Sie `CHECK` oder `RETURN` zum Beenden einer Methode verwenden sollten, wenn die Eingabe nicht den Erwartungen entspricht.
 
@@ -2592,7 +2592,7 @@ ENDMETHOD:
 
 #### CHECK an anderer Stelle vermeiden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methods) > [Kontrollfluss](#control-flow) > [Dieser Abschnitt](#avoid-check-in-other-positions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Kontrollfluss](#kontrollfluss) > [Dieser Abschnitt](#check-an-anderer-stelle-vermeiden)
 
 Verwenden Sie `CHECK` nicht außerhalb des Initialisierungsabschnitts einer Methode. Das Verhalten der Anweisung variiert abhängig von ihrer Position und kann zu unklaren, unerwarteten Ergebnissen führen.
 
@@ -3386,7 +3386,7 @@ DATA(result) = do_something( ).
 DATA(else) = calculate_this( result ).
 ```
 
-Das Bedürfnis nach trennenden Leerzeilen kann ein Hinweis darauf sein, dass Ihre Methode [nicht eine Sache tut](#do-one-thing-do-it-well-do-it-only).
+Das Bedürfnis nach trennenden Leerzeilen kann ein Hinweis darauf sein, dass Ihre Methode [nicht eine Sache tut](#mache-eine-sache-zur-zeit-und-mache-sie-gut).
 
 ### Keine exzessiven Leerzeilen
 
