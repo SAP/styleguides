@@ -127,33 +127,33 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [VALUE-Parameter nicht löschen](#value-parameter-nicht-lschen)
    - [Methodenrumpf](#methodenrumpf)
       - [Mache eine Sache zur Zeit, und mache sie gut](#mache-eine-sache-zur-zeit-und-mache-sie-gut)
-      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehebung-nicht-beides)
+      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehandlung-nicht-beides)
       - [Eine Abstraktionsebene tiefer steigen](#eine-abstraktionsebene-tiefer-steigen)
       - [Methoden klein halten](#methoden-klein-halten)
    - [Kontrollfluss](#kontrollfluss)
       - [Früh scheitern](#frh-scheitern)
       - [CHECK vs. RETURN](#check-vs-return)
       - [CHECK an anderer Stelle vermeiden](#check-an-anderer-stelle-vermeiden)
-- [Fehlerbehebung](#error-handling)
-   - [Meldungen](#messages)
-      - [Meldungen leicht auffindbar machen](#make-messages-easy-to-find)
-   - [Rückgabecodes](#return-codes)
-      - [Ausnahmen statt Rückgabecodes](#prefer-exceptions-to-return-codes)
-      - [Alle Fehler abfangen](#dont-let-failures-slip-through)
-   - [Ausnahmen](#exceptions)
-      - [Ausnahmen sind für Fehler gedacht, nicht für den Normalfall](#exceptions-are-for-errors-not-for-regular-cases)
-      - [Klassenbasierte Ausnahmen verwenden](#use-class-based-exceptions)
-   - [Ausnahme absetzen](#throwing)
-      - [Eigene übergeordnete Klassen verwenden](#use-own-super-classes)
-      - [Einen Ausnahmetyp zur Zeit absetzen](#throw-one-type-of-exception)
-      - [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
-      - [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#throw-cx_static_check-for-manageable-exceptions)
-      - [CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen](#throw-cx_no_check-for-usually-unrecoverable-situations)
-      - [CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen](#consider-cx_dynamic_check-for-avoidable-exceptions)
-      - [Dump für schwerwiegende, nicht behebbare Situationen absetzen](#dump-for-totally-unrecoverable-situations)
-      - [Besser RAISE EXCEPTION NEW als RAISE EXCEPTION TYPE](#prefer-raise-exception-new-to-raise-exception-type)
-   - [Ausnahmen abfangen](#catching)
-      - [Externe Ausnahmen umschließen, um das Eindringen in Ihren Code zu verhindern](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
+- [Fehlerbehandlung](#fehlerbehandlung)
+   - [Meldungen](#meldungen)
+      - [Nachrichten leicht auffindbar machen](#nachrichten-leicht-auffindbar-machen)
+   - [Rückgabecodes](#rckgabecodes)
+      - [Ausnahmen statt Rückgabecodes](#ausnahmen-statt-rckgabecodes)
+      - [Alle Fehler abfangen](#alle-fehler-abfangen)
+   - [Ausnahmen](#ausnahmen)
+      - [Ausnahmen sind für Fehler gedacht, nicht für den Normalfall](#ausnahmen-sind-fr-fehler-gedacht-nicht-fr-den-normalfall)
+      - [Klassenbasierte Ausnahmen verwenden](#klassenbasierte-ausnahmen-verwenden)
+   - [Ausnahme absetzen](#ausnahme-absetzen)
+      - [Eigene übergeordnete Klassen verwenden](#eigene-bergeordnete-klassen-verwenden)
+      - [Einen Ausnahmetyp zur Zeit absetzen](#einen-ausnahmetyp-zur-zeit-absetzen)
+      - [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen)
+      - [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#cx_static_check-fr-berschaubare-ausnahmen-absetzen)
+      - [CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen](#cx_no_check-fr-gewhnlich-nicht-behebbare-situationen-absetzen)
+      - [CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen](#cx_dynamic_check-fr-vermeidbare-ausnahmen-absetzen)
+      - [Dump für schwerwiegende, nicht behebbare Situationen absetzen](#dump-fr-schwerwiegende-nicht-behebbare-situationen-absetzen)
+      - [Besser RAISE EXCEPTION NEW als RAISE EXCEPTION TYPE](#besser-raise-exception-new-als-raise-exception-type)
+   - [Ausnahmen abfangen](#ausnahmen-abfangen)
+      - [Externe Ausnahmen umschließen, um das Eindringen in Ihren Code zu verhindern](#externe-ausnahmen-umschlieen-um-das-eindringen-in-ihren-code-zu-verhindern)
 - [Kommentare](#comments)
    - [In Code ausdrücken, nicht in Kommentaren](#express-yourself-in-code-not-in-comments)
    - [Kommentare sind keine Ausrede für schlechte Namenswahl](#comments-are-no-excuse-for-bad-names)
@@ -296,7 +296,7 @@ ABAP Test Cockpit, Code Inspector, Extended Check und CheckMan stellen einige Pr
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-weitere-leitfden)
 
-Unser Leitfaden folgt dem _Geist_ des Clean Code. Das bedeutet, wir haben einige Anpassungen an die Programmiersprache ABAP  vorgenommen, wie z.B. [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#throw-cx_static_check-for-manageable-exceptions).
+Unser Leitfaden folgt dem _Geist_ des Clean Code. Das bedeutet, wir haben einige Anpassungen an die Programmiersprache ABAP  vorgenommen, wie z.B. [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#cx_static_check-fr-berschaubare-ausnahmen-absetzen).
 
 Einige Fakten stammen aus den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm), mit denen dieser Leitfaden größtenteils kompatibel ist. Abweichungen werden explizit hervorgehoben und sind immer im Geist des Clean Code verankert.
 
@@ -1005,7 +1005,7 @@ ENDTRY.
 DATA(row) = my_table[ key = input ].
 ```
 
-> Neben einer Performance-Verbesserung ist dies außerdem eine spezielle Variante des allgemeiner formulierten Prinzips [Konzentrieren Sie sich auf den glücklichen Pfad ODER die Fehlerbehebung](#glcklicher-pfad-oder-fehlerbehebung-nicht-beides).
+> Neben einer Performance-Verbesserung ist dies außerdem eine spezielle Variante des allgemeiner formulierten Prinzips [Konzentrieren Sie sich auf den glücklichen Pfad ODER die Fehlerbehandlung](#glcklicher-pfad-oder-fehlerbehandlung-nicht-beides).
 
 ## Strings
 
@@ -2351,9 +2351,9 @@ Eine Methode tut wahrscheinlich eine Sache, wenn
 - Sie keine weiteren sinnvollen Methoden extrahieren können
 - Sie ihre Anweisungen nicht sinnvoll in Abschnitte gruppieren können
 
-#### Glücklicher Pfad oder Fehlerbehebung, nicht Beides
+#### Glücklicher Pfad oder Fehlerbehandlung, nicht Beides
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#glcklicher-pfad-oder-fehlerbehebung-nicht-beides)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#glcklicher-pfad-oder-fehlerbehandlung-nicht-beides)
 
 Als Spezialfall der Regel [_Mache eine Sache zur Zeit, und mache sie gut_](#mache-eine-sache-zur-zeit-und-mache-sie-gut) sollte eine Methode entweder dem glücklichen Pfad folgen, für den sie erzeugt wurde, oder dem Umweg der Fehlerbehandlung, sofern der glückliche Pfad nicht möglich ist. Beides gleichzeitig ist keine gangbare Alternative.
 
@@ -2603,15 +2603,15 @@ Beachten Sie, dass dies der [Schlüsselwortreferenz für `CHECK` in Loops](https
 
 ## Fehlerbehandlung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#error-handling)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#fehlerbehandlung)
 
 ### Meldungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Dieser Abschnitt](#messages)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Dieser Abschnitt](#meldungen)
 
 #### Nachrichten leicht auffindbar machen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Nachrichten](#messages) > [Dieser Abschnitt](#make-messages-easy-to-find)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Nachrichten](#meldungen) > [Dieser Abschnitt](#nachrichten-leicht-auffindbar-machen)
 
 Um Meldungen über eine Verwendungssuche der Transaktion SE91 leicht auffindbar zu machen, verwenden Sie das folgende Muster:
 
@@ -2638,11 +2638,11 @@ Dies ist ein Anti-Pattern, weil:
 
 ### Rückgabecodes
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Dieser Abschnitt](#return-codes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Dieser Abschnitt](#rckgabecodes)
 
 #### Ausnahmen statt Rückgabecodes
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Rückgabecodes](#return-codes) > [Dieser Abschnitt](#prefer-exceptions-to-return-codes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Rückgabecodes](#rckgabecodes) > [Dieser Abschnitt](#ausnahmen-statt-rckgabecodes)
 
 ```ABAP
 METHOD try_this_and_that.
@@ -2671,7 +2671,7 @@ Ausnahmen haben gegenüber Rückgabecodes viele Vorteile:
 
 #### Alle Fehler abfangen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Rückgabecodes](#return-codes) > [Dieser Abschnitt](#dont-let-failures-slip-through)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Rückgabecodes](#rckgabecodes) > [Dieser Abschnitt](#alle-fehler-abfangen)
 
 Wenn Sie wirklich Rückgabecodes verwenden müssen, z.B. weil Sie Funktionen und älteren Code aufrufen, die außerhalb Ihrer Kontrolle sind, stellen Sie sicher, dass Ihnen keine Fehler entgehen.
 
@@ -2693,11 +2693,11 @@ ENDIF.
 
 ### Ausnahmen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Dieser Abschnitt](#exceptions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Dieser Abschnitt](#ausnahmen)
 
 #### Ausnahmen sind für Fehler gedacht, nicht für den Normalfall
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen](#exceptions) > [Dieser Abschnitt](#exceptions-are-for-errors-not-for-regular-cases)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen](#ausnahmen) > [Dieser Abschnitt](#ausnahmen-sind-fr-fehler-gedacht-nicht-fr-den-normalfall)
 
 ```ABAP
 " anti-pattern
@@ -2732,7 +2732,7 @@ Der missbräuchliche Einsatz von Ausnahmen verleitet den Leser dazu, anzunehmen,
 
 #### Klassenbasierte Ausnahmen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen](#exceptions) > [Dieser Abschnitt](#use-class-based-exceptions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen](#ausnahmen) > [Dieser Abschnitt](#klassenbasierte-ausnahmen-verwenden)
 
 ```ABAP
 TRY.
@@ -2753,11 +2753,11 @@ get_component_types(
 
 ### Ausnahme absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Dieser Abschnitt](#throwing)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Dieser Abschnitt](#ausnahme-absetzen)
 
 #### Eigene übergeordnete Klassen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#use-own-super-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#eigene-bergeordnete-klassen-verwenden)
 
 ```ABAP
 CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_static_check.
@@ -2770,7 +2770,7 @@ Ermöglicht Ihnen das Hinzufügen von allgemeinen Funktionen zu allen Ausnahmen,
 
 #### Einen Ausnahmetyp zur Zeit absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#throw-one-type-of-exception)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#einen-ausnahmetyp-zur-zeit-absetzen)
 
 ```ABAP
 METHODS generate
@@ -2791,11 +2791,11 @@ METHODS generate
     cx_model_read_error.
 ```
 
-Eine bessere Lösung zur Erkennung der verschiedenen Fehlersituationen besteht darin, einen einzigen Ausnahmetyp zu verwenden, jedoch Unterklassen hinzuzufügen, die eine Reaktion auf individuelle Fehlersituationen gestatten, jedoch nicht erfordern. Siehe hierzu Abschnitt [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#use-sub-classes-to-enable-callers-to-distinguish-error-situations).
+Eine bessere Lösung zur Erkennung der verschiedenen Fehlersituationen besteht darin, einen einzigen Ausnahmetyp zu verwenden, jedoch Unterklassen hinzuzufügen, die eine Reaktion auf individuelle Fehlersituationen gestatten, jedoch nicht erfordern. Siehe hierzu Abschnitt [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen).
 
 #### Übersichtlichere Fehlersituationen mit untergeordneten Klassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen)
 
 ```ABAP
 CLASS cx_bad_generation_variable DEFINITION INHERITING FROM cx_generation_error.
@@ -2839,7 +2839,7 @@ ENDTRY.
 
 #### CX_STATIC_CHECK für überschaubare Ausnahmen absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#throw-cx_static_check-for-manageable-exceptions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#cx_static_check-fr-berschaubare-ausnahmen-absetzen)
 
 Wenn eine Ausnahme erwartet und vom Empfänger auf angemessene Art behandelt werden kann, setzen Sie eine geprüfte Ausnahmevererbung über `CX_STATIC_CHECK` ab: fehlerhafte Validierung der Benutzereingabe, fehlende Ressource, zu der Fallbacks existieren usw.
 
@@ -2860,7 +2860,7 @@ Er ist daher für den Konsumenten offensichtlich und stellt sicher, dass dieser 
 
 #### CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#throw-cx_no_check-for-usually-unrecoverable-situations)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#cx_no_check-fr-gewhnlich-nicht-behebbare-situationen-absetzen)
 
 Wenn eine Ausnahme so schwer ist, dass sich der Empfänger wahrscheinlich nicht davon erholt, verwenden Sie `CX_NO_CHECK`: Fehler beim Lesen einer obligatorischen Quelle, Fehler beim Auflösen der angeforderten Abhängigkeit usw.
 
@@ -2880,7 +2880,7 @@ Dieser Service sollte in der Lage sein, die Ausnahme abzufangen und zu ignoriere
 
 #### CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#consider-cx_dynamic_check-for-avoidable-exceptions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#cx_dynamic_check-fr-vermeidbare-ausnahmen-absetzen)
 
 Use-Cases für `CX_DYNAMIC_CHECK` sind selten, und im Allgemeinen empfehlen wir, auf die anderen Ausnahmetypen zurückzugreifen. Sie können diesen Ausnahmetyp jedoch als Ersatz für `CX_STATIC_CHECK` erwägen, wenn der Aufrufe volle, bewusste Kontrolle darüber hat, ob eine Ausnahme auftreten kann.
 
@@ -2899,7 +2899,7 @@ In diesem Fall würde die dynamische Ausnahme dem Aufrufer gestatten, die überf
 
 #### Dump für schwerwiegende, nicht behebbare Situationen absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#dump-for-totally-unrecoverable-situations)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#dump-fr-schwerwiegende-nicht-behebbare-situationen-absetzen)
 
 Wenn eine Situation so schwerwiegend ist, dass Sie ganz sicher davon ausgehen, dass sich der Empfänger nicht davon erholen wird, oder eine Situation ganz klar auf einen Programmierfehler hinweist, erzeugen Sie einen Dump, anstatt eine Ausnahme abzusetzen: Fehler beim Speicherabruf, fehlender Index-Lesevorgang in einer Tabelle, die befüllt werden muss usw.
 
@@ -2912,7 +2912,7 @@ Dieses Verhalten führt dazu, dass kein Konsument anschließend irgendwelche sin
 
 #### Besser RAISE EXCEPTION NEW als RAISE EXCEPTION TYPE
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen absetzen](#throwing) > [Dieser Abschnitt](#prefer-raise-exception-new-to-raise-exception-type)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#besser-raise-exception-new-als-raise-exception-type)
 
 Hinweis: ab NW 7.52 verfügbar.
 
@@ -2939,11 +2939,11 @@ RAISE EXCEPTION TYPE cx_generation_error
 
 ### Ausnahmen abfangen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Dieser Abschnitt](#catching)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Dieser Abschnitt](#ausnahmen-abfangen)
 
 #### Externe Ausnahmen umschließen, um das Eindringen in Ihren Code zu verhindern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#error-handling) > [Ausnahmen abfangen](#catching) > [Dieser Abschnitt](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen abfangen](#ausnahmen-abfangen) > [Dieser Abschnitt](#externe-ausnahmen-umschlieen-um-das-eindringen-in-ihren-code-zu-verhindern)
 
 ```ABAP
 METHODS generate RAISING cx_generation_failure.
