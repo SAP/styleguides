@@ -68,19 +68,19 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [ABAP_BOOL für boolesche Ausdrücke verwenden](#abap_bool-fr-boolesche-ausdrcke-verwenden)
    - [ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden](#abap_true-und-abap_false-fr-vergleiche-verwenden)
    - [XSDBOOL für boolesche Variablen verwenden](#xsdbool-fr-boolesche-variablen-verwenden)
-- [Bedingungen](#conditions)
-   - [Bedingungen nach Möglichkeit positiv definieren](#try-to-make-conditions-positive)
-   - [Besser IS NOT als NOT IS](#prefer-is-not-to-not-is)
-   - [Komplexe Bedingungen zerlegen](#consider-decomposing-complex-conditions)
-   - [Komplexe Bedingungen extrahieren](#consider-extracting-complex-conditions)
-- [IF](#ifs)
-   - [Keine leeren IF-Verzweigungen](#no-empty-if-branches)
-   - [Bei mehreren Alternativbedingungen besser CASE als ELSE IF](#prefer-case-to-else-if-for-multiple-alternative-conditions)
-   - [Schachtelungstiefe so gering wie möglich halten](#keep-the-nesting-depth-low)
-- [Reguläre Ausdrücke](#regular-expressions)
-   - [Besser einfachere Methoden als reguläre Ausdrücke](#prefer-simpler-methods-to-regular-expressions)
-   - [Besser Basisprüfungen als reguläre Ausdrücke](#prefer-basis-checks-to-regular-expressions)
-   - [Komplexe reguläre Ausdrücke assemblieren](#consider-assembling-complex-regular-expressions)
+- [Bedingungen](#bedingungen)
+   - [Bedingungen nach Möglichkeit positiv definieren](#bedingungen-nach-mglichkeit-positiv-definieren)
+   - [Besser IS NOT als NOT IS](#besser-is-not-als-not-is)
+   - [Komplexe Bedingungen zerlegen](#komplexe-bedingungen-zerlegen)
+   - [Komplexe Bedingungen extrahieren](#komplexe-bedingungen-extrahieren)
+- [IF](#if)
+   - [Keine leeren IF-Verzweigungen](#keine-leeren-if-verzweigungen)
+   - [Bei mehreren Alternativbedingungen besser CASE als ELSE IF](#bei-mehreren-alternativbedingungen-besser-case-als-else-if)
+   - [Schachtelungstiefe so gering wie möglich halten](#schachtelungstiefe-so-gering-wie-mglich-halten)
+- [Reguläre Ausdrücke](#regulre-ausdrcke)
+   - [Besser einfachere Methoden als reguläre Ausdrücke](#besser-einfachere-methoden-als-regulre-ausdrcke)
+   - [Besser Basisprüfungen als reguläre Ausdrücke](#besser-basisprfungen-als-regulre-ausdrcke)
+   - [Komplexe reguläre Ausdrücke assemblieren](#komplexe-regulre-ausdrcke-zusammensetzen)
 - [Klassen](#classes)
    - [Klassen: Objektorientierung](#classes-object-orientation)
       - [Besser Objekte als statische Klassen](#prefer-objects-to-static-classes)
@@ -245,7 +245,7 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 
 Wenn das Thema Clean Code neu für Sie ist, empfehlen wir, zunächst das Buch [Robert C. Martins _Clean Code_] zu lesen. Zusätzlich kann Ihnen die didaktisch aufbereitete Schritt-für-Schritt-Einführung der Initiative [Clean Code Developer ](https://clean-code-developer.com/) den Einstieg in das allgemeine Thema erleichtern.
 
-Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke), [Bedingungen](#conditions) und [IFs](#ifs).
+Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke), [Bedingungen](#bedingungen) und [IFs](#if).
 
 Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methods) profitieren, insbesondere von den Themen [Mache eine Sache zur Zeit, und mache sie gut](#do-one-thing-do-it-well-do-it-only) und [Methoden klein halten](#keep-methods-small), weil diese zu einer enormen Verbesserung der Gesamtstruktur Ihres Codes beitragen.
 
@@ -259,7 +259,7 @@ können zu nahezu fanatischen Diskussionen führen und sollten nur von Teams ang
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-refactoring-von-legacy-code)
 
-Die Themen [Boolesche Ausdrücke](#boolesche-ausdrcke), [Bedingungen](#conditions), [IFs](#ifs)
+Die Themen [Boolesche Ausdrücke](#boolesche-ausdrcke), [Bedingungen](#bedingungen), [IFs](#if)
 und [Methoden](#methods) zahlen sich am meisten aus, wenn Sie an einem Legacy-Projekt mit Massen von Code arbeiten, den Sie nicht ändern können oder wollen, weil die Empfehlungen in diesen Themen ohne Konflikte auf den neuen Code angewendet werden können.
 
 Das Thema [Namen](#namen) ist sehr anspruchsvoll für Legacy-Projekte, da es hier zu einem Bruch zwischen altem und neuem Code kommen kann. Dies kann so weit führen, dass die Informationen in Abschnitten wie [Codierungen vermeiden, insbes. Ungarische Notation und Präfixe](#codierungen-vermeiden-insbes-ungarische-notation-und-prfixe)
@@ -1155,11 +1155,11 @@ DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 
 ## Bedingungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#conditions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#bedingungen)
 
 ### Bedingungen nach Möglichkeit positiv definieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#conditions) > [Dieser Abschnitt](#try-to-make-conditions-positive)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#bedingungen) > [Dieser Abschnitt](#bedingungen-nach-mglichkeit-positiv-definieren)
 
 ```ABAP
 IF has_entries = abap_true.
@@ -1172,7 +1172,7 @@ Sehen Sie zum Vergleich, wie schwer verständlich dieselbe Anweisung durch Umkeh
 IF has_no_entries = abap_false.
 ```
 
-Der Hinweis „nach Möglichkeit“ im Abschnittstitel bedeutet, dass Sie dies nicht bis zu dem Punkt erzwingen sollten, wo sie mit Dingen wie [leeren IF-Verzweigungen](#no-empty-if-branches) enden.
+Der Hinweis „nach Möglichkeit“ im Abschnittstitel bedeutet, dass Sie dies nicht bis zu dem Punkt erzwingen sollten, wo sie mit Dingen wie [leeren IF-Verzweigungen](#keine-leeren-if-verzweigungen) enden.
 
 ```ABAP
 " anti-pattern
@@ -1186,7 +1186,7 @@ ENDIF.
 
 ### Besser IS NOT als NOT IS
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#conditions) > [Dieser Abschnitt](#prefer-is-not-to-not-is)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#bedingungen) > [Dieser Abschnitt](#besser-is-not-als-not-is)
 
 ```ABAP
 IF variable IS NOT INITIAL.
@@ -1203,12 +1203,12 @@ IF NOT variable CP 'TODO*'.
 IF NOT variable = 42.
 ```
 
-> Eine spezifischere Variante von [Bedingungen nach Möglichkeit positiv definieren](#try-to-make-conditions-positive). Dies wird auch in Abschnitt [Alternative Sprachkonstrukte](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
+> Eine spezifischere Variante von [Bedingungen nach Möglichkeit positiv definieren](#bedingungen-nach-mglichkeit-positiv-definieren). Dies wird auch in Abschnitt [Alternative Sprachkonstrukte](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
 in den ABAP-Programmierrichtlinien beschrieben.
 
 ### Komplexe Bedingungen zerlegen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#conditions) > [Dieser Abschnitt](#consider-decomposing-complex-conditions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#bedingungen) > [Dieser Abschnitt](#komplexe-bedingungen-zerlegen)
 
 Bedingungen können einfacher werden, wenn Sie diese in die elementaren Bestandteile zerlegen, aus denen sie sich zusammensetzen:
 
@@ -1239,7 +1239,7 @@ IF ( example_a IS NOT INITIAL OR
 
 ### Komplexe Bedingungen extrahieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#conditions) > [Dieser Abschnitt](#consider-extracting-complex-conditions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Bedingungen](#bedingungen) > [Dieser Abschnitt](#komplexe-bedingungen-extrahieren)
 
 Es ist fast immer eine gute Idee, komplexe Bedingungen in eigene Methoden zu extrahieren:
 
@@ -1257,11 +1257,11 @@ ENDMETHOD.
 
 ## IF
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#ifs)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#if)
 
 ### Keine leeren IF-Verzweigungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [IF](#ifs) > [Dieser Abschnitt](#no-empty-if-branches)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [IF](#if) > [Dieser Abschnitt](#keine-leeren-if-verzweigungen)
 
 ```ABAP
 IF has_entries = abap_false.
@@ -1281,7 +1281,7 @@ ENDIF.
 
 ### Bei mehreren Alternativbedingungen besser CASE als ELSE IF
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [IF](#ifs) > [Dieser Abschnitt](#prefer-case-to-else-if-for-multiple-alternative-conditions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [IF](#if) > [Dieser Abschnitt](#bei-mehreren-alternativbedingungen-besser-case-als-else-if)
 
 ```ABAP
 CASE type.
@@ -1309,7 +1309,7 @@ ENDIF.
 
 ### Schachtelungstiefe so gering wie möglich halten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [IF](#ifs) > [Dieser Abschnitt](#keep-the-nesting-depth-low)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [IF](#if) > [Dieser Abschnitt](#schachtelungstiefe-so-gering-wie-mglich-halten)
 
 ```ABAP
 " ani-pattern
@@ -1345,11 +1345,11 @@ IF <this>.
 
 ## Reguläre Ausdrücke
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#regular-expressions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#regulre-ausdrcke)
 
 ### Besser einfachere Methoden als reguläre Ausdrücke
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regular-expressions) > [Dieser Abschnitt](#prefer-simpler-methods-to-regular-expressions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regulre-ausdrcke) > [Dieser Abschnitt](#besser-einfachere-methoden-als-regulre-ausdrcke)
 
 ```ABAP
 IF input IS NOT INITIAL.
@@ -1365,7 +1365,7 @@ Reguläre Ausdrücke verbrauchen außerdem in der Regel mehr Speicher und Verarb
 
 ### Besser Basisprüfungen als reguläre Ausdrücke
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regular-expressions) > [Dieser Abschnitt](#prefer-basis-checks-to-regular-expressions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regulre-ausdrcke) > [Dieser Abschnitt](#besser-basisprfungen-als-regulre-ausdrcke)
 
 ```ABAP
 CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
@@ -1387,7 +1387,7 @@ DATA(is_valid) = matches( val     = class_name
 
 ### Komplexe reguläre Ausdrücke assemblieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regular-expressions) > [Dieser Abschnitt](#consider-assembling-complex-regular-expressions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regulre-ausdrcke) > [Dieser Abschnitt](#komplexe-regulre-ausdrcke-zusammensetzen)
 
 ```ABAP
 CONSTANTS class_name TYPE string VALUE `CL\_.*`.
