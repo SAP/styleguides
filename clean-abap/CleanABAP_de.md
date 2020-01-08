@@ -47,11 +47,11 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Konstanten statt magischer Zahlen verwenden](#konstanten-statt-magischer-zahlen-verwenden)
    - [Besser Enumerationsklassen als Konstanten-Interfaces](#besser-enumerationsklassen-als-konstanten-interfaces)
    - [Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten](#konstanten-gruppieren-wenn-sie-auf-enumerationsklassen-verzichten)
-- [Variablen](#variables)
-   - [Besser Inline-Deklaration als voranstehende Deklaration](#prefer-inline-to-up-front-declarations)
-   - [Keine Inline-Deklaration in optionalen Verzweigungen](#dont-declare-inline-in-optional-branches)
-   - [Keine Verkettung von voranstehenden Deklarationen](#do-not-chain-up-front-declarations)
-   - [Besser REF TO als FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
+- [Variablen](#variablen)
+   - [Besser Inline-Deklaration als voranstehende Deklaration](#besser-inline-deklaration-als-voranstehende-deklaration)
+   - [Keine Inline-Deklaration in optionalen Verzweigungen](#keine-inline-deklaration-in-optionalen-verzweigungen)
+   - [Keine Verkettung von voranstehenden Deklarationen](#keine-verkettung-von-voranstehenden-deklarationen)
+   - [Besser REF TO als FIELD-SYMBOL](#besser-ref-to-als-field-symbol)
 - [Tabellen](#tables)
    - [Korrekte Tabellenart verwenden](#use-the-right-table-type)
    - [DEFAULT KEY vermeiden](#avoid-default-key)
@@ -740,11 +740,11 @@ ENDWHILE.
 
 ## Variablen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#variables)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#variablen)
 
 ### Besser Inline-Deklaration als voranstehende Deklaration
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variables) > [Dieser Abschnitt](#prefer-inline-to-up-front-declarations)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variablen) > [Dieser Abschnitt](#besser-inline-deklaration-als-voranstehende-deklaration)
 
 Wenn Sie diese Empfehlungen befolgen, werden Ihre Methoden so kurz (3-5 Anweisungen), dass die Inline-Deklaration der Variablen bei ihrem ersten Auftreten natürlicher erscheint
 
@@ -774,7 +774,7 @@ ENDMETHOD.
 
 ### Keine Inline-Deklaration in optionalen Verzweigungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variables) > [Dieser Abschnitt](#dont-declare-inline-in-optional-branches)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variablen) > [Dieser Abschnitt](#keine-inline-deklaration-in-optionalen-verzweigungen)
 
 ```ABAP
 " anti-pattern
@@ -800,7 +800,7 @@ ENDIF.
 
 ### Keine Verkettung von voranstehenden Deklarationen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variables) > [Dieser Abschnitt](#do-not-chain-up-front-declarations)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variablen) > [Dieser Abschnitt](#keine-verkettung-von-voranstehenden-deklarationen)
 
 ```ABAP
 DATA name TYPE seoclsname.
@@ -822,7 +822,7 @@ DATA:
 
 ### Besser REF TO als FIELD-SYMBOL
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variables) > [Dieser Abschnitt](#prefer-ref-to-to-field-symbol)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variablen) > [Dieser Abschnitt](#besser-ref-to-als-field-symbol)
 
 ```ABAP
 LOOP AT components REFERENCE INTO DATA(component).
