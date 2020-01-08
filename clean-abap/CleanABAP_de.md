@@ -81,23 +81,23 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Besser einfachere Methoden als reguläre Ausdrücke](#besser-einfachere-methoden-als-regulre-ausdrcke)
    - [Besser Basisprüfungen als reguläre Ausdrücke](#besser-basisprfungen-als-regulre-ausdrcke)
    - [Komplexe reguläre Ausdrücke assemblieren](#komplexe-regulre-ausdrcke-zusammensetzen)
-- [Klassen](#classes)
-   - [Klassen: Objektorientierung](#classes-object-orientation)
-      - [Besser Objekte als statische Klassen](#prefer-objects-to-static-classes)
-      - [Besser Komposition als Vererbung](#prefer-composition-to-inheritance)
-      - [Kein Mix von Stateful und Stateless in derselben Klasse](#dont-mix-stateful-and-stateless-in-the-same-class)
+- [Klassen](#klassen)
+   - [Klassen: Objektorientierung](#klassen-objektorientierung)
+      - [Besser Objekte als statische Klassen](#besser-objekte-als-statische-klassen)
+      - [Besser Komposition als Vererbung](#besser-komposition-als-vererbung)
+      - [Kein Mix von Stateful und Stateless in derselben Klasse](#kein-mix-von-stateful-und-stateless-in-derselben-klasse)
    - [Scope](#scope)
-      - [Global ist Standard, lokal nur im Bedarfsfall](#global-by-default-local-only-where-appropriate)
-      - [FINAL, wenn keine Vererbung vorgesehen](#final-if-not-designed-for-inheritance)
-      - [Mitglieder standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED](#members-private-by-default-protected-only-if-needed)
-      - [Unveränderlichkeit anstelle des Getter erwägen](#consider-using-immutable-instead-of-getter)
-      - [READ-ONLY sparsam verwenden](#use-read-only-sparingly)
-   - [Konstruktoren](#constructors)
-      - [Besser NEW als CREATE OBJECT](#prefer-new-to-create-object)
-      - [Bei globaler Klasse CREATE PRIVATE lassen Sie den CONSTRUCTOR öffentlich](#if-your-global-class-is-create-private-leave-the-constructor-public)
-      - [Besser mehrere statische Erstellungsmethoden als optionale Parameter](#prefer-multiple-static-creation-methods-to-optional-parameters)
-      - [Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden](#use-descriptive-names-for-multiple-creation-methods)
-      - [Singletons nur, wenn Multi-Instanzen keinen Sinn machen](#make-singletons-only-where-multiple-instances-dont-make-sense)
+      - [Global ist Standard, lokal nur im Bedarfsfall](#global-ist-standard-lokal-nur-im-bedarfsfall)
+      - [FINAL, wenn keine Vererbung vorgesehen](#final-wenn-keine-vererbung-vorgesehen)
+      - [Mitglieder standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED](#mitglieder-standardmig-private-nur-im-bedarfsfall-protected)
+      - [Unveränderlichkeit anstelle des Getter erwägen](#unvernderlichkeit-anstelle-des-getter-erwgen)
+      - [READ-ONLY sparsam verwenden](#read-only-sparsam-verwenden)
+   - [Konstruktoren](#konstruktoren)
+      - [Besser NEW als CREATE OBJECT](#besser-new-als-create-object)
+      - [Bei globaler Klasse CREATE PRIVATE lassen Sie den CONSTRUCTOR öffentlich](#bei-globaler-klasse-create-private-lassen-sie-den-constructor-ffentlich)
+      - [Besser mehrere statische Erstellungsmethoden als optionale Parameter](#besser-mehrere-statische-erstellungsmethoden-als-optionale-parameter)
+      - [Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
+      - [Singletons nur, wenn Multi-Instanzen keinen Sinn machen](#singletons-nur-wenn-multi-instanzen-keinen-sinn-machen)
 - [Methoden](#methods)
    - [Aufrufe](#calls)
       - [Besser funktionale als prozedurale Aufrufe](#prefer-functional-to-procedural-calls)
@@ -1399,15 +1399,15 @@ Manche komplexe reguläre Ausdrücke werden einfacher verständlich, wenn Sie de
 
 ## Klassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#klassen)
 
 ### Klassen: Objektorientierung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Dieser Abschnitt](#classes-object-orientation)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Dieser Abschnitt](#klassen-objektorientierung)
 
 #### Besser Objekte als statische Klassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Klassen: Objektorientierung](#classes-object-orientation) > [Dieser Abschnitt](#prefer-objects-to-static-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung) > [Dieser Abschnitt](#besser-objekte-als-statische-klassen)
 
 Statische Klassen verzichten zunächst einmal auf alle Vorteile, die durch die Objektorientierung erzielt wurden. Sie machen es insbesondere fast unmöglich, produktive Abhängigkeiten in Modultests durch Testattrappen zu ersetzen.
 
@@ -1432,7 +1432,7 @@ ENDMETHOD.
 
 #### Besser Komposition als Vererbung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Klassen: Objektorientierung](#classes-object-orientation) > [Dieser Abschnitt](#prefer-composition-to-inheritance)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung) > [Dieser Abschnitt](#besser-komposition-als-vererbung)
 
 Vermeiden Sie den Aufbau von Klassenhierarchien mit Vererbung. Bevorzugen Sie stattdessen Komposition.
 
@@ -1456,7 +1456,7 @@ vergleicht einige Details.
 
 #### Kein Mix von Stateful und Stateless in derselben Klasse
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Klassen: Objektorientierung](#classes-object-orientation)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung)
 
 Vermischen Sie die Stateless- und Stateful-Programmiermodelle nicht in derselben Klasse.
 
@@ -1508,11 +1508,11 @@ Wenn Sie diese Modelle jedoch im selben Objekt _mixen_, wird Code erzeugt, der s
 
 ### Scope
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Dieser Abschnitt](#scope)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Dieser Abschnitt](#scope)
 
 #### Global ist Standard, lokal nur im Bedarfsfall
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Scope](#scope) > [Dieser Abschnitt](#global-by-default-local-only-where-appropriate)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#global-ist-standard-lokal-nur-im-bedarfsfall)
 
 Arbeiten Sie standardmäßig mit globalen Klassen. Verwenden Sie lokale Klassen nur wo geeignet.
 
@@ -1541,11 +1541,11 @@ Da ABAP eine Include-Ebene sperrt, können an den verschiedenen Teilen des lokal
 
 #### FINAL, wenn keine Vererbung vorgesehen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Scope](#scope) > [Dieser Abschnitt](#final-if-not-designed-for-inheritance)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#final-wenn-keine-vererbung-vorgesehen)
 
 Machen Sie Klassen, die nicht explizit zur Vererbung vorgesehen sind, `FINAL`.
 
-Beim Entwurf der Klassenkooperation sollte Ihre erste Wahl [Komposition, nicht die Vererbung](#prefer-composition-to-inheritance) sein.
+Beim Entwurf der Klassenkooperation sollte Ihre erste Wahl [Komposition, nicht die Vererbung](#besser-komposition-als-vererbung) sein.
 Das Aktivieren der Vererbung ist nichts, was leichtfertig getan werden sollte, da Einiges zu bedenken ist, wie z.B. `PROTECTED` vs. `PRIVATE`, sowie das [Liskovsche Substitutionsprinzip](https://en.wikipedia.org/wiki/Liskov_substitution_principle). In ihr werden außerdem Entwurfs-Internal-Parts festgeschrieben. Wenn Sie diese Dinge nicht beim Entwurf Ihrer Klassen berücksichtigt haben, sollten Sie daher die unabsichtliche Vererbung verhindern, indem Sie Ihre Klasse `FINAL` machen.
 
 Es gibt selbstverständlich einige _gute Einsatzmöglichkeiten für die Vererbung_, wie z.B. das Entwurfsmuster [composite](https://en.wikipedia.org/wiki/Composite_pattern).
@@ -1555,7 +1555,7 @@ Unbereinigte Klassen, die keine [Schnittstellen implementieren](#public-instance
 
 #### Mitglieder standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Scope](#scope) > [Dieser Abschnitt](#members-private-by-default-protected-only-if-needed)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#mitglieder-standardmig-private-nur-im-bedarfsfall-protected)
 
 Machen Sie Attribute, Methoden und andere Klassenmitglieder standardmäßig `PRIVATE`.
 
@@ -1566,7 +1566,7 @@ Werden die Informationen zu großzügig verfügbar gemacht, kann dies zu subtile
 
 #### Unveränderlichkeit anstelle des Getter erwägen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Scope](#scope) > [Dieser Abschnitt](#consider-using-immutable-instead-of-getter)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#unvernderlichkeit-anstelle-des-getter-erwgen)
 
 Ein unveränderliches Objekt ist ein Objekt, das sich nach seiner Konstruktion nicht mehr ändert. Für diese Objektart sollten Sie die Verwendung von öffentlichen Schreibschutzattributen anstelle der Getter-Methoden in Betracht ziehen.
 
@@ -1603,7 +1603,7 @@ ENDCLASS.
 
 #### READ-ONLY sparsam verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Scope](#scope) > [Dieser Abschnitt](#use-read-only-sparingly)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#read-only-sparsam-verwenden)
 
 Bei vielen modernen Programmiersprachen, allen voran Java, geht die Empfehlung dahin, Klassenmitglieder wo angebracht schreibgeschützt zu machen, um unabsichtliche Nebeneffekte zu vermeiden.
 
@@ -1617,11 +1617,11 @@ Zweitens funktioniert der Zusatz etwas anders als man von anderen Programmierspr
 
 ### Konstruktoren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Dieser Abschnitt](#constructors)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Dieser Abschnitt](#konstruktoren)
 
 #### Besser NEW als CREATE OBJECT
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Konstruktoren](#constructors) > [Dieser Abschnitt](#prefer-new-to-create-object)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#besser-new-als-create-object)
 
 ```ABAP
 DATA object TYPE REF TO /clean/some_number_range.
@@ -1652,7 +1652,7 @@ CREATE OBJECT number_range TYPE (dynamic_type)
 
 #### Bei globaler Klasse CREATE PRIVATE lassen Sie den CONSTRUCTOR öffentlich
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Konstruktoren](#constructors) > [Dieser Abschnitt](#if-your-global-class-is-create-private-leave-the-constructor-public)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#bei-globaler-klasse-create-private-lassen-sie-den-constructor-ffentlich)
 
 ```ABAP
 CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
@@ -1666,7 +1666,7 @@ Dies gilt nur für globale Klassen. Machen Sie in lokalen Klassen den Konstruktu
 
 #### Besser mehrere statische Erstellungsmethoden als optionale Parameter
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Konstruktoren](#constructors) > [Dieser Abschnitt](#prefer-multiple-static-factory-methods-to-optional-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#prefer-multiple-static-factory-methods-to-optional-parameters)
 
 ```ABAP
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
@@ -1695,7 +1695,7 @@ Erwägen Sie das Auflösen von komplexen Konstruktionen in eine Mehr-Schritte-Ko
 
 #### Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Konstruktoren](#constructors) > [Dieser Abschnitt](#use-descriptive-names-for-multiple-creation-methods)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
 
 Geeignete Wörter für den Start der Methodenerstellung sind `new_`, `create_` und `construct_`. Sie werden intuitiv mit dem Aufbau von Objekten verknüpft und sind außerdem eine gute Ergänzung von Verbalphrasen wie `new_from_template`, `create_as_copy` oder `create_by_name`.
 
@@ -1718,7 +1718,7 @@ CLASS-METHODS create_4 IMPORTING p_data_ref TYPE REF TO data [...]
 
 #### Singletons nur, wenn Multi-Instanzen keinen Sinn machen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#classes) > [Konstruktoren](#constructors) > [Dieser Abschnitt](#make-singletons-only-where-multiple-instances-dont-make-sense)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#singletons-nur-wenn-multi-instanzen-keinen-sinn-machen)
 
 ```ABAP
 METHOD new.
@@ -4042,7 +4042,7 @@ IF me->in_test_mode = abap_true.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#dont-sub-class-to-mock-methods)
 
-Es wird davon abgeraten, Methodenunterklassen anzulegen und Methoden zu überschreiben, um diese in Ihren Modultests nachzustellen. Obwohl das funktioniert, ist es eine fragile Angelegenheit, weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-if-not-designed-for-inheritance).
+Es wird davon abgeraten, Methodenunterklassen anzulegen und Methoden zu überschreiben, um diese in Ihren Modultests nachzustellen. Obwohl das funktioniert, ist es eine fragile Angelegenheit, weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-wenn-keine-vererbung-vorgesehen).
 
 ```ABAP
 " anti-pattern
