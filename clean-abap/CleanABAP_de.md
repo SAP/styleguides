@@ -61,13 +61,13 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Besser LOOP AT WHERE als verschachteltes IF](#besser-loop-at-where-als-verschachteltes-if)
    - [Überflüssige Lesezugriffe auf Tabelle vermeiden](#berflssige-lesezugriffe-auf-tabelle-vermeiden)
 - [Strings](#strings)
-   - [Literale mit ` definieren](#use--to-define-literals)
-   - [Text mit | assemblieren](#use--to-assemble-text)
-- [Boolesche Ausdrücke](#booleans)
-   - [Boolesche Ausdrücke mit Bedacht einsetzen](#use-booleans-wisely)
-   - [ABAP_BOOL für boolesche Ausdrücke verwenden](#use-abap_bool-for-booleans)
-   - [ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden](#use-abap_true-and-abap_false-for-comparisons)
-   - [XSDBOOL für boolesche Variablen verwenden](#use-xsdbool-to-set-boolean-variables)
+   - [Literale mit ` definieren](#literale-mit--definieren)
+   - [Text mit | assemblieren](#text-mit--assemblieren)
+- [Boolesche Ausdrücke](#boolesche-ausdrcke)
+   - [Boolesche Ausdrücke mit Bedacht einsetzen](#boolesche-ausdrcke-mit-bedacht-einsetzen)
+   - [ABAP_BOOL für boolesche Ausdrücke verwenden](#abap_bool-fr-boolesche-ausdrcke-verwenden)
+   - [ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden](#abap_true-und-abap_false-fr-vergleiche-verwenden)
+   - [XSDBOOL für boolesche Variablen verwenden](#xsdbool-fr-boolesche-variablen-verwenden)
 - [Bedingungen](#conditions)
    - [Bedingungen nach Möglichkeit positiv definieren](#try-to-make-conditions-positive)
    - [Besser IS NOT als NOT IS](#prefer-is-not-to-not-is)
@@ -245,7 +245,7 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 
 Wenn das Thema Clean Code neu für Sie ist, empfehlen wir, zunächst das Buch [Robert C. Martins _Clean Code_] zu lesen. Zusätzlich kann Ihnen die didaktisch aufbereitete Schritt-für-Schritt-Einführung der Initiative [Clean Code Developer ](https://clean-code-developer.com/) den Einstieg in das allgemeine Thema erleichtern.
 
-Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#booleans), [Bedingungen](#conditions) und [IFs](#ifs).
+Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke), [Bedingungen](#conditions) und [IFs](#ifs).
 
 Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methods) profitieren, insbesondere von den Themen [Mache eine Sache zur Zeit, und mache sie gut](#do-one-thing-do-it-well-do-it-only) und [Methoden klein halten](#keep-methods-small), weil diese zu einer enormen Verbesserung der Gesamtstruktur Ihres Codes beitragen.
 
@@ -259,7 +259,7 @@ können zu nahezu fanatischen Diskussionen führen und sollten nur von Teams ang
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-refactoring-von-legacy-code)
 
-Die Themen [Boolesche Ausdrücke](#booleans), [Bedingungen](#conditions), [IFs](#ifs)
+Die Themen [Boolesche Ausdrücke](#boolesche-ausdrcke), [Bedingungen](#conditions), [IFs](#ifs)
 und [Methoden](#methods) zahlen sich am meisten aus, wenn Sie an einem Legacy-Projekt mit Massen von Code arbeiten, den Sie nicht ändern können oder wollen, weil die Empfehlungen in diesen Themen ohne Konflikte auf den neuen Code angewendet werden können.
 
 Das Thema [Namen](#namen) ist sehr anspruchsvoll für Legacy-Projekte, da es hier zu einem Bruch zwischen altem und neuem Code kommen kann. Dies kann so weit führen, dass die Informationen in Abschnitten wie [Codierungen vermeiden, insbes. Ungarische Notation und Präfixe](#codierungen-vermeiden-insbes-ungarische-notation-und-prfixe)
@@ -1013,7 +1013,7 @@ DATA(row) = my_table[ key = input ].
 
 ### Literale mit ` definieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Strings](#strings) > [Dieser Abschnitt](#use--to-define-literals)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Strings](#strings) > [Dieser Abschnitt](#literale-mit--definieren)
 
 ```ABAP
 CONSTANTS some_constant TYPE string VALUE `ABC`.
@@ -1037,7 +1037,7 @@ DATA(some_string) = |ABC|.
 
 ### Text mit | assemblieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Strings](#strings) > [Dieser Abschnitt](#use--to-assemble-text)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Strings](#strings) > [Dieser Abschnitt](#text-mit--assemblieren)
 
 ```ABAP
 DATA(message) = |Received HTTP code { status_code } with message { text }|.
@@ -1052,11 +1052,11 @@ DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message 
 
 ## Boolesche Ausdrücke
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#booleans)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#boolesche-ausdrcke)
 
 ### Boolesche Ausdrücke mit Bedacht einsetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#booleans) > [Dieser Abschnitt](#use-booleans-wisely)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#boolesche-ausdrcke) > [Dieser Abschnitt](#boolesche-ausdrcke-mit-bedacht-einsetzen)
 
 Wir treffen häufig auf Fälle, in denen boolesche Ausdrücke die natürliche Wahl zu sein scheinen,
 
@@ -1084,7 +1084,7 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
 
 ### ABAP_BOOL für boolesche Ausdrücke verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#booleans) > [Dieser Abschnitt](#use-abap_bool-for-booleans)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#boolesche-ausdrcke) > [Dieser Abschnitt](#abap_bool-fr-boolesche-ausdrcke-verwenden)
 
 ```ABAP
 DATA has_entries TYPE abap_bool.
@@ -1100,7 +1100,7 @@ In einigen Fällen benötigen Sie möglicherweise ein Data-Dictionary-Element, z
 
 ### ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#booleans) > [Dieser Abschnitt](#use-abap_true-and-abap_false-for-comparisons)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#boolesche-ausdrcke) > [Dieser Abschnitt](#abap_true-und-abap_false-fr-vergleiche-verwenden)
 
 ```ABAP
 has_entries = abap_true.
@@ -1126,7 +1126,7 @@ IF has_entries IS NOT INITIAL.
 
 ### XSDBOOL für boolesche Variablen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#booleans) > [Dieser Abschnitt](#use-xsdbool-to-set-boolean-variables)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#boolesche-ausdrcke) > [Dieser Abschnitt](#xsdbool-fr-boolesche-variablen-verwenden)
 
 ```ABAP
 DATA(has_entries) = xsdbool( line IS NOT INITIAL ).
