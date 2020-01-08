@@ -168,27 +168,27 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Meldungstexte nicht in Kommentaren wiederholen](#meldungstexte-nicht-in-kommentaren-wiederholen)
    - [ABAP Doc nur für öffentliche APIs](#abap-doc-nur-fr-ffentliche-apis)
    - [Besser Pragmas als Pseudokommentare](#besser-pragmas-als-pseudokommentare)
-- [Formatierung](#formatting)
-   - [Konsistent sein](#be-consistent)
-   - [Zum Lesen optimieren, nicht zum Schreiben](#optimize-for-reading-not-for-writing)
-   - [Pretty Printer vor der Aktivierung verwenden](#use-the-pretty-printer-before-activating)
-   - [Ihre Pretty-Printer-Teameinstellungen verwenden](#use-your-pretty-printer-team-settings)
-   - [Maximal eine Anweisung pro Zeile](#no-more-than-one-statement-per-line)
-   - [Vernünftige Zeilenlänge einhalten](#stick-to-a-reasonable-line-length)
-   - [Ihren Code kondensieren](#condense-your-code)
-   - [Nur eine Leerzeile zum Trennen](#add-a-single-blank-line-to-separate-things-but-not-more)
-   - [Keine exzessiven Leerzeilen](#dont-obsess-with-separating-blank-lines)
-   - [Zuordnung zum selben Objekt verdeutlichen](#align-assignments-to-the-same-object-but-not-to-different-ones)
-   - [Klammern am Zeilenende schließen](#close-brackets-at-line-end)
-   - [Einzelne Parameteraufrufe auf einer Zeile belassen](#keep-single-parameter-calls-on-one-line)
-   - [Parameter hinter dem Aufruf angeben](#keep-parameters-behind-the-call)
-   - [Bei Zeilenumbruch Parameter unter dem Aufruf einrücken](#if-you-break-indent-parameters-under-the-call)
-   - [Zeilenumbruch bei mehreren Parametern](#line-break-multiple-parameters)
-   - [Parameter anordnen](#align-parameters)
-   - [Aufruf auf eine neue Zeile umbrechen, wenn die Zeile zu lang wird](#break-the-call-to-a-new-line-if-the-line-gets-too-long)
-   - [Einrücken und Tabulator verwenden](#indent-and-snap-to-tab)
-   - [Inline-Deklarationen wie Methodenaufrufe einrücken](#indent-in-line-declarations-like-method-calls)
-   - [Type-Klauseln nicht ausrichten](#dont-align-type-clauses)
+- [Formatierungen](#formatierungen)
+   - [Konsistent sein](#konsistent-sein)
+   - [Zum Lesen optimieren, nicht zum Schreiben](#zum-lesen-optimieren-nicht-zum-schreiben)
+   - [Pretty Printer vor der Aktivierung verwenden](#pretty-printer-vor-der-aktivierung-verwenden)
+   - [Ihre Pretty-Printer-Teameinstellungen verwenden](#ihre-pretty-printer-teameinstellungen-verwenden)
+   - [Maximal eine Anweisung pro Zeile](#maximal-eine-anweisung-pro-zeile)
+   - [Vernünftige Zeilenlänge einhalten](#vernnftige-zeilenlnge-einhalten)
+   - [Ihren Code kondensieren](#ihren-code-kondensieren)
+   - [Nur eine Leerzeile zum Trennen](#nur-eine-leerzeile-zum-trennen)
+   - [Keine exzessiven Leerzeilen](#keine-exzessiven-leerzeilen)
+   - [Zuordnung zum selben Objekt verdeutlichen](#zuordnung-zum-selben-objekt-verdeutlichen)
+   - [Klammern am Zeilenende schließen](#klammern-am-zeilenende-schlieen)
+   - [Einzelne Parameteraufrufe auf einer Zeile belassen](#einzelne-parameteraufrufe-auf-einer-zeile-belassen)
+   - [Parameter hinter dem Aufruf angeben](#parameter-hinter-dem-aufruf-angeben)
+   - [Bei Zeilenumbruch Parameter unter dem Aufruf einrücken](#bei-zeilenumbruch-parameter-unter-dem-aufruf-einrcken)
+   - [Zeilenumbruch bei mehreren Parametern](#zeilenumbruch-bei-mehreren-parametern)
+   - [Parameter anordnen](#parameter-anordnen)
+   - [Aufruf auf eine neue Zeile umbrechen, wenn die Zeile zu lang wird](#aufruf-auf-eine-neue-zeile-umbrechen-wenn-die-zeile-zu-lang-wird)
+   - [Einrücken und Tabulator verwenden](#einrcken-und-tabulator-verwenden)
+   - [Inline-Deklarationen wie Methodenaufrufe einrücken](#inline-deklarationen-wie-methodenaufrufe-einrcken)
+   - [Type-Klauseln nicht ausrichten](#type-klauseln-nicht-ausrichten)
 - [Test](#testing)
    - [Grundlagen](#principles)
       - [Testbaren Code schreiben](#write-testable-code)
@@ -252,7 +252,7 @@ Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methoden) profiti
 Einige der hier behandelten Themen können zu kontroversen Diskussionen in Teams führen, die zwar erfahren, jedoch nicht mit Clean Code vertraut sind. Diese Themen sind völlig „unbedenklich“, manchen Beteiligten kann es jedoch anfänglich schwerfallen, sich mit ihnen anzufreunden.
 
 Gehen Sie zu einem späteren Zeitpunkt zu diesen eher kontroversen Themen über.
-Insbesondere die Themen [Kommentare](#kommentare), [Namen](#namen) und [Formatierung](#formatting)
+Insbesondere die Themen [Kommentare](#kommentare), [Namen](#namen) und [Formatierung](#formatierungen)
 können zu nahezu fanatischen Diskussionen führen und sollten nur von Teams angegangen werden, die sich bereits von den positiven Auswirkungen des Clean Code überzeugt haben.
 
 ### How-to: Refactoring von Legacy Code
@@ -818,7 +818,7 @@ DATA:
   reader TYPE REF TO /dirty/reader.
 ```
 
-> Lesen Sie hierzu auch [Type-Klauseln nicht ausrichten](#dont-align-type-clauses)> Wenn Sie die Verkettung von Datendeklarationen nutzen, verwenden Sie eine Kette für jede Gruppe zusammengehöriger Variablen.
+> Lesen Sie hierzu auch [Type-Klauseln nicht ausrichten](#type-klauseln-nicht-ausrichten)> Wenn Sie die Verkettung von Datendeklarationen nutzen, verwenden Sie eine Kette für jede Gruppe zusammengehöriger Variablen.
 
 ### Besser REF TO als FIELD-SYMBOL
 
@@ -3258,14 +3258,14 @@ Nutzen Sie das Programm `ABAP_SLIN_PRAGMAS` oder die Tabelle `SLIN_DESC` zum Auf
 
 ## Formatierungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#formatting)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#formatierungen)
 
-Die folgenden Vorschläge sind [optimiert zum Lesen, nicht zum Schreiben](#optimize-for-reading-not-for-writing).
-Da ABAP Pretty Printer diese nicht abdeckt, verursachen einige davon manuellen Zusatzaufwand beim Umformatieren von Anweisungen, wenn sich die Namenslängen usw. ändern. Wenn Sie dies vermeiden möchten, überlegen Sie, auf Regeln wie [Zuordnung zum selben Objekt verdeutlichen](#align-assignments-to-the-same-object-but-not-to-different-ones) zu verzichten.
+Die folgenden Vorschläge sind [optimiert zum Lesen, nicht zum Schreiben](#zum-lesen-optimieren-nicht-zum-schreiben).
+Da ABAP Pretty Printer diese nicht abdeckt, verursachen einige davon manuellen Zusatzaufwand beim Umformatieren von Anweisungen, wenn sich die Namenslängen usw. ändern. Wenn Sie dies vermeiden möchten, überlegen Sie, auf Regeln wie [Zuordnung zum selben Objekt verdeutlichen](#zuordnung-zum-selben-objekt-verdeutlichen) zu verzichten.
 
 ### Konsistent sein
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#be-consistent)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#konsistent-sein)
 
 Formatieren Sie den gesamten Code eines Projekts auf dieselbe Weise. Lassen Sie alle Teammitglieder denselben Formatierungsstil nutzen.
 
@@ -3275,7 +3275,7 @@ Wenn Sie Ihre Formatierungsregeln im Zeitverlauf ändern, verwenden Sie die [Bes
 
 ### Zum Lesen optimieren, nicht zum Schreiben
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#optimize-for-reading-not-for-writing)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#zum-lesen-optimieren-nicht-zum-schreiben)
 
 Entwickler verbringen die meiste Zeit mit dem _Lesen_ von Code.
 Das eigentliche _Schreiben_ des Codes nimmt einen wesentlich kleineren Teil der Arbeitszeit in Anspruch.
@@ -3303,7 +3303,7 @@ DATA:
 
 ### Pretty Printer vor der Aktivierung verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#use-the-pretty-printer-before-activating)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#pretty-printer-vor-der-aktivierung-verwenden)
 
 Verwenden Sie Pretty Printer - Shift+F1 in SE80, SE24 und ADT - vor dem Aktivieren eines Objekts.
 
@@ -3313,7 +3313,7 @@ Wenn Sie eine größere, unformatierte Legacy-Codebasis ändern, empfiehlt sich 
 
 ### Ihre Pretty-Printer-Teameinstellungen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#use-your-pretty-printer-team-settings)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#ihre-pretty-printer-teameinstellungen-verwenden)
 
 Verwenden Sie immer Ihre Teameinstellungen. Diese geben Sie an unter _Menü_ > _Hilfsmittel_ > _Einstellungen ..._ > _ABAP Editor_ > _Pretty Printer_.
 
@@ -3324,7 +3324,7 @@ Mehr erfahren Sie in _Kapitel 5: Formatierung: Team-Regeln_ von [Robert C. Marti
 
 ### Maximal eine Anweisung pro Zeile
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#no-more-than-one-statement-per-line)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#maximal-eine-anweisung-pro-zeile)
 
 ```ABAP
 DATA do_this TYPE i.
@@ -3340,7 +3340,7 @@ DATA do_this TYPE i. do_this = input + 3.
 
 ### Vernünftige Zeilenlänge einhalten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#stick-to-a-reasonable-line-length)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#vernnftige-zeilenlnge-einhalten)
 
 Halten Sie sich an eine maximale Zeilenlänge von 120 Zeichen.
 
@@ -3352,7 +3352,7 @@ Die Begrenzung auf 80 oder sogar 72 Zeichen, die noch von den Anforderungen alte
 
 ### Ihren Code kondensieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#condense-your-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#ihren-code-kondensieren)
 
 ```ABAP
 DATA(result) = calculate( items ).
@@ -3367,7 +3367,7 @@ DATA(result)        =      calculate(    items =   items )   .
 
 ### Nur eine Leerzeile zum Trennen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#add-a-single-blank-line-to-separate-things-but-not-more)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#nur-eine-leerzeile-zum-trennen)
 
 ```ABAP
 DATA(result) = do_something( ).
@@ -3390,7 +3390,7 @@ Das Bedürfnis nach trennenden Leerzeilen kann ein Hinweis darauf sein, dass Ihr
 
 ### Keine exzessiven Leerzeilen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#dont-obsess-with-separating-blank-lines)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#keine-exzessiven-leerzeilen)
 
 ```ABAP
 METHOD do_something.
@@ -3430,7 +3430,7 @@ ENDMETHOD.
 
 ### Zuordnung zum selben Objekt verdeutlichen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#align-assignments-to-the-same-object-but-not-to-different-ones)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#zuordnung-zum-selben-objekt-verdeutlichen)
 
 Um hervorzuheben, dass diese Dinge irgendwie zusammengehören
 
@@ -3457,7 +3457,7 @@ hdb_access = fra_hdbr_access=>s_get_instance( ).
 
 ### Klammern am Zeilenende schließen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#close-brackets-at-line-end)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#klammern-am-zeilenende-schlieen)
 
 ```ABAP
 modify->update( node           = if_fra_alert_c=>node-item
@@ -3479,7 +3479,7 @@ modify->update( node           = if_fra_alert_c=>node-item
 
 ### Einzelne Parameteraufrufe auf einer Zeile belassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#keep-single-parameter-calls-on-one-line)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#einzelne-parameteraufrufe-auf-einer-zeile-belassen)
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
@@ -3499,7 +3499,7 @@ DATA(unique_list) = remove_duplicates(
 
 ### Parameter hinter dem Aufruf angeben
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#keep-parameters-behind-the-call)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#parameter-hinter-dem-aufruf-angeben)
 
 ```ABAP
 DATA(sum) = add_two_numbers( value_1 = 5
@@ -3516,7 +3516,7 @@ DATA(sum) = add_two_numbers(
 
 ### Bei Zeilenumbruch Parameter unter dem Aufruf einrücken
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#if-you-break-indent-parameters-under-the-call)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#bei-zeilenumbruch-parameter-unter-dem-aufruf-einrcken)
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -3536,7 +3536,7 @@ Dies ist jedoch das beste Muster, wenn Sie vermeiden möchten, dass die Formatie
 
 ### Zeilenumbruch bei mehreren Parametern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#line-break-multiple-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#zeilenumbruch-bei-mehreren-parametern)
 
 ```ABAP
 DATA(sum) = add_two_numbers( value_1 = 5
@@ -3552,7 +3552,7 @@ DATA(sum) = add_two_numbers( value_1 = 5 value_2 = 6 ).
 
 ### Parameter anordnen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#align-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#parameter-anordnen)
 
 ```ABAP
 modify->update( node           = if_fra_alert_c=>node-item
@@ -3575,7 +3575,7 @@ modify->update( node = if_fra_alert_c=>node-item
 
 ### Aufruf auf eine neue Zeile umbrechen, wenn die Zeile zu lang wird
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#break-the-call-to-a-new-line-if-the-line-gets-too-long)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#aufruf-auf-eine-neue-zeile-umbrechen-wenn-die-zeile-zu-lang-wird)
 
 ```ABAP
 DATA(some_super_long_param_name) =
@@ -3586,7 +3586,7 @@ DATA(some_super_long_param_name) =
 
 ### Einrücken und Tabulator verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#indent-and-snap-to-tab)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#einrcken-und-tabulator-verwenden)
 
 Rücken Sie Parameterschlüsselwörter um 2 Stellen und Parameter um 4 Stellen ein:
 
@@ -3611,7 +3611,7 @@ Verwenden Sie die Tabulatortaste zum Einrücken. Es ist in Ordnung, wenn hierdur
 
 ### Inline-Deklarationen wie Methodenaufrufe einrücken
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#indent-in-line-declarations-like-method-calls)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#inline-deklarationen-wie-methodenaufrufe-einrcken)
 
 Rücken Sie Inline-Deklarationen mit VALUE oder NEW wie Methodenaufrufe ein:
 
@@ -3624,7 +3624,7 @@ DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
 
 ### Type-Klauseln nicht ausrichten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatting) > [Dieser Abschnitt](#dont-align-type-clauses)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#type-klauseln-nicht-ausrichten)
 
 ```ABAP
 DATA name TYPE seoclsname.
