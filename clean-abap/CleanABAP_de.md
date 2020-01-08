@@ -189,34 +189,34 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Einrücken und Tabulator verwenden](#einrcken-und-tabulator-verwenden)
    - [Inline-Deklarationen wie Methodenaufrufe einrücken](#inline-deklarationen-wie-methodenaufrufe-einrcken)
    - [Type-Klauseln nicht ausrichten](#type-klauseln-nicht-ausrichten)
-- [Test](#testing)
-   - [Grundlagen](#principles)
-      - [Testbaren Code schreiben](#write-testable-code)
-      - [Nachstellen erlaubt](#enable-others-to-mock-you)
-      - [Regeln für die Lesbarkeit](#readability-rules)
-      - [Keine Kopien oder Testreports](#dont-make-copies-or-write-test-reports)
-      - [Nur Public-Parts testen](#test-publics-not-private-internals)
-      - [Zum Thema Quelltextabdeckung](#dont-obsess-about-coverage)
-   - [Testklassen](#test-classes)
-      - [Lokale Testklassen nach ihrem Zweck benennen](#call-local-test-classes-by-their-purpose)
-      - [Tests in lokale Klassen integrieren](#put-tests-in-local-classes)
-      - [Hilfsmethoden in Hilfeklassen integrieren](#put-help-methods-in-help-classes)
-      - [Testklassen ausführen](#how-to-execute-test-classes)
-   - [Getesteter Code](#code-under-test)
-      - [Sinnvolle Code-Namen oder Standardname CUT](#name-the-code-under-test-meaningfully-or-default-to-cut)
-      - [Schnittstellen testen, nicht Klassen](#test-interfaces-not-classes)
-      - [Aufruf an getesteten Code in seine eigene Methode extrahieren](#extract-the-call-to-the-code-under-test-to-its-own-method)
+- [Test](#test)
+   - [Grundlagen](#grundlagen)
+      - [Testbaren Code schreiben](#testbaren-code-schreiben)
+      - [Nachstellen erlaubt](#nachstellen-erlaubt)
+      - [Regeln für die Lesbarkeit](#regeln-fr-die-lesbarkeit)
+      - [Keine Kopien oder Testreports](#keine-kopien-oder-testreports)
+      - [Nur Public-Parts testen](#nur-public-parts-testen)
+      - [Zum Thema Quelltextabdeckung](#zum-thema-quelltextabdeckung)
+   - [Testklassen](#testklassen)
+      - [Lokale Testklassen nach ihrem Zweck benennen](#lokale-testklassen-nach-ihrem-zweck-benennen)
+      - [Tests in lokale Klassen integrieren](#tests-in-lokale-klassen-integrieren)
+      - [Hilfsmethoden in Hilfeklassen integrieren](#hilfsmethoden-in-hilfeklassen-integrieren)
+      - [Testklassen ausführen](#testklassen-ausfhren)
+   - [Getesteter Code](#getesteter-code)
+      - [Sinnvolle Code-Namen oder Standardname CUT](#sinnvolle-code-namen-oder-standardname-cut)
+      - [Schnittstellen testen, nicht Klassen](#schnittstellen-testen-nicht-klassen)
+      - [Aufruf an getesteten Code in seine eigene Methode extrahieren](#aufruf-an-getesteten-code-in-seine-eigene-methode-extrahieren)
    - [Injection](#injection)
-      - [Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden](#use-dependency-inversion-to-inject-test-doubles)
-      - [ABAP-Testattrappe verwenden](#consider-to-use-the-tool-abap-test-double)
-      - [Von Test-Tools unterstützen lassen](#exploit-the-test-tools)
-      - [Testseams als temporäre Behelfslösung verwenden](#use-test-seams-as-temporary-workaround)
-      - [Mit LOCAL FRIENDS auf Abhängigkeitsumkehr-Konstruktor zugreifen](#use-local-friends-to-access-the-dependency-inverting-constructor)
-      - [LOCAL FRIENDS nicht zum Eindringen in den getesteten Code missbrauchen](#dont-misuse-local-friends-to-invade-the-tested-code)
-      - [Produktiven Code nicht zugunsten Testbarkeit ändern](#dont-change-the-productive-code-to-make-the-code-testable)
-      - [Keine Unterklassen zum Nachstellen von Methoden](#dont-sub-class-to-mock-methods)
-      - [Nichts Unnötiges nachstellen](#dont-mock-stuff-thats-not-needed)
-      - [Keine Test-Frameworks aufbauen](#dont-build-test-frameworks)
+      - [Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden](#abhngigkeitsumkehr-zum-einbringen-von-testattrappen-verwenden)
+      - [ABAP-Testattrappe verwenden](#abap-testattrappe-verwenden)
+      - [Von Test-Tools unterstützen lassen](#von-test-tools-untersttzen-lassen)
+      - [Testseams als temporäre Behelfslösung verwenden](#testseams-als-temporre-behelfslsung-verwenden)
+      - [Mit LOCAL FRIENDS auf Abhängigkeitsumkehr-Konstruktor zugreifen](#mit-local-friends-auf-abhngigkeitsumkehr-konstruktor-zugreifen)
+      - [LOCAL FRIENDS nicht zum Eindringen in den getesteten Code missbrauchen](#local-friends-nicht-zum-eindringen-in-den-getesteten-code-missbrauchen)
+      - [Produktiven Code nicht zugunsten Testbarkeit ändern](#produktiven-code-nicht-zugunsten-testbarkeit-ndern)
+      - [Keine Unterklassen zum Nachstellen von Methoden](#keine-unterklassen-zum-nachstellen-von-methoden)
+      - [Nichts Unnötiges nachstellen](#nichts-unntiges-nachstellen)
+      - [Keine Test-Frameworks aufbauen](#keine-test-frameworks-aufbauen)
    - [Testmethoden](#test-methods)
       - [Testmethodennamen: was ist gegeben, was wird erwartet](#test-method-names-reflect-whats-given-and-expected)
       - [Given/When/Then verwenden](#use-given-when-then)
@@ -3641,15 +3641,15 @@ DATA reader TYPE REF TO /clean/reader.
 
 ## Test
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#testing)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#test)
 
 ### Grundlagen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#principles)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#grundlagen)
 
 #### Testbaren Code schreiben
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Grundlagen](#principles) > [Dieser Abschnitt](#write-testable-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#testbaren-code-schreiben)
 
 Schreiben Sie den gesamten Code so, dass Sie ihn automatisch testen können.
 
@@ -3659,13 +3659,13 @@ Wenn Sie Legacy-Code ergänzen, der zu schlecht strukturiert ist, um ihn zu test
 
 #### Nachstellen erlaubt
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Grundlagen](#principles) > [Dieser Abschnitt](#enable-others-to-mock-you)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nachstellen-erlaubt)
 
 Wenn Sie Code schreiben, der von Anderen konsumiert werden soll, ermöglichen Sie diesen, Modultests für ihren eigenen Code zu schreiben. Dies ist z.B. möglich durch Hinzufügen von Schnittstellen an nach außen gerichteten Stellen, durch die Bereitstellung von hilfreichen Testattrappen, die Integrationstests ermöglichen, oder durch die Anwendung der Abhängigkeitsumkehr, die eine Ersetzung der produktiven Konfiguration durch eine Testkonfiguration ermöglicht.
 
 #### Regeln für die Lesbarkeit
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Grundlagen](#principles) > [Dieser Abschnitt](#readability-rules)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#regeln-fr-die-lesbarkeit)
 
 Machen Sie Ihren Testcode noch besser lesbar als Ihren produktiven Code. Sie können schlechten produktiven Code mit guten Tests in Angriff nehmen, aber wenn die Tests nicht funktionieren, sind Sie verloren.
 
@@ -3675,7 +3675,7 @@ Halten Sie sich an Standards und Muster, damit sich Ihre Kollegen schnell in den
 
 #### Keine Kopien oder Testreports
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Grundlagen](#principles) > [Dieser Abschnitt](#dont-make-copies-or-write-test-reports)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#keine-kopien-oder-testreports)
 
 Fangen Sie nicht damit an, ein Backlog abzuarbeiten, indem Sie eine `$TMP`-Kopie eines Entwicklungsobjekts anfertigen und mit diesem herumspielen. Andere werden diese Objekte nicht bemerken und daher den Status Ihrer Arbeit nicht kennen. Sie werden wahrscheinlich eine Menge Zeit alleine mit dem Anfertigen der Arbeitskopie vergeuden. Hinterher werden Sie möglicherweise vergessen, die Kopie zu löschen, und damit Ihr System und die Abhängigkeiten spammen. (Wenn Sie das nicht glauben, gehen Sie jetzt in Ihr Entwicklungssystem und prüfen Sie `$TMP`.)
 
@@ -3683,7 +3683,7 @@ Es ist außerdem nicht ratsam, einen Testreport zu schreiben, der etwas auf best
 
 #### Nur Public-Parts testen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Grundlagen](#principles) > [Dieser Abschnitt](#test-publics-not-private-internals)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nur-public-parts-testen)
 
 Public-Parts von Klassen, insbesondere die Schnittstellen, die sie implementieren, sind ziemlich stabil und ändern sich mit großer Wahrscheinlichkeit nicht. Lassen Sie Ihre Modultests nur die Public-Parts validieren, um sie robust zu machen und den Aufwand bei einem Refactoring der Klasse zu minimieren. Geschützte und private Internal-Parts können sich im Gegensatz dazu sehr schnell durch das Refactoring ändern, so dass jedes Refactoring Ihre Tests unnötigerweise unterbrechen würde.
 
@@ -3698,7 +3698,7 @@ Fragen Sie sich selbst:
 
 #### Zum Thema Quelltextabdeckung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Grundlagen](#principles) > [Dieser Abschnitt](#dont-obsess-about-coverage)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#zum-thema-quelltextabdeckung)
 
 Die Quelltextabdeckung soll Ihnen dabei helfen, versehentlich ungeprüften Code zu finden, und nicht, irgendeine KPI zu erfüllen:
 
@@ -3710,11 +3710,11 @@ Sie haben in der Tat eine imaginäre Abdeckung von > 100 %.
 
 ### Testklassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#test-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#testklassen)
 
 #### Lokale Testklassen nach ihrem Zweck benennen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testklassen](#test-classes) > [Dieser Abschnitt](#call-local-test-classes-by-their-purpose)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#lokale-testklassen-nach-ihrem-zweck-benennen)
 
 ```ABAP
 CLASS ltc_unit_tests DEFINITION FOR TESTING ... .
@@ -3732,9 +3732,9 @@ CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's
 
 #### Tests in lokale Klassen integrieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testklassen](#test-classes) > [Dieser Abschnitt](#put-tests-in-local-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#tests-in-lokale-klassen-integrieren)
 
-Integrieren Sie die Modultests in das lokale Test-Include der getesteten Klasse. Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#how-to-execute-test-classes) beschrieben.
+Integrieren Sie die Modultests in das lokale Test-Include der getesteten Klasse. Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#testklassen-ausfhren) beschrieben.
 
 Integrieren Sie Komponenten-, Integrations- und Systemtests in das lokale Test-Include einer separaten globalen Klasse. 
 Sie beziehen sich nicht direkt auf eine einzelne getestete Klasse, daher sollten sie nicht willkürlich in eine der beteiligten Klassen gestellt werden, sondern in eine getrennte Klasse.
@@ -3755,7 +3755,7 @@ endclass.
 
 #### Hilfsmethoden in Hilfeklassen integrieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testklassen](#test-classes) > [Dieser Abschnitt](#put-help-methods-in-help-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#hilfsmethoden-in-hilfeklassen-integrieren)
 
 Integrieren Sie Hilfsmethoden, die von mehreren Testklassen verwendet werden, in eine Hilfsklasse. Machen Sie die Hilfsmethoden über Vererbung (ist eine Beziehung) oder Delegation (hat eine Beziehung) verfügbar.
 
@@ -3791,7 +3791,7 @@ ENDCLASS.
 
 #### Testklassen ausführen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testklassen](#test-classes) > [Dieser Abschnitt](#how-to-execute-test-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#testklassen-ausfhren)
 
 Drücken Sie in den ABAP Development Tools Strg+Shift+F10, um alle Tests in einer Klasse auszuführen.
 Drücken Sie Strg+Shift+F11, um eine Abdeckungsmessungen einzubeziehen.
@@ -3801,11 +3801,11 @@ Drücken Sie Strg+Shift+F12, um Tests auch in anderen Klassen auszuführen, die 
 
 ### Getesteter Code
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#code-under-test)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#getesteter-code)
 
 #### Sinnvolle Code-Namen oder Standardname CUT
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Getesteter Code](#code-under-test) > [Dieser Abschnitt](#name-the-code-under-test-meaningfully-or-default-to-cut)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Getesteter Code](#getesteter-code) > [Dieser Abschnitt](#sinnvolle-code-namen-oder-standardname-cut)
 
 Geben Sie der Variable, die den getesteten Code darstellt, einen sinnvollen Namen:
 
@@ -3839,9 +3839,9 @@ Insbesondere in unsauberen und verwirrenden Tests kann das Aufrufen der Variable
 
 #### Schnittstellen testen, nicht Klassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Getesteter Code](#code-under-test) > [Dieser Abschnitt](#test-interfaces-not-classes)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Getesteter Code](#getesteter-code) > [Dieser Abschnitt](#schnittstellen-testen-nicht-klassen)
 
-Als praktische Konsequenz von [_Nur Public-Parts testen_](#test-publics-not-private-internals) geben Sie für den Typ Ihres getesteten Codes eine _Schnittstelle_ an,
+Als praktische Konsequenz von [_Nur Public-Parts testen_](#nur-public-parts-testen) geben Sie für den Typ Ihres getesteten Codes eine _Schnittstelle_ an,
 
 ```ABAP
 DATA code_under_test TYPE REF TO some_interface.
@@ -3856,7 +3856,7 @@ DATA code_under_test TYPE REF TO some_class.
 
 #### Aufruf an getesteten Code in seine eigene Methode extrahieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Getesteter Code](#code-under-test) > [Dieser Abschnitt](#extract-the-call-to-the-code-under-test-to-its-own-method)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Getesteter Code](#getesteter-code) > [Dieser Abschnitt](#aufruf-an-getesteten-code-in-seine-eigene-methode-extrahieren)
 
 Wenn die zu testende Methode eine Menge Parameter und aufbereitete Daten erfordert, kann es helfen, den Aufruf an die Methode in eine eigene Hilfsmethode zu extrahieren, die die unkritischen Parameter vorbelegt:
 
@@ -3887,11 +3887,11 @@ DATA(itab) = cut->map_xml_to_itab( xml_string = '<xml></xml>'
 
 ### Injection
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#injection)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#injection)
 
 #### Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#use-dependency-inversion-to-inject-test-doubles)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#abhngigkeitsumkehr-zum-einbringen-von-testattrappen-verwenden)
 
 Abhängigkeitsumkehr bedeutet, dass Sie alle Abhängigkeiten an den Konstruktor übergeben:
 
@@ -3939,7 +3939,7 @@ ENDMETHOD.
 
 #### ABAP-Testattrappe verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#consider-to-use-the-tool-abap-test-double)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#abap-testattrappe-verwenden)
 
 ```ABAP
 DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
@@ -3971,7 +3971,7 @@ ENDMETHOD.
 
 #### Von Test-Tools unterstützen lassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#exploit-the-test-tools)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#von-test-tools-untersttzen-lassen)
 
 Im Allgemeinen können Sie bei einem sauberen Programmierstil viele Aufgaben mit den standardmäßigen ABAP-Modultests und -Testattrappen erledigen.
 Es stehen weitere Tools zur Verfügung, mit denen Sie kompliziertere Fälle elegant meistern:
@@ -3982,7 +3982,7 @@ Es stehen weitere Tools zur Verfügung, mit denen Sie kompliziertere Fälle eleg
 
 #### Testseams als temporäre Behelfslösung verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#use-test-seams-as-temporary-workaround)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#testseams-als-temporre-behelfslsung-verwenden)
 
 Wenn alle anderen Techniken fehlschlagen, oder Sie sich im gefährlich seichten Wasser von Legacy-Code befinden, greifen Sie auf [Testseams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm)zurück, um die Dinge testbar zu machen.
 
@@ -3992,7 +3992,7 @@ Wir empfehlen daher, auf Testseams nur als temporäre Behelfslösung zuzugreifen
 
 #### Mit LOCAL FRIENDS auf Abhängigkeitsumkehr-Konstruktor zugreifen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#use-local-friends-to-access-the-dependency-inverting-constructor)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#mit-local-friends-auf-abhngigkeitsumkehr-konstruktor-zugreifen)
 
 ```ABAP
 CLASS /clean/unit_tests DEFINITION.
@@ -4015,7 +4015,7 @@ ENDCLASS.
 
 #### LOCAL FRIENDS nicht zum Eindringen in den getesteten Code missbrauchen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#dont-misuse-local-friends-to-invade-the-tested-code)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#local-friends-nicht-zum-eindringen-in-den-getesteten-code-missbrauchen)
 
 Modultests, die auf private und geschützte Mitglieder zugreifen, um Mock-Daten einzufügen, sind fragil: Sie versagen, wenn sich die interne Struktur des getesteten Codes ändert.
 
@@ -4031,7 +4031,7 @@ ENDCLASS.
 
 #### Produktiven Code nicht zugunsten Testbarkeit ändern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#dont-change-the-productive-code-to-make-the-code-testable)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#produktiven-code-nicht-zugunsten-testbarkeit-ndern)
 
 ```ABAP
 " anti-pattern
@@ -4040,7 +4040,7 @@ IF me->in_test_mode = abap_true.
 
 #### Keine Unterklassen zum Nachstellen von Methoden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#dont-sub-class-to-mock-methods)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#keine-unterklassen-zum-nachstellen-von-methoden)
 
 Es wird davon abgeraten, Methodenunterklassen anzulegen und Methoden zu überschreiben, um diese in Ihren Modultests nachzustellen. Obwohl das funktioniert, ist es eine fragile Angelegenheit, weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-wenn-keine-vererbung-vorgesehen).
 
@@ -4051,16 +4051,16 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
     METHODS needs_to_be_mocked REDEFINITION.
 ```
 
-Um Legacy-Code unter Test zu erhalten, [greifen Sie stattdessen auf Testseams zurück](#use-test-seams-as-temporary-workaround).
+Um Legacy-Code unter Test zu erhalten, [greifen Sie stattdessen auf Testseams zurück](#testseams-als-temporre-behelfslsung-verwenden).
 Sie sind ebenso fragil, aber trotzdem die sauberere Möglichkeit, weil sie zumindest nicht das produktive Verhalten der Klasse ändern. Dies würde geschehen, wenn die Vererbung aktiviert wird, indem ein früheres `FINAL`-Kennzeichen gelöscht oder der Methoden-Scope von `PRIVATE` in `PROTECTED` geändert wird.
 
-Beim Schreiben von neuem Code berücksichtigen Sie dieses Thema der Testbarkeit direkt beim Entwurf der Klasse, und suchen Sie nach einer anderen, besseren Vorgehensweise. Zu den gängigen bewährten Praktiken zählen die [Nutzung anderer Testtools](#exploit-the-test-tools) und die Extraktion der Problemmethode in eine separate Klasse mit ihrer eigenen Schnittstelle.
+Beim Schreiben von neuem Code berücksichtigen Sie dieses Thema der Testbarkeit direkt beim Entwurf der Klasse, und suchen Sie nach einer anderen, besseren Vorgehensweise. Zu den gängigen bewährten Praktiken zählen die [Nutzung anderer Testtools](#von-test-tools-untersttzen-lassen) und die Extraktion der Problemmethode in eine separate Klasse mit ihrer eigenen Schnittstelle.
 
-> Eine spezifischere Variante von [Produktiven Code nicht zugunsten Testbarkeit ändern](#dont-change-the-productive-code-to-make-the-code-testable).
+> Eine spezifischere Variante von [Produktiven Code nicht zugunsten Testbarkeit ändern](#produktiven-code-nicht-zugunsten-testbarkeit-ndern).
 
 #### Nichts Unnötiges nachstellen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#dont-mock-stuff-thats-not-needed)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#nichts-unntiges-nachstellen)
 
 ```ABAP
 cut = NEW /clean/class_under_test( db_reader = db_reader
@@ -4081,7 +4081,7 @@ Es kann vorkommen, dass überhaupt keine Notwendigkeit besteht, überhaupt irgen
 
 #### Keine Test-Frameworks aufbauen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Injection](#injection) > [Dieser Abschnitt](#dont-build-test-frameworks)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#keine-test-frameworks-aufbauen)
 
 Modultests - im Gegensatz zu Integrationstests - sollten auf der „Daten rein-Daten-raus-Basis“ funktionieren, während alle Testdaten bei Bedarf dynamisch definiert werden.
 
@@ -4104,11 +4104,11 @@ ENDCASE.
 
 ### Testmethoden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#test-methods)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#test-methods)
 
 #### Testmethodennamen: was ist gegeben, was wird erwartet
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#test-method-names-reflect-whats-given-and-expected)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#test-method-names-reflect-whats-given-and-expected)
 
 Gute Namen reflektieren das „given“ (die Ausgangssituation des Tests) und das „then“ (Ergebnis ist die gewünschte Zielsituation) des Tests:
 
@@ -4142,7 +4142,7 @@ Eine Menge Testmethoden, deren Namen zu lang sind, können ein Hinweis darauf se
 
 #### Given/When/Then verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#use-given-when-then)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#use-given-when-then)
 
 Organisieren Sie Ihren Testcode anhand des „Given-When-Then“-Paradigmas:
 Als Erstes initialisieren das Gegebene im Abschnitt „given“.
@@ -4154,7 +4154,7 @@ Leerzeilen oder Kommentare zur Trennung sehen auf den ersten Blick vielleicht gu
 
 #### „When“ ist genau ein Aufruf
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#when-is-exactly-one-call)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#when-is-exactly-one-call)
 
 Stellen Sie sicher, dass der „when“-Abschnitt Ihrer Testmethode genau einen Aufruf an die getestete Klasse enthält.
 
@@ -4171,7 +4171,7 @@ Der Aufruf mehrerer Dinge gleichzeitig verrät, dass die Methode keinen klaren F
 
 #### TEARDOWN nur, wenn es sein muss
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#dont-add-a-teardown-unless-you-really-need-it)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#dont-add-a-teardown-unless-you-really-need-it)
 
 `teardown`-Methoden werden gewöhnlich nur zum Bereinigen von Datenbankeinträgen oder anderen externen Ressourcen in Integrationstests benötigt.
 
@@ -4179,11 +4179,11 @@ Das Zurücksetzen der Testklassenmitglieder, insbesondere `cut`, und der verwend
 
 ### Testdaten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#test-data)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#test-data)
 
 #### Einfach erkennbare Bedeutung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testdaten](#test-data) > [Dieser Abschnitt](#make-it-easy-to-spot-meaning)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#test-data) > [Dieser Abschnitt](#make-it-easy-to-spot-meaning)
 
 In Modultests möchten Sie schnell erkennen können, welche Daten und Testattrappen wichtig sind, und welchen nur dazu da sind, um einen Crash des Codes zu vermeiden. Unterstützen Sie dies, indem Sie bedeutungslosen Dingen offensichtliche Namen und Werte geben, wie z.B.:
 
@@ -4204,7 +4204,7 @@ CONSTANTS memory_limit TYPE i VALUE 4096.    " this number looks carefully chose
 
 #### Einfach erkennbare Abweichungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testdaten](#test-data) > [Dieser Abschnitt](#make-it-easy-to-spot-differences)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#test-data) > [Dieser Abschnitt](#make-it-easy-to-spot-differences)
 
 ```ABAP
 exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END1' )
@@ -4215,7 +4215,7 @@ Zwingen Sie die Leser nicht dazu, lange, bedeutungslose Strings zu vergleichen, 
 
 #### Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Testdaten](#test-data) > [Dieser Abschnitt](#use-constants-to-describe-purpose-and-importance-of-test-data)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#test-data) > [Dieser Abschnitt](#use-constants-to-describe-purpose-and-importance-of-test-data)
 
 ```ABAP
 CONSTANTS some_nonsense_key TYPE char8 VALUE 'ABCDEFGH'.
@@ -4233,11 +4233,11 @@ ENDMETHOD.
 
 ### Assertionen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Dieser Abschnitt](#assertions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#assertions)
 
 #### Wenige, fokussierte Assertionen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#few-focused-assertions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#few-focused-assertions)
 
 Versichern Sie nur genau das, worum es in der Testmethode geht, und verwenden Sie dazu wenige Assertionen.
 
@@ -4267,7 +4267,7 @@ ENDMETHOD.
 
 #### Korrekten Assertionstyp verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#use-the-right-assert-type)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#use-the-right-assert-type)
 
 ```ABAP
 cl_abap_unit_assert=>assert_equals( act = table
@@ -4283,7 +4283,7 @@ cl_abap_unit_assert=>assert_true( xsdbool( act = exp ) ).
 
 #### Inhalt, nicht Menge zusichern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#assert-content-not-quantity)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#assert-content-not-quantity)
 
 ```ABAP
 assert_contains_exactly( actual   = table
@@ -4300,7 +4300,7 @@ assert_equals( act = lines( log_messages )
 
 #### Qualität, nicht Inhalt zusichern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#assert-quality-not-content)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#assert-quality-not-content)
 
 Wenn Sie an der Metaqualität des Ergebnisses interessiert sind, jedoch nicht an dem eigentlichen Inhalt, drücken Sie dies mit einer geeigneten Assertion aus:
 
@@ -4319,7 +4319,7 @@ assert_equals( act = table
 
 #### FAIL zum Prüfen erwarteter Ausnahmen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#use-fail-to-check-for-expected-exceptions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#use-fail-to-check-for-expected-exceptions)
 
 ```ABAP
 METHOD throws_on_empty_input.
@@ -4335,7 +4335,7 @@ ENDMETHOD.
 
 #### Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#forward-unexpected-exceptions-instead-of-catching-and-failing)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#forward-unexpected-exceptions-instead-of-catching-and-failing)
 
 ```ABAP
 METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
@@ -4364,7 +4364,7 @@ ENDMETHOD.
 
 #### Angepasste Assertionen: Code verkürzen, Doppeltes vermeiden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#testing) > [Assertionen](#assertions) > [Dieser Abschnitt](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
 
 ```ABAP
 METHODS assert_contains
