@@ -1,10 +1,8 @@
 # Clean ABAP
 
 > [**English**](CleanABAP.md)
-> &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+> &nbsp;·&nbsp;
 > [German](CleanABAP_de.md)
-<!-- [Chinese](CleanABAP_zh.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-<!-- [French](CleanABAP_fr.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
