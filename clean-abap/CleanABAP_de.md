@@ -217,23 +217,23 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [Keine Unterklassen zum Nachstellen von Methoden](#keine-unterklassen-zum-nachstellen-von-methoden)
       - [Nichts Unnötiges nachstellen](#nichts-unntiges-nachstellen)
       - [Keine Test-Frameworks aufbauen](#keine-test-frameworks-aufbauen)
-   - [Testmethoden](#test-methods)
-      - [Testmethodennamen: was ist gegeben, was wird erwartet](#test-method-names-reflect-whats-given-and-expected)
-      - [Given/When/Then verwenden](#use-given-when-then)
-      - [„When“ ist genau ein Aufruf](#when-is-exactly-one-call)
-      - [TEARDOWN nur, wenn es sein muss](#dont-add-a-teardown-unless-you-really-need-it)
-   - [Testdaten](#test-data)
-      - [Einfach erkennbare Bedeutung](#make-it-easy-to-spot-meaning)
-      - [Einfach erkennbare Abweichungen](#make-it-easy-to-spot-differences)
-      - [Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden](#use-constants-to-describe-purpose-and-importance-of-test-data)
-   - [Assertionen](#assertions)
-      - [Wenige, fokussierte Assertionen](#few-focused-assertions)
-      - [Korrekten Assertionstyp verwenden](#use-the-right-assert-type)
-      - [Inhalt, nicht Menge zusichern](#assert-content-not-quantity)
-      - [Qualität, nicht Inhalt zusichern](#assert-quality-not-content)
-      - [FAIL zum Prüfen erwarteter Ausnahmen verwenden](#use-fail-to-check-for-expected-exceptions)
-      - [Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten](#forward-unexpected-exceptions-instead-of-catching-and-failing)
-      - [Angepasste Assertionen: Code verkürzen, Doppeltes vermeiden](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+   - [Testmethoden](#testmethoden)
+      - [Testmethodennamen: was ist gegeben, was wird erwartet](#testmethodennamen-was-ist-gegeben-was-wird-erwartet)
+      - [Given/When/Then verwenden](#givenwhenthen-verwenden)
+      - [„When“ ist genau ein Aufruf](#when-ist-genau-ein-aufruf)
+      - [TEARDOWN nur, wenn es sein muss](#teardown-nur-wenn-es-sein-muss)
+   - [Testdaten](#testdaten)
+      - [Einfach erkennbare Bedeutung](#einfach-erkennbare-bedeutung)
+      - [Einfach erkennbare Abweichungen](#einfach-erkennbare-abweichungen)
+      - [Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden](#konstanten-zur-beschreibung-von-zweck-und-bedeutung-der-testdaten-verwenden)
+   - [Assertionen](#assertionen)
+      - [Wenige, fokussierte Assertionen](#wenige-fokussierte-assertionen)
+      - [Korrekten Assertionstyp verwenden](#korrekten-assertionstyp-verwenden)
+      - [Inhalt, nicht Menge zusichern](#inhalt-nicht-menge-zusichern)
+      - [Qualität, nicht Inhalt zusichern](#qualitt-nicht-inhalt-zusichern)
+      - [FAIL zum Prüfen erwarteter Ausnahmen verwenden](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
+      - [Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
+      - [Angepasste Assertionen: Code verkürzen, Doppeltes vermeiden](#angepasste-assertionen-code-verkrzen-doppeltes-vermeiden)
 
 ## How-to
 
@@ -4104,11 +4104,11 @@ ENDCASE.
 
 ### Testmethoden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#test-methods)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#testmethoden)
 
 #### Testmethodennamen: was ist gegeben, was wird erwartet
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#test-method-names-reflect-whats-given-and-expected)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#testmethodennamen-was-ist-gegeben-was-wird-erwartet)
 
 Gute Namen reflektieren das „given“ (die Ausgangssituation des Tests) und das „then“ (Ergebnis ist die gewünschte Zielsituation) des Tests:
 
@@ -4142,7 +4142,7 @@ Eine Menge Testmethoden, deren Namen zu lang sind, können ein Hinweis darauf se
 
 #### Given/When/Then verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#use-given-when-then)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#givenwhenthen-verwenden)
 
 Organisieren Sie Ihren Testcode anhand des „Given-When-Then“-Paradigmas:
 Als Erstes initialisieren das Gegebene im Abschnitt „given“.
@@ -4154,7 +4154,7 @@ Leerzeilen oder Kommentare zur Trennung sehen auf den ersten Blick vielleicht gu
 
 #### „When“ ist genau ein Aufruf
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#when-is-exactly-one-call)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#when-ist-genau-ein-aufruf)
 
 Stellen Sie sicher, dass der „when“-Abschnitt Ihrer Testmethode genau einen Aufruf an die getestete Klasse enthält.
 
@@ -4171,7 +4171,7 @@ Der Aufruf mehrerer Dinge gleichzeitig verrät, dass die Methode keinen klaren F
 
 #### TEARDOWN nur, wenn es sein muss
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#test-methods) > [Dieser Abschnitt](#dont-add-a-teardown-unless-you-really-need-it)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#teardown-nur-wenn-es-sein-muss)
 
 `teardown`-Methoden werden gewöhnlich nur zum Bereinigen von Datenbankeinträgen oder anderen externen Ressourcen in Integrationstests benötigt.
 
@@ -4179,11 +4179,11 @@ Das Zurücksetzen der Testklassenmitglieder, insbesondere `cut`, und der verwend
 
 ### Testdaten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#test-data)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#testdaten)
 
 #### Einfach erkennbare Bedeutung
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#test-data) > [Dieser Abschnitt](#make-it-easy-to-spot-meaning)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#testdaten) > [Dieser Abschnitt](#einfach-erkennbare-bedeutung)
 
 In Modultests möchten Sie schnell erkennen können, welche Daten und Testattrappen wichtig sind, und welchen nur dazu da sind, um einen Crash des Codes zu vermeiden. Unterstützen Sie dies, indem Sie bedeutungslosen Dingen offensichtliche Namen und Werte geben, wie z.B.:
 
@@ -4204,7 +4204,7 @@ CONSTANTS memory_limit TYPE i VALUE 4096.    " this number looks carefully chose
 
 #### Einfach erkennbare Abweichungen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#test-data) > [Dieser Abschnitt](#make-it-easy-to-spot-differences)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#testdaten) > [Dieser Abschnitt](#einfach-erkennbare-abweichungen)
 
 ```ABAP
 exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END1' )
@@ -4215,7 +4215,7 @@ Zwingen Sie die Leser nicht dazu, lange, bedeutungslose Strings zu vergleichen, 
 
 #### Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#test-data) > [Dieser Abschnitt](#use-constants-to-describe-purpose-and-importance-of-test-data)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#testdaten) > [Dieser Abschnitt](#konstanten-zur-beschreibung-von-zweck-und-bedeutung-der-testdaten-verwenden)
 
 ```ABAP
 CONSTANTS some_nonsense_key TYPE char8 VALUE 'ABCDEFGH'.
@@ -4233,11 +4233,11 @@ ENDMETHOD.
 
 ### Assertionen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#assertions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#assertionen)
 
 #### Wenige, fokussierte Assertionen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#few-focused-assertions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#wenige-fokussierte-assertionen)
 
 Versichern Sie nur genau das, worum es in der Testmethode geht, und verwenden Sie dazu wenige Assertionen.
 
@@ -4267,7 +4267,7 @@ ENDMETHOD.
 
 #### Korrekten Assertionstyp verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#use-the-right-assert-type)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#korrekten-assertionstyp-verwenden)
 
 ```ABAP
 cl_abap_unit_assert=>assert_equals( act = table
@@ -4283,7 +4283,7 @@ cl_abap_unit_assert=>assert_true( xsdbool( act = exp ) ).
 
 #### Inhalt, nicht Menge zusichern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#assert-content-not-quantity)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#inhalt-nicht-menge-zusichern)
 
 ```ABAP
 assert_contains_exactly( actual   = table
@@ -4300,7 +4300,7 @@ assert_equals( act = lines( log_messages )
 
 #### Qualität, nicht Inhalt zusichern
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#assert-quality-not-content)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#qualitt-nicht-inhalt-zusichern)
 
 Wenn Sie an der Metaqualität des Ergebnisses interessiert sind, jedoch nicht an dem eigentlichen Inhalt, drücken Sie dies mit einer geeigneten Assertion aus:
 
@@ -4319,7 +4319,7 @@ assert_equals( act = table
 
 #### FAIL zum Prüfen erwarteter Ausnahmen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#use-fail-to-check-for-expected-exceptions)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
 
 ```ABAP
 METHOD throws_on_empty_input.
@@ -4335,7 +4335,7 @@ ENDMETHOD.
 
 #### Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#forward-unexpected-exceptions-instead-of-catching-and-failing)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
 
 ```ABAP
 METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
@@ -4364,7 +4364,7 @@ ENDMETHOD.
 
 #### Angepasste Assertionen: Code verkürzen, Doppeltes vermeiden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertions) > [Dieser Abschnitt](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#angepasste-assertionen-code-verkrzen-doppeltes-vermeiden)
 
 ```ABAP
 METHODS assert_contains
