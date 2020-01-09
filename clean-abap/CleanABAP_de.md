@@ -191,20 +191,20 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 - [Test](#test)
    - [Grundlagen](#grundlagen)
       - [Testbaren Code schreiben](#testbaren-code-schreiben)
-      - [Nachstellen erlaubt](#nachstellen-erlaubt)
+      - [Ermöglichen Sie anderen, Test-Doubles zu verwenden](#ermglichen-sie-anderen-test-doubles-zu-verwenden)
       - [Regeln für die Lesbarkeit](#regeln-fr-die-lesbarkeit)
       - [Keine Kopien oder Testreports](#keine-kopien-oder-testreports)
-      - [Nur Public-Parts testen](#nur-public-parts-testen)
-      - [Zum Thema Quelltextabdeckung](#zum-thema-quelltextabdeckung)
+      - [Nur PUBLIC-Anteile testen](#nur-public-anteile-testen)
+      - [Nicht von der Code Coverage verrückt machen lassen](#nicht-von-der-code-coverage-verrckt-machen-lassen)
    - [Testklassen](#testklassen)
       - [Lokale Testklassen nach ihrem Zweck benennen](#lokale-testklassen-nach-ihrem-zweck-benennen)
-      - [Tests in lokale Klassen integrieren](#tests-in-lokale-klassen-integrieren)
-      - [Hilfsmethoden in Hilfeklassen integrieren](#hilfsmethoden-in-hilfeklassen-integrieren)
+      - [Tests im lokalen Test-Include unterbringen](#tests-im-lokalen-test-include-unterbringen)
+      - [Hilfsmethoden in Hilfsklassen extrahieren](#hilfsmethoden-in-hilfsklassen-extrahieren)
       - [Testklassen ausführen](#testklassen-ausfhren)
    - [Getesteter Code](#getesteter-code)
       - [Sinnvolle Code-Namen oder Standardname CUT](#sinnvolle-code-namen-oder-standardname-cut)
       - [Schnittstellen testen, nicht Klassen](#schnittstellen-testen-nicht-klassen)
-      - [Aufruf an getesteten Code in seine eigene Methode extrahieren](#aufruf-an-getesteten-code-in-seine-eigene-methode-extrahieren)
+      - [Aufruf des Code-Under-Test in eigene Methode extrahieren](#aufruf-des-code-under-test-in-eigene-methode-extrahieren)
    - [Injection](#injection)
       - [Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden](#abhngigkeitsumkehr-zum-einbringen-von-testattrappen-verwenden)
       - [ABAP-Testattrappe verwenden](#abap-testattrappe-verwenden)
@@ -225,14 +225,14 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [Einfach erkennbare Bedeutung](#einfach-erkennbare-bedeutung)
       - [Einfach erkennbare Abweichungen](#einfach-erkennbare-abweichungen)
       - [Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden](#konstanten-zur-beschreibung-von-zweck-und-bedeutung-der-testdaten-verwenden)
-   - [Assertionen](#assertionen)
-      - [Wenige, fokussierte Assertionen](#wenige-fokussierte-assertionen)
-      - [Korrekten Assertionstyp verwenden](#korrekten-assertionstyp-verwenden)
-      - [Inhalt, nicht Menge zusichern](#inhalt-nicht-menge-zusichern)
-      - [Qualität, nicht Inhalt zusichern](#qualitt-nicht-inhalt-zusichern)
+   - [Assertions](#Assertions)
+      - [Wenige, fokussierte Assertions](#wenige-fokussierte-Assertions)
+      - [Korrekten Assertion-Typ verwenden](#korrekten-assertion-typ-verwenden)
+      - [Inhalt, nicht Menge validieren](#inhalt-nicht-menge-validieren)
+      - [Qualität, nicht Inhalt validieren](#qualitt-nicht-inhalt-validieren)
       - [FAIL zum Prüfen erwarteter Ausnahmen verwenden](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
       - [Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
-      - [Angepasste Assertionen: Code verkürzen, Doppeltes vermeiden](#angepasste-assertionen-code-verkrzen-doppeltes-vermeiden)
+      - [Angepasste Assertions: Code verkürzen, Doppeltes vermeiden](#angepasste-Assertions-code-verkrzen-doppeltes-vermeiden)
 
 ## How-to
 
@@ -3846,25 +3846,31 @@ DATA reader TYPE REF TO /clean/reader.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#testbaren-code-schreiben)
 
-Schreiben Sie den gesamten Code so, dass Sie ihn automatisch testen können.
+Schreiben Sie all Ihren Code so, dass Sie ihn automatisch testen können.
 
 Wenn dies ein Refactoring Ihres Codes erfordert, tun Sie es. Tun Sie dies zuerst, bevor Sie mit dem Hinzufügen von weiteren Funktionen beginnen.
 
 Wenn Sie Legacy-Code ergänzen, der zu schlecht strukturiert ist, um ihn zu testen, führen Sie ein Refactoring zumindest in dem Umfang aus, dass Sie Ihre Ergänzungen testen können.
 
-#### Nachstellen erlaubt
+#### Ermöglichen Sie anderen, Test-Doubles zu verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nachstellen-erlaubt)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#ermglichen-sie-anderen-test-doubles-zu-verwenden)
 
-Wenn Sie Code schreiben, der von Anderen konsumiert werden soll, ermöglichen Sie diesen, Unit Tests für ihren eigenen Code zu schreiben. Dies ist z.B. möglich durch Hinzufügen von Schnittstellen an nach außen gerichteten Stellen, durch die Bereitstellung von hilfreichen Test-Doubles, die Integrationstests ermöglichen, oder durch die Anwendung der Abhängigkeitsumkehr, die eine Ersetzung der produktiven Konfiguration durch eine Testkonfiguration ermöglicht.
+Wenn Sie Code schreiben, der von anderen konsumiert werden soll,
+machen Sie es möglich, diesen Code in Unit Tests durch Test-Doubles zu ersetzen.
+Dies ist z.B. möglich durch Hinzufügen von Interfaces an nach außen gerichteten Stellen, durch die Bereitstellung von hilfreichen Test-Doubles, die Integrationstests ermöglichen, oder durch die Anwendung der Abhängigkeitsumkehr, die eine Ersetzung der produktiven Konfiguration durch eine Testkonfiguration ermöglicht.
 
 #### Regeln für die Lesbarkeit
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#regeln-fr-die-lesbarkeit)
 
-Machen Sie Ihren Testcode noch besser lesbar als Ihren produktiven Code. Sie können schlechten produktiven Code mit guten Tests in Angriff nehmen, aber wenn die Tests nicht funktionieren, sind Sie verloren.
+Machen Sie Ihren Testcode noch besser lesbar als Ihren produktiven Code.
+Schlechter produktiver Code mit guten Tests lässt sich bequem in Angriff nehmen.
+Wenn jedoch die Tests selbst schlecht und unverständlich sind,
+wird Ihnen nicht mehr klar sein, in welche Richtung Sie arbeiten sollen.
 
-Machen Sie Ihren Testcode so einfach und simpel, dass Sie ihn auch noch in einem Jahren verstehen.
+Machen Sie Ihren Testcode so einfach und simpel,
+dass Sie ihn auch noch in einigen Jahren verstehen.
 
 Halten Sie sich an Standards und Muster, damit sich Ihre Kollegen schnell in den Code einlesen können.
 
@@ -3872,35 +3878,76 @@ Halten Sie sich an Standards und Muster, damit sich Ihre Kollegen schnell in den
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#keine-kopien-oder-testreports)
 
-Fangen Sie nicht damit an, ein Backlog abzuarbeiten, indem Sie eine `$TMP`-Kopie eines Entwicklungsobjekts anfertigen und mit diesem herumspielen. Andere werden diese Objekte nicht bemerken und daher den Status Ihrer Arbeit nicht kennen. Sie werden wahrscheinlich eine Menge Zeit alleine mit dem Anfertigen der Arbeitskopie vergeuden. Hinterher werden Sie möglicherweise vergessen, die Kopie zu löschen, und damit Ihr System und die Abhängigkeiten spammen. (Wenn Sie das nicht glauben, gehen Sie jetzt in Ihr Entwicklungssystem und prüfen Sie `$TMP`.)
+Beginnen Sie Ihre Arbeit an einem neuen Backlog Item nicht damit,
+eine `$TMP`-Kopie eines Entwicklungsobjekts anfertigen
+und mit diesem herumspielen.
 
-Es ist außerdem nicht ratsam, einen Testreport zu schreiben, der etwas auf bestimmte Weise aufruft, und diesen Report während Ihrer Arbeit wiederholt auszuführen, um zu prüfen, ob alles noch funktioniert. Es ist nicht sehr professionell, einen Testreport manuell zu wiederholen und auf Sicht zu prüfen, ob alles noch gut ist. Nehmen Sie den nächsten Schritt in Angriff und automatisieren Sie diesen Report in einem Unit Test mit einer automatischen Rückmeldung darüber, ob der Code noch in Ordnung ist. Erstens ersparen Sie sich den Aufwand, die Unit Tests hinterher schreiben zu müssen. Zweitens ersparen Sie sich eine Menge Zeit, die Sie andernfalls für die manuellen Wiederholungen aufwenden würden, sowie eine Menge Langeweile.
+Andere werden diese Objekte nicht bemerken
+und den Fortschritt Ihrer Arbeit nicht nachvollziehen können.
+Sie werden wahrscheinlich auch mehr Zeit mit dem Anfertigen der Kopie
+verschwenden, als Ihnen lieb ist.
+Hinterher werden Sie möglicherweise vergessen,
+die Kopie zu löschen, was Ihr System über die Zeit
+mit merkwürdigen Abhängigkeiten zuspammt.
 
-#### Nur Public-Parts testen
+(Glauben Sie nicht? Schauen Sie doch einfach mal in Ihren `$TMP`-Ordner
+in Ihrem Entwicklungssystem.
+An wie viele dieser Objekte können Sie sich noch erinnern?
+Wie viele davon werden Ihnen sinnlos im Weg stehen,
+wenn Sie die darin verwendeten Klassen refactoren möchten?)
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nur-public-parts-testen)
+Es ist generell nicht ratsam, Testreports zu schreiben,
+die sie während Ihrer Arbeit wiederholt manuell aufrufen müssen
+und deren Ergebnisse Sie visuell bestätigen müssen:
+das wird auf Dauer langweilig und in der Folge fehleranfällig.
 
-Public-Parts von Klassen, insbesondere die Schnittstellen, die sie implementieren, sind ziemlich stabil und ändern sich mit großer Wahrscheinlichkeit nicht. Lassen Sie Ihre Unit Tests nur die Public-Parts validieren, um sie robust zu machen und den Aufwand bei einem Refactoring der Klasse zu minimieren. Geschützte und private Internal-Parts können sich im Gegensatz dazu sehr schnell durch das Refactoring ändern, so dass jedes Refactoring Ihre Tests unnötigerweise unterbrechen würde.
+Nehmen Sie lieber gleich den nächsten Schritt in Angriff
+und automatisieren Sie solche Reports als Unit Tests.
+Die Unit Tests werden Sie am Ende eh schreiben wollen,
+es ist also keineswegs Zeitverschwendung.
+Als Bonus bekommen Sie sogar noch Shortcuts (Strg+Shift+F10)
+und jede Menge Tools (nächtliche Ausführung, Code Coverage) geschenkt. 
 
-Ein dringendes Bedürfnis, private oder geschützte Methoden zu testen, kann ein frühes Warnzeichen für mehrere Arten von Design-Fehlern sein.
+#### Nur PUBLIC-Anteile testen
+
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nur-public-anteile-testen)
+
+Die `PUBLIC`-Anteile von Klassen,
+insbesondere die Interfaces, die sie implementieren,
+sind ziemlich stabil und ändern sich mit großer Wahrscheinlichkeit nicht.
+Lassen Sie Ihre Unit Tests nur diese öffentlichen Teile validieren,
+um sie robust zu machen und den Aufwand beim Refactoring zu minimieren.
+
+`PROTECTED` und `PRIVATE` Anteile können sich im Gegensatz dazu
+sehr schnell ändern, so dass jedes Refactoring Ihre Tests zerbrechen würde.
+
+Das dringende Bedürfnis, private oder geschützte Methoden zu testen,
+kann ein frühes Warnzeichen für mehrere Arten von Design-Fehlern sein.
 Fragen Sie sich selbst:
 
 - Haben Sie versehentlich ein Konzept in Ihrer Klasse begraben, das in seiner eigenen Klasse herauskommen möchte, mit seinem eigenen, dedizierten Testpaket?
 
-- Haben Sie versäumt, die Domänenlogik vom Glue Code zu trennen? So ist z.B. die Implementierung der Domänenlogik direkt in der Klasse, die im BOPF als Aktion, Festlegung oder Validierung integriert ist, oder die von SAP Gateway als `*_DPC_EXT`-Daten-Provider generiert wurde, möglicherweise nicht die beste Idee.
+- Haben Sie versäumt, die Domänenlogik vom Glue Code zu trennen? So ist z.B. die Implementierung der Domänenlogik direkt in der Klasse, die im BOPF als Aktion, Determination oder Validation integriert ist, oder die von SAP Gateway als `*_DPC_EXT`-Daten-Provider generiert wurde, möglicherweise nicht die beste Idee.
 
 - Sind Ihre Schnittstellen zu kompliziert und fordern zu viele Daten an, die irrelevant sind oder nicht einfach nachgestellt werden können?
 
-#### Zum Thema Quelltextabdeckung
+#### Nicht von der Code Coverage verrückt machen lassen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#zum-thema-quelltextabdeckung)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nicht-von-der-code-coverage-verrckt-machen-lassen)
 
-Die Quelltextabdeckung soll Ihnen dabei helfen, versehentlich ungeprüften Code zu finden, und nicht, irgendeine KPI zu erfüllen:
+Code Coverage ist da, um Ihnen zu helfen,
+versehentlich ungeprüften Code zu finden,
+nicht, um irgendwelche blind vorgegebenen KPIs zu erfüllen:
 
-Erfinden Sie keine Tests mit oder ohne Dummy-Assertionen, nur um die Abdeckung zu erzielen.
-Lassen Sie Dinge besser ungeprüft, um transparent zu machen, dass ihr sicheres Refactoring nicht mögich ist. Sie können eine Abdeckung von < 100 % und trotzdem perfekte Tests haben.
-Es gibt Fälle - wie z.B. IFs im Konstruktor zum Einfügen von Test-Doubles -, die das Erreichen von 100 % unpraktikabel machen.
-Gute Tests decken in der Regel dieselbe Anweisung mehrfach ab, für verschiedene Verzweigungen und Bedingungen.
+Erfinden Sie keine Tests ohne Assertions oder mit Dummy-Assertions,
+nur um eine Code-Coverage-Vorgabe zu erreichen.
+Lassen Sie Dinge besser ungeprüft, um transparent zu machen,
+dass sie nicht sicher refactoret werden können.
+Sie können eine Abdeckung von < 100 % und trotzdem perfekte Tests haben.
+Es gibt Fälle - wie z.B. IFs im Konstruktor zum Einfügen von Test-Doubles -,
+die das Erreichen von 100 % unpraktikabel machen.
+Gute Tests decken in der Regel dieselbe Anweisung mehrfach ab,
+für verschiedene Verzweigungen und Bedingungen.
 Sie haben in der Tat eine imaginäre Abdeckung von > 100 %.
 
 ### Testklassen
@@ -3917,7 +3964,8 @@ CLASS ltc_integration_tests DEFINITION FOR TESTING ... .
 CLASS ltc_unit_tests_with_mocks DEFINITION FOR TESTING ... .
 ```
 
-Gute Namen enthüllen die Stufe der Tests und die Gemeinsamkeit in ihrem Setup.
+Gute Namen beschreiben das Abstraktionsniveau der Tests
+und Gemeinsamkeiten in ihrem Setup.
 
 ```ABAP
 " Anti-Patterns
@@ -3925,18 +3973,25 @@ CLASS ltc_fra_online_detection_api DEFINITION FOR TESTING ... . " We know that's
 CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's a test, what else should it be?
 ```
 
-#### Tests in lokale Klassen integrieren
+#### Tests im lokalen Test-Include unterbringen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#tests-in-lokale-klassen-integrieren)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#tests-im-lokalen-test-include-unterbringen)
 
-Integrieren Sie die Unit Tests in das lokale Test-Include der getesteten Klasse. Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#testklassen-ausfhren) beschrieben.
+Bringen Sie die Unit Tests im lokalen Test-Include der getesteten Klasse unter.
+Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#testklassen-ausfhren) beschrieben.
 
-Integrieren Sie Komponenten-, Integrations- und Systemtests in das lokale Test-Include einer separaten globalen Klasse. 
+Bringen Sie Komponenten-, Integrations- und Systemtests
+im lokalen Test-Include einer separaten globalen Klasse unter. 
 Sie beziehen sich nicht direkt auf eine einzelne getestete Klasse, daher sollten sie nicht willkürlich in eine der beteiligten Klassen gestellt werden, sondern in eine getrennte Klasse.
 Kennzeichnen Sie diese globale Testklasse als `FOR TESTING` und `ABSTRACT`, um zu vermeiden, dass sie versehentlich im Produktionscode referenziert wird.
 Wenn Tests in andere Klassen gestellt werden, besteht die Gefahr, dass sie übersehen und beim Refactoring der beteiligten Klassen vergessen werden.
 
-Daher ist es von Vorteil, *Testbeziehungen* zu nutzen, um zu dokumentieren, welche Objekte vom Test abgedeckt werden. Mit dem Beispiel unten könnte die Testklasse `hiring_test` in Klasse `recruting` oder `candidate` mit dem Shortcut `Shift-Crtl-F12` (Windows) bzw. `Cmd-Shift-F12` (macOS) ausgeführt werden.
+Wenn möglich, nutzen Sie *Testbeziehungen*,
+um zu dokumentieren, welche Objekte vom Test abgedeckt werden.
+Mit dem Beispiel unten könnte die Testklasse `hiring_test`
+in Klasse `recruting` oder `candidate`
+mit dem Shortcut `Shift-Crtl-F12` (Windows)
+bzw. `Cmd-Shift-F12` (macOS) ausgeführt werden.
 
 ```abap
 "! @testing recruting
@@ -3948,11 +4003,15 @@ class hiring_test defintion
 endclass.
 ```
 
-#### Hilfsmethoden in Hilfeklassen integrieren
+#### Hilfsmethoden in Hilfsklassen extrahieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#hilfsmethoden-in-hilfeklassen-integrieren)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#hilfsmethoden-in-hilfsklassen-extrahieren)
 
-Integrieren Sie Hilfsmethoden, die von mehreren Testklassen verwendet werden, in eine Hilfsklasse. Machen Sie die Hilfsmethoden über Vererbung (ist eine Beziehung) oder Delegation (hat eine Beziehung) verfügbar.
+Extrahieren Sie Hilfsmethoden,
+die von mehreren Testklassen verwendet werden,
+in eine Hilfsklasse.
+Machen Sie die Hilfsmethoden über Vererbung („ist-ein“-Beziehung)
+oder Delegation („hat-ein“-Beziehung) verfügbar.
 
 ```abap
 " inheritance example
@@ -4024,7 +4083,7 @@ DATA very_long_blog_post TYPE REF TO ...
 ```
 
 Wenn Sie Probleme haben, einen sinnvollen Namen zu finden, verwenden Sie standardmäßig `cut`.
-Die Abkürzung steht für „Code unter Test“.
+Die Abkürzung steht für „code under test“ und passt für alles.
 
 ```ABAP
 DATA cut TYPE REF TO ...
@@ -4036,7 +4095,7 @@ Insbesondere in unsauberen und verwirrenden Tests kann das Aufrufen der Variable
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Getesteter Code](#getesteter-code) > [Dieser Abschnitt](#schnittstellen-testen-nicht-klassen)
 
-Als praktische Konsequenz von [_Nur Public-Parts testen_](#nur-public-parts-testen) geben Sie für den Typ Ihres getesteten Codes eine _Schnittstelle_ an,
+Als praktische Konsequenz von [_Nur PUBLIC-Anteile testen_](#nur-public-anteile-testen) geben Sie für den Typ Ihres getesteten Codes eine _Schnittstelle_ an,
 
 ```ABAP
 DATA code_under_test TYPE REF TO some_interface.
@@ -4049,11 +4108,14 @@ anstelle einer _Klasse_
 DATA code_under_test TYPE REF TO some_class.
 ```
 
-#### Aufruf an getesteten Code in seine eigene Methode extrahieren
+#### Aufruf des Code-Under-Test in eigene Methode extrahieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Getesteter Code](#getesteter-code) > [Dieser Abschnitt](#aufruf-an-getesteten-code-in-seine-eigene-methode-extrahieren)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Getesteter Code](#getesteter-code) > [Dieser Abschnitt](#aufruf-des-code-under-test-in-eigene-methode-extrahieren)
 
-Wenn die zu testende Methode eine Menge Parameter und aufbereitete Daten erfordert, kann es helfen, den Aufruf an die Methode in eine eigene Hilfsmethode zu extrahieren, die die unkritischen Parameter vorbelegt:
+Wenn die zu testende Methode eine Menge Parameter
+und aufbereitete Daten erfordert, kann es helfen,
+den Aufruf der Methode in eine eigene Hilfsmethode zu extrahieren,
+die die unkritischen Parameter vorbelegt:
 
 ```ABAP
 METHODS map_xml_to_itab
@@ -4100,7 +4162,7 @@ METHOD constructor.
 ENDMETHOD.
 ```
 
-Verwenden Sie nicht die Setter Injection. Sie gestattet die Nutzung des produktiven Codes auf nicht vorgesehene Weise:
+Verwenden Sie besser keine Setter-Injection. Sie gestattet die Nutzung des produktiven Codes auf nicht vorgesehene Weise:
 
 ```ABAP
 " Anti-Pattern
@@ -4114,9 +4176,9 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Verwenden Sie nicht die FRIENDS Injection.
+Verwenden Sie auch keine FRIENDS-Injection.
 Sie initialisiert produktive Abhängigkeiten, bevor diese ersetzt werden, mit wahrscheinlich unerwarteten Folgen. 
-Sie funktioniert nicht mehr, sobald Sie die Internal-Parts umbenennen.
+Sie funktioniert nicht mehr, sobald Sie Interna umbenennen.
 Außerdem verhindert sie Initialisierungen im Konstruktor.
 
 ```ABAP
@@ -4142,7 +4204,7 @@ cl_abap_testdouble=>configure_call( customizing_reader )->returning( sub_claim_c
 customizing_reader->read( 'SOME_ID' ).
 ```
 
-Kürzer und besser verständlich als angepasste Test-Doubles:
+Kürzer und besser verständlich als selbst programmierte Test-Doubles:
 
 ```ABAP
 " Anti-Pattern
@@ -4179,11 +4241,18 @@ Es stehen weitere Tools zur Verfügung, mit denen Sie kompliziertere Fälle eleg
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#testseams-als-temporre-behelfslsung-verwenden)
 
-Wenn alle anderen Techniken fehlschlagen, oder Sie sich im gefährlich seichten Wasser von Legacy-Code befinden, greifen Sie auf [Testseams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abendyn_access_data_obj_guidl.htm)zurück, um die Dinge testbar zu machen.
+Wenn alle anderen Techniken fehlschlagen,
+oder Sie gefährliche Untiefen in Legacy-Code navigieren,
+greifen Sie auf [Testseams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abendyn_access_data_obj_guidl.htm)
+zurück, um Dinge testbar zu machen.
 
-Auch wenn sie auf den ersten Blick komfortabel aussehen, sind Testseams invasiv und tendieren dazu, sich in privaten Abhängigkeiten zu verheddern, so dass es langfristig schwer ist, sie am Leben und stabil zu halten.
+Auch wenn sie auf den ersten Blick wie eine bequeme Dauerlösung wirken,
+sind Testseams invasiv und tendieren dazu,
+sich in privaten Abhängigkeiten zu verheddern,
+so dass es langfristig schwer ist, sie am Leben und stabil zu halten.
 
-Wir empfehlen daher, auf Testseams nur als temporäre Behelfslösung zuzugreifen, um den Code mittels Refactoring in eine besser testbare Form zu bringen.
+Wir empfehlen daher, auf Testseams nur als temporäre Behelfslösung zuzugreifen,
+um den Code mittels Refactoring in eine besser testbare Form zu bringen.
 
 #### Mit LOCAL FRIENDS auf Abhängigkeitsumkehr-Konstruktor zugreifen
 
@@ -4212,7 +4281,9 @@ ENDCLASS.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#local-friends-nicht-zum-eindringen-in-den-getesteten-code-missbrauchen)
 
-Unit Tests, die auf private und geschützte Mitglieder zugreifen, um Mock-Daten einzufügen, sind fragil: Sie versagen, wenn sich die interne Struktur des getesteten Codes ändert.
+Unit Tests, die auf `PRIVATE`- und `PROTECTED`-Anteile zugreifen,
+um Mock-Daten einzufügen, sind fragil:
+Sie versagen, wenn sich die interne Struktur des getesteten Codes ändert.
 
 ```ABAP
 " Anti-Pattern
@@ -4237,7 +4308,11 @@ IF me->in_test_mode = abap_true.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#keine-unterklassen-zum-nachstellen-von-methoden)
 
-Es wird davon abgeraten, Methodenunterklassen anzulegen und Methoden zu überschreiben, um diese in Ihren Unit Tests nachzustellen. Obwohl das funktioniert, ist es eine fragile Angelegenheit, weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-wenn-keine-vererbung-vorgesehen).
+Wir können nur davon abraten,
+Unterklassen anzulegen und Methoden zu überschreiben,
+um Test-Doubles für Unit Tests zu erstellen.
+Obwohl das funktioniert, ist es eine äußerst zerbrechliche Angelegenheit,
+weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-wenn-keine-vererbung-vorgesehen).
 
 ```ABAP
 " Anti-Pattern
@@ -4246,10 +4321,17 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
     METHODS needs_to_be_mocked REDEFINITION.
 ```
 
-Um Legacy-Code unter Test zu erhalten, [greifen Sie stattdessen auf Testseams zurück](#testseams-als-temporre-behelfslsung-verwenden).
-Sie sind ebenso fragil, aber trotzdem die sauberere Möglichkeit, weil sie zumindest nicht das produktive Verhalten der Klasse ändern. Dies würde geschehen, wenn die Vererbung aktiviert wird, indem ein früheres `FINAL`-Kennzeichen gelöscht oder der Methoden-Scope von `PRIVATE` in `PROTECTED` geändert wird.
+Um Legacy-Code unter Test zu bekommen,
+[greifen Sie besser auf Testseams zurück](#testseams-als-temporre-behelfslsung-verwenden).
+Sie sind zwar ebenso fragil, ändern aber wenigstens 
+das produktive Verhalten der Klassen nicht,
+weil sie weder `FINAL`s entfernen noch
+Methoden-Scopes von `PRIVATE` in `PROTECTED` ändern müssen.
 
-Beim Schreiben von neuem Code berücksichtigen Sie dieses Thema der Testbarkeit direkt beim Entwurf der Klasse, und suchen Sie nach einer anderen, besseren Vorgehensweise. Zu den gängigen bewährten Praktiken zählen die [Nutzung anderer Testtools](#von-test-tools-untersttzen-lassen) und die Extraktion der Problemmethode in eine separate Klasse mit ihrer eigenen Schnittstelle.
+Beim Schreiben von neuem Code berücksichtigen Sie das Thema Testbarkeit
+am besten direkt beim Entwurf der Klasse,
+und suchen Sie nach einer anderen, besseren Vorgehensweise.
+Zu den gängigen bewährten Praktiken zählen die [Nutzung anderer Testtools](#von-test-tools-untersttzen-lassen) und die Extraktion der Problemmethode in eine separate Klasse mit ihrer eigenen Schnittstelle.
 
 > Eine spezifischere Variante von [Produktiven Code nicht zugunsten Testbarkeit ändern](#produktiven-code-nicht-zugunsten-testbarkeit-ndern).
 
@@ -4263,7 +4345,11 @@ cut = NEW /clean/class_under_test( db_reader = db_reader
                                    writer    = VALUE #( ) ).
 ```
 
-Definieren Sie Ihre Gegebenheiten („given“) so präzise wie möglich: Legen Sie keine Daten fest, die Ihr Test nicht benötigt, und stellen Sie keine Objekte nach, die nie aufgerufen werden. Diese Dinge lenken den Leser vom eigentlichen Geschehen ab.
+Definieren Sie die Voraussetzungen Ihres Tests („given“)
+so präzise wie möglich: Legen Sie keine Daten fest,
+die Ihr Test nicht benötigt, und stellen Sie keine Objekte nach,
+die nie aufgerufen werden
+ Diese Dinge lenken den Leser nur unnötig vom eigentlichen Geschehen ab.
 
 ```ABAP
 " Anti-Pattern
@@ -4272,13 +4358,20 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
                                    writer    = writer ).
 ```
 
-Es kann vorkommen, dass überhaupt keine Notwendigkeit besteht, überhaupt irgendetwas nachzustellen - dies ist gewöhnlich bei Datenstrukturen und Datencontainern der Fall. So kann Ihr Unit Test beispielsweise mit der produktiven Version eines `transient_log` gut funktionieren, weil dieses die Daten ohne jegliche Nebeneffekte einfach speichert.
+Es kann vorkommen, dass überhaupt keine Notwendigkeit besteht,
+überhaupt Test-Doubles einzusetzen -
+dies ist für gewöhnlich bei Datenstrukturen und Datencontainern der Fall.
+So könnte Ihr Unit Test beispielsweise mit der produktiven Version
+eines `transient_log` gut funktionieren,
+weil dieses die Daten ohne jegliche Nebeneffekte einfach speichert.
 
 #### Keine Test-Frameworks aufbauen
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#keine-test-frameworks-aufbauen)
 
-Unit Tests - im Gegensatz zu Integrationstests - sollten auf der „Daten rein-Daten-raus-Basis“ funktionieren, während alle Testdaten bei Bedarf dynamisch definiert werden.
+Unit Tests - im Gegensatz zu Integrationstests -
+sollten auf der „Daten-rein-Daten-raus-Basis“ funktionieren,
+wobei alle Testdaten nach Bedarf „im Vorübergehen“ zusammengestellt werden.
 
 ```ABAP
 cl_abap_testdouble=>configure_call( test_double )->returning( data ).
@@ -4305,7 +4398,8 @@ ENDCASE.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#testmethodennamen-was-ist-gegeben-was-wird-erwartet)
 
-Gute Namen reflektieren das „given“ (die Ausgangssituation des Tests) und das „then“ (Ergebnis ist die gewünschte Zielsituation) des Tests:
+Gute Namen reflektieren das „given“ (die Voraussetzungen des Tests)
+und das „then“ (die gewünschte Zielsituation) des Tests:
 
 ```ABAP
 METHOD reads_existing_entry.
@@ -4313,45 +4407,57 @@ METHOD throws_on_invalid_key.
 METHOD detects_invalid_input.
 ```
 
-Schlechte Namen reflektieren das „when“ (Wenn in dieser Situation ein bestimmtes Ereignis eintritt), wiederholen bedeutungslose Fakten oder sind kryptisch:
+Schlechte Namen reflektieren das „when“ (die getestete Methode),
+wiederholen bedeutungslose Fakten, oder sind einfach nur kryptisch:
 
 ```ABAP
 " Anti-Patterns
 
-" What's expected, success or failure?
+" Was wird erwartet, Erfolg oder Fehler?
 METHOD get_conversion_exits.
 
-" It's a test method, what else should it do but "test"?
+" Es ist eine Testmethode.
+" Was wird sie wohl anderes tun als "testen"?
 METHOD test_loop.
 
-" So it's parameterized, but what is its aim?
+" Ist also parameterisiert, okay, toll.
+" Aber was genau und wozu?
 METHOD parameterized_test.
 
-" What's "_wo_w" supposed to mean and will you still remember that in a year from now?
+" Was soll wohl das kryptische Suffix "_wo_w" bedeuten?
+" Werden Sie sich in einem Jahr noch daran erinnern?
 METHOD get_attributes_wo_w.
 ```
 
-Da ABAP nur 30 Zeichen in Methodennamen gestattet, ist es angebracht, einen erläuternden Kommentar hinzuzufügen, wenn der Name zu kurz ist, um eine ausreichende Bedeutung zu übermitteln. ABAP Doc oder die erste Zeile der Testmethode können eine geeignete Wahl für den Kommentar sein.
+Da ABAP nur 30 Zeichen in Methodennamen gestattet, ist es okay, einen erläuternden Kommentar hinzuzufügen, wenn der Name zu kurz ist, um eine ausreichende Bedeutung zu übermitteln. ABAP Doc oder die erste Zeile der Testmethode können eine geeignete Wahl für den Kommentar sein.
 
-Eine Menge Testmethoden, deren Namen zu lang sind, können ein Hinweis darauf sein, dass Sie Ihre einzelne Testklasse in mehrere Testklassen aufteilen und die Unterschiede im „given“ des jeweiligen Klassennamens ausdrücken sollten.
+Haben Sie sehr viele Testmethoden mit überlangen Namen,
+könnte das ein Hinweis darauf sein,
+dass Sie eine einzelne Testklasse besser in mehrere Testklassen aufteilen,
+und die Unterschiede in den Voraussetzungen („given“)
+in den jeweiligen Klassennamen ausdrücken sollten.
 
 #### Given/When/Then verwenden
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#givenwhenthen-verwenden)
 
-Organisieren Sie Ihren Testcode anhand des „Given-When-Then“-Paradigmas:
-Als Erstes initialisieren das Gegebene im Abschnitt „given“.
-Als Nächstes rufen Sie die tatsächlich getestete Sache auf („when“),
-und im dritten Schritt validieren Sie das Ergebnis („then“).
+Organisieren Sie Ihren Testcode entlang des „Given-When-Then“-Paradigmas:
+Als erstes initialisieren Sie alle Voraussetzungen im Abschnitt „given“.
+Als nächstes rufen Sie den zu testenden Code auf („when“).
+Zuletzt validieren Sie das erwartete Ergebnis („then“).
 
-Werden die Abschnitte „given“ oder „then“ so lang, dass Sie die drei Abschnitte nicht mehr klar auseinanderhalten können, extrahieren Sie Untermethoden.
-Leerzeilen oder Kommentare zur Trennung sehen auf den ersten Blick vielleicht gut aus, beheben jedoch nicht wirklich das visuelle Wirrwarr. Trotzdem sind sie für den Leser und unerfahrene Testentwickler hilfreich beim Trennen der einzelnen Abschnitte.
+Werden die Abschnitte „given“ oder „then“ so lang,
+dass Sie die drei Abschnitte nicht mehr klar auseinanderhalten können,
+extrahieren Sie am besten Untermethoden.
+Leerzeilen oder Kommentare zur Trennung sind ebenfalls ein erster guter Schritt,
+auf Dauer sind jedoch eigene Untermethoden die leserlichere Wahl.
 
 #### „When“ ist genau ein Aufruf
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testmethoden](#testmethoden) > [Dieser Abschnitt](#when-ist-genau-ein-aufruf)
 
-Stellen Sie sicher, dass der „when“-Abschnitt Ihrer Testmethode genau einen Aufruf an die getestete Klasse enthält.
+Stellen Sie sicher, dass der „when“-Abschnitt Ihrer Testmethode
+genau eine Anweisung umasst, nämlich den Aufruf des zu testenden Codes.
 
 ```ABAP
 METHOD rejects_invalid_input.
@@ -4362,7 +4468,12 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-Der Aufruf mehrerer Dinge gleichzeitig verrät, dass die Methode keinen klaren Fokus hat und zu viele Dinge testet. Dies erschwert das Auffinden der Ursache, wenn der Test fehlschlägt: War es der erste, zweite oder dritte Aufruf, der den Fehler verursacht hat? Außerdem verwirrt es den Leser, da er nicht genau ersehen kann, welche Funktion eigentlich getestet wird.
+Der Aufruf mehrerer Dinge ist ein Zeichen dafür,
+dass die Methode keinen klaren Fokus hat und zu viele Dinge testet.
+Dies erschwert das Auffinden der Ursache, wenn der Test fehlschlägt:
+War es der erste, zweite oder dritte Aufruf, der den Fehler verursacht hat?
+Außerdem verwirrt es den Leser, da er nicht genau erkennen kann,
+welche Funktion eigentlich getestet wird.
 
 #### TEARDOWN nur, wenn es sein muss
 
@@ -4370,7 +4481,10 @@ Der Aufruf mehrerer Dinge gleichzeitig verrät, dass die Methode keinen klaren F
 
 `teardown`-Methoden werden gewöhnlich nur zum Bereinigen von Datenbankeinträgen oder anderen externen Ressourcen in Integrationstests benötigt.
 
-Das Zurücksetzen der Testklassenmitglieder, insbesondere `cut`, und der verwendeten Test-Doubles ist überflüssig. Sie werden vor dem Start der nächsten Testmethode von der `setup`-Methode überschrieben.
+Das Zurücksetzen der Attribute der Testklasse,
+insbesondere `cut`, und der verwendeten Test-Doubles ist überflüssig:
+Sie werden vor dem Start der nächsten Testmethode
+von der `setup`-Methode überschrieben.
 
 ### Testdaten
 
@@ -4426,15 +4540,15 @@ METHOD throws_on_invalid_entry.
 ENDMETHOD.
 ```
 
-### Assertionen
+### Assertions
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#assertionen)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#Assertions)
 
-#### Wenige, fokussierte Assertionen
+#### Wenige, fokussierte Assertions
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#wenige-fokussierte-assertionen)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#wenige-fokussierte-Assertions)
 
-Versichern Sie nur genau das, worum es in der Testmethode geht, und verwenden Sie dazu wenige Assertionen.
+Validieren Sie nur genau das, worum es in der Testmethode geht, und verwenden Sie dazu wenige Assertions.
 
 ```ABAP
 METHOD rejects_invalid_input.
@@ -4445,7 +4559,7 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-Zu viele Assertionen sind ein Hinweis darauf, dass die Methode keinen klaren Fokus hat. Hierdurch wird produktiver Code und Testcode an zu vielen Stellen aneinandergekoppelt: Wird eine Funktion geändert, muss eine große Anzahl von Tests umgeschrieben werden, obwohl sie nicht wirklich etwas mit der geänderten Funktion zu tun haben. Zu viele Assertionen sind außerdem für den Leser verwirrend, weil die einzige wichtige Assertion, auf die es ankommt, schwer erkennbar ist.
+Zu viele Assertions sind ein Hinweis darauf, dass die Methode keinen klaren Fokus hat. Hierdurch wird produktiver Code und Testcode an zu vielen Stellen aneinandergekoppelt: Wird eine Funktion geändert, muss eine große Anzahl von Tests umgeschrieben werden, obwohl sie nicht wirklich etwas mit der geänderten Funktion zu tun haben. Zu viele Assertions sind außerdem für den Leser verwirrend, weil die eine wichtige Assertion, auf die es ankommt, schwer erkennbar ist.
 
 ```ABAP
 " Anti-Pattern
@@ -4460,32 +4574,40 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-#### Korrekten Assertionstyp verwenden
+#### Korrekten Assertion-Typ verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#korrekten-assertionstyp-verwenden)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#korrekten-assertion-typ-verwenden)
 
 ```ABAP
 cl_abap_unit_assert=>assert_equals( act = table
                                     exp = test_data ).
 ```
 
-Assertionen tun häufig mehr, als es auf den ersten Blick erscheint. So umfasst `assert_equals` beispielsweise die Typenähnlichkeitsfindung und stellt präzise Beschreibungen zur Verfügung, wenn Werte abweichen. Eine Verwendung von falschen, zu allgemeinen Assertionen zwingt Sie sofort in den Debugger, anstatt Ihnen die Möglichkeit zu geben, den Fehler direkt aus der Fehlermeldung zu ersehen.
+Assertions tun häufig mehr, als es auf den ersten Blick erscheint.
+So prüft `assert_equals` beispielsweise nebenher auch
+ob die beiden Datentypen kompatibel sind und
+stellt präzise Beschreibungen zur Verfügung, wenn Werte abweichen.
+
+Die Verwendung von falschen, zu allgemeinen Assertions zwingt Sie sofort in den Debugger, anstatt Ihnen die Möglichkeit zu geben, den Fehler direkt aus der Fehlermeldung zu ersehen.
 
 ```ABAP
 " Anti-Pattern
 cl_abap_unit_assert=>assert_true( xsdbool( act = exp ) ).
 ```
 
-#### Inhalt, nicht Menge zusichern
+#### Inhalt, nicht Menge validieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#inhalt-nicht-menge-zusichern)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#inhalt-nicht-menge-validieren)
 
 ```ABAP
 assert_contains_exactly( actual   = table
                          expected = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
 ```
 
-Schreiben Sie keine Magische-Zahlen-Mengenassertionen, wenn Sie den tatsächlichen Inhalt benennen können, den Sie erwarten. Zahlen können variieren, obwohl die Erwartungen trotzdem erfüllt werden. Umgekehrt können die Zahlen stimmen, obwohl der Inhalt etwas völlig Unerwartetes ist. 
+Schreiben Sie keine Magische-Zahlen-Mengen-Assertions,
+wenn Sie den tatsächlichen Inhalt benennen können, den Sie erwarten.
+Zahlen können abweichen, obwohl Ihre Erwartungen trotzdem erfüllt werden.
+Umgekehrt können die Zahlen stimmen, obwohl der Inhalt etwas völlig Unerwartetes ist. 
 
 ```ABAP
 " Anti-Pattern
@@ -4493,18 +4615,25 @@ assert_equals( act = lines( log_messages )
                exp = 3 ).
 ```
 
-#### Qualität, nicht Inhalt zusichern
+#### Qualität, nicht Inhalt validieren
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#qualitt-nicht-inhalt-zusichern)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#qualitt-nicht-inhalt-validieren)
 
-Wenn Sie an der Metaqualität des Ergebnisses interessiert sind, jedoch nicht an dem eigentlichen Inhalt, drücken Sie dies mit einer geeigneten Assertion aus:
+Wenn Sie an der Meta-Qualität des Ergebnisses interessiert sind,
+jedoch nicht am eigentlichen Inhalt,
+drücken Sie dies mit einer geeigneten Assertion aus:
 
 ```ABAP
 assert_all_lines_shorter_than( actual_lines        = table
                                expected_max_length = 80 ).
 ```
 
-Die Assertion des präzisen Inhalts verschleiert, was Sie wirklich testen möchten. Es ist außerdem eine fragile Vorgehensweise, weil durch das Refactoring möglicherweise ein anderes, jedoch völlig akzeptables Ergebnis erzielt wird, obwohl es alle Ihre zu präzisen Unit Tests durchbricht.
+Die Validierung des präzisen Inhalts verschleiert,
+was Sie wirklich testen möchten.
+Es ist außerdem fragil,
+weil durch Refactoring möglicherweise ein anderes,
+jedoch völlig akzeptables Ergebnis erzielt wird,
+obwohl es Ihren überpräzisen Unit Tests widerspricht.
 
 ```ABAP
 " Anti-Pattern
@@ -4514,7 +4643,7 @@ assert_equals( act = table
 
 #### FAIL zum Prüfen erwarteter Ausnahmen verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
 
 ```ABAP
 METHOD throws_on_empty_input.
@@ -4530,7 +4659,7 @@ ENDMETHOD.
 
 #### Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
 
 ```ABAP
 METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
@@ -4557,9 +4686,9 @@ METHOD reads_entry.
 ENDMETHOD.
 ```
 
-#### Angepasste Assertionen: Code verkürzen, Doppeltes vermeiden
+#### Angepasste Assertions: Code verkürzen, Doppeltes vermeiden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertionen](#assertionen) > [Dieser Abschnitt](#angepasste-assertionen-code-verkrzen-doppeltes-vermeiden)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Assertions](#Assertions) > [Dieser Abschnitt](#angepasste-Assertions-code-verkrzen-doppeltes-vermeiden)
 
 ```ABAP
 METHODS assert_contains
