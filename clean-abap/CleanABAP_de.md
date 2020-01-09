@@ -63,7 +63,7 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
    - [Literale mit ` definieren](#literale-mit--definieren)
    - [Text mit | zusammensetzen](#text-mit--zusammensetzen)
 - [Boolesche Ausdrücke](#boolesche-ausdrcke)
-   - [Boolesche Ausdrücke mit Bedacht einsetzen](#boolesche-ausdrcke-mit-bedacht-einsetzen)
+   - [Boolesche Variablen mit Bedacht einsetzen](#boolesche-variablen-mit-bedacht-einsetzen)
    - [ABAP_BOOL für boolesche Ausdrücke verwenden](#abap_bool-fr-boolesche-ausdrcke-verwenden)
    - [ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden](#abap_true-und-abap_false-fr-vergleiche-verwenden)
    - [XSDBOOL für boolesche Variablen verwenden](#xsdbool-fr-boolesche-variablen-verwenden)
@@ -79,24 +79,24 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 - [Reguläre Ausdrücke](#regulre-ausdrcke)
    - [Besser einfachere Methoden als reguläre Ausdrücke](#besser-einfachere-methoden-als-regulre-ausdrcke)
    - [Besser Basisprüfungen als reguläre Ausdrücke](#besser-basisprfungen-als-regulre-ausdrcke)
-   - [Komplexe reguläre Ausdrücke assemblieren](#komplexe-regulre-ausdrcke-zusammensetzen)
+   - [Komplexe reguläre Ausdrücke zusammensetzen](#komplexe-regulre-ausdrcke-zusammensetzen)
 - [Klassen](#klassen)
    - [Klassen: Objektorientierung](#klassen-objektorientierung)
       - [Besser Objekte als statische Klassen](#besser-objekte-als-statische-klassen)
       - [Besser Komposition als Vererbung](#besser-komposition-als-vererbung)
       - [Kein Mix von Stateful und Stateless in derselben Klasse](#kein-mix-von-stateful-und-stateless-in-derselben-klasse)
    - [Scope](#scope)
-      - [Global ist Standard, lokal nur im Bedarfsfall](#global-ist-standard-lokal-nur-im-bedarfsfall)
+      - [Global als Standard, lokal nur im Bedarfsfall](#global-als-standard-lokal-nur-im-bedarfsfall)
       - [FINAL, wenn keine Vererbung vorgesehen](#final-wenn-keine-vererbung-vorgesehen)
-      - [Mitglieder standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED](#mitglieder-standardmig-private-nur-im-bedarfsfall-protected)
-      - [Unveränderlichkeit anstelle des Getter erwägen](#unvernderlichkeit-anstelle-des-getter-erwgen)
+      - [Attribute und Methoden standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED](#attribute-und-methoden-standardmig-private-nur-im-bedarfsfall-protected)
+      - [Unveränderlichkeit anstelle von Gettern erwägen](#unvernderlichkeit-anstelle-von-gettern-erwgen)
       - [READ-ONLY sparsam verwenden](#read-only-sparsam-verwenden)
    - [Konstruktoren](#konstruktoren)
       - [Besser NEW als CREATE OBJECT](#besser-new-als-create-object)
       - [Bei globaler Klasse CREATE PRIVATE lassen Sie den CONSTRUCTOR öffentlich](#bei-globaler-klasse-create-private-lassen-sie-den-constructor-ffentlich)
-      - [Besser mehrere statische Erstellungsmethoden als optionale Parameter](#besser-mehrere-statische-erstellungsmethoden-als-optionale-parameter)
+      - [Besser mehrere statische Konstruktionsmethoden als optionale Parameter](#besser-mehrere-statische-konstruktionsmethoden-als-optionale-parameter)
       - [Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
-      - [Singletons nur, wenn Multi-Instanzen keinen Sinn machen](#singletons-nur-wenn-multi-instanzen-keinen-sinn-machen)
+      - [Singletons nur, wenn mehrere Instanzen keinen Sinn machen](#singletons-nur-wenn-mehrere-instanzen-keinen-sinn-machen)
 - [Methoden](#methoden)
    - [Aufrufe](#aufrufe)
       - [Besser funktionale als prozedurale Aufrufe](#besser-funktionale-als-prozedurale-aufrufe)
@@ -1060,9 +1060,9 @@ DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message 
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#boolesche-ausdrcke)
 
-### Boolesche Ausdrücke mit Bedacht einsetzen
+### Boolesche Variablen mit Bedacht einsetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#boolesche-ausdrcke) > [Dieser Abschnitt](#boolesche-ausdrcke-mit-bedacht-einsetzen)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Boolesche Ausdrücke](#boolesche-ausdrcke) > [Dieser Abschnitt](#boolesche-variablen-mit-bedacht-einsetzen)
 
 Wir treffen häufig auf Fälle, in denen boolesche Ausdrücke die natürliche Wahl zu sein scheinen,
 
@@ -1077,7 +1077,10 @@ bis eine Änderung der Perspektive nahelegt, dass eine Enumeration besser gewese
 archiving_status = /clean/archivation_status=>archiving_in_process.
 ```
 
-Im Allgemeinen sind boolesche Ausdrücke eine ungeeignete Wahl zur Unterscheidung der Typen von verschiedenen Dingen, da Sie fast immer auf Fälle stoßen werden, die nicht ausschließlich das Eine oder das Andere sind.
+Im Allgemeinen sind boolesche Variablen ungeeignet,
+um Typen von Dingen zu unterscheiden,
+da Sie fast immer auf Fälle stoßen werden,
+die nicht ausschließlich das eine oder das andere sind.
 
 ```ABAP
 assert_true( xsdbool( document->is_archived( ) = abap_true AND
@@ -1151,7 +1154,7 @@ ENDIF.
 
 `xsdbool` ist die beste Methode für unseren Zweck, da sie direkt ein `char1` produziert, das am Besten zu unserem booleschen Typ `abap_bool` passt. Die äquivalenten Funktionen `boolc` und `boolx` erzeugen andere Typen und führen darüber hinaus zu einer überflüssigen, impliziten Typkonvertierung.
 
-Wir stimmen damit überein, dass der Name `xsdbool` unglücklich und irreführend ist - schließlich sind wir überhaupt nicht an den XML-Schemadefinition interessiert, die das Präfix „xsd“ nahelegt.
+Wir stimmen darin überein, dass der Name `xsdbool` unglücklich und irreführend ist - schließlich sind wir überhaupt nicht an den XML-Schemadefinition interessiert, die das Präfix „xsd“ nahelegt.
 
 Eine mögliche Alternative zu `xsdbool` ist die `COND`-Dreifach-Form. Ihre Syntax ist intuitiv, aber ein bisschen länger, weil sie überflüssigerweise das Segment `THEN abap_true` wiederholt und Kenntnis des impliziten Standardwerts `abap_false` erfordert. Daher schlagen wir diese Form nur als Zweitlösung vor.
 
@@ -1171,14 +1174,14 @@ DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 IF has_entries = abap_true.
 ```
 
-Sehen Sie zum Vergleich, wie schwer verständlich dieselbe Anweisung durch Umkehr wird:
+Sehen Sie zum Vergleich, wie schwer verständlich dieselbe Anweisung durch doppelte Verneinung wird:
 
 ```ABAP
 " Anti-Pattern
 IF has_no_entries = abap_false.
 ```
 
-Der Hinweis „nach Möglichkeit“ im Abschnittstitel bedeutet, dass Sie dies nicht bis zu dem Punkt erzwingen sollten, wo sie mit Dingen wie [leeren IF-Verzweigungen](#keine-leeren-if-verzweigungen) enden.
+Der Hinweis „nach Möglichkeit“ im Abschnittstitel bedeutet, dass Sie dies nicht bis zu einem Punkt treiben sollten, wo sie mit [leeren IF-Verzweigungen](#keine-leeren-if-verzweigungen) oder ähnlich sinnlosen Konstrukten enden.
 
 ```ABAP
 " Anti-Pattern
@@ -1200,7 +1203,7 @@ IF variable NP 'TODO*'.
 IF variable <> 42.
 ```
 
-Verneinung ist logisch äquivalent, erfordert jedoch eine mentale Umkehrung, die sie schwieriger verständlich macht.
+Die Negation der Bedingung mit `NOT` ist zwar logisch gleichwertig, erfordert jedoch eine Nachbearbeitung im Kopf, die sie schwieriger verständlich macht.
 
 ```ABAP
 " Anti-Pattern
@@ -1365,9 +1368,9 @@ WHILE contains( val = input  sub = 'abc' ).
 " WHILE contains( val = input  regex = 'abc' ).
 ```
 
-Reguläre Ausdrücke werden sehr schnell unverständlich. Einfache Fälle sind in der Regel problemloser, wenn auf reguläre Ausdrücke verzichtet wird.
+Reguläre Ausdrücke werden sehr schnell unverständlich. Einfache Fälle sind in der Regel besser verständlich, wenn auf reguläre Ausdrücke verzichtet wird.
 
-Reguläre Ausdrücke verbrauchen außerdem in der Regel mehr Speicher und Verarbeitungszeit, da sie in einen Ausdrucksbaum geparst und zur Laufzeit in einen ausführbaren Matcher kompiliert werden müssen. Einfache Lösungen kommen evtl. mit einer simplen Loop und einer temporären Variable aus.
+Reguläre Ausdrücke verbrauchen außerdem in der Regel mehr Speicher und Verarbeitungszeit, da sie in einen Ausdrucksbaum geparst und zur Laufzeit in einen ausführbaren Matcher kompiliert werden müssen. Einfache Lösungen kommen evtl. mit einer simplen Schleife und temporären Variable aus.
 
 ### Besser Basisprüfungen als reguläre Ausdrücke
 
@@ -1389,9 +1392,12 @@ DATA(is_valid) = matches( val     = class_name
                           pattern = '[A-Z][A-Z0-9_]{0,29}' ).
 ```
 
-> Es gibt anscheinend eine natürliche Tendenz zur Blindheit für das Don't-Repeat-Yourself(DRY)-Prinzip („wiederhole dich nicht“), wenn es um reguläre Ausdrücke geht. Siehe hierzu Abschnitt _Kapitel 17: Smells und Heuristiken: Allgemein: G5: Duplizierung_ in [Robert C. Martins _Clean Code_].
+> Es scheint eine natürliche Tendenz zu geben,
+> das Prinzip Don't-Repeat-Yourself (DRY) („wiederhole dich nicht“)
+> aus den Augen zu verlieren, sobald es um reguläre Ausdrücke geht.
+Siehe hierzu Abschnitt _Kapitel 17: Smells und Heuristiken: Allgemein: G5: Duplizierung_ in [Robert C. Martins _Clean Code_].
 
-### Komplexe reguläre Ausdrücke assemblieren
+### Komplexe reguläre Ausdrücke zusammensetzen
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Reguläre Ausdrücke](#regulre-ausdrcke) > [Dieser Abschnitt](#komplexe-regulre-ausdrcke-zusammensetzen)
 
@@ -1401,7 +1407,7 @@ CONSTANTS interface_name TYPE string VALUE `IF\_.*`.
 DATA(object_name) = |{ class_name }\|{ interface_name }|.
 ```
 
-Manche komplexe reguläre Ausdrücke werden einfacher verständlich, wenn Sie dem Leser zeigen, wie diese sich aus elementaren Bestandteilen zusammensetzen.
+Manche komplexe reguläre Ausdrücke werden einfacher verständlich, wenn Sie dem Leser zeigen, wie sie sich aus elementaren Bestandteilen zusammensetzen.
 
 ## Klassen
 
@@ -1415,11 +1421,16 @@ Manche komplexe reguläre Ausdrücke werden einfacher verständlich, wenn Sie de
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung) > [Dieser Abschnitt](#besser-objekte-als-statische-klassen)
 
-Statische Klassen verzichten zunächst einmal auf alle Vorteile, die durch die Objektorientierung erzielt wurden. Sie machen es insbesondere fast unmöglich, produktive Abhängigkeiten in Modultests durch Testattrappen zu ersetzen.
+Statische Klassen geben alle Vorteile auf, die durch die Objektorientierung überhaupt erst möglich werden. Sie machen es insbesondere fast unmöglich, in Unit Tests produktive Abhängigkeiten durch Test-Doubles zu ersetzen.
 
 Wenn Sie darüber nachdenken, ob Sie eine Klasse oder Methode statisch machen sollten, lautet die Antwort fast immer: Nein.
 
-Eine akzeptierte Ausnahme zu dieser Regel sind einfache utils-Klassen. Ihre Methoden machen es einfacher, mit bestimmten ABAP-Typen zu interagieren. Sie sind nicht nur vollständig stateless, sondern auch so simpel, dass sie wie ABAP-Anweisungen oder integrierte Funktionen aussehen. Der unterscheidende Faktor ist, dass ihre Konsumenten diese Klassen so eng in ihren Code einbinden, dass sie diese nicht in Modultests nachstellen möchten.
+Eine akzeptierte Ausnahme zu dieser Regel sind einfache Utilities-Klassen.
+Methoden solcher Klassen vereinfachen die Verarbeitung bestimmter ABAP-Typen.
+Sie sind nicht nur vollständig zustandslos, sondern auch so simpel,
+dass sie wie ABAP-Anweisungen oder integrierte Funktionen aussehen.
+Der unterscheidende Faktor ist, dass Konsumenten diese Klassen so eng
+in ihren Code einbinden, dass sie diese in Unit Tests nicht durch Test-Doubles ersetzen möchten.
 
 ```ABAP
 CLASS /clean/string_utils DEFINITION [...].
@@ -1442,18 +1453,18 @@ ENDMETHOD.
 
 Vermeiden Sie den Aufbau von Klassenhierarchien mit Vererbung. Bevorzugen Sie stattdessen Komposition.
 
-Das Design einer sauberen Vererbung ist schwierig, da Sie Regeln beachten müssen, wie z.B. das [Liskovsche Substitutionsprinzip](https://de.wikipedia.org/wiki/Liskovsches_Substitutionsprinzip).
-Sie ist außerdem schwer verständlich, weil hierzu die Grundprinzipien hinter der Hierarchie realisiert und verstanden sein müssen.
+Vererbung sauber zu designen ist schwierig, da Sie Regeln wie z.B. das [Liskovsche Substitutionsprinzip](https://de.wikipedia.org/wiki/Liskovsches_Substitutionsprinzip) beachten müssen.
+Sie ist außerdem schwer verständlich, weil zunächst die Grundidee hinter der Hierarchie wahrgenommen und verstanden werden muss.
 Vererbung reduziert die Wiederverwendung, weil die Methoden tendenziell nur den Subklassen verfügbar gemacht werden.
-Sie macht außerdem das Refactoring komplizierter, da wechselnde oder veränderte Mitglieder oftmals Änderungen am gesamten Hierarchiebaum erfordern.
+Sie macht außerdem das Refactoring komplizierter, da der Austausch oder die Veränderung von vererbten Attributen oftmals Änderungen am gesamten Hierarchiebaum erfordern.
 
 Komposition bedeutet, dass Sie kleine, unabhängige Objekte entwerfen, von denen jedes einem bestimmten Zweck dient.
-Diese Objekte können mittels einfacher Delegations- und Fassadenmuster in komplexeren Objekten neu kombiniert werden.
-Komposition kann zur Erzeugung von mehr Klassen führen, hat jedoch sonst keine weiteren Nachteile.
+Diese Objekte können mittels einfacher Delegations- und Fassadenmuster zu komplexeren Objekten zusammengebaut werden.
+Komposition führt zahlenmäßig zu mehr Klassen, hat jedoch sonst keine weiteren Nachteile.
 
-Lassen Sie sich von dieser Regel nicht entmutigen, die Vererbung an der richtigen Stelle zu verwenden.
-Es gibt gute Anwendungsmöglichkeiten für die Vererbung, wie z.B.
-das [Composite Design Pattern](https://de.wikipedia.org/wiki/Kompositum_(Entwurfsmuster)).
+Lassen Sie sich von dieser Regel nicht entmutigen, Vererbung an passenden Stelle zu verwenden.
+Es gibt gute Anwendungsmöglichkeiten für Vererbung, wie z.B.
+das [Composite Design Pattern](https://de.wikipedia.org/wiki/Kompositum_%28Entwurfsmuster%29).
 Fragen Sie sich einfach nur kritisch, ob die Vererbung in Ihrem Fall wirklich mehr Vorteile als Nachteile mit sich bringen wird.
 Wenn Sie Zweifel haben, ist die Komposition im Allgemeinen die sicherere Wahl.
 
@@ -1466,7 +1477,7 @@ vergleicht einige Details.
 
 Vermischen Sie die Stateless- und Stateful-Programmiermodelle nicht in derselben Klasse.
 
-In der Stateless-Programmierung erhalten Methoden Eingabe und produzieren Ausgabe,
+In der Stateless-Programmierung erhalten Methoden Eingaben und produzieren Ausgaben,
 _ohne jegliche Nebeneffekte_, und resultieren in Methoden, die dasselbe Ergebnis produzieren, unabhängig davon, wann und in welcher Reihenfolge sie aufgerufen werden.
 
 ```ABAP
@@ -1510,40 +1521,41 @@ ENDCLASS.
 ```
 
 Beide Modelle sind in Ordnung und haben ihre Anwendungsmöglichkeiten.
-Wenn Sie diese Modelle jedoch im selben Objekt _mixen_, wird Code erzeugt, der schwer verständlich ist und garantiert mit unklaren Übertragungsfehlern und Synchronitätsproblemen fehlschlägt. Hiervon wird abgeraten.
+Wenn Sie diese Modelle jedoch im selben Objekt _mischen_, wird Code erzeugt, der schwer verständlich ist und garantiert mit unklaren Übertragungsfehlern und Synchronitätsproblemen fehlschlägt.
+Wir können hier nur von abraten.
 
 ### Scope
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Dieser Abschnitt](#scope)
 
-#### Global ist Standard, lokal nur im Bedarfsfall
+#### Global als Standard, lokal nur im Bedarfsfall
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#global-ist-standard-lokal-nur-im-bedarfsfall)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#global-als-standard-lokal-nur-im-bedarfsfall)
 
-Arbeiten Sie standardmäßig mit globalen Klassen. Verwenden Sie lokale Klassen nur wo geeignet.
+Arbeiten Sie standardmäßig mit globalen Klassen. Verwenden Sie lokale Klassen nur, wo geeignet.
 
 > Globale Klassen sind die Klassen, die im Data Dictionary sichtbar sind.
 Lokale Klassen existieren innerhalb des Includes eines anderen Entwicklungsobjekts und sind nur für dieses andere Objekt sichtbar.
 
 Lokale Klassen eignen sich
 
-- für sehr spezifische private Datenstrukturen, z.B. einen Iterator für die Daten der globalen Klasse, die immer nur hier benötigt werden,
+- für sehr spezifische private Datenstrukturen, z.B. einen Iterator für die Daten der globalen Klasse, der ausschließlich hier benötigt wird,
 
-- um einen komplexen privaten Algorithmus zu extrahieren, z.B. zur Trennung dieses speziellen Multi-Methoden-Sortieraggregat-Algorithmus vom Rest des Codes Ihrer Klasse,
+- um einen komplexen privaten Algorithmus zu extrahieren, z.B. zur Trennung dieses speziellen Multi-Methoden-Sortier-Aggregat-Algorithmus vom Rest des Codes Ihrer Klasse,
 
-- damit bestimmte Aspekte der globalen Klasse nachgestellt werden können. Hierzu kann beispielsweise der vollständige Datenbankzugriff auf eine separate lokale Klasse extrahiert werden, die in den Modultests durch eine Testattrappe ersetzt werden kann.
+- damit bestimmte Aspekte der globalen Klasse gedoublet werden können. So kann man beispielsweise alle Datenbankzugriffe in eine separate lokale Klasse extrahieren, die in Unit Tests dann durch ein Test-Double ersetzt werden kann.
 
 Lokale Klassen verhindern die Wiederverwendung, weil sie nicht an anderer Stelle verwendet werden können. Obwohl sie einfach zu extrahieren sind, ist es schwer, sie überhaupt zu finden. Dies führt zu unerwünschter Codeduplizierung. Orientierung, Navigation und Debugging in sehr langen Includes lokaler Klassen sind mühsam und lästig.
-Da ABAP eine Include-Ebene sperrt, können an den verschiedenen Teilen des lokalen Includes nicht mehrere Personen gleichzeitig arbeiten (was möglich wäre, wenn es sich um separate globale Klassen handeln würde).
+Da ABAP auf Include-Ebene sperrt, können an den verschiedenen Teilen des lokalen Includes nicht mehrere Personen gleichzeitig arbeiten (was möglich wäre, wenn es sich um separate globale Klassen handeln würde).
 
 Überdenken Sie Ihre Verwendung von lokalen Klassen, wenn
 
-- Ihr lokaler Include Dutzende von Klassen und Tausende von Codezeilen umfasst,
+- Ihr lokales Include Dutzende von Klassen und Tausende von Codezeilen umfasst,
 - Sie globale Klassen als „Pakete“ betrachten, die andere Klassen enthalten,
 - Ihre globalen Klassen zu leeren Hülsen degenerieren,
 - Sie doppelten Code über separate lokale Includes hinweg wiederholt finden,
 - Ihre Entwickler beginnen, sich gegenseitig auszusperren, und zunehmend unfähig werden, parallel zu arbeiten,
-- Ihre Rückstandschätzung an die Decke geht, weil Ihre verschiedenen Teams untereinander die lokalen Sub-Trees nicht verstehen 
+- Ihre Backlog-Schätzung durch die Decke geht, weil Ihre Teams die lokalen Includes der jeweils anderen Teams nicht mehr verstehen 
 
 #### FINAL, wenn keine Vererbung vorgesehen
 
@@ -1551,30 +1563,42 @@ Da ABAP eine Include-Ebene sperrt, können an den verschiedenen Teilen des lokal
 
 Machen Sie Klassen, die nicht explizit zur Vererbung vorgesehen sind, `FINAL`.
 
-Beim Entwurf der Klassenkooperation sollte Ihre erste Wahl [Komposition, nicht die Vererbung](#besser-komposition-als-vererbung) sein.
-Das Aktivieren der Vererbung ist nichts, was leichtfertig getan werden sollte, da Einiges zu bedenken ist, wie z.B. `PROTECTED` vs. `PRIVATE`, sowie das [Liskovsche Substitutionsprinzip](https://de.wikipedia.org/wiki/Liskovsches_Substitutionsprinzip). In ihr werden außerdem Entwurfs-Internal-Parts festgeschrieben. Wenn Sie diese Dinge nicht beim Entwurf Ihrer Klassen berücksichtigt haben, sollten Sie daher die unabsichtliche Vererbung verhindern, indem Sie Ihre Klasse `FINAL` machen.
+Beim Entwurf der Klassenkooperation sollte Ihre erste Wahl [Komposition, nicht Vererbung](#besser-komposition-als-vererbung) sein.
+Vererbung zu ermöglichen ist nichts, was leichtfertig getan werden sollte,
+da sie dazu Dinge wie `PROTECTED` vs. `PRIVATE` und das [Liskovsche Substitutionsprinzip](https://de.wikipedia.org/wiki/Liskovsches_Substitutionsprinzip)
+bedenken müssen Interna des Designs fixiert werden.
+Wenn Sie diese Dinge nicht beim Entwurf Ihrer Klassen berücksichtigt haben, sollten Sie daher die unabsichtliche Vererbung verhindern, indem Sie Ihre Klasse `FINAL` machen.
 
-Es gibt selbstverständlich einige _gute Einsatzmöglichkeiten für die Vererbung_, wie z.B. das Entwurfsmuster [composite](https://de.wikipedia.org/wiki/Kompositum_(Entwurfsmuster)).
+Es gibt selbstverständlich einige _gute Einsatzmöglichkeiten für die Vererbung_, wie z.B. das [Entwurfsmuster Composite](https://de.wikipedia.org/wiki/Kompositum_%28Entwurfsmuster%29).
 Business Add-Ins können ebenfalls durch das Zulassen von Unterklassen nützlicher werden, da sie dem Kunde die Möglichkeit geben, den größten Teil des Ursprungscodes wiederzuverwenden. Beachten Sie jedoch, dass in all diesen Fällen die Vererbung von Anfang an mit Absicht eingebaut wird.
 
-Unbereinigte Klassen, die keine [Schnittstellen implementieren](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein), sollten Nicht-`FINAL` bleiben, damit sie von den Konsumenten in ihren Modultests nachgestellt werden können.
+Unbereinigte Klassen, die keine [Schnittstellen implementieren](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein), sollten Nicht-`FINAL` bleiben, damit Konsumenten sie in ihren Unit Tests ersetzen können.
 
-#### Mitglieder standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED
+#### Attribute und Methoden standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#mitglieder-standardmig-private-nur-im-bedarfsfall-protected)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#attribute-und-methoden-standardmig-private-nur-im-bedarfsfall-protected)
 
 Machen Sie Attribute, Methoden und andere Klassenmitglieder standardmäßig `PRIVATE`.
 
-Machen Sie Attribute, Methoden und andere Klassenmitglieder nur `PROTECTED`, wenn Sie Unterklassen aktivieren möchten, die sie übersteuern.
+Machen Sie Attribute, Methoden und andere Klassenmitglieder nur dann `PROTECTED`,
+wenn Sie Unterklassen bewusst die Möglichkeit geben wollen, sie zu übersteuern.
 
-Internal-Parts der Klassen sollten nur auf der Basis „so viel wie notwendig“ für andere Personen verfügbar gemacht werden. Dies bezieht sich nicht nur auf externe Aufrufer, sondern auch auf Unterklassen.
-Werden die Informationen zu großzügig verfügbar gemacht, kann dies zu subtilen Fehlern durch unerwartete Redefinitionen führen und das Refactoring erschweren, da Außenstehende möglicherweise Mitglieder, die flexibel sein sollten, an Ort und Stelle fixieren.
+Interna von Klassen sollten auf Basis „nur so viel wie nötig“ für andere verfügbar gemacht werden. Dies bezieht sich nicht nur auf externe Aufrufer, sondern auch auf Unterklassen.
+Werden Informationen zu großzügig verfügbar gemacht,
+kann dies zu subtilen Fehlern durch unerwartete Redefinitionen führen.
+Eventuell wird auch Refactoring schwierig,
+da Außenstehende plötzlich Attribute verwenden -
+und damit „infrieren“ - die eigentlich flexibel bleiben sollten.
 
-#### Unveränderlichkeit anstelle des Getter erwägen
+#### Unveränderlichkeit anstelle von Gettern erwägen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#unvernderlichkeit-anstelle-des-getter-erwgen)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#unvernderlichkeit-anstelle-von-gettern-erwgen)
 
-Ein unveränderliches Objekt ist ein Objekt, das sich nach seiner Konstruktion nicht mehr ändert. Für diese Objektart sollten Sie die Verwendung von öffentlichen Schreibschutzattributen anstelle der Getter-Methoden in Betracht ziehen.
+Ein unveränderliches Objekt („Immutable“) ist eines,
+das sich nach seiner Konstruktion nicht mehr ändert.
+Für diese Art von Objekten sollten Sie erwägen,
+die Attribute `PUBLIC` und `READ-ONLY` zu machen,
+statt Getter-Methoden hinzuzufügen.
 
 ```ABAP
 CLASS /clean/some_data_container DEFINITION.
@@ -1611,13 +1635,25 @@ ENDCLASS.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Scope](#scope) > [Dieser Abschnitt](#read-only-sparsam-verwenden)
 
-Bei vielen modernen Programmiersprachen, allen voran Java, geht die Empfehlung dahin, Klassenmitglieder wo angebracht schreibgeschützt zu machen, um unabsichtliche Nebeneffekte zu vermeiden.
+Bei vielen modernen Programmiersprachen, allen voran Java, geht die Empfehlung dahin,
+Attribute von Klassen wo immer möglich schreibgeschützt zu machen,
+um unabsichtliche Seiteneffekte zu vermeiden.
 
-Auch wenn ABAP _tatsächlich_ den Zusatz `READ-ONLY` für Datendeklarationen anbietet, empfehlen wir dessen sparsame Verwendung.
+Auch wenn ABAP den Zusatz `READ-ONLY` für Datendeklarationen anbietet,
+empfehlen wir dessen Verwendung nur in sparsamen Dosen.
 
-Erstens ist der Zusatz nur im `PUBLIC SECTION` verfügbar, wodurch sich sein Geltungsbereich drastisch reduziert. Sie können ihn weder zu geschützten oder privaten Mitgliedern noch zu lokalen Variablen in einer Methode hinzufügen.
+Erstens ist der Zusatz nur in der `PUBLIC SECTION` verfügbar,
+wodurch sich sein Anwendungsbereich ohnehin drastisch reduziert.
+Sie können ihn weder zu geschützten oder privaten Mitgliedern
+noch zu lokalen Variablen in einer Methode hinzufügen.
 
-Zweitens funktioniert der Zusatz etwas anders als man von anderen Programmiersprachen voraussetzen könnte: Schreibgeschützte Daten können trotzdem von jeder Methode innerhalb der Klasse selbst, ihren Friends und ihren Unterklassen modifiziert werden. Dies widerspricht dem weiter verbreiteten Verhalten „einmal schreiben, niemals ändern“ in anderen Programmiersprachen. Dieser Unterschied kann zu bösen Überraschungen führen.
+Zweitens funktioniert der Zusatz etwas anders
+als man es - von anderen Programmiersprachen ausgehend - erwarten könnte:
+Schreibgeschützte Daten können trotzdem von jeder Methode innerhalb der Klasse selbst,
+ihren `FRIEND`s und ihren Unterklassen modifiziert werden.
+Dies widerspricht dem weiter verbreiteten Verhalten
+„einmal schreiben, niemals ändern“ in anderen Programmiersprachen.
+Dieser Unterschied kann zu bösen Überraschungen führen.
 
 > Um Missverständnissen vorzubeugen: Variablen gegen versehentliche Modifikationen zu schützen, ist eine gute Praxis, die wir auch für ABAP empfehlen würden, wenn eine entsprechende Anweisung vorhanden wäre.
 
@@ -1666,13 +1702,16 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
     METHODS constructor.
 ```
 
-Zugegeben, dies ist ein Widerspruch. Gemäß Artikel [_Instanzkonstruktor_ der ABAP-Hilfe](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abeninstance_constructor_guidl.htm)ist jedoch die Angabe des `CONSTRUCTOR` in der `PUBLIC SECTION` erforderlich, um eine korrekte Kompilierung und Syntaxprüfung zu gewährleisten.
+Zugegeben, dies ist ein Widerspruch in sich.
+Dem Artikel [_Instanzkonstruktor_ der ABAP-Hilfe](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abeninstance_constructor_guidl.htm) zufolge
+ist jedoch die Angabe des `CONSTRUCTOR` in der `PUBLIC SECTION` erforderlich, um eine korrekte Kompilierung und Syntaxprüfung zu gewährleisten.
 
-Dies gilt nur für globale Klassen. Machen Sie in lokalen Klassen den Konstruktur privat, wie er sein sollte.
+Dies gilt nur für globale Klassen.
+Machen Sie in lokalen Klassen den Konstruktur privat, so wie es sein sollte.
 
-#### Besser mehrere statische Erstellungsmethoden als optionale Parameter
+#### Besser mehrere statische Konstruktionsmethoden als optionale Parameter
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#prefer-multiple-static-factory-methods-to-optional-parameters)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#besser-mehrere-statische-konstruktionsmethoden-als-optionale-parameter)
 
 ```ABAP
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
@@ -1681,7 +1720,7 @@ CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [..
 CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 ```
 
-ABAP unterstützt nicht das [Überladen](https://de.wikipedia.org/wiki/%C3%9Cberladen). Verwenden Sie Namensvariationen anstelle optionaler Parameter, um die gewünschte Semantik zu erzielen.
+ABAP unterstützt nicht das [Überladen](https://de.wikipedia.org/wiki/%C3%9Cberladen) von Methoden. Verwenden Sie Namensvariationen anstelle optionaler Parameter, um die gewünschte Semantik zu erzielen.
 
 ```ABAP
 " Anti-Pattern
@@ -1695,15 +1734,19 @@ METHODS constructor
 ```
 
 Die allgemeine Richtlinie
-[_Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen_](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen) erläutert die Gründe, die dahinter stehen.
+[_Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen_](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen) erläutert die Gründe für diese Empfehlung im Detail.
 
-Erwägen Sie das Auflösen von komplexen Konstruktionen in eine Mehr-Schritte-Konstruktion mit dem [Entwurfsmuster Erbauer](https://de.wikipedia.org/wiki/Erbauer_(Entwurfsmuster)).
+Erwägen Sie das Auflösen von komplexen Konstruktionen
+in mehrschrittige Konstruktionen mit dem [Entwurfsmuster Erbauer (Builder)](https://de.wikipedia.org/wiki/Erbauer_%28Entwurfsmuster%29).
 
 #### Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
 
-Geeignete Wörter für den Start der Methodenerstellung sind `new_`, `create_` und `construct_`. Sie werden intuitiv mit dem Aufbau von Objekten verknüpft und sind außerdem eine gute Ergänzung von Verbalphrasen wie `new_from_template`, `create_as_copy` oder `create_by_name`.
+Geeignete Anfangswörter für solche Methoden sind `new_`, `create_` und `construct_`.
+Sie werden intuitiv mit dem Aufbau von Objekten 
+ und sind außerdem eine gute Ergänzung von Verbalphrasen
+ wie `new_from_template`, `create_as_copy` oder `create_by_name`.
 
 ```ABAP
 CLASS-METHODS new_describe_by_data IMPORTING p_data TYPE any [...]
@@ -1722,9 +1765,9 @@ CLASS-METHODS create_3 IMPORTING p_object_ref TYPE REF TO object [...]
 CLASS-METHODS create_4 IMPORTING p_data_ref TYPE REF TO data [...]
 ```
 
-#### Singletons nur, wenn Multi-Instanzen keinen Sinn machen
+#### Singletons nur, wenn mehrere Instanzen keinen Sinn machen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#singletons-nur-wenn-multi-instanzen-keinen-sinn-machen)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#singletons-nur-wenn-mehrere-instanzen-keinen-sinn-machen)
 
 ```ABAP
 METHOD new.
@@ -1735,10 +1778,21 @@ METHOD new.
 ENDMETHOD.
 ```
 
-Wenden Sie das Singleton-Muster dort an, wo Ihr objektorientiertes Design vorgibt, dass die Existenz einer zweiten Instanz von Etwas keinen Sinn ergibt. Es eignet sich, wenn Sie sicherstellen möchten, dass jeder Konsument mit demselben Ding im selben Zustand und mit denselben Daten arbeitet.
+Wenden Sie das Singleton-Muster nur dort an,
+wo Ihr objektorientiertes Design vorgibt,
+dass eine zweite Instanz von etwas keinen Sinn ergibt.
+Es eignet sich zum Beispiel, wenn Sie sicherstellen möchten,
+dass jeder Konsument mit demselben Ding im selben Zustand
+und mit denselben Daten arbeitet.
 
-Verwenden Sie das Singleton-Muster nicht aus Gewohnheit oder weil es Ihnen irgendeine Performance-Regel nahelegt. Es ist das am meisten überstrapazierte und falsch angewendete Muster, das nicht nur unerwarteten Nebenwirkungen verursacht, sondern auch das Testen unnötig erschwert.
-Sind keine entwurfsbasierten Gründe für ein einheitliches Objekt vorhanden, überlassen Sie diese Entscheidung dem Konsumenten - er kann dasselbe immer noch außerhalb des Konstruktors erreichen, z.B. mittels Factory.
+Verwenden Sie das Singleton-Muster nicht aus Gewohnheit
+oder weil es Ihnen irgendeine Performance-Regel nahelegt.
+Es ist das am meisten überstrapazierte und falsch angewendete Muster
+und kann nicht nur unerwartete Nebenwirkungen verursachen,
+sondern auch das Testen unnötig erschweren.
+Gibt es keine Design-basierten Gründe, ein einziges Objekt zu erzwingen,
+überlassen Sie diese Entscheidung besser dem Konsumenten -
+er kann dasselbe immer noch außerhalb des Konstruktors erreichen, z.B. mittels Factory.
 
 ## Methoden
 
@@ -1875,7 +1929,7 @@ DATA(sum) = me->aggregate_values( values ).
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methoden: Objektorientierung](#methoden-objektorientierung) > [Dieser Abschnitt](#besser-instanzmethode-als-statische-methode)
 
-Methoden sollten standardmäßig Instanzmitglieder sein. Instanzmethoden reflektieren das „Objektartige“ der Klasse auf bessere Weise und können einfacher in Modultests nachgestellt werden.
+Methoden sollten standardmäßig Instanzmitglieder sein. Instanzmethoden reflektieren das „Objektartige“ der Klasse auf bessere Weise und können einfacher in Unit Tests nachgestellt werden.
 
 ```ABAP
 METHODS publish.
@@ -1893,7 +1947,7 @@ CLASS-METHODS create_instance
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methoden: Objektorientierung](#methoden-objektorientierung) > [Dieser Abschnitt](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein)
 
-Öffentliche Instanzmethoden sollten immer Teil einer Schnittstelle sein. Hierdurch werden Abhängigkeiten entkoppelt, und das Nachstellen der Methoden in Modultests wird einfacher.
+Öffentliche Instanzmethoden sollten immer Teil einer Schnittstelle sein. Hierdurch werden Abhängigkeiten entkoppelt, und das Nachstellen der Methoden in Unit Tests wird einfacher.
 
 ```ABAP
 METHOD /clean/blog_post~publish.
@@ -3667,7 +3721,7 @@ Wenn Sie Legacy-Code ergänzen, der zu schlecht strukturiert ist, um ihn zu test
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nachstellen-erlaubt)
 
-Wenn Sie Code schreiben, der von Anderen konsumiert werden soll, ermöglichen Sie diesen, Modultests für ihren eigenen Code zu schreiben. Dies ist z.B. möglich durch Hinzufügen von Schnittstellen an nach außen gerichteten Stellen, durch die Bereitstellung von hilfreichen Testattrappen, die Integrationstests ermöglichen, oder durch die Anwendung der Abhängigkeitsumkehr, die eine Ersetzung der produktiven Konfiguration durch eine Testkonfiguration ermöglicht.
+Wenn Sie Code schreiben, der von Anderen konsumiert werden soll, ermöglichen Sie diesen, Unit Tests für ihren eigenen Code zu schreiben. Dies ist z.B. möglich durch Hinzufügen von Schnittstellen an nach außen gerichteten Stellen, durch die Bereitstellung von hilfreichen Test-Doubles, die Integrationstests ermöglichen, oder durch die Anwendung der Abhängigkeitsumkehr, die eine Ersetzung der produktiven Konfiguration durch eine Testkonfiguration ermöglicht.
 
 #### Regeln für die Lesbarkeit
 
@@ -3685,13 +3739,13 @@ Halten Sie sich an Standards und Muster, damit sich Ihre Kollegen schnell in den
 
 Fangen Sie nicht damit an, ein Backlog abzuarbeiten, indem Sie eine `$TMP`-Kopie eines Entwicklungsobjekts anfertigen und mit diesem herumspielen. Andere werden diese Objekte nicht bemerken und daher den Status Ihrer Arbeit nicht kennen. Sie werden wahrscheinlich eine Menge Zeit alleine mit dem Anfertigen der Arbeitskopie vergeuden. Hinterher werden Sie möglicherweise vergessen, die Kopie zu löschen, und damit Ihr System und die Abhängigkeiten spammen. (Wenn Sie das nicht glauben, gehen Sie jetzt in Ihr Entwicklungssystem und prüfen Sie `$TMP`.)
 
-Es ist außerdem nicht ratsam, einen Testreport zu schreiben, der etwas auf bestimmte Weise aufruft, und diesen Report während Ihrer Arbeit wiederholt auszuführen, um zu prüfen, ob alles noch funktioniert. Es ist nicht sehr professionell, einen Testreport manuell zu wiederholen und auf Sicht zu prüfen, ob alles noch gut ist. Nehmen Sie den nächsten Schritt in Angriff und automatisieren Sie diesen Report in einem Modultest mit einer automatischen Rückmeldung darüber, ob der Code noch in Ordnung ist. Erstens ersparen Sie sich den Aufwand, die Modultests hinterher schreiben zu müssen. Zweitens ersparen Sie sich eine Menge Zeit, die Sie andernfalls für die manuellen Wiederholungen aufwenden würden, sowie eine Menge Langeweile.
+Es ist außerdem nicht ratsam, einen Testreport zu schreiben, der etwas auf bestimmte Weise aufruft, und diesen Report während Ihrer Arbeit wiederholt auszuführen, um zu prüfen, ob alles noch funktioniert. Es ist nicht sehr professionell, einen Testreport manuell zu wiederholen und auf Sicht zu prüfen, ob alles noch gut ist. Nehmen Sie den nächsten Schritt in Angriff und automatisieren Sie diesen Report in einem Unit Test mit einer automatischen Rückmeldung darüber, ob der Code noch in Ordnung ist. Erstens ersparen Sie sich den Aufwand, die Unit Tests hinterher schreiben zu müssen. Zweitens ersparen Sie sich eine Menge Zeit, die Sie andernfalls für die manuellen Wiederholungen aufwenden würden, sowie eine Menge Langeweile.
 
 #### Nur Public-Parts testen
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Grundlagen](#grundlagen) > [Dieser Abschnitt](#nur-public-parts-testen)
 
-Public-Parts von Klassen, insbesondere die Schnittstellen, die sie implementieren, sind ziemlich stabil und ändern sich mit großer Wahrscheinlichkeit nicht. Lassen Sie Ihre Modultests nur die Public-Parts validieren, um sie robust zu machen und den Aufwand bei einem Refactoring der Klasse zu minimieren. Geschützte und private Internal-Parts können sich im Gegensatz dazu sehr schnell durch das Refactoring ändern, so dass jedes Refactoring Ihre Tests unnötigerweise unterbrechen würde.
+Public-Parts von Klassen, insbesondere die Schnittstellen, die sie implementieren, sind ziemlich stabil und ändern sich mit großer Wahrscheinlichkeit nicht. Lassen Sie Ihre Unit Tests nur die Public-Parts validieren, um sie robust zu machen und den Aufwand bei einem Refactoring der Klasse zu minimieren. Geschützte und private Internal-Parts können sich im Gegensatz dazu sehr schnell durch das Refactoring ändern, so dass jedes Refactoring Ihre Tests unnötigerweise unterbrechen würde.
 
 Ein dringendes Bedürfnis, private oder geschützte Methoden zu testen, kann ein frühes Warnzeichen für mehrere Arten von Design-Fehlern sein.
 Fragen Sie sich selbst:
@@ -3710,7 +3764,7 @@ Die Quelltextabdeckung soll Ihnen dabei helfen, versehentlich ungeprüften Code 
 
 Erfinden Sie keine Tests mit oder ohne Dummy-Assertionen, nur um die Abdeckung zu erzielen.
 Lassen Sie Dinge besser ungeprüft, um transparent zu machen, dass ihr sicheres Refactoring nicht mögich ist. Sie können eine Abdeckung von < 100 % und trotzdem perfekte Tests haben.
-Es gibt Fälle - wie z.B. IFs im Konstruktor zum Einfügen von Testattrappen -, die das Erreichen von 100 % unpraktikabel machen.
+Es gibt Fälle - wie z.B. IFs im Konstruktor zum Einfügen von Test-Doubles -, die das Erreichen von 100 % unpraktikabel machen.
 Gute Tests decken in der Regel dieselbe Anweisung mehrfach ab, für verschiedene Verzweigungen und Bedingungen.
 Sie haben in der Tat eine imaginäre Abdeckung von > 100 %.
 
@@ -3740,7 +3794,7 @@ CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testklassen](#testklassen) > [Dieser Abschnitt](#tests-in-lokale-klassen-integrieren)
 
-Integrieren Sie die Modultests in das lokale Test-Include der getesteten Klasse. Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#testklassen-ausfhren) beschrieben.
+Integrieren Sie die Unit Tests in das lokale Test-Include der getesteten Klasse. Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#testklassen-ausfhren) beschrieben.
 
 Integrieren Sie Komponenten-, Integrations- und Systemtests in das lokale Test-Include einer separaten globalen Klasse. 
 Sie beziehen sich nicht direkt auf eine einzelne getestete Klasse, daher sollten sie nicht willkürlich in eine der beteiligten Klassen gestellt werden, sondern in eine getrennte Klasse.
@@ -3895,9 +3949,9 @@ DATA(itab) = cut->map_xml_to_itab( xml_string = '<xml></xml>'
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Dieser Abschnitt](#injection)
 
-#### Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden
+#### Abhängigkeitsumkehr zum Einbringen von Test-Doubles verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#abhngigkeitsumkehr-zum-einbringen-von-testattrappen-verwenden)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#abhngigkeitsumkehr-zum-einbringen-von-test-doubles-verwenden)
 
 Abhängigkeitsumkehr bedeutet, dass Sie alle Abhängigkeiten an den Konstruktor übergeben:
 
@@ -3939,13 +3993,13 @@ ENDMETHOD.
 
 METHOD constructor.
   customizing_reader = fra_cust_obj_model_reader=>s_get_instance( ).
-  customizing_reader->fill_buffer( ). " <- won't be called on your test double, so no chance to test this
+  customizing_reader->fill_buffer( ). " <- won't be called on your Test-Double, so no chance to test this
 ENDMETHOD.
 ```
 
-#### ABAP-Testattrappe verwenden
+#### ABAP-Test-Double verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#abap-testattrappe-verwenden)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#abap-test-double-verwenden)
 
 ```ABAP
 DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
@@ -3953,7 +4007,7 @@ cl_abap_testdouble=>configure_call( customizing_reader )->returning( sub_claim_c
 customizing_reader->read( 'SOME_ID' ).
 ```
 
-Kürzer und besser verständlich als angepasste Testattrappen:
+Kürzer und besser verständlich als angepasste Test-Doubles:
 
 ```ABAP
 " Anti-Pattern
@@ -3979,7 +4033,7 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#von-test-tools-untersttzen-lassen)
 
-Im Allgemeinen können Sie bei einem sauberen Programmierstil viele Aufgaben mit den standardmäßigen ABAP-Modultests und -Testattrappen erledigen.
+Im Allgemeinen können Sie bei einem sauberen Programmierstil viele Aufgaben mit den standardmäßigen ABAP-Unit Tests und -Test-Doubles erledigen.
 Es stehen weitere Tools zur Verfügung, mit denen Sie kompliziertere Fälle elegant meistern:
 
 - Verwenden Sie den `CL_OSQL_REPLACE`-Service zum Testen komplexer OpenSQL-Anweisungen. Diese werden in einen Testdatenbehälter umgeleitet, der mit Testdaten befüllt werden kann, ohne den Rest des Systems zu beeinflussen.
@@ -4023,7 +4077,7 @@ ENDCLASS.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#local-friends-nicht-zum-eindringen-in-den-getesteten-code-missbrauchen)
 
-Modultests, die auf private und geschützte Mitglieder zugreifen, um Mock-Daten einzufügen, sind fragil: Sie versagen, wenn sich die interne Struktur des getesteten Codes ändert.
+Unit Tests, die auf private und geschützte Mitglieder zugreifen, um Mock-Daten einzufügen, sind fragil: Sie versagen, wenn sich die interne Struktur des getesteten Codes ändert.
 
 ```ABAP
 " Anti-Pattern
@@ -4048,7 +4102,7 @@ IF me->in_test_mode = abap_true.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#keine-unterklassen-zum-nachstellen-von-methoden)
 
-Es wird davon abgeraten, Methodenunterklassen anzulegen und Methoden zu überschreiben, um diese in Ihren Modultests nachzustellen. Obwohl das funktioniert, ist es eine fragile Angelegenheit, weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-wenn-keine-vererbung-vorgesehen).
+Es wird davon abgeraten, Methodenunterklassen anzulegen und Methoden zu überschreiben, um diese in Ihren Unit Tests nachzustellen. Obwohl das funktioniert, ist es eine fragile Angelegenheit, weil die Tests beim Refactoring des Codes leicht funktionsunfähig gemacht werden. Außerdem erhalten reale Konsumenten dadurch die Möglichkeit, Ihre Klasse zu erben, was [Sie unvorbereitet treffen kann, wenn Sie dies nicht explizit im Design festgelegt haben](#final-wenn-keine-vererbung-vorgesehen).
 
 ```ABAP
 " Anti-Pattern
@@ -4083,13 +4137,13 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
                                    writer    = writer ).
 ```
 
-Es kann vorkommen, dass überhaupt keine Notwendigkeit besteht, überhaupt irgendetwas nachzustellen - dies ist gewöhnlich bei Datenstrukturen und Datencontainern der Fall. So kann Ihr Modultest beispielsweise mit der produktiven Version eines `transient_log` gut funktionieren, weil dieses die Daten ohne jegliche Nebeneffekte einfach speichert.
+Es kann vorkommen, dass überhaupt keine Notwendigkeit besteht, überhaupt irgendetwas nachzustellen - dies ist gewöhnlich bei Datenstrukturen und Datencontainern der Fall. So kann Ihr Unit Test beispielsweise mit der produktiven Version eines `transient_log` gut funktionieren, weil dieses die Daten ohne jegliche Nebeneffekte einfach speichert.
 
 #### Keine Test-Frameworks aufbauen
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#keine-test-frameworks-aufbauen)
 
-Modultests - im Gegensatz zu Integrationstests - sollten auf der „Daten rein-Daten-raus-Basis“ funktionieren, während alle Testdaten bei Bedarf dynamisch definiert werden.
+Unit Tests - im Gegensatz zu Integrationstests - sollten auf der „Daten rein-Daten-raus-Basis“ funktionieren, während alle Testdaten bei Bedarf dynamisch definiert werden.
 
 ```ABAP
 cl_abap_testdouble=>configure_call( test_double )->returning( data ).
@@ -4181,7 +4235,7 @@ Der Aufruf mehrerer Dinge gleichzeitig verrät, dass die Methode keinen klaren F
 
 `teardown`-Methoden werden gewöhnlich nur zum Bereinigen von Datenbankeinträgen oder anderen externen Ressourcen in Integrationstests benötigt.
 
-Das Zurücksetzen der Testklassenmitglieder, insbesondere `cut`, und der verwendeten Testattrappen ist überflüssig. Sie werden vor dem Start der nächsten Testmethode von der `setup`-Methode überschrieben.
+Das Zurücksetzen der Testklassenmitglieder, insbesondere `cut`, und der verwendeten Test-Doubles ist überflüssig. Sie werden vor dem Start der nächsten Testmethode von der `setup`-Methode überschrieben.
 
 ### Testdaten
 
@@ -4191,7 +4245,7 @@ Das Zurücksetzen der Testklassenmitglieder, insbesondere `cut`, und der verwend
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Testdaten](#testdaten) > [Dieser Abschnitt](#einfach-erkennbare-bedeutung)
 
-In Modultests möchten Sie schnell erkennen können, welche Daten und Testattrappen wichtig sind, und welchen nur dazu da sind, um einen Crash des Codes zu vermeiden. Unterstützen Sie dies, indem Sie bedeutungslosen Dingen offensichtliche Namen und Werte geben, wie z.B.:
+In Unit Tests möchten Sie schnell erkennen können, welche Daten und Test-Doubles wichtig sind, und welchen nur dazu da sind, um einen Crash des Codes zu vermeiden. Unterstützen Sie dies, indem Sie bedeutungslosen Dingen offensichtliche Namen und Werte geben, wie z.B.:
 
 ```ABAP
 DATA(alert_id) = '42'.                             " well-known meaningless numbers
@@ -4315,7 +4369,7 @@ assert_all_lines_shorter_than( actual_lines        = table
                                expected_max_length = 80 ).
 ```
 
-Die Assertion des präzisen Inhalts verschleiert, was Sie wirklich testen möchten. Es ist außerdem eine fragile Vorgehensweise, weil durch das Refactoring möglicherweise ein anderes, jedoch völlig akzeptables Ergebnis erzielt wird, obwohl es alle Ihre zu präzisen Modultests durchbricht.
+Die Assertion des präzisen Inhalts verschleiert, was Sie wirklich testen möchten. Es ist außerdem eine fragile Vorgehensweise, weil durch das Refactoring möglicherweise ein anderes, jedoch völlig akzeptables Ergebnis erzielt wird, obwohl es alle Ihre zu präzisen Unit Tests durchbricht.
 
 ```ABAP
 " Anti-Pattern
