@@ -243,7 +243,7 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-erste-schritte-mit-clean-code)
 
-Wenn das Thema Clean Code neu für Sie ist, empfehlen wir, zunächst das Buch [Robert C. Martins _Clean Code_] zu lesen. Zusätzlich kann Ihnen die didaktisch aufbereitete Schritt-für-Schritt-Einführung der Initiative [Clean Code Developer ](https://clean-code-developer.com/) den Einstieg in das allgemeine Thema erleichtern.
+Wenn das Thema Clean Code neu für Sie ist, empfehlen wir, zunächst das Buch [Robert C. Martins _Clean Code_] zu lesen. Zusätzlich kann Ihnen die didaktisch aufbereitete Schritt-für-Schritt-Einführung der Initiative [Clean Code Developer ](https://clean-code-developer.de/) den Einstieg in das allgemeine Thema erleichtern.
 
 Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke), [Bedingungen](#bedingungen) und [IFs](#if).
 
@@ -298,7 +298,7 @@ ABAP Test Cockpit, Code Inspector, Extended Check und CheckMan stellen einige Pr
 
 Unser Leitfaden folgt dem _Geist_ des Clean Code. Das bedeutet, wir haben einige Anpassungen an die Programmiersprache ABAP  vorgenommen, wie z.B. [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#cx_static_check-fr-berschaubare-ausnahmen-absetzen).
 
-Einige Fakten stammen aus den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm), mit denen dieser Leitfaden größtenteils kompatibel ist. Abweichungen werden explizit hervorgehoben und sind immer im Geist des Clean Code verankert.
+Einige Fakten stammen aus den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenabap_pgl.htm), mit denen dieser Leitfaden größtenteils kompatibel ist. Abweichungen werden explizit hervorgehoben und sind immer im Geist des Clean Code verankert.
 
 Dieser Leitfaden respektiert außerdem die [DSAG-Empfehlungen für die ABAP-Entwicklung](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf), auch wenn der vorliegende Leitfaden in den meisten Einzelheiten sehr viel präziser ist.
 
@@ -475,13 +475,13 @@ METHODS query_those.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Namen](#namen) > [Dieser Abschnitt](#musternamen-nur-mit-absicht-verwenden)
 
-Verwenden Sie die Namen von Software-Entwurfsmustern nicht für Klassen und Schnittstellen, es sei denn, sie beziehen sich wirklich auf diese. Nennen Sie Ihre Klasse z.B. nicht `file_factory`, es sei denn, sie implementiert wirklich das factory-Entwurfsmuster. Zu den häufigsten Mustern zählen:[singleton](https://en.wikipedia.org/wiki/Singleton_pattern),
-[factory](https://en.wikipedia.org/wiki/Factory_method_pattern),
-[facade](https://en.wikipedia.org/wiki/Facade_pattern),
-[composite](https://en.wikipedia.org/wiki/Composite_pattern),
-[decorator](https://en.wikipedia.org/wiki/Decorator_pattern),
-[iterator](https://en.wikipedia.org/wiki/Iterator_pattern),
-[observer](https://en.wikipedia.org/wiki/Observer_pattern) und [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
+Verwenden Sie die Namen von Software-Entwurfsmustern nicht für Klassen und Schnittstellen, es sei denn, sie beziehen sich wirklich auf diese. Nennen Sie Ihre Klasse z.B. nicht `file_factory`, es sei denn, sie implementiert wirklich das factory-Entwurfsmuster. Zu den häufigsten Mustern zählen:[singleton](https://de.wikipedia.org/wiki/Singleton_(Entwurfsmuster)),
+[factory](https://de.wikipedia.org/wiki/Fabrikmethode),
+[facade](https://de.wikipedia.org/wiki/Fassade_(Entwurfsmuster)),
+[composite](https://de.wikipedia.org/wiki/Kompositum_(Entwurfsmuster)),
+[decorator](https://de.wikipedia.org/wiki/Decorator),
+[iterator](https://de.wikipedia.org/wiki/Iterator_(Entwurfsmuster)),
+[observer](https://de.wikipedia.org/wiki/Beobachter_(Entwurfsmuster)) und [strategy](https://de.wikipedia.org/wiki/Strategie_(Entwurfsmuster)).
 
 > Mehr erfahren Sie in _Kapitel 2: Aussagekräftige Namen: Fehlinformationen vermeiden_ in [Robert C. Martins _Clean Code_].
 
@@ -601,7 +601,7 @@ SELECT *
   INTO TABLE @itab.
 ```
 
-im Vergleich zur [obsoleten Form ohne escape-Zeichen](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenopen_sql_hostvar_obsolete.htm)
+im Vergleich zur [obsoleten Form ohne escape-Zeichen](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/de-DE/abenopen_sql_hostvar_obsolete.htm)
 
 ```ABAP
 SELECT *
@@ -618,10 +618,10 @@ Bei weiterer Verwendung profitieren obsolete Elemente möglicherweise im Hinblic
 Moderne Sprachelemente tragen außerdem dazu bei, Ihre jüngeren ABAP-Spezialisten an Bort zu holen, denen die veralteten Konstrukte möglicherweise fremd sind, weil diese nicht mehr in den SAP-Schulungen vermittelt werden.
 
 Die SAP NetWeaver-Dokumentation enthält einen Abschnitt, der obsolete Sprachelemente aufführt, z.B.
-[NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/index.htm?file=abenabap_obsolete.htm),
-[NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_obsolete.htm),
-[NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenabap_obsolete.htm),
-[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm).
+[NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/de-DE/index.htm?file=abenabap_obsolete.htm),
+[NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenabap_obsolete.htm),
+[NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/index.htm?file=abenabap_obsolete.htm),
+[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/de-DE/index.htm?file=abenabap_obsolete.htm).
 
 ### Entwurfsmuster mit Bedacht einsetzen
 
@@ -851,7 +851,7 @@ Code-Prüfungen beweisen, dass Programmierer gerne Beides willkürlich einsetzen
 
 - Feldsymbole sind kürzer als Referenzen. Die daraus resultierende Speicherersparnis ist jedoch so gering, dass sie getrost vernachlässigt werden kann. Ähnlich ist auch die Geschwindigkeit kein Thema. Folglich gibt es aus Performance-Perspektive keinen Grund, das Eine oder das Andere zu bevorzugen.
 
-> Mehr erfahren Sie im Artikel > [_Dynamischer Zugriff auf Datenobjekte_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
+> Mehr erfahren Sie im Artikel > [_Dynamischer Zugriff auf Datenobjekte_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abendyn_access_data_obj_guidl.htm).
 
 ## Tabellen
 
@@ -869,7 +869,7 @@ Das Hinzufügen, Ändern oder Löschen von Inhalt setzt voraus, dass zunächst d
 - Verwenden Sie `STANDARD`-Tabellen für **kleine Tabellen**, deren Indizierung mehr Aufwand als Nutzen erzeugt, und **Arrays**, bei denen die Reihenfolge der Zeilen entweder überhaupt keine Rolle spielt, oder die Sie genau in der Reihenfolge verarbeiten möchten, in der sie angehängt sind. Diese Tabellen sind auch dann geeignet, wenn unterschiedliche Tabellenzugriffe erforderlich sind, z.B. indizierter Zugriff und sortierter Zugriff mit `SORT` und `BINARY SEARCH`.
 
 > Dies sind lediglich grobe Richtlinien.
-> Mehr Informationen enthält der Artikel [_Auswahl der Tabellenart_ in der ABAP-Hilfe](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
+> Mehr Informationen enthält der Artikel [_Auswahl der Tabellenart_ in der ABAP-Hilfe](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abenitab_kind.htm).
 
 ### DEFAULT KEY vermeiden
 
@@ -1203,7 +1203,7 @@ IF NOT variable CP 'TODO*'.
 IF NOT variable = 42.
 ```
 
-> Eine spezifischere Variante von [Bedingungen nach Möglichkeit positiv definieren](#bedingungen-nach-mglichkeit-positiv-definieren). Dies wird auch in Abschnitt [Alternative Sprachkonstrukte](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
+> Eine spezifischere Variante von [Bedingungen nach Möglichkeit positiv definieren](#bedingungen-nach-mglichkeit-positiv-definieren). Dies wird auch in Abschnitt [Alternative Sprachkonstrukte](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/de-DE/index.htm?file=abenalternative_langu_guidl.htm)
 in den ABAP-Programmierrichtlinien beschrieben.
 
 ### Komplexe Bedingungen zerlegen
@@ -1436,7 +1436,7 @@ ENDMETHOD.
 
 Vermeiden Sie den Aufbau von Klassenhierarchien mit Vererbung. Bevorzugen Sie stattdessen Komposition.
 
-Das Design einer sauberen Vererbung ist schwierig, da Sie Regeln beachten müssen, wie z.B. das [Liskovsche Substitutionsprinzip](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
+Das Design einer sauberen Vererbung ist schwierig, da Sie Regeln beachten müssen, wie z.B. das [Liskovsche Substitutionsprinzip](https://de.wikipedia.org/wiki/Liskovsches_Substitutionsprinzip).
 Sie ist außerdem schwer verständlich, weil hierzu die Grundprinzipien hinter der Hierarchie realisiert und verstanden sein müssen.
 Vererbung reduziert die Wiederverwendung, weil die Methoden tendenziell nur den Subklassen verfügbar gemacht werden.
 Sie macht außerdem das Refactoring komplizierter, da wechselnde oder veränderte Mitglieder oftmals Änderungen am gesamten Hierarchiebaum erfordern.
@@ -1447,7 +1447,7 @@ Komposition kann zur Erzeugung von mehr Klassen führen, hat jedoch sonst keine 
 
 Lassen Sie sich von dieser Regel nicht entmutigen, die Vererbung an der richtigen Stelle zu verwenden.
 Es gibt gute Anwendungsmöglichkeiten für die Vererbung, wie z.B.
-das [Composite Design Pattern](https://en.wikipedia.org/wiki/Composite_pattern).
+das [Composite Design Pattern](https://de.wikipedia.org/wiki/Kompositum_(Entwurfsmuster)).
 Fragen Sie sich einfach nur kritisch, ob die Vererbung in Ihrem Fall wirklich mehr Vorteile als Nachteile mit sich bringen wird.
 Wenn Sie Zweifel haben, ist die Komposition im Allgemeinen die sicherere Wahl.
 
@@ -1546,9 +1546,9 @@ Da ABAP eine Include-Ebene sperrt, können an den verschiedenen Teilen des lokal
 Machen Sie Klassen, die nicht explizit zur Vererbung vorgesehen sind, `FINAL`.
 
 Beim Entwurf der Klassenkooperation sollte Ihre erste Wahl [Komposition, nicht die Vererbung](#besser-komposition-als-vererbung) sein.
-Das Aktivieren der Vererbung ist nichts, was leichtfertig getan werden sollte, da Einiges zu bedenken ist, wie z.B. `PROTECTED` vs. `PRIVATE`, sowie das [Liskovsche Substitutionsprinzip](https://en.wikipedia.org/wiki/Liskov_substitution_principle). In ihr werden außerdem Entwurfs-Internal-Parts festgeschrieben. Wenn Sie diese Dinge nicht beim Entwurf Ihrer Klassen berücksichtigt haben, sollten Sie daher die unabsichtliche Vererbung verhindern, indem Sie Ihre Klasse `FINAL` machen.
+Das Aktivieren der Vererbung ist nichts, was leichtfertig getan werden sollte, da Einiges zu bedenken ist, wie z.B. `PROTECTED` vs. `PRIVATE`, sowie das [Liskovsche Substitutionsprinzip](https://de.wikipedia.org/wiki/Liskovsches_Substitutionsprinzip). In ihr werden außerdem Entwurfs-Internal-Parts festgeschrieben. Wenn Sie diese Dinge nicht beim Entwurf Ihrer Klassen berücksichtigt haben, sollten Sie daher die unabsichtliche Vererbung verhindern, indem Sie Ihre Klasse `FINAL` machen.
 
-Es gibt selbstverständlich einige _gute Einsatzmöglichkeiten für die Vererbung_, wie z.B. das Entwurfsmuster [composite](https://en.wikipedia.org/wiki/Composite_pattern).
+Es gibt selbstverständlich einige _gute Einsatzmöglichkeiten für die Vererbung_, wie z.B. das Entwurfsmuster [composite](https://de.wikipedia.org/wiki/Kompositum_(Entwurfsmuster)).
 Business Add-Ins können ebenfalls durch das Zulassen von Unterklassen nützlicher werden, da sie dem Kunde die Möglichkeit geben, den größten Teil des Ursprungscodes wiederzuverwenden. Beachten Sie jedoch, dass in all diesen Fällen die Vererbung von Anfang an mit Absicht eingebaut wird.
 
 Unbereinigte Klassen, die keine [Schnittstellen implementieren](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein), sollten Nicht-`FINAL` bleiben, damit sie von den Konsumenten in ihren Modultests nachgestellt werden können.
@@ -1660,7 +1660,7 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
     METHODS constructor.
 ```
 
-Zugegeben, dies ist ein Widerspruch. Gemäß Artikel [_Instanzkonstruktor_ der ABAP-Hilfe](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm)ist jedoch die Angabe des `CONSTRUCTOR` in der `PUBLIC SECTION` erforderlich, um eine korrekte Kompilierung und Syntaxprüfung zu gewährleisten.
+Zugegeben, dies ist ein Widerspruch. Gemäß Artikel [_Instanzkonstruktor_ der ABAP-Hilfe](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abeninstance_constructor_guidl.htm)ist jedoch die Angabe des `CONSTRUCTOR` in der `PUBLIC SECTION` erforderlich, um eine korrekte Kompilierung und Syntaxprüfung zu gewährleisten.
 
 Dies gilt nur für globale Klassen. Machen Sie in lokalen Klassen den Konstruktur privat, wie er sein sollte.
 
@@ -1675,7 +1675,7 @@ CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [..
 CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 ```
 
-ABAP unterstützt nicht das [Überladen](https://en.wikipedia.org/wiki/Function_overloading). Verwenden Sie Namensvariationen anstelle optionaler Parameter, um die gewünschte Semantik zu erzielen.
+ABAP unterstützt nicht das [Überladen](https://de.wikipedia.org/wiki/%C3%9Cberladen). Verwenden Sie Namensvariationen anstelle optionaler Parameter, um die gewünschte Semantik zu erzielen.
 
 ```ABAP
 " anti-pattern
@@ -1691,7 +1691,7 @@ METHODS constructor
 Die allgemeine Richtlinie
 [_Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen_](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen) erläutert die Gründe, die dahinter stehen.
 
-Erwägen Sie das Auflösen von komplexen Konstruktionen in eine Mehr-Schritte-Konstruktion mit dem [Entwurfsmuster Erbauer](https://en.wikipedia.org/wiki/Builder_pattern).
+Erwägen Sie das Auflösen von komplexen Konstruktionen in eine Mehr-Schritte-Konstruktion mit dem [Entwurfsmuster Erbauer](https://de.wikipedia.org/wiki/Erbauer_(Entwurfsmuster)).
 
 #### Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden
 
@@ -1949,7 +1949,7 @@ METHODS do_one_thing IMPORTING what_i_need TYPE string.
 METHODS do_another_thing IMPORTING something_else TYPE i.
 ```
 
-zum Erzielen der gewünschten Semantik, da ABAP kein [Überladen](https://en.wikipedia.org/wiki/Function_overloading)unterstützt.
+zum Erzielen der gewünschten Semantik, da ABAP kein [Überladen](https://de.wikipedia.org/wiki/%C3%9Cberladen) unterstützt.
 
 ```ABAP
 " anti-pattern
@@ -2588,7 +2588,7 @@ ENDMETHOD:
 
 Überlegen Sie in jedem Fall, ob das Zurückgeben von „Nichts“ wirklich das geeignete Verhalten ist. Methoden sollten ein sinnvolles Ergebnis bereitstellen, d.h. entweder einen befüllten Rückgabeparameter oder eine Ausnahme. Keine Rückgabe entspricht in vielen Fällen der Rückgabe von `null`, was vermieden werden sollte.
 
-> Der [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)empfiehlt die Verwendung von `CHECK` in diesem Fall. Diskussionen in der Community legen nahe, dass die Anweisung unklar ist und dazu führt, dass das Programmverhalten nicht verständlich ist.
+> Der [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenexit_procedure_guidl.htm)empfiehlt die Verwendung von `CHECK` in diesem Fall. Diskussionen in der Community legen nahe, dass die Anweisung unklar ist und dazu führt, dass das Programmverhalten nicht verständlich ist.
 
 #### CHECK an anderer Stelle vermeiden
 
@@ -2596,10 +2596,10 @@ ENDMETHOD:
 
 Verwenden Sie `CHECK` nicht außerhalb des Initialisierungsabschnitts einer Methode. Das Verhalten der Anweisung variiert abhängig von ihrer Position und kann zu unklaren, unerwarteten Ergebnissen führen.
 
-So beendet [`CHECK` in einer `LOOP` beispielsweise die aktuelle Iteration und fährt mit der nächsten fort](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm), anstatt, wie möglicherweise irrtümlich erwartet, die Methode bzw. die Loop zu beenden.
+So beendet [`CHECK` in einer `LOOP` beispielsweise die aktuelle Iteration und fährt mit der nächsten fort](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/abapcheck_loop.htm), anstatt, wie möglicherweise irrtümlich erwartet, die Methode bzw. die Loop zu beenden.
 
-> Basierend auf [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
-Beachten Sie, dass dies der [Schlüsselwortreferenz für `CHECK` in Loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm)widerspricht.
+> Basierend auf [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenexit_procedure_guidl.htm).
+Beachten Sie, dass dies der [Schlüsselwortreferenz für `CHECK` in Loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/abapcheck_loop.htm)widerspricht.
 
 ## Fehlerbehandlung
 
@@ -2856,7 +2856,7 @@ METHODS read_file
 Dieser Ausnahmetyp _muss_ in Methodensignaturen angegeben _und_ abgefangen oder weitergeleitet werden, um Syntaxfehler zu vermeiden.
 Er ist daher für den Konsumenten offensichtlich und stellt sicher, dass dieser nicht von einer unerwarteten Ausnahme überrascht wird, und angemessen auf die Fehlersituation reagiert.
 
-> Diese Empfehlung entspricht den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm), widerspricht jedoch [Robert C. Martins _Clean Code_], in dem die Bevorzugung ungeprüfter Ausnahmen empfohlen wird. Abschnitt [Exceptions](sub-sections/Exceptions.md) erklärt, warum.
+> Diese Empfehlung entspricht den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abenexception_category_guidl.htm), widerspricht jedoch [Robert C. Martins _Clean Code_], in dem die Bevorzugung ungeprüfter Ausnahmen empfohlen wird. Abschnitt [Exceptions](sub-sections/Exceptions.md) erklärt, warum.
 
 #### CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen
 
@@ -2957,7 +2957,7 @@ METHOD generate.
 ENDMETHOD.
 ```
 
-Das [Gesetz der Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter) empfiehlt die Entkopplung der Dinge. Die Weiterleitung von Ausnahmen aus anderen Komponenten verstößt gegen dieses Prinzip.
+Das [Gesetz der Demeter](https://de.wikipedia.org/wiki/Gesetz_von_Demeter) empfiehlt die Entkopplung der Dinge. Die Weiterleitung von Ausnahmen aus anderen Komponenten verstößt gegen dieses Prinzip.
 Machen Sie sich unabhängig vom Fremdcode, indem Sie diese Ausnahmen abfangen und in einem eigenen Ausnahmetyp umschließen.
 
 ```ABAP
@@ -3984,7 +3984,7 @@ Es stehen weitere Tools zur Verfügung, mit denen Sie kompliziertere Fälle eleg
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Test](#test) > [Injection](#injection) > [Dieser Abschnitt](#testseams-als-temporre-behelfslsung-verwenden)
 
-Wenn alle anderen Techniken fehlschlagen, oder Sie sich im gefährlich seichten Wasser von Legacy-Code befinden, greifen Sie auf [Testseams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm)zurück, um die Dinge testbar zu machen.
+Wenn alle anderen Techniken fehlschlagen, oder Sie sich im gefährlich seichten Wasser von Legacy-Code befinden, greifen Sie auf [Testseams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abendyn_access_data_obj_guidl.htm)zurück, um die Dinge testbar zu machen.
 
 Auch wenn sie auf den ersten Blick komfortabel aussehen, sind Testseams invasiv und tendieren dazu, sich in privaten Abhängigkeiten zu verheddern, so dass es langfristig schwer ist, sie am Leben und stabil zu halten.
 
