@@ -114,7 +114,7 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [RETURN, EXPORT oder CHANGE - nur eins davon](#return-export-oder-change---nur-eins-davon)
    - [Parametertypen](#parametertypen)
       - [Besser RETURNING als EXPORTING](#besser-returning-als-exporting)
-      - [RETURNING von großen Tabellen ist in der Regel problemlos](#returning-von-groen-tabellen-ist-in-der-regel-problemlos)
+      - [RETURNING von großen Tabellen ist in der Regel okay](#returning-von-groen-tabellen-ist-in-der-regel-okay)
       - [RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination](#returning-oder-exporting-oder-changing-verwenden-jedoch-keine-kombination)
       - [CHANGING sparsam verwenden, wo geeignet](#changing-sparsam-verwenden-wo-geeignet)
       - [Aufgeteilte Methode statt boolescher Eingabeparameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter)
@@ -125,8 +125,8 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
          - [Vorsicht bei identischer Ein- und Ausgabe](#vorsicht-bei-identischer-ein--und-ausgabe)
       - [VALUE-Parameter nicht löschen](#value-parameter-nicht-lschen)
    - [Methodenrumpf](#methodenrumpf)
-      - [Mache eine Sache zur Zeit, und mache sie gut](#mache-eine-sache-zur-zeit-und-mache-sie-gut)
-      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehandlung-nicht-beides)
+      - [Tue eine Sache, nur eine, und mache sie gut](#tue-eine-sache-nur-eine-und-mache-sie-gut)
+      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehandlung-aber-nicht-beides-zugleich)
       - [Eine Abstraktionsebene tiefer steigen](#eine-abstraktionsebene-tiefer-steigen)
       - [Methoden klein halten](#methoden-klein-halten)
    - [Kontrollfluss](#kontrollfluss)
@@ -144,9 +144,9 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
       - [Klassenbasierte Ausnahmen verwenden](#klassenbasierte-ausnahmen-verwenden)
    - [Ausnahme absetzen](#ausnahme-absetzen)
       - [Eigene übergeordnete Klassen verwenden](#eigene-bergeordnete-klassen-verwenden)
-      - [Einen Ausnahmetyp zur Zeit absetzen](#einen-ausnahmetyp-zur-zeit-absetzen)
+      - [Nur einen Ausnahmetyp werfen](#nur-einen-ausnahmetyp-werfen)
       - [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen)
-      - [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#cx_static_check-fr-berschaubare-ausnahmen-absetzen)
+      - [CX_STATIC_CHECK für behandelbare Ausnahmen absetzen](#cx_static_check-fr-behandelbare-ausnahmen-absetzen)
       - [CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen](#cx_no_check-fr-gewhnlich-nicht-behebbare-situationen-absetzen)
       - [CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen](#cx_dynamic_check-fr-vermeidbare-ausnahmen-absetzen)
       - [Dump für schwerwiegende, nicht behebbare Situationen absetzen](#dump-fr-schwerwiegende-nicht-behebbare-situationen-absetzen)
@@ -246,7 +246,7 @@ Wenn das Thema Clean Code neu für Sie ist, empfehlen wir, zunächst das Buch [_
 
 Wir empfehlen Ihnen, mit einfach verständlichen und weithin akzeptierten Dingen zu beginnen, wie z.B. [booleschen Ausdrücken](#boolesche-ausdrcke), [Bedingungen](#bedingungen) und [IFs](#if).
 
-Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methoden) profitieren, insbesondere von den Themen [Mache eine Sache zur Zeit, und mache sie gut](#mache-eine-sache-zur-zeit-und-mache-sie-gut) und [Methoden klein halten](#methoden-klein-halten), weil diese zu einer enormen Verbesserung der Gesamtstruktur Ihres Codes beitragen.
+Sie werden wahrscheinlich am meisten vom Abschnitt [Methoden](#methoden) profitieren, insbesondere von den Themen [Tue eine Sache, nur eine, und mache sie gut](#tue-eine-sache-nur-eine-und-mache-sie-gut) und [Methoden klein halten](#methoden-klein-halten), weil diese zu einer enormen Verbesserung der Gesamtstruktur Ihres Codes beitragen.
 
 Einige der hier behandelten Themen können zu kontroversen Diskussionen in Teams führen, die zwar erfahren, jedoch nicht mit Clean Code vertraut sind. Diese Themen sind völlig „unbedenklich“, manchen Beteiligten kann es jedoch anfänglich schwerfallen, sich mit ihnen anzufreunden.
 
@@ -295,7 +295,7 @@ ABAP Test Cockpit, Code Inspector, Extended Check und CheckMan stellen einige Pr
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [How-to](#how-to) > [Dieser Abschnitt](#how-to-weitere-leitfden)
 
-Unser Leitfaden folgt dem _Geist_ des Clean Code. Das bedeutet, wir haben einige Anpassungen an die Programmiersprache ABAP  vorgenommen, wie z.B. [CX_STATIC_CHECK für überschaubare Ausnahmen absetzen](#cx_static_check-fr-berschaubare-ausnahmen-absetzen).
+Unser Leitfaden folgt dem _Geist_ des Clean Code. Das bedeutet, wir haben einige Anpassungen an die Programmiersprache ABAP  vorgenommen, wie z.B. [CX_STATIC_CHECK für behandelbare Ausnahmen absetzen](#cx_static_check-fr-behandelbare-ausnahmen-absetzen).
 
 Einige Fakten stammen aus den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenabap_pgl.htm), mit denen dieser Leitfaden größtenteils kompatibel ist. Abweichungen werden explizit hervorgehoben und sind immer im Geist des Clean Code verankert.
 
@@ -1011,7 +1011,7 @@ ENDTRY.
 DATA(row) = my_table[ key = input ].
 ```
 
-> Neben einer Performance-Verbesserung ist dies außerdem eine spezielle Variante des allgemeiner formulierten Prinzips [Konzentrieren Sie sich auf den glücklichen Pfad ODER die Fehlerbehandlung](#glcklicher-pfad-oder-fehlerbehandlung-nicht-beides).
+> Neben einer Performance-Verbesserung ist dies außerdem eine spezielle Variante des allgemeiner formulierten Prinzips [Konzentrieren Sie sich auf den glücklichen Pfad ODER die Fehlerbehandlung](#glcklicher-pfad-oder-fehlerbehandlung-aber-nicht-beides-zugleich).
 
 ## Strings
 
@@ -1996,9 +1996,10 @@ FUNCTION seo_class_copy
     ...
 ```
 
-Zu viele Eingabeparameter lassen die Komplexität einer Methode explodieren, weil sie eine überproportionale Anzahl von Kombinationen verarbeiten muss. Eine große Anzahl von Parametern ist ein Hinweis darauf, dass die Methode möglicherweise mehr als eine Sache tut.
+Zu viele Eingabeparameter lassen die Komplexität einer Methode explodieren, weil sie eine überproportionale Anzahl von Kombinationen verarbeiten muss. Eine große Anzahl von Parametern ist ein Hinweis darauf, dass die Methode wahrscheinlich mehr als eine Sache tut.
 
-Sie können die Anzahl der Parameter reduzieren, indem Sie sie in sinnvollen Gruppen mit Strukturen und Objekten zusammenfassen.
+Sie können die Anzahl der Parameter reduzieren,
+indem Sie sie mit Strukturen und Objekten in sinnvolle Gruppen zusammenfassen.
 
 #### Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen
 
@@ -2025,14 +2026,20 @@ Optionale Parameter verwirren Aufrufer:
 - Welche Kombinationen sind gültig?
 - Welche schließen einander aus?
 
-Mehrere Methoden mit bestimmen Parametern für den Use-Case verhindern diese Verwirrung, indem sie klar vorschreiben, welche Parameterkombinationen gültig sind und erwartet werden.
+Mehrere Methoden mit maßgeschneiderten Parametern
+für den jeweiligen Use-Case verhindern diese Verwirrung,
+indem sie klar dokumentieren, welche Parameterkombinationen
+gültig sind und erwartet werden.
 
 #### PREFERRED PARAMETER sparsam verwenden
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameteranzahl](#parameteranzahl) > [Dieser Abschnitt](#preferred-parameter-sparsam-verwenden)
 
 Der Zusatz `PREFERRED PARAMETER` macht es schwer zu erkennen, welcher Parameter tatsächlich bereitgestellt wird, und erschwert somit die Verständlichkeit des Codes.
-Indem die Anzahl der Parameter, insbesondere der optionalen Parameter, reduziert wird, sinkt automatisch der Bedarf nach dem Zusatz `PREFERRED PARAMETER`.
+Reduzieren Sie die Anzahl der Parameter,
+insbesondere der optionalen Parameter,
+wird Ihr Bedarf nach dem Zusatz `PREFERRED PARAMETER`
+ohnehin automatisch sinken.
 
 #### RETURN, EXPORT oder CHANGE - nur eins davon
 
@@ -2132,11 +2139,15 @@ square(
 
 `RETURNING` verkürzt nicht nur den Aufruf, sondern ermöglicht auch die Methodenverkettung und verhindert Fehler vom Typ [identische Ein- und Ausgabe](#vorsicht-bei-identischer-ein--und-ausgabe).
 
-#### RETURNING von großen Tabellen ist in der Regel problemlos
+#### RETURNING von großen Tabellen ist in der Regel okay
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#returning-von-groen-tabellen-ist-in-der-regel-problemlos)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#returning-von-groen-tabellen-ist-in-der-regel-okay)
 
-Trotz anderslautender Aussagen in der ABAP-Dokumentation und den Performance-Leitfäden stoßen wir selten auf Fälle, in denen die Übergabe einer großen oder stark verschachtelten Tabelle in einem VALUE-Parameter _tatsächlich zu Performanceproblemen führt_. Wir empfehlen daher, die aktuelle Verwendung
+Trotz anderslautender Aussagen in der ABAP-Dokumentation
+und den Performance-Leitfäden stoßen wir selten auf Fälle,
+in denen die Übergabe einer großen oder stark verschachtelten Tabelle
+in einem VALUE-Parameter _tatsächlich_ zu Performanceproblemen führt.
+Wir empfehlen daher, auch Tabellen allgemein mit `RETURNING` zurückzugeben:
 
 ```ABAP
 METHODS get_large_table
@@ -2150,7 +2161,9 @@ ENDMETHOD.
 DATA(my_table) = get_large_table( ).
 ```
 
-Nur wenn ein tatsächlicher Beweis (= schlechte Performance-Messung) für Ihren individuellen Fall vorliegt, greifen Sie auf den umständlicheren prozeduralen Stil zurück
+Nur wenn ein tatsächlicher Beweis (= schlechte Performance-Messung)
+für Ihren individuellen Fall vorliegt, sollten Sie auf den
+umständlicheren prozeduralen Stil zurückgreifen:
 
 ```ABAP
 " Anti-Pattern
@@ -2165,7 +2178,15 @@ ENDMETHOD.
 get_large_table( IMPORTING result = DATA(my_table) ).
 ```
 
-> Dieser Abschnitt widerspricht den ABAP-Programmierrichtlinien und Code-Inspector-Prüfungen, die Beide vorschlagen, dass große Tabellen exportiert werden sollten, um Performance-Defizite zu vermeiden. Die Reproduktion jeglicher Performance- und Speicherdefizite ist uns nicht gelungen, und wir erhielten Mitteilung über die System-Kernel-Optimierung, die im Allgemeinen die RETURNING-Performance verbessert.
+> Dieser Abschnitt widerspricht den ABAP-Programmierrichtlinien
+> und Code-Inspector-Prüfungen, die beide vorschlagen,
+> dass große Tabellen per `EXPORTING` zurückgegeben werden sollten,
+> um Performance-Defizite zu vermeiden.
+> Trotz ernsthafter wiederholter Versuche ist es uns nicht gelungen,
+> derlei Performance- oder Speicherdefizite zu reproduzieren,
+> und wir stießen letztendlich auf eine System-Kernel-Optimierung,
+> die die Performance von `RETURNING` im Allgemeinen der von
+> `EXPORTING` gleich stellt.
 
 #### RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination
 
@@ -2199,7 +2220,8 @@ METHODS copy_class
 
 Verschiedene Sorten von Ausgabeparametern sind ein Hinweis darauf, dass die Methode mehr als eine Sache tut. Dies verwirrt den Leser und macht den Aufruf der Methode unnötig kompliziert.
 
-Eine akzeptable Ausnahme zu dieser Regel können Builder sein, die ihre Eingabe konsumieren, während sie ihre Ausgabe aufbauen:
+Eine akzeptable Ausnahme zu dieser Regel können Builder sein,
+die Teile ihre Eingabe „verbrauchen“, während sie ihre Ausgabe aufbauen:
 
 ```ABAP
 METHODS build_tree
@@ -2209,7 +2231,8 @@ METHODS build_tree
     VALUE(result) TYPE REF TO tree.
 ```
 
-Selbst diese können jedoch klarer gemacht werden, indem die Eingabe objektifiziert wird:
+Selbst diese können jedoch klarer gemacht werden,
+indem die Eingabe „objektifiziert“ wird:
 
 ```ABAP
 METHODS build_tree
@@ -2223,7 +2246,9 @@ METHODS build_tree
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#changing-sparsam-verwenden-wo-geeignet)
 
-`CHANGING` sollte für Fälle reserviert werden, in denen eine vorhandene lokale Variable, die bereits befüllt ist, nur an einigen Stellen aktualisiert wird:
+`CHANGING` sollte für Fälle reserviert werden,
+in denen eine vorhandene lokale Variable,
+die bereits Daten enthält, nur teilweise aktualisiert wird:
 
 ```ABAP
 METHODS update_references
@@ -2239,13 +2264,17 @@ METHOD update_references.
 ENDMETHOD.
 ```
 
-Zwingen Sie Ihre Aufrufer nicht, unnötige lokale Variablen einzuführen, nur um Ihren `CHANGING`-Parameter bereitzustellen. Verwenden Sie keine `CHANGING`-Parameter zum initialen Befüllen einer zuvor leeren Variable.
+Zwingen Sie Ihre Aufrufer nicht, unnötige lokale Variablen einzuführen,
+nur um Ihnen einen `CHANGING`-Parameter bereitzustellen.
+Verwenden Sie keine `CHANGING`-Parameter zum initialen Befüllen
+einer zuvor leeren Variable.
 
 #### Aufgeteilte Methode statt boolescher Eingabeparameter
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parametertypen](#parametertypen) > [Dieser Abschnitt](#aufgeteilte-methode-statt-boolescher-eingabeparameter)
 
-Boolesche Eingabeparameter sind häufig ein Hinweis darauf, dass eine Methode _zwei_ Dinge anstelle von einem tut.
+Boolesche Eingabeparameter sind häufig ein Hinweis darauf,
+dass eine Methode _zwei_ Dinge anstelle von einer tut.
 
 ```ABAP
 " Anti-Pattern
@@ -2254,21 +2283,26 @@ METHODS update
     do_save TYPE abap_bool.
 ```
 
-Methodenaufrufe mit einem einzelnen - und daher unbenannten - booleschen Parameter machen außerdem die Bedeutung des Parameters in vielen Fällen undeutlich.
+Methodenaufrufe mit einem einzelnen - und daher unbenannten -
+booleschen Parameter machen außerdem die Bedeutung des Parameters
+in vielen Fällen undeutlich.
 
 ```ABAP
 " Anti-Pattern
 update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
 ```
 
-Die Aufteilung der Methode kann den Methodencode vereinfachen und die verschiedenen Zwecke besser beschreiben
+Die Aufteilung der Methode kann den Methodencode vereinfachen
+und die verschiedenen Zwecke besser beschreiben
 
 ```ABAP
 update_without_saving( ).
 update_and_save( ).
 ```
 
-Die allgemeine Auffassung legt nahe, dass Setter für boolesche Variablen in Ordnung sind:
+Dem allgemeinen Konsens der Community zufolge
+ist es allerdings völlig in Ordnung, einen Setter
+für eine boolesche Variable anzubieten:
 
 ```ABAP
 METHODS set_is_deleted
@@ -2277,9 +2311,9 @@ METHODS set_is_deleted
 ```
 
 > Mehr erfahren Sie in
-[1](http://www.beyondcode.org/articles/booleanVariables.html)
-[2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-[3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
+[1](http://www.beyondcode.org/articles/booleanVariables.html),
+[2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/) und
+[3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html).
 
 ### Parameternamen
 
@@ -2289,9 +2323,9 @@ METHODS set_is_deleted
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Parameternamen](#parameternamen) > [Dieser Abschnitt](#returning-parameter-evtl-result-nennen)
 
-Gute Methodennamen sind in der Regel so gut, dass der `RETURNING`-Parameter keinen eigenen Namen braucht. Der Name wäre nicht viel mehr als das Nachgeplapper des Methodennamens oder die Wiederholung von etwas Offensichtlichem.
+Gute Methodennamen sind in der Regel so gut, dass der `RETURNING`-Parameter keinen eigenen Namen braucht. Der Name wäre nicht viel mehr als das Nachgeplapper des Methodennamens oder die Wiederholung von etwas ähnlich Offensichtlichem.
 
-Die Wiederholung eines Mitgliednamens kann sogar zu Konflikten führen, die durch das Hinzufügen eines überflüssigen `me->` gelöst werden müssen.
+Die Wiederholung eines Attribut-Namens kann sogar zu Konflikten führen, die durch das Hinzufügen eines überflüssigen `me->` gelöst werden müssen.
 
 ```ABAP
 " Anti-Pattern
@@ -2304,9 +2338,14 @@ METHOD get_name.
 ENDMETHOD.
 ```
 
-Nennen Sie in diesen Fällen den Parameter einfach `RESULT` oder etwas wie `RV_RESULT`, wenn Sie die Ungarische Notation bevorzugen.
+Nennen Sie in diesen Fällen den Parameter einfach `RESULT`,
+bzw. `RV_RESULT` usw. wenn Sie an der  Ungarische Notation festhalten wollen.
 
-Benennen Sie den `RETURNING`-Parameter, wenn es _nicht_ offensichtlich ist, wofür er steht, z.B. in Methoden, die `me` für die Methodenverkettung zurückgeben, oder in Methoden, die etwas erzeugen, die erzeugte Entität jedoch nicht zurückgeben, sondern beispielsweise nur den Schlüssel.
+Geben Sie dem `RETURNING`-Parameter nur dann einen eigenen Namen,
+wenn _nicht_ offensichtlich ist, wofür er steht,
+z.B. in Methoden, die `me` für die Methodenverkettung zurückgeben,
+oder in Methoden, die etwas erzeugen, aber nicht die erzeugte Entität selbst
+zurückgeben, sondern beispielsweise nur deren Schlüssel.
 
 ### Parameterinitialisierung
 
@@ -2361,7 +2400,12 @@ METHOD square_dirty.
 ENDMETHOD.
 ```
 
-Erwägen Sie die Neugestaltung dieser Methoden, indem Sie `EXPORTING` durch `RETURNING` ersetzen. Überlegen Sie auch die Überschreibung des `EXPORTING`-Parameters in einer Berechnungsanweisung mit einem Einzelergebnis. Wenn keine der beiden Möglichkeiten passt, verwenden Sie ein `CLEAR` an später Stelle.
+Erwägen Sie, den Rückgabewert solcher Methoden
+von `EXPORTING` auf `RETURNING` zu ändern.
+Alternativ können Sie auch den `EXPORTING`-Parameter ohne vorheriges `CLEAR`
+direkt mit dem Ergebnis Ihrer Berechnung überschreiben.
+Nur falls keine der beiden Möglichkeiten passt,
+sollten Sie auf ein `CLEAR` an später Stelle zurückgreifen.
 
 #### VALUE-Parameter nicht löschen
 
@@ -2395,27 +2439,31 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Dieser Abschnitt](#methodenrumpf)
 
-#### Mache eine Sache zur Zeit, und mache sie gut
+#### Tue eine Sache, nur eine, und mache sie gut
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#mache-eine-sache-zur-zeit-und-mache-sie-gut)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#tue-eine-sache-nur-eine-und-mache-sie-gut)
 
-Eine Methode sollte eine Sache tun, und nur eine Sache. Diese sollte sie auf bestmögliche Weise tun.
+Eine Methode sollte eine Sache tun, und nur eine Sache.
+Diese sollte sie auf die bestmögliche Weise tun.
 
-Eine Methode tut wahrscheinlich eine Sache, wenn
+Eine Methode tut wahrscheinlich genau eine Sache, wenn
 
 - sie [wenige Eingabeparameter](#so-wenig-importing-parameter-wie-mglich-im-bestfall-weniger-als-drei) hat,
 - die [keine booleschen Parameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter) beinhalten
 - sie [genau einen Ausgabeparameter](#return-export-oder-change---nur-eins-davon) hat
 - sie [klein](#methoden-klein-halten) ist
 - sie [eine Abstraktionsebene tiefer ](#eine-abstraktionsebene-tiefer-steigen) ist
-- Sie keine weiteren sinnvollen Methoden extrahieren können
-- Sie ihre Anweisungen nicht sinnvoll in Abschnitte gruppieren können
+- Sie keine weiteren sinnvollen Methoden aus ihr extrahieren können
+- Sie die Anweisungen darin nicht sinnvoll in Abschnitte gruppieren können
 
-#### Glücklicher Pfad oder Fehlerbehandlung, nicht Beides
+#### Glücklicher Pfad oder Fehlerbehandlung, aber nicht beides zugleich
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#glcklicher-pfad-oder-fehlerbehandlung-nicht-beides)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#glcklicher-pfad-oder-fehlerbehandlung-aber-nicht-beides-zugleich)
 
-Als Spezialfall der Regel [_Mache eine Sache zur Zeit, und mache sie gut_](#mache-eine-sache-zur-zeit-und-mache-sie-gut) sollte eine Methode entweder dem glücklichen Pfad folgen, für den sie erzeugt wurde, oder dem Umweg der Fehlerbehandlung, sofern der glückliche Pfad nicht möglich ist. Beides gleichzeitig ist keine gangbare Alternative.
+Als Spezialfall der Regel [_Tue eine Sache, nur eine, und mache sie gut_](#tue-eine-sache-nur-eine-und-mache-sie-gut)
+sollte eine Methode entweder dem [glücklichen Pfad](https://de.wikipedia.org/wiki/Testpfad) folgen,
+für den sie angelegt wurde, oder sich um Alternativen und Fehler kümmern.
+Beides gleichzeitig ist keine gangbare Alternative.
 
 ```ABAP
 " Anti-Pattern
@@ -2481,7 +2529,10 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#eine-abstraktionsebene-tiefer-steigen)
 
-Anweisungen in einer Methode sollten sich eine Abstraktionsebene unter der Methode selbst befinden. Dementsprechend sollten sie sich alle auf derselben Abstraktionsebene befinden.
+Anweisungen in einer Methode sollten sich
+eine Abstraktionsebene unter der der Methode selbst befinden.
+Im Umkehrschluss sollten sich also alle Anweisungen einer Methode
+auf dem selben Abstraktioniveau bewegen.
 
 ```ABAP
 METHOD create_and_publish.
@@ -2490,7 +2541,9 @@ METHOD create_and_publish.
 ENDMETHOD.
 ```
 
-anstelle einer verwirrenden Mischung von Konzepten auf niedriger Ebene (`trim`, `to_upper`, ...) und höherer Ebene (`publish`, ...) wie
+anstelle einer verwirrenden Mischung von
+Konzepten auf niedriger Ebene (`trim`, `to_upper`, ...)
+und höherer Ebene (`publish`, ...) wie
 
 ```ABAP
 " Anti-Pattern
@@ -2502,13 +2555,22 @@ METHOD create_and_publish.
 ENDMETHOD.
 ```
 
-Eine zuverlässige Methode, herauszufinden, welches die richtige Abstraktionsebene ist, sieht folgendermaßen aus: Lassen Sie den Autor der Methode in wenigen, kurzen Worten erläutern, was die Methode tut, jedoch ohne dabei den Code anzusehen. Die Punkte, die der Autor aufführt, sind die Untermethoden, die von der Methode aufgerufen werden sollen, oder die Anweisungen, die sie ausführen soll.
+Eine zuverlässige Methode, herauszufinden,
+welches die richtige Abstraktionsebene ist,
+sieht folgendermaßen aus:
+Lassen Sie den Autor der Methode in wenigen,
+kurzen Worten erläutern, was die Methode tut,
+jedoch ohne dabei den Code anzusehen.
+Die Punkte, die der Autor aufführt, sind die Untermethoden,
+die von der Methode aufgerufen werden sollten,
+oder die Anweisungen, die sie ausführen soll.
 
 #### Methoden klein halten
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Methoden](#methoden) > [Methodenrumpf](#methodenrumpf) > [Dieser Abschnitt](#methoden-klein-halten)
 
-Methoden sollten weniger als 20 Anweisungen haben, idealerweise 3 bis 5.
+Methoden sollten weniger als 20 Anweisungen haben,
+idealerweise sogar nur 3 bis 5.
 
 ```ABAP
 METHOD read_and_parse_version_filters.
@@ -2548,7 +2610,7 @@ DATA:
   new_clskey_save TYPE seoclskey.
 ```
 
-Natürlich gibt es Fälle, in denen es keinen Sinn ergibt, eine umfangreiche Methode weiter aufzuteilen. Dies ist völlig in Ordnung, sofern die Methode [auf eine Sache fokussiert bleibt](#mache-eine-sache-zur-zeit-und-mache-sie-gut):
+Natürlich gibt es Fälle, in denen es keinen Sinn ergibt, eine umfangreiche Methode weiter aufzuteilen. Dies ist völlig in Ordnung, sofern die Methode [auf eine Sache fokussiert bleibt](#tue-eine-sache-nur-eine-und-mache-sie-gut):
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2567,7 +2629,8 @@ METHOD decide_what_to_do.
 ENDMETHOD.
 ```
 
-Es macht jedoch trotzdem Sinn, zu prüfen, ob der ausführliche Code ein geeigneteres Muster verbirgt:
+Es macht jedoch trotzdem Sinn, zu prüfen,
+ob sich in derlei länglichem Code ein eleganteres Muster verbirgt:
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2597,7 +2660,8 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Spätere Validierungen sind schwieriger erkennbar und verständlich, und sie haben bis zu diesem Punkt möglicherweise schon Ressourcen verschwendet.
+Spätere Validierungen sind schwieriger zu erkennen und verstehen,
+und Sie haben bis zu diesem Punkt möglicherweise schon Ressourcen verschwendet.
 
 ```ABAP
 " Anti-Pattern
@@ -2625,7 +2689,9 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-gibt der Name der Anweisung nicht preis, was passiert, wenn die Bedingung fehlschlägt. Daher ist die Langform wahrscheinlich verständlicher:
+gibt der Name der Anweisung nicht preis, was passiert,
+wenn die Bedingung fehlschlägt.
+Daher ist die Langform im Allgemeinen verständlicher:
 
 ```ABAP
 METHOD read_customizing.
@@ -2636,7 +2702,8 @@ METHOD read_customizing.
 ENDMETHOD:
 ```
 
-Sie können die Frage vollständig umgehen, indem Sie die Validierung umkehren und einen Kontrollfluss mit nur einer Rückgabe übernehmen.
+Sie können die Frage komplett vermeiden, wenn Sie die Validierung umkehren
+und den Kontrollfluss Ihrer Methode auf einen einzigen RETURN-Punkt reduzieren.
 
 ```ABAP
 METHOD read_customizing.
@@ -2648,7 +2715,11 @@ ENDMETHOD:
 
 Überlegen Sie in jedem Fall, ob das Zurückgeben von „Nichts“ wirklich das geeignete Verhalten ist. Methoden sollten ein sinnvolles Ergebnis bereitstellen, d.h. entweder einen befüllten Rückgabeparameter oder eine Ausnahme. Keine Rückgabe entspricht in vielen Fällen der Rückgabe von `null`, was vermieden werden sollte.
 
-> Der [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenexit_procedure_guidl.htm)empfiehlt die Verwendung von `CHECK` in diesem Fall. Diskussionen in der Community legen nahe, dass die Anweisung unklar ist und dazu führt, dass das Programmverhalten nicht verständlich ist.
+> Der [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenexit_procedure_guidl.htm)
+> empfiehlt die Verwendung von `CHECK` in diesem Fall.
+> Diskussionen in der Community legen jedoch nahe,
+> dass diese Anweisung unklar ist und dazu führt,
+> dass das Programmverhalten nicht verständlich ist.
 
 #### CHECK an anderer Stelle vermeiden
 
@@ -2656,10 +2727,12 @@ ENDMETHOD:
 
 Verwenden Sie `CHECK` nicht außerhalb des Initialisierungsabschnitts einer Methode. Das Verhalten der Anweisung variiert abhängig von ihrer Position und kann zu unklaren, unerwarteten Ergebnissen führen.
 
-So beendet [`CHECK` in einer `LOOP` beispielsweise die aktuelle Iteration und fährt mit der nächsten fort](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/abapcheck_loop.htm), anstatt, wie möglicherweise irrtümlich erwartet, die Methode bzw. die Loop zu beenden.
+So beendet [`CHECK` in einem `LOOP`-Schleife beispielsweise die aktuelle Iteration und fährt mit der nächsten fort](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/abapcheck_loop.htm),
+anstatt, wie man gemeinhin irrtümlich erwarten könnte,
+die Methode oder wenigstens die Schleife zu beenden.
 
 > Basierend auf [Abschnitt _Prozeduren verlassen_ in den ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenexit_procedure_guidl.htm).
-Beachten Sie, dass dies der [Schlüsselwortreferenz für `CHECK` in Loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/abapcheck_loop.htm)widerspricht.
+Beachten Sie, dass dies der [Schlüsselwortreferenz für `CHECK` in Loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/de-DE/abapcheck_loop.htm) widerspricht.
 
 ## Fehlerbehandlung
 
@@ -2778,7 +2851,8 @@ METHODS entry_exists_in_db
     VALUE(result) TYPE abap_bool.
 ```
 
-Ausnahmen sollten den Fällen vorbehalten werden, die unerwartet sind und Fehlersituationen widerspiegeln.
+Ausnahmen sollten für Fälle reserviert bleiben,
+die unerwartet sind und Fehlersituationen widerspiegeln.
 
 ```ABAP
 METHODS assert_user_input_is_valid
@@ -2788,7 +2862,12 @@ METHODS assert_user_input_is_valid
     cx_bad_user_input.
 ```
 
-Der missbräuchliche Einsatz von Ausnahmen verleitet den Leser dazu, anzunehmen, dass etwas falsch ist, obwohl in Wirklichkeit alles in Ordnung ist. Ausnahmen sind außerdem viel langsamer als der reguläre Code, weil sie konstruiert werden müssen und häufig eine Menge Kontextinformationen sammeln.
+Der missbräuchliche Einsatz von Ausnahmen verleitet den Leser dazu,
+anzunehmen, dass etwas falsch läuft,
+obwohl in Wirklichkeit alles in Ordnung ist.
+Ausnahmen sind außerdem viel langsamer als regulärer Code,
+weil sie erst konstruiert werden müssen
+und häufig eine Menge Kontextinformationen sammeln.
 
 #### Klassenbasierte Ausnahmen verwenden
 
@@ -2801,7 +2880,9 @@ TRY.
 ENDTRY.
 ```
 
-Die veralteten, nicht klassenbasierten Ausnahmen haben dieselben Funktionen wie Rückgabecodes und sollten nicht mehr verwendet werden.
+Die veralteten, nicht klassenbasierten Ausnahmen
+haben dieselben Funktionen - und damit Limitierungen -
+wie Rückgabecodes und sollten daher nicht mehr verwendet werden.
 
 ```ABAP
 " Anti-Pattern
@@ -2824,13 +2905,17 @@ CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_static_check.
 CLASS cx_fra_no_check DEFINITION ABSTRACT INHERITING FROM cx_no_check.
 ```
 
-Erwägen Sie die Erzeugung von abstrakten übergeordneten Klassen für jeden Ausnahmetyp Ihrer Anwendung, anstatt die Foundation-Klassen direkt mit Unterklassen auszustatten. Dies gestattet Ihnen das `CATCH` von _allen_ Ihren Ausnahmen.
-Ermöglicht Ihnen das Hinzufügen von allgemeinen Funktionen zu allen Ausnahmen, wie z.B. spezielle Textbehandlung.
-`ABSTRACT` verhindert die unabsichtliche direkte Verwendung dieser nicht beschriebenen Fehler.
+Erwägen Sie die Erzeugung von abstrakten übergeordneten Klassen für jeden Ausnahmetyp Ihrer Anwendung, anstatt direkt von den Ausnahmeklassen der SAP-Basis zu erben.
+Dies gestattet Ihnen beispielsweise, _allen_ Ihre Ausnahmen mit einem einzigen `CATCH` zu fangen,
+und allgemeine Funktionen - wie z.B. spezielle Textbehandlung -
+zu allen Ausnahmen gleichzeitig hinzuzufügen.
 
-#### Einen Ausnahmetyp zur Zeit absetzen
+Machen Sie solche Klassen `ABSTRACT`,
+damit Sie sie nicht versehentlich direkt verwenden.
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#einen-ausnahmetyp-zur-zeit-absetzen)
+#### Nur einen Ausnahmetyp werfen
+
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#nur-einen-ausnahmetyp-werfen)
 
 ```ABAP
 METHODS generate
@@ -2838,9 +2923,13 @@ METHODS generate
     cx_generation_error.
 ```
 
-In der überwiegenden Mehrheit der Fälle hat das Absetzen mehrerer Ausnahmetypen keinen Sinn.
-Der Aufrufer ist gewöhnlich weder interessiert noch in der Lage, die Fehlersituationen auseinanderzuhalten.
-Er wird sie daher in der Regel alle auf dieselbe Weise beheben, wodurch der Sinn der ursprünglichen Unterscheidung dieser Fehler zunichte gemacht wird. 
+In der überwiegenden Mehrheit der Fälle hat es keinen Sinn,
+mehrere verschiedene Ausnahmen zu werfen:
+Der Aufrufer ist gewöhnlich weder geneigt noch in der Lage,
+die Fehlersituationen auseinanderzuhalten.
+Er wird sie daher in der Regel alle auf dieselbe Weise beheben,
+wodurch der Sinn der ursprünglichen Unterscheidung dieser Fehler
+zunichte gemacht wird. 
 
 ```ABAP
 " Anti-Pattern
@@ -2851,7 +2940,11 @@ METHODS generate
     cx_model_read_error.
 ```
 
-Eine bessere Lösung zur Erkennung der verschiedenen Fehlersituationen besteht darin, einen einzigen Ausnahmetyp zu verwenden, jedoch Unterklassen hinzuzufügen, die eine Reaktion auf individuelle Fehlersituationen gestatten, jedoch nicht erfordern. Siehe hierzu Abschnitt [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen).
+Eine bessere Lösung zur Erkennung der verschiedenen Fehlersituationen
+besteht darin, nur einen einzigen Ausnahmetyp zu werfen,
+diesen jedoch mit Unterklassen auszustatten,
+die eine Reaktion auf individuelle Fehlersituationen ermöglichen,
+jedoch nicht erzwingen. Siehe hierzu Abschnitt [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen).
 
 #### Übersichtlichere Fehlersituationen mit untergeordneten Klassen
 
@@ -2897,9 +2990,9 @@ TRY.
 ENDTRY.
 ```
 
-#### CX_STATIC_CHECK für überschaubare Ausnahmen absetzen
+#### CX_STATIC_CHECK für behandelbare Ausnahmen absetzen
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#cx_static_check-fr-berschaubare-ausnahmen-absetzen)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Fehlerbehandlung](#fehlerbehandlung) > [Ausnahmen absetzen](#ausnahme-absetzen) > [Dieser Abschnitt](#cx_static_check-fr-behandelbare-ausnahmen-absetzen)
 
 Wenn eine Ausnahme erwartet und vom Empfänger auf angemessene Art behandelt werden kann, setzen Sie eine geprüfte Ausnahmevererbung über `CX_STATIC_CHECK` ab: fehlerhafte Validierung der Benutzereingabe, fehlende Ressource, zu der Fallbacks existieren usw.
 
@@ -2913,10 +3006,13 @@ METHODS read_file
     cx_file_not_found.
 ```
 
-Dieser Ausnahmetyp _muss_ in Methodensignaturen angegeben _und_ abgefangen oder weitergeleitet werden, um Syntaxfehler zu vermeiden.
-Er ist daher für den Konsumenten offensichtlich und stellt sicher, dass dieser nicht von einer unerwarteten Ausnahme überrascht wird, und angemessen auf die Fehlersituation reagiert.
+Dieser Ausnahmetyp _muss_ in Methodensignaturen angegeben _und_
+gefangen oder weitergeworfen werden, um Syntaxfehler zu vermeiden.
+Er ist daher für den Konsumenten offensichtlich und stellt sicher,
+dass dieser nicht von einer unerwarteten Ausnahme überrascht wird
+und angemessen auf die Fehlersituation reagiert.
 
-> Diese Empfehlung entspricht den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abenexception_category_guidl.htm), widerspricht jedoch [Robert C. Martins _Clean Code_], in dem die Bevorzugung ungeprüfter Ausnahmen empfohlen wird. Abschnitt [Exceptions](sub-sections/Exceptions.md) erklärt, warum.
+> Diese Empfehlung entspricht den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/abenexception_category_guidl.htm), widerspricht jedoch [Robert C. Martins _Clean Code_], in dem die Bevorzugung ungeprüfter Ausnahmen empfohlen wird. Der Abschnitt [Exceptions](sub-sections/Exceptions.md) erklärt, warum.
 
 #### CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen
 
@@ -2932,10 +3028,22 @@ METHODS create_guid
     VALUE(result) TYPE /bobf/conf_key.
 ```
 
-`CX_NO_CHECK` _kann nicht_ in Methodensignaturen deklariert werden und ist somit für den Konsumenten eine böse Überraschung. Im Falle von nicht behebbaren Situationen ist dies in Ordnung, weil der Konsument ohnehin nicht hilfreich darauf reagieren kann.
+`CX_NO_CHECK` _kann nicht_ in Methodensignaturen deklariert werden
+und ist somit für den Konsumenten immer eine böse Überraschung.
+Im Falle von nicht behebbaren Situationen ist dies in Ordnung,
+weil der Konsument ohnehin nicht hilfreich darauf reagieren kann.
 
-Es _kann_ jedoch Fälle geben, in denen der Konsument tatsächlich diese Art von Fehler erkennen und darauf reagieren möchte. Beispiel: Ein Dependency Manager setzt `CX_NO_CHECK` ab, wenn er nicht in der Lage ist, eine Implementierung für eine angeforderte Schnittstelle bereitzustellen, weil der reguläre Anwendungscode nicht fortfahren kann.
-Es ist jedoch möglicherweise ein Testreport vorhanden, der versucht, alles Mögliche zu instanziieren, nur um zu sehen, ob es funktioniert, und der den Fehler einfach nur als roter Eintrag in einer Liste meldet.
+Es _kann_ jedoch Fälle geben, in denen der Konsument
+tatsächlich diese Art von Fehler erkennen und darauf reagieren möchte.
+Ein Beispiel: Ein Dependency Manager setzt `CX_NO_CHECK` ab,
+wenn er nicht in der Lage ist, eine Implementierung
+für eine angeforderte Schnittstelle bereitzustellen.
+Er wirft diesen Ausnahmetyp, weil der reguläre Anwendungscode
+vermutlich ohnehin nicht fortfahren kann.
+Es gibt jedoch möglicherweise einen Testreport vorhanden,
+der versucht, alles Mögliche zu instanziieren,
+nur um zu sehen, ob es funktioniert,
+und der den Fehler einfach nur als roten Eintrag in einer Liste meldet.
 Dieser Service sollte in der Lage sein, die Ausnahme abzufangen und zu ignorieren, anstatt zu einem Dump gezwungen zu werden.
 
 #### CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen
@@ -2954,7 +3062,7 @@ cl_abap_math=>get_db_length_decs(
     length = DATA(length) ).
 ```
 
-Denken Sie beispielsweise an die Methode `get_db_length_decs` von Klasse `cl_abap_math`, die Ihnen die Anzahl der Ziffern und Nachkommastellen einer dezimalen Gleitpunktzahl mitteilt. Diese Methode setzt die dynamische Ausnahme `cx_parameter_invalid_type` ab, wenn der Eingabeparameter keine dezimale Gleitpunktzahl widerspiegelt. Diese Methode wird gewöhnlich für eine vollständige, statische Variable aufgerufen, so dass der Entwickler weiß, ob diese Ausnahme jemals auftreten kann.
+Denken Sie beispielsweise an die Methode `get_db_length_decs` der Klasse `cl_abap_math`, die Ihnen die Anzahl der Ziffern und Nachkommastellen einer dezimalen Gleitpunktzahl mitteilt. Diese Methode setzt die dynamische Ausnahme `cx_parameter_invalid_type` ab, wenn der Eingabeparameter keine dezimale Gleitpunktzahl widerspiegelt. Diese Methode wird gewöhnlich für eine vollständige, statische Variable aufgerufen, so dass der Entwickler weiß, ob diese Ausnahme jemals auftreten kann.
 In diesem Fall würde die dynamische Ausnahme dem Aufrufer gestatten, die überflüssige `CATCH`-Klausel wegzulassen.
 
 #### Dump für schwerwiegende, nicht behebbare Situationen absetzen
@@ -3017,8 +3125,11 @@ METHOD generate.
 ENDMETHOD.
 ```
 
-Das [Gesetz der Demeter](https://de.wikipedia.org/wiki/Gesetz_von_Demeter) empfiehlt die Entkopplung der Dinge. Die Weiterleitung von Ausnahmen aus anderen Komponenten verstößt gegen dieses Prinzip.
-Machen Sie sich unabhängig vom Fremdcode, indem Sie diese Ausnahmen abfangen und in einem eigenen Ausnahmetyp umschließen.
+Das [Gesetz der Demeter](https://de.wikipedia.org/wiki/Gesetz_von_Demeter)
+empfiehlt, Dinge zu entkoppeln.
+Ausnahmen aus anderen Komponenten weiterzuleiten, verstößt gegen dieses Prinzip.
+Machen Sie sich unabhängig von fremdem Code,
+indem Sie diese Ausnahmen fangen und in einen eigenen Ausnahmetyp verpacken.
 
 ```ABAP
 " Anti-Pattern
@@ -3152,14 +3263,15 @@ SELECT * FROM d_alert_root WHERE key = key.
 " Have a look at this and that to get the details.
 ```
 
-Ehrlich - niemand liest das. Wenn ein Fachbuch erforderlich ist, um Ihren Code zu verstehen, kann dies ein Hinweis darauf sein, dass Ihr Code ernsthafte Design-Probleme hat, die Sie auf andere Weise lösen sollten.
+Niemand liest das. Ehrlich. Wenn ein Fachbuch erforderlich ist, um Ihren Code zu verstehen, kann dies ein Hinweis darauf sein, dass Ihr Code ernsthafte Design-Probleme hat, die Sie auf andere Weise lösen sollten.
 Wenn Ihr Code _wirklich_ eine Erläuterung über eine einzelne Kommentarzeile hinaus erfordert, was durchaus der Fall sein kann, schlagen wir eine Verlinkung mit dem Design-Dokument vor.
 
 ### Kommentare mit ", nicht mit * markieren
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#kommentare-mit--nicht-mit--markieren)
 
-Zitieren Sie Kommentare eingerückt, gemeinsam mit den Anweisungen, die sie kommentieren
+Kommentare mit Anführungszeichen `"` werden mit den
+Anweisungen, auf die sie sich beziehen, formatiert und eingerückt
 
 ```ABAP
 METHOD do_it.
@@ -3170,7 +3282,8 @@ METHOD do_it.
 ENDMETHOD.
 ```
 
-Kommentare mit Asterisk tendieren zum Einrücken an seltsame Positionen
+Kommentare mit Sternchen `*` tendieren hingegen dazu,
+an seltsame Positionen eingerückt zu werden
 
 ```ABAP
 " Anti-Pattern
@@ -3232,7 +3345,10 @@ ENDMETHOD.
 - `TODO`s sind Stellen, an denen Sie etwas in der näheren (!) Zukunft  vervollständigen möchten.
 - `XXX` markiert Code, der funktioniert, aber verbesserungswürdig ist.
 
-Wenn Sie einen solchen Kommentar erfassen, fügen Sie Ihren Nicknamen, Ihre Initialen oder Ihren Benutzernamen hinzu, damit Ihre Co-Entwickler Sie kontaktieren und fragen können, wenn der Kommentar unklar ist.
+Wenn Sie einen solchen Kommentar erfassen,
+fügen Sie Ihren Spitznamen, Ihre Initialen oder Ihren Benutzernamen hinzu,
+damit Ihre Co-Entwickler Sie kontaktieren und fragen können,
+wenn der Kommentar unklar ist.
 
 ### Kein Kommentar zu Methodensignatur und Ende
 
@@ -3252,10 +3368,19 @@ Methodensignatur-Kommentare nützen niemandem etwas.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
 ```
 
-Vor Jahrzehnten, als Sie beim Prüfen des Codes die Methodensignatur nicht sehen konnten, oder mit Ausdrucken arbeiteten, die Dutzende von Seiten umfassten, mögen diese Kommentare sinnvoll gewesen sein. Alle modernen ABAP IDEs (SE24, SE80, ADT) zeigen die Methodensignatur jedoch offensichtlich, sodass diese Kommentare überflüssig geworden sind.
+Vor Jahrzehnten, als wir beim Prüfen des Codes die Methodensignatur
+nicht sehen konnten, oder mit Ausdrucken gearbeitet haben,
+die Dutzende von Seiten lang waren,
+mögen diese Kommentare sinnvoll gewesen sein.
+Heute zeigen jedoch alle modernen ABAP IDEs (SE24, SE80, ADT)
+die Methodensignatur bequem an, sodass diese Kommentare
+überflüssig geworden sind.
 
-> Im formularbasierten Editor von SE24/SE80 verwenden Sie die Drucktaste _Signatur_.
-In den ABAP Development Tools markieren Sie den Methodennamen und verwenden Sie F2 oder fügen Sie die Sicht _ABAP Element Info_ zu Ihrer Perspektive hinzu.
+> Im formularbasierten Editor von SE24/SE80 zeigt Ihnen
+> die Drucktaste _Signatur_ die Signatur an.
+> In den ABAP Development Tools markieren Sie den Methodennamen
+> und drücken F2 oder fügen die Sicht _ABAP Element Info_
+> zu Ihrer Perspektive hinzu.
 
 Entsprechend sind auch Endekommentare überflüssig. Diese Kommentare waren vor Jahrzehnten möglicherweise hilfreich, als Programme, Funktionen und die darin verschachtelten IFs Hunderte von Codezeilen umfassten. Der moderne Kodierungsstil erzeugt jedoch Methoden, bei deren Kürze mühelos ersichtlich ist, zu welcher Eröffnungsanweisung ein `ENDIF` oder `ENDMETHOD` gehört:
 
@@ -3294,9 +3419,14 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#abap-doc-nur-fr-ffentliche-apis)
 
-Schreiben Sie ein ABAP Doc zur Dokumentation von öffentlichen APIs, d.h. APIs, die für Entwickler in anderen Teams oder Anwendungen bestimmt sind. Schreiben Sie kein ABAP Doc für die interne Angelegenheiten.
+Schreiben Sie ABAP Doc nur zur Dokumentation von öffentlichen APIs,
+d.h. APIs, die für Entwickler in anderen Teams oder Anwendungen bestimmt sind.
+Schreiben Sie kein ABAP Doc für Interna Ihrer Klassen.
 
-ABAP Doc leidet unter denselben Schwächen wie alle Kommentare - schnelle Veraltung und anschließende Missverständlichkeit. Folglich sollte ABAP Doc nur dort verwendet werden, wo es Sinn macht, und nicht zu jedem Zweck und überall.
+ABAP Doc leidet unter denselben Schwächen wie alle Kommentare -
+schnelle Veraltung und anschließende Missverständlichkeit.
+Folglich sollte ABAP Doc nur dort verwendet werden, wo es Sinn macht,
+und nicht immer und überall.
 
 > Mehr erfahren Sie in _Kapitel 4: Gute Kommentare: Javadocs in öffentlichen APIs_ und _Kapitel 4: Schlechte Kommentare: Javadocs in nicht-öffentlichem Code_ in [Robert C. Martins _Clean Code_].
 
@@ -3321,7 +3451,7 @@ Nutzen Sie das Programm `ABAP_SLIN_PRAGMAS` oder die Tabelle `SLIN_DESC` zum Auf
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Dieser Abschnitt](#formatierungen)
 
 Die folgenden Vorschläge sind [optimiert zum Lesen, nicht zum Schreiben](#zum-lesen-optimieren-nicht-zum-schreiben).
-Da ABAP Pretty Printer diese nicht abdeckt, verursachen einige davon manuellen Zusatzaufwand beim Umformatieren von Anweisungen, wenn sich die Namenslängen usw. ändern. Wenn Sie dies vermeiden möchten, überlegen Sie, auf Regeln wie [Zuordnung zum selben Objekt verdeutlichen](#zuordnung-zum-selben-objekt-verdeutlichen) zu verzichten.
+Da der ABAP Pretty Printer diese nicht abdeckt, verursachen einige davon manuellen Zusatzaufwand beim Umformatieren von Anweisungen, wenn sich die Namenslängen usw. ändern. Wenn Sie dies vermeiden möchten, überlegen Sie, auf Regeln wie [Zuordnung zum selben Objekt verdeutlichen](#zuordnung-zum-selben-objekt-verdeutlichen) zu verzichten.
 
 ### Konsistent sein
 
@@ -3365,9 +3495,12 @@ DATA:
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Formatierung](#formatierungen) > [Dieser Abschnitt](#pretty-printer-vor-der-aktivierung-verwenden)
 
-Verwenden Sie Pretty Printer - Shift+F1 in SE80, SE24 und ADT - vor dem Aktivieren eines Objekts.
+Verwenden Sie den Pretty Printer - Shift+F1 in SE80, SE24 und ADT - vor dem Aktivieren eines Objekts.
 
-Wenn Sie eine größere, unformatierte Legacy-Codebasis ändern, empfiehlt sich die Anwendung von Pretty Printer nur auf ausgewählte Zeilen, um umfangreiche Änderungslisten und Transportabhängigkeiten zu vermeiden. Wenn Sie das vollständige Entwicklungsobjekt mit Pretty Printer bearbeiten möchten, können Sie dies per separaten Transportauftrag oder Hinweis tun.
+Wenn Sie eine größere, unformatierte Legacy-Codebasis ändern,
+empfiehlt es sich, den Pretty Printer nur auf ausgewählte Zeilen anzuwenden,
+um umfangreiche Änderungslisten und Transportabhängigkeiten zu vermeiden.
+Wenn Sie das vollständige Entwicklungsobjekt mit Pretty Printer bearbeiten möchten, können Sie dies per separaten Transportauftrag oder Hinweis tun.
 
 > Mehr erfahren Sie in _Kapitel 5: Formatierung: Team-Regeln_ von [Robert C. Martins _Clean Code_].
 
@@ -3446,7 +3579,7 @@ DATA(result) = do_something( ).
 DATA(else) = calculate_this( result ).
 ```
 
-Das Bedürfnis nach trennenden Leerzeilen kann ein Hinweis darauf sein, dass Ihre Methode [nicht eine Sache tut](#mache-eine-sache-zur-zeit-und-mache-sie-gut).
+Das Bedürfnis nach trennenden Leerzeilen kann ein Hinweis darauf sein, dass Ihre Methode [nicht eine Sache tut](#tue-eine-sache-nur-eine-und-mache-sie-gut).
 
 ### Keine exzessiven Leerzeilen
 
@@ -3459,7 +3592,8 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Es gibt keinen Grund für die schlechte Gewohnheit, Ihren Code mit Leerzeilen auseinanderzureißen.
+Es gibt keinen Grund für die schlechte Gewohnheit,
+Code mit Leerzeilen auseinanderzureißen.
 
 ```ABAP
 " Anti-Pattern
@@ -3472,7 +3606,8 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Leerzeilen machen tatsächlich nur Sinn, wenn Sie Anweisungen haben, die mehrere Zeilen umspannen
+Leerzeilen machen in der Regel ohnehin nur Sinn,
+wenn Sie Anweisungen haben, die mehrere Zeilen umspannen
 
 ```ABAP
 METHOD do_something.
@@ -3592,7 +3727,7 @@ DATA(sum) = add_two_numbers(
     value_2 = 6 ).
 ```
 
-Dies ist jedoch das beste Muster, wenn Sie vermeiden möchten, dass die Formatierung durch eine Namenslängenänderung zerstört wird.
+> Dies ist andererseits jedoch das beste Muster, wenn Sie vermeiden möchten, dass die Formatierung durch eine Namenslängenänderung zerstört wird.
 
 ### Zeilenumbruch bei mehreren Parametern
 
@@ -3603,7 +3738,7 @@ DATA(sum) = add_two_numbers( value_1 = 5
                              value_2 = 6 ).
 ```
 
-Zugegeben, es ist Platzverschwendung. Andernfalls ist jedoch schwer zu erkennen, wo ein Parameter endet und der nächste beginnt:
+Zugegeben, das ist Platzverschwendung. Andernfalls ist jedoch schwer zu erkennen, wo ein Parameter endet und der nächste beginnt:
 
 ```ABAP
 " Anti-Pattern
@@ -3631,7 +3766,7 @@ modify->update( node = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-> Dies ist andererseits das beste Muster, wenn Sie vermeiden möchten, dass die Formatierung durch eine Namenslängenänderung zerstört wird.
+> Dies ist andererseits jedoch das beste Muster, wenn Sie vermeiden möchten, dass die Formatierung durch eine Namenslängenänderung zerstört wird.
 
 ### Aufruf auf eine neue Zeile umbrechen, wenn die Zeile zu lang wird
 
