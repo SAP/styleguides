@@ -1,3 +1,6 @@
+> Übersetzt vom [englischen Original vom 14.11.2019](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c).
+> Neuester Stand [auf Englisch](CleanABAP.md).
+
 # Clean ABAP
 
 > [**Deutsch**](CleanABAP_de.md)
@@ -10,11 +13,6 @@ an [ABAP](https://de.wikipedia.org/wiki/ABAP).
 Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 
 [Robert C. Martins _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
-
-> Diese Übersetzung spiegelt den Stand
-> vom [14. November 2019 des englischen Originals](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c) wieder.
-> Den neuesten Stand finden Sie in der
-> [aktuellen Fassung des englischen Originals](CleanABAP.md).
 
 ## Inhalt
 
