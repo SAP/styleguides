@@ -186,6 +186,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Close brackets at line end](#close-brackets-at-line-end)
   - [Keep single parameter calls on one line](#keep-single-parameter-calls-on-one-line)
   - [Keep parameters behind the call](#keep-parameters-behind-the-call)
+  - [Alternatively, keep parameters below the call](#alternatively-keep-parameters-below-the-call)
   - [If you break, indent parameters under the call](#if-you-break-indent-parameters-under-the-call)
   - [Line-break multiple parameters](#line-break-multiple-parameters)
   - [Align parameters](#align-parameters)
@@ -942,7 +943,7 @@ DATA:
   reader TYPE REF TO reader.
 ```
 
-> Also refer to [Don't align type clauses](#dont-align-type-clauses)  
+> Also refer to [Don't align type clauses](#dont-align-type-clauses)
 > If chaining of data declaration is used, then use one chain for each group of variables belonging together.
 
 ### Prefer REF TO to FIELD-SYMBOL
@@ -1051,7 +1052,7 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 ```
 
 > Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
-> 
+>
 > **Caution:** `SORT` on internal tables with `EMPTY KEY` will not sort at all,
 > but syntax warnings are issued in case the key's emptiness can be determined statically.
 
@@ -1757,7 +1758,7 @@ Local classes hinder reuse because they cannot be used elsewhere.
 Although they are easy to extract, people will usually fail to even find them,
 leading to undesired code duplication.
 Orientation, navigation, and debugging in very long local class includes
-is tedious and annoying. 
+is tedious and annoying.
 As ABAP locks on include level, people will not be able to work on
 different parts of the local include simultaneously
 (which would be possible if they were separate global classes).
@@ -3649,7 +3650,7 @@ not enforce writing ABAP Doc for each and everything.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#prefer-pragmas-to-pseudo-comments)
 
-Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments 
+Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments
 have mostly become obsolete and have been replaced by pragmas.
 
 ```ABAP
@@ -3660,7 +3661,7 @@ MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 MESSAGE e001(ad) INTO DATA(message). "#EC NEEDED
 ```
 
-Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that 
+Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that
 have replaced them.
 
 ## Formatting
@@ -3942,6 +3943,46 @@ DATA(sum) = add_two_numbers(
                    value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
 ```
 
+### Alternatively, keep parameters below the call
+
+There is an alternative opinion regarding good parameter placement. If there are more than 1 parameter - keep them below and indented to the left. Strong reasoning is given in Kevlin Henney's talk [Seven Ineffective Coding Habits of Many Programmers](https://www.youtube.com/watch?v=ZsHMHukIlJY) (staring at 10:30 ~ 23:00 with some very bright examples at ~21:00).
+
+In a nut shell:
+"Behind the call" approach places the parameters in an unpredictable places dependent on variable/callee length which obstructs readability introducing multiple vertical zones of attention.
+
+```
+XXXX = XXXXXXXXXXXXXXX ( XXX    = XXX
+                         XXXXXX = XXXXXXX ).
+X = XXXXXXX ( XXX    = XXX
+              XXXXXX = XXXXXXX ).
+```
+
+Whereas with the "below" approach a viewer can expect parameters in a familiar place and thus consumes it faster, focusing on more predictable vertical zones of attention.
+
+```
+XXXX = XXXXXXXXXXXXXXX (
+  XXX    = XXX
+  XXXXXX = XXXXXXX ).
+
+X = XXXXXXXX (
+  XXX    = XXX
+  XXXXXX = XXXXXXX ).
+```
+
+or
+
+```
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX =
+  XXXXX(
+    XXX  = XXX
+    XXXX = XXXX ).
+
+XXXX =
+  XXXXXXXXXXXXXXXXXX(
+    XXX  = XXX
+    XXXX = XXXX ).
+```
+
 ### If you break, indent parameters under the call
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#if-you-break-indent-parameters-under-the-call)
@@ -4198,14 +4239,14 @@ as described in [How to execute test classes](#how-to-execute-test-classes).
 
 Put component-, integration- and system tests into the local test include of a separate global class.
 They do not directly relate to a single class under test, therefore they should not arbitrarily be
-placed in one of the involved classes, but in a separate one.  
+placed in one of the involved classes, but in a separate one.
 Mark this global test class as `FOR TESTING` and `ABSTRACT`
-to avoid that it is accidentally referenced in production code.  
+to avoid that it is accidentally referenced in production code.
 Putting tests into other classes has the danger that people overlook them
 and forget to run them when refactoring the involved classes.
 
 Therefore it is beneficial to use *test relations* to document which objects
-are tested by the test.  
+are tested by the test.
 With the example below the test class `hiring_test`
 could be executed while being in the class `recruting` or `candidate` via the shrotcut `Shift-Crtl-F12` (Windows) or `Cmd-Shift-F12` (macOS).
 
@@ -4223,7 +4264,7 @@ endclass.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-help-methods-in-help-classes)
 
-Put help methods used by several test classes in a help class. Make the help methods available through 
+Put help methods used by several test classes in a help class. Make the help methods available through
 inheritance (is-a relationship) or delegation (has-a relationship).
 
 ```abap
