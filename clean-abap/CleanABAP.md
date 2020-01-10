@@ -943,7 +943,7 @@ DATA:
   reader TYPE REF TO reader.
 ```
 
-> Also refer to [Don't align type clauses](#dont-align-type-clauses)
+> Also refer to [Don't align type clauses](#dont-align-type-clauses)  
 > If chaining of data declaration is used, then use one chain for each group of variables belonging together.
 
 ### Prefer REF TO to FIELD-SYMBOL
@@ -4239,14 +4239,14 @@ as described in [How to execute test classes](#how-to-execute-test-classes).
 
 Put component-, integration- and system tests into the local test include of a separate global class.
 They do not directly relate to a single class under test, therefore they should not arbitrarily be
-placed in one of the involved classes, but in a separate one.
+placed in one of the involved classes, but in a separate one.  
 Mark this global test class as `FOR TESTING` and `ABSTRACT`
-to avoid that it is accidentally referenced in production code.
+to avoid that it is accidentally referenced in production code.  
 Putting tests into other classes has the danger that people overlook them
 and forget to run them when refactoring the involved classes.
 
 Therefore it is beneficial to use *test relations* to document which objects
-are tested by the test.
+are tested by the test.  
 With the example below the test class `hiring_test`
 could be executed while being in the class `recruting` or `candidate` via the shrotcut `Shift-Crtl-F12` (Windows) or `Cmd-Shift-F12` (macOS).
 
