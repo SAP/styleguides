@@ -1,4 +1,4 @@
-> Übersetzt vom [englischen Original vom 14.11.2019](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c).
+> Übersetzt vom [englischen Original am 14.11.2019](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c).
 > Neuester Stand [auf Englisch](CleanABAP.md).
 
 # Clean ABAP
