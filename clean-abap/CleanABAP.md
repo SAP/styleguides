@@ -3938,8 +3938,8 @@ When this makes the lines very long, you can break the parameters into the next 
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
-                   value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
+                value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
+                value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
 ```
 
 ### If you break, indent parameters under the call
@@ -3948,8 +3948,8 @@ DATA(sum) = add_two_numbers(
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = 5
-                   value_2 = 6 ).
+                value_1 = 5
+                value_2 = 6 ).
 ```
 
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
