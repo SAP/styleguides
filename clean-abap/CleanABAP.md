@@ -3948,8 +3948,8 @@ DATA(sum) = add_two_numbers(
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = 5
-                   value_2 = 6 ).
+                value_1 = 5
+                value_2 = 6 ).
 ```
 
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
