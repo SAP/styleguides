@@ -98,7 +98,7 @@ method_with_exporting( IMPORTING parameter = accounts ).
 ```
 
 ```ABAP
-LOOP AT accounts INTO DATA (account).
+LOOP AT accounts INTO DATA(account).
 ENDLOOP.
 
 " old style
@@ -112,7 +112,7 @@ READ TABLE accounts INTO DATA(account_sap) WITH KEY id = 5.
 
 " old style
 DATA account_sap TYPE account_structure.
-READ TABLE account INTO data(account_sap) WITH u id = 5.
+READ TABLE account INTO DATA(account_sap) WITH u id = 5.
 ```
 
 ```ABAP
@@ -120,8 +120,8 @@ LOOP AT accounts ASSIGNING FIELD-SYMBOL(<account>).
 ENDLOOP.
 
 " old style
-FIELD-SYMBOL <account> TYPE account_structure.
-LOOP AT accounts ASSIGNING (<account>.
+FIELD-SYMBOLS <account> TYPE account_structure.
+LOOP AT accounts ASSIGNING (<account>).
 ENDLOOP.
 ```
 
@@ -129,7 +129,7 @@ ENDLOOP.
 ASSIGN COMPONENT id OF account_sap TO FIELD-SYMBOL(<account_id>).
 
 " old style
-FIELD-SYMBOL <account_id> TYPE account_id_type.
+FIELD-SYMBOLS <account_id> TYPE account_id_type.
 ASSIGN COMPONENT id OF account_sap TO <account_id>.
 ```
 
