@@ -385,7 +385,7 @@ Old style:
 DATA accounts TYPE accounts_table.
 DATA accounts_reference TYPE REF TO accounts_type.
 GET REFERENCE OF accounts INTO accounts_reference.
-import_accounts_references( accounts_reference ) ).
+import_accounts_references( accounts_reference ).
 ```
 
 ### Convert data types
@@ -420,7 +420,7 @@ MOVE-CORRESPONDING source_structure TO target_structure.
 
 > Caution: The two statements differ in behavior.
 > The `CORRESPONDING( )` statement is a constructor statement, meaning all fields in the `target_structure` are initialized before the corresponding `source_structure` values are copied to the `target_sructure`
-> The `MOVE-CORRESPONDING` statement in contrast leaves the content of the not matching fields in the `target_structure untouched.
+> The `MOVE-CORRESPONDING` statement in contrast leaves the content of the not matching fields in the `target_structure` untouched.
 
 ## Constructors
 
