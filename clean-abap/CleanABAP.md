@@ -1511,7 +1511,7 @@ ENDIF.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#keep-the-nesting-depth-low)
 
 ```ABAP
-" ani-pattern
+" anti-pattern
 IF <this>.
   IF <that>.
   ENDIF.
