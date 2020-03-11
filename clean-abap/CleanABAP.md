@@ -842,13 +842,17 @@ CONSTANTS:
 The group also allows you group-wise access, for example for input validation:
 
 ```ABAP
-DO number_of_constants TIMES.
+DO.
   ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(<constant>).
-  IF <constant> = input.
-    is_valid = abap_true.
+  IF sy-subrc IS INITIAL.
+    IF input = <constant>.
+      DATA(is_valid) = abap_true.
+      RETURN.
+    ENDIF.
+  ELSE.
     RETURN.
   ENDIF.
-ENDWHILE.
+ENDDO.
 ```
 
 > Read more in _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ of [Robert C. Martin's _Clean Code_].
