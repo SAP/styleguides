@@ -2891,7 +2891,7 @@ METHOD read_customizing.
     RETURN.
   ENDIF.
   " do whatever needs doing
-ENDMETHOD:
+ENDMETHOD.
 ```
 
 You can avoid the question completely by reversing the validation
@@ -2902,7 +2902,7 @@ METHOD read_customizing.
   IF keys IS NOT INITIAL.
     " do whatever needs doing
   ENDIF.
-ENDMETHOD:
+ENDMETHOD.
 ```
 
 In any case, consider whether returning nothing is really the appropriate behavior.
