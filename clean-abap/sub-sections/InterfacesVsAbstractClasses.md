@@ -22,8 +22,7 @@ followed by the question _"should I use an abstract class to implement it?"_.
 
 ```ABAP
 INTERFACE /clean/blog_post.
-  PUBLIC.
-    METHODS publish.
+  METHODS publish.
 ENDINTERFACE.
 ```
 
@@ -163,8 +162,7 @@ you should use both in combination to decouple dependencies.
 
 ```ABAP
 INTERFACE /clean/blog_post.
-  PUBLIC.
-    METHODS publish.
+  METHODS publish.
 ENDINTERFACE.
 ```
 

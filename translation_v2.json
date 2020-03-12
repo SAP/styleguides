@@ -1,0 +1,22 @@
+{
+  "comment": "More information: https://jam4.sapjam.com/wiki/show/UFKzGv6i81yui7orPvmwtQ",
+  "collections": [
+    {
+      "collectionName": "Clean_ABAP",
+      "folders": [
+        {
+          "startingFolderPath": "**/clean-abap/**",
+          "sourceFilters": [
+            "CleanABAP.md"
+          ],
+          "targetFolderPath": "."
+        }
+      ]
+    }
+  ],
+  "defaultConfiguration": {
+    "pseudoLocFolderPath": ".",
+    "oneQFolderPath": ".",
+    "targetFileNamingConvention": "[filename]_[langCode].[extension]"
+  }
+}

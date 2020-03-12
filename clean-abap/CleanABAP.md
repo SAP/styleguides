@@ -1,5 +1,11 @@
 # Clean ABAP
 
+<!-- Once the translations are available, we will add in the following link bar. -->
+<!-- > [English](CleanABAP.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+<!-- [Chinese](CleanABAP_fr_FR.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+<!-- [French](CleanABAP_fr_FR.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+<!-- [German](CleanABAP_fr_FR.md) -->
+
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
 for [ABAP](https://en.wikipedia.org/wiki/ABAP).
@@ -7,6 +13,12 @@ for [ABAP](https://en.wikipedia.org/wiki/ABAP).
 The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 [Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
+
+
+<!-- @Translators: kindly add the following disclaimer to the document. -->
+<!-- > This is a snapshot translation of the [English version from 14 Nov 2019](). -->
+<!-- > Kindly refer to the [current English version](CleanABAP.md) for the most recent information. -->
+<!-- > Please post issues and pull requests in English to simplify communication with the community. -->
 
 ## Content
 
@@ -159,6 +171,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
   - [ABAP Doc only for public APIs](#abap-doc-only-for-public-apis)
+  - [Prefer pragmas to pseudo comments](#prefer-pragmas-to-pseudo-comments)
 - [Formatting](#formatting)
   - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
@@ -191,6 +204,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Test Classes](#test-classes)
     - [Call local test classes by their purpose](#call-local-test-classes-by-their-purpose)
     - [Put tests in local classes](#put-tests-in-local-classes)
+    - [Put help methods in help classes](#put-help-methods-in-help-classes)
     - [How to execute test classes](#how-to-execute-test-classes)
   - [Code Under Test](#code-under-test)
     - [Name the code under test meaningfully, or default to CUT](#name-the-code-under-test-meaningfully-or-default-to-cut)
@@ -269,6 +283,19 @@ as it may introduce a breach between old and new code,
 up to a degree where sections like
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
 are better ignored.
+
+Try not to mix different development styles within the same
+development object when carrying out a refactoring. If the
+legacy code contains only up-front declarations, and a complete
+refactoring into using inline declarations is not feasible, it
+is probably better to stick with the legacy style rather than
+mixing the two styles. There are several similar situations
+where mixing styles could cause confusion, for example:
+
+- Mixing `REF TO` and `FIELD-SYMBOL` when looping.
+- Mixing `NEW` and `CREATE OBJECT` when calling a `CONSTRUCTOR`.
+- Mixing `RETURNING` and `EXPORTING` in the method signatures of
+methods only returning / exporting one parameter.
 
 We observed good results with a four-step plan for refactoring:
 
@@ -402,6 +429,11 @@ There is a legacy practice at SAP to name tables of things in singular,
 for example `country` for a "table of countries".
 Common tendency in the outside world is to use the plural for lists of things.
 We therefore recommend to prefer `countries` instead.
+
+> This advice primarily targets things like variables and properties.
+> For development objects, there may be competing patterns
+> that also make sense, for example the widely used convention
+> to name database tables ("transparent tables") in singular.
 
 > Read more in _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ of [Robert C. Martin's _Clean Code_].
 
@@ -890,8 +922,8 @@ ENDIF.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-chain-up-front-declarations)
 
 ```ABAP
-DATA name TYPE seoclsname
-DATA reader TYPE REF TO /dirty/reader.
+DATA name TYPE seoclsname.
+DATA reader TYPE REF TO reader.
 ```
 
 Chaining suggests the defined variables are related on a logical level.
@@ -907,7 +939,7 @@ colons, dots, and commas, that are not worth the effort.
 " anti-pattern
 DATA:
   name   TYPE seoclsname,
-  reader TYPE REF TO /dirty/reader.
+  reader TYPE REF TO reader.
 ```
 
 > Also refer to [Don't align type clauses](#dont-align-type-clauses)  
@@ -916,6 +948,12 @@ DATA:
 ### Prefer REF TO to FIELD-SYMBOL
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
+
+> This section [is being challenged](https://github.com/SAP/styleguides/issues/115).
+> `FIELD-SYMBOL`s seem to be considerably faster
+> when iterating internal tables,
+> such that the recommendation to use `REF TO`
+> for these cases may worsen performance.
 
 ```ABAP
 LOOP AT components REFERENCE INTO DATA(component).
@@ -1885,7 +1923,7 @@ In local classes, make the constructor private, as it should be.
 
 #### Prefer multiple static creation methods to optional parameters
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-factory-methods-to-optional-parameters)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-creation-methods-to-optional-parameters)
 
 ```ABAP
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
@@ -3607,6 +3645,24 @@ not enforce writing ABAP Doc for each and everything.
 > Read more in _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
 > Javadocs in Nonpublic Code_ of [Robert C. Martin's _Clean Code_].
 
+### Prefer pragmas to pseudo comments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#prefer-pragmas-to-pseudo-comments)
+
+Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments 
+have mostly become obsolete and have been replaced by pragmas.
+
+```ABAP
+" pattern
+MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
+
+" anti-pattern
+MESSAGE e001(ad) INTO DATA(message). "#EC NEEDED
+```
+
+Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that 
+have replaced them.
+
 ## Formatting
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#formatting)
@@ -3882,8 +3938,8 @@ When this makes the lines very long, you can break the parameters into the next 
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
-                   value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
+                value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
+                value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
 ```
 
 ### If you break, indent parameters under the call
@@ -3892,8 +3948,8 @@ DATA(sum) = add_two_numbers(
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = 5
-                   value_2 = 6 ).
+                value_1 = 5
+                value_2 = 6 ).
 ```
 
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
@@ -4161,6 +4217,43 @@ class hiring_test defintion
   abstract.
   ...
 endclass.
+```
+
+#### Put help methods in help classes
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-help-methods-in-help-classes)
+
+Put help methods used by several test classes in a help class. Make the help methods available through 
+inheritance (is-a relationship) or delegation (has-a relationship).
+
+```abap
+" inheritance example
+
+CLASS lth_unit_tests DEFINITION ABSTRACT FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+
+  PROTECTED SECTION.
+    CLASS-METHODS assert_activity_entity
+      IMPORTING
+        actual_activity_entity TYPE REF TO zcl_activity_entity
+        expected_activity_entity TYPE REF TO zcl_activity_entity.
+    ...
+ENDCLASS.
+
+CLASS lth_unit_tests IMPLEMENTATION.
+
+  METHOD assert_activity_entity.
+    ...
+  ENDMETHOD.
+
+ENDCLASS.
+
+CLASS ltc_unit_tests DEFINITION INHERITING FROM lth_unit_tests FINAL FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+  ...
+ENDCLASS.
 ```
 
 #### How to execute test classes

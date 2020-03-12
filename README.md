@@ -38,8 +38,17 @@ This repository is **open source**,
 meaning it is written by a loose community of interested persons,
 and anybody from within and without SAP is invited to contribute.
 
-[LICENSE](LICENSE) describes how you may use this material,
-while [CONTRIBUTING](CONTRIBUTING.md) describes how you can contribute.
+[LICENSE](LICENSE) describes how you may use this material.
+[Creative Commons' summary](https://creativecommons.org/licenses/by/3.0/)
+may be easier to understand for non-jurists.
+In short, you can freely use and share this repository's content.
+You can also use it in own works, such as presentations or books,
+even commercially, as long as you give credit to this source,
+and point out your changes.
+
+[CONTRIBUTING](CONTRIBUTING.md) describes how you can contribute.
+In short, you can use GitHub's standard means to add to this repository,
+and you have to agree to our [license](LICENSE) to contribute directly.
 
 We believe that clean code should be discussed freely and openly.
 
