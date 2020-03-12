@@ -1123,6 +1123,14 @@ LOOP AT my_table REFERENCE INTO DATA(line).
 ENDLOOP.
 ```
 
+An exception to this rule is complex expressions. LOOP has the advantage that a WHERE clause is more flexible than a search key or table expression. Therefore LOOP is shorter to write and easier to understand for selections that cannot easily be expressed in a READ TABLE statement.
+```ABAP
+LOOP AT messages TRANSPORTING NO FIELDS WHERE type CA 'AEX'.
+  RAISE EXCEPTION TYPE zcx_fail 
+    EXPORTING messages = messages.
+ENDLOOP.
+```
+
 ### Prefer LOOP AT WHERE to nested IF
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-loop-at-where-to-nested-if)
