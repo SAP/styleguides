@@ -2660,7 +2660,7 @@ A method likely does one thing if
 - it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
 - it is [small](#keep-methods-small)
 - it [descends one level of abstraction](#descend-one-level-of-abstraction)
-- it only [throws one type of exception)(#throw-one-type-of-exception)
+- it only [throws one type of exception](#throw-one-type-of-exception)
 - you cannot extract meaningful other methods
 - you cannot meaningfully group its statements into sections
 
