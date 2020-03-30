@@ -4234,9 +4234,7 @@ inheritance (is-a relationship) or delegation (has-a relationship).
 ```abap
 " inheritance example
 
-CLASS lth_unit_tests DEFINITION ABSTRACT FOR TESTING
-  DURATION SHORT
-  RISK LEVEL HARMLESS.
+CLASS lth_unit_tests DEFINITION ABSTRACT.
 
   PROTECTED SECTION.
     CLASS-METHODS assert_activity_entity
