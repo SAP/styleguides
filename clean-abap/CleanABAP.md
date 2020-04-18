@@ -2615,8 +2615,7 @@ METHODS set_is_deleted
 
 #### Consider calling the RETURNING parameter RESULT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [
-](#parameter-names) > [This section](#consider-calling-the-returning-parameter-result)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Names](#parameter-names) > [This section](#consider-calling-the-returning-parameter-result)
 
 Good method names are usually so good that the `RETURNING` parameter does not need a name of its own.
 The name would do little more than parrot the method name or repeat something obvious.
