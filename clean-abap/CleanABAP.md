@@ -126,6 +126,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
   - [Parameter Names](#parameter-names)
     - [Consider calling the RETURNING parameter RESULT](#consider-calling-the-returning-parameter-result)
+  - [Types for Parameters](#types-for-parameters)
+    - [Use simple ABAP data types for parameters](#use-simple-abap-data-types-for-parameters)
   - [Parameter Initialization](#parameter-initialization)
     - [Clear or overwrite EXPORTING reference parameters](#clear-or-overwrite-exporting-reference-parameters)
       - [Take care if input and output could be the same](#take-care-if-input-and-output-could-be-the-same)
@@ -1031,6 +1033,24 @@ Reasons for this rule:
 
 *Usage hints*
 
+Simple data types like strings and floats are working well also with embedded SQL:
+
+```ABAP
+  methods read_material_stock_quantity
+    importing language type string
+              costing_area type string
+    returning value(result) type f.
+  (...)
+  method read_material_description.
+    select single lbkum 
+        from mbew
+        where matnr = @material_number and
+              bwkey = @costing_area
+        into @result.
+  endmethod.
+``` 
+  
+
 When it comes to calling API methods, your simple-typed variables can be converted using the `conv #( )` operator:
 
 ```ABAP
@@ -1040,15 +1060,9 @@ When it comes to calling API methods, your simple-typed variables can be convert
         conv #( material_number ) ).
  ```
  
- In newly created classes, apply the rule for the parameters so converting will no longer be necessary.
- 
- ```ABAP
-methods read_material_description
-    importing material_number type string
-    returning value(result) type string.
-```
-
 When data is shown in the SAPGui, DDIC elements are necessary to provide output conversion and labels. This rule is not intended for data on screens like ALV output tables or dynpro fields.
+
+See also [Use simple ABAP data types for parameters](#use-simple-abap-data-types-for-parameters)
 
 ## Tables
 
@@ -2579,7 +2593,8 @@ METHODS set_is_deleted
 
 #### Consider calling the RETURNING parameter RESULT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Names](#parameter-names) > [This section](#consider-calling-the-returning-parameter-result)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [
+](#parameter-names) > [This section](#consider-calling-the-returning-parameter-result)
 
 Good method names are usually so good that the `RETURNING` parameter does not need a name of its own.
 The name would do little more than parrot the method name or repeat something obvious.
@@ -2692,6 +2707,29 @@ METHOD square.
   " no need to CLEAR result
 ENDMETHOD.
 ```
+### Types for Parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#types-for-parameters)
+
+#### Use simple ABAP data types for parameters
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#use-simple-abap-data-types-for-parameters)
+
+Prefer using simple types instead of DDIC data elements for parameters.
+
+```ABAP
+  methods read_text_for_number
+    importing in type string
+    returning value(result) type string.
+    
+ " anti-pattern
+ methods read_text_for_number
+   importing in type matnr
+   returning value(result) type maktx.
+```
+
+As described in [Prefer ABAP data types for variables](#prefer-abap-data-types-for-variables), simple types make the code less dependant and less error-prone. Being thus coherent in declaring variables and parameters causes also less conversions to do when passing the data.
+
 
 ### Method Body
 
