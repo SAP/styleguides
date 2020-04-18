@@ -127,7 +127,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Parameter Names](#parameter-names)
     - [Consider calling the RETURNING parameter RESULT](#consider-calling-the-returning-parameter-result)
   - [Types for Parameters](#types-for-parameters)
-    - [Use simple ABAP data types for parameters](#use-simple-abap-data-types-for-parameters)
+    - [Prefer simple ABAP data types for parameters](#prefer-simple-abap-data-types-for-parameters)
   - [Parameter Initialization](#parameter-initialization)
     - [Clear or overwrite EXPORTING reference parameters](#clear-or-overwrite-exporting-reference-parameters)
       - [Take care if input and output could be the same](#take-care-if-input-and-output-could-be-the-same)
@@ -1062,7 +1062,29 @@ When it comes to calling API methods, your simple-typed variables can be convert
  
 When data is shown in the SAPGui, DDIC elements are necessary to provide output conversion and labels. This rule is not intended for data on screens like ALV output tables or dynpro fields.
 
-See also [Use simple ABAP data types for parameters](#use-simple-abap-data-types-for-parameters)
+*Structures and tables*
+
+In structures and tables, also prefer simple types for the components.
+
+```ABAP
+types: 
+    begin of material_fields,
+        number type string,
+        plant type string,
+        description type string,
+        stock type f,
+        unit_of_measure type string,    
+    end of material_fields.
+```
+
+For unstructured tables, consider using `STRING_TABLE`.
+
+```ABAP
+    methods read_all_component_numbers
+        returning value(result) type string_table.
+```
+
+See also [Prefer simple ABAP data types for parameters](#prefer-simple-abap-data-types-for-parameters)
 
 ## Tables
 
@@ -2711,9 +2733,9 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#types-for-parameters)
 
-#### Use simple ABAP data types for parameters
+#### Prefer simple ABAP data types for parameters
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#use-simple-abap-data-types-for-parameters)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#prefer-simple-abap-data-types-for-parameters)
 
 Prefer using simple types instead of DDIC data elements for parameters.
 
