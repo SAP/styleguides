@@ -1041,7 +1041,7 @@ Simple data types like strings and floats are working well also with embedded SQ
               costing_area type string
     returning value(result) type f.
   (...)
-  method read_material_description.
+  method read_material_stock_quantity.
     select single lbkum 
         from mbew
         where matnr = @material_number and
