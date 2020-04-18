@@ -1018,14 +1018,37 @@ data component_number type string.
 " anti-pattern
 DATA component type matnr.
 ```
-Focussing on those basic data types saves you from the efforts of searching the right type in the DDIC. Program code doesn't need to know about all the settings in a data element, only the technical data type counts. 
+Reasons for this rule:
+* Focussing on those basic data types saves you from the efforts of searching the right type in the DDIC. Program code doesn't need to know about all the settings in a data element, only the technical data type counts. 
 
-Using strings instead of fixed length CHAR fields prevents you from having trouble with cutting information that is too long for the field. Moreover the behaviour when concatenating is more transparent with strings. Fixed length characters somehow belong to history.
+* Using strings instead of fixed length CHAR fields prevents you from having trouble with cutting information that is too long for the field. Moreover the behaviour when concatenating is more transparent with strings. Fixed length characters somehow belong to history.
 
-Using floats instead of fixed decimals types brings similar advantages. Less number overflows and rounding loss.
+* Using floats instead of fixed decimals types brings similar advantages. Less number overflows and rounding loss.
 
-However, the date and time types are still useful for they offer intuitive behaviour in calculations
-In legacy code, developers often tended to add semantics to the variable using a data element (like in `DATA component type matnr`). But the name of DDIC elements are rarely descriptive and often represent a German abbreviation. It's better to focus on the variable name for the semantics.
+* Less dependencies. Avoiding references to the DDIC makes it easier to reuse coding in a different ABAP-stack system. When you use DDIC types, it's always possible that the used type is not present in the target system.
+
+* Cleaner semantics: In legacy code, developers often tended to add semantics to the variable using a data element (like in `DATA component type matnr`). But the name of DDIC elements are rarely descriptive and often represent a German abbreviation. It's better to focus on the variable name for the semantics and use the type that represents the core of the data in the variable (integer - float - string - date - time - binary).
+
+*Usage hints*
+
+When it comes to calling API methods, your simple-typed variables can be converted using the `conv #( )` operator:
+
+```ABAP
+  data(material_long_text) = 
+    conv string( 
+      api_class->old_method_giving_makt( 
+        conv #( material_number ) ).
+ ```
+ 
+ In newly created classes, apply the rule for the parameters so converting will no longer be necessary.
+ 
+ ```ABAP
+methods read_material_description
+    importing material_number type string
+    returning value(result) type string.
+```
+
+When data is shown in the SAPGui, DDIC elements are necessary to provide output conversion and labels. This rule is not intended for data on screens like ALV output tables or dynpro fields.
 
 ## Tables
 
