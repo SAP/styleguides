@@ -56,6 +56,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
+  - [Prefer ABAP data types for variables](#prefer-abap-data-types-for-variables)
 - [Tables](#tables)
   - [Use the right table type](#use-the-right-table-type)
   - [Avoid DEFAULT KEY](#avoid-default-key)
@@ -998,6 +999,33 @@ Similarly, speed is not an issue. As a consequence, there is no performance-rela
 
 > Read more in the article
 > [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
+
+### Prefer ABAP data types for variables
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-abap-data-types-for-variables)
+
+When defining variables, structure components and method parameters, prefer using ABAP data types instead of DDIC data elements. 
+* STRING for varibles containing text
+* I for integer numbers
+* F for decimal numbers
+* D for dates
+* T for times
+* XSTRING for binary data
+
+```ABAP
+data component_number type string.
+
+" anti-pattern
+DATA component type matnr.
+```
+Focussing on those basic data types saves you from the efforts of searching the right type in the DDIC. Program code doesn't need to know about all the settings in a data element, only the technical data type counts. 
+
+Using strings instead of fixed length CHAR fields prevents you from having trouble with cutting information that is too long for the field. Moreover the behaviour when concatenating is more transparent with strings. Fixed length characters somehow belong to history.
+
+Using floats instead of fixed decimals types brings similar advantages. Less number overflows and rounding loss.
+
+However, the date and time types are still useful for they offer intuitive behaviour in calculations
+In legacy code, developers often tended to add semantics to the variable using a data element (like in `DATA component type matnr`). But the name of DDIC elements are rarely descriptive and often represent a German abbreviation. It's better to focus on the variable name for the semantics.
 
 ## Tables
 
