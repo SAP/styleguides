@@ -1051,12 +1051,12 @@ Simple data types like strings and floats are working well also with embedded SQ
 ``` 
   
 
-When it comes to calling API methods, your simple-typed variables can be converted using the `conv #( )` operator:
+When it comes to calling foreign API methods with differently typed parameters, your simple-typed variables can be converted using the `conv #( )` operator:
 
 ```ABAP
   data(material_long_text) = 
     conv string( 
-      api_class->old_method_giving_makt( 
+      api_object->old_method_giving_maktx( 
         conv #( material_number ) ).
  ```
  
