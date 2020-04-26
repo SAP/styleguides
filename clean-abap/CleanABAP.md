@@ -1037,7 +1037,7 @@ Simple data types like strings and floats are working well also with embedded SQ
 
 ```ABAP
   methods read_material_stock_quantity
-    importing language type string
+    importing material_number type string
               costing_area type string
     returning value(result) type f.
   (...)
