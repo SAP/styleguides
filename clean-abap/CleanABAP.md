@@ -792,6 +792,8 @@ ENDCLASS.
 ```
 
 instead of mixing unrelated things
+or misleading people to the conclusion
+that constants collections could be "implemented":
 
 ```ABAP
 " anti-pattern
@@ -803,7 +805,7 @@ INTERFACE /dirty/common_constants.
     persisted    TYPE i       VALUE 2.
 ENDINTERFACE.
 ```
-Interfaces define a type and can be implemented in a class, this is not meaningful for a constant interface.
+
 > [Enumerations](sub-sections/Enumerations.md)
 > describes common enumeration patterns
 > and discusses their advantages and disadvantages.
