@@ -2656,7 +2656,7 @@ It should do it in the best way possible.
 A method likely does one thing if
 
 - it has [few input parameters](#aim-for-few-importing-parameters-at-best-less-than-three)
-- that [don't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
+- it [doesn't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
 - it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
 - it is [small](#keep-methods-small)
 - it [descends one level of abstraction](#descend-one-level-of-abstraction)
