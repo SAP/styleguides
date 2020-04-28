@@ -792,6 +792,8 @@ ENDCLASS.
 ```
 
 instead of mixing unrelated things
+or misleading people to the conclusion
+that constants collections could be "implemented":
 
 ```ABAP
 " anti-pattern
