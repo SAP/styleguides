@@ -792,6 +792,8 @@ ENDCLASS.
 ```
 
 instead of mixing unrelated things
+or misleading people to the conclusion
+that constants collections could be "implemented":
 
 ```ABAP
 " anti-pattern
@@ -2656,7 +2658,7 @@ It should do it in the best way possible.
 A method likely does one thing if
 
 - it has [few input parameters](#aim-for-few-importing-parameters-at-best-less-than-three)
-- that [don't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
+- it [doesn't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
 - it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
 - it is [small](#keep-methods-small)
 - it [descends one level of abstraction](#descend-one-level-of-abstraction)
@@ -2929,6 +2931,7 @@ The statement behaves differently in different positions and may lead to unclear
 For example,
 [`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
 people might accidentally expect it to end the method or exit the loop.
+Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
 
 > Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
 > Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
