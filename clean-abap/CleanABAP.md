@@ -1169,7 +1169,7 @@ the main control flow with a double read
 " anti-pattern
 IF NOT line_exists( my_table[ key = input ] ).
   RAISE EXCEPTION NEW /clean/my_data_not_found( ).
-ENDTRY.
+ENDIF.
 DATA(row) = my_table[ key = input ].
 ```
 
