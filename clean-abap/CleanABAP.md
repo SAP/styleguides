@@ -4181,13 +4181,17 @@ They will in fact have imaginary > 100% coverage.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#call-local-test-classes-by-their-purpose)
 
+Name local test classes either by the "when" part of the story
+
 ```ABAP
-CLASS ltc_unit_tests DEFINITION FOR TESTING ... .
-CLASS ltc_integration_tests DEFINITION FOR TESTING ... .
-CLASS ltc_unit_tests_with_mocks DEFINITION FOR TESTING ... .
+CLASS ltc_<public method name> DEFINITION FOR TESTING ... ."
 ```
 
-Good names reveal the level of the tests and what's common to their setup.
+or the "given" part of the story
+
+```ABAP
+CLASS ltc_<common setup semantics> DEFINITION FOR TESTING ... .
+```
 
 ```ABAP
 " anti-patterns
