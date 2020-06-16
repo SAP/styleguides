@@ -678,7 +678,8 @@ result = VALUE #( FOR row IN input ( row-text ) ).
 "  INSERT row-text INTO TABLE result.
 " ENDLOOP.
 
-DATA(line) = value_pairs[ name = 'A' ].
+DATA(line) = value_pairs[ name = 'A' ]. " entry must exist
+DATA(line) = VALUE #( value_pairs[ name = 'A' ] OPTIONAL ). " entry can be missing
 " READ TABLE value_pairs INTO DATA(line) WITH KEY name = 'A'.
 
 DATA(exists) = xsdbool( line_exists( value_pairs[ name = 'A' ] ) ).
