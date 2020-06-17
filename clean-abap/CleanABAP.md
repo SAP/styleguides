@@ -2,9 +2,11 @@
 
 > [**English**](CleanABAP.md)
 > &nbsp;·&nbsp;
-> [Chinese](CleanABAP_zh.md)
+> [文言](CleanABAP_zh.md)
 > &nbsp;·&nbsp;
-> [German](CleanABAP_de.md)
+> [Français](CleanABAP_fr.md)
+> &nbsp;·&nbsp;
+> [Deutsch](CleanABAP_de.md)
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
