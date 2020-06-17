@@ -7,7 +7,7 @@
 > &nbsp;·&nbsp;
 > [English](CleanABAP.md)
 > &nbsp;·&nbsp;
-> [文言](CleanABAP_zh.md)
+> [中文](CleanABAP_zh.md)
 > &nbsp;·&nbsp;
 > [Deutsch](CleanABAP_de.md)
 
