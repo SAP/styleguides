@@ -6,6 +6,8 @@
 > [**Deutsch**](CleanABAP_de.md)
 > &nbsp;·&nbsp;
 > [Englisch](CleanABAP.md)
+> &nbsp;·&nbsp;
+> [Chinesisch](CleanABAP_zh.md)
 
 Dieser Leitfaden ist eine Adaption des Standardwerks [Robert C. Martins _Clean Code_]
 an [ABAP](https://de.wikipedia.org/wiki/ABAP).

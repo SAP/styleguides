@@ -2,6 +2,8 @@
 
 > [**English**](CleanABAP.md)
 > &nbsp;·&nbsp;
+> [Chinese](CleanABAP_zh.md)
+> &nbsp;·&nbsp;
 > [German](CleanABAP_de.md)
 
 This guide is an adoption of
