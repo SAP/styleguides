@@ -14,11 +14,6 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 
 [Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
-<!-- @Translators: kindly add the following disclaimer to the document. -->
-<!-- > This is a snapshot translation of the [English version from 14 Nov 2019](). -->
-<!-- > Kindly refer to the [current English version](CleanABAP.md) for the most recent information. -->
-<!-- > Please post issues and pull requests in English to simplify communication with the community. -->
-
 ## Content
 
 - [How to](#how-to)
@@ -207,7 +202,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [How to execute test classes](#how-to-execute-test-classes)
   - [Code Under Test](#code-under-test)
     - [Name the code under test meaningfully, or default to CUT](#name-the-code-under-test-meaningfully-or-default-to-cut)
-    - [Test interfaces, not classes](#test-interfaces-not-classes)
+    - [Test against interfaces, not implementations](#test-against-interfaces-not-implementations)
     - [Extract the call to the code under test to its own method](#extract-the-call-to-the-code-under-test-to-its-own-method)
   - [Injection](#injection)
     - [Use dependency inversion to inject test doubles](#use-dependency-inversion-to-inject-test-doubles)
@@ -282,6 +277,19 @@ as it may introduce a breach between old and new code,
 up to a degree where sections like
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
 are better ignored.
+
+Try not to mix different development styles within the same
+development object when carrying out a refactoring. If the
+legacy code contains only up-front declarations, and a complete
+refactoring into using inline declarations is not feasible, it
+is probably better to stick with the legacy style rather than
+mixing the two styles. There are several similar situations
+where mixing styles could cause confusion, for example:
+
+- Mixing `REF TO` and `FIELD-SYMBOL` when looping.
+- Mixing `NEW` and `CREATE OBJECT` when calling a `CONSTRUCTOR`.
+- Mixing `RETURNING` and `EXPORTING` in the method signatures of
+methods only returning / exporting one parameter.
 
 We observed good results with a four-step plan for refactoring:
 
@@ -778,6 +786,8 @@ ENDCLASS.
 ```
 
 instead of mixing unrelated things
+or misleading people to the conclusion
+that constants collections could be "implemented":
 
 ```ABAP
 " anti-pattern
@@ -828,13 +838,17 @@ CONSTANTS:
 The group also allows you group-wise access, for example for input validation:
 
 ```ABAP
-DO number_of_constants TIMES.
+DO.
   ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(<constant>).
-  IF <constant> = input.
-    is_valid = abap_true.
+  IF sy-subrc IS INITIAL.
+    IF input = <constant>.
+      DATA(is_valid) = abap_true.
+      RETURN.
+    ENDIF.
+  ELSE.
     RETURN.
   ENDIF.
-ENDWHILE.
+ENDDO.
 ```
 
 > Read more in _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ of [Robert C. Martin's _Clean Code_].
@@ -1038,7 +1052,7 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 
 > Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
 > 
-> **Caution:** `SORT` on internal tables with `EMPTY KEY` will not sort at all,
+> **Caution:** `SORT` on internal tables with `EMPTY KEY` (without explicit sort fields) will not sort at all,
 > but syntax warnings are issued in case the key's emptiness can be determined statically.
 
 ### Prefer INSERT INTO TABLE to APPEND TO
@@ -1149,7 +1163,7 @@ the main control flow with a double read
 " anti-pattern
 IF NOT line_exists( my_table[ key = input ] ).
   RAISE EXCEPTION NEW /clean/my_data_not_found( ).
-ENDTRY.
+ENDIF.
 DATA(row) = my_table[ key = input ].
 ```
 
@@ -1497,7 +1511,7 @@ ENDIF.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#keep-the-nesting-depth-low)
 
 ```ABAP
-" ani-pattern
+" anti-pattern
 IF <this>.
   IF <that>.
   ENDIF.
@@ -2638,10 +2652,11 @@ It should do it in the best way possible.
 A method likely does one thing if
 
 - it has [few input parameters](#aim-for-few-importing-parameters-at-best-less-than-three)
-- that [don't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
+- it [doesn't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
 - it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
 - it is [small](#keep-methods-small)
 - it [descends one level of abstraction](#descend-one-level-of-abstraction)
+- it only [throws one type of exception](#throw-one-type-of-exception)
 - you cannot extract meaningful other methods
 - you cannot meaningfully group its statements into sections
 
@@ -2877,7 +2892,7 @@ METHOD read_customizing.
     RETURN.
   ENDIF.
   " do whatever needs doing
-ENDMETHOD:
+ENDMETHOD.
 ```
 
 You can avoid the question completely by reversing the validation
@@ -2888,7 +2903,7 @@ METHOD read_customizing.
   IF keys IS NOT INITIAL.
     " do whatever needs doing
   ENDIF.
-ENDMETHOD:
+ENDMETHOD.
 ```
 
 In any case, consider whether returning nothing is really the appropriate behavior.
@@ -2910,6 +2925,7 @@ The statement behaves differently in different positions and may lead to unclear
 For example,
 [`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
 people might accidentally expect it to end the method or exit the loop.
+Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
 
 > Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
 > Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
@@ -3924,8 +3940,8 @@ When this makes the lines very long, you can break the parameters into the next 
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
-                   value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
+                value_1 = round_up( input DIV 7 ) * 42 + round_down( 19 * step_size )
+                value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
 ```
 
 ### If you break, indent parameters under the call
@@ -3934,8 +3950,8 @@ DATA(sum) = add_two_numbers(
 
 ```ABAP
 DATA(sum) = add_two_numbers(
-                   value_1 = 5
-                   value_2 = 6 ).
+                value_1 = 5
+                value_2 = 6 ).
 ```
 
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
@@ -4159,13 +4175,17 @@ They will in fact have imaginary > 100% coverage.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#call-local-test-classes-by-their-purpose)
 
+Name local test classes either by the "when" part of the story
+
 ```ABAP
-CLASS ltc_unit_tests DEFINITION FOR TESTING ... .
-CLASS ltc_integration_tests DEFINITION FOR TESTING ... .
-CLASS ltc_unit_tests_with_mocks DEFINITION FOR TESTING ... .
+CLASS ltc_<public method name> DEFINITION FOR TESTING ... ."
 ```
 
-Good names reveal the level of the tests and what's common to their setup.
+or the "given" part of the story
+
+```ABAP
+CLASS ltc_<common setup semantics> DEFINITION FOR TESTING ... .
+```
 
 ```ABAP
 " anti-patterns
@@ -4215,9 +4235,7 @@ inheritance (is-a relationship) or delegation (has-a relationship).
 ```abap
 " inheritance example
 
-CLASS lth_unit_tests DEFINITION ABSTRACT FOR TESTING
-  DURATION SHORT
-  RISK LEVEL HARMLESS.
+CLASS lth_unit_tests DEFINITION ABSTRACT.
 
   PROTECTED SECTION.
     CLASS-METHODS assert_activity_entity
@@ -4292,9 +4310,9 @@ Especially in unclean and confusing tests, calling the variable `cut`
 can temporarily help the reader see what's actually tested.
 However, tidying up the tests is the actual way to go for the long run.
 
-#### Test interfaces, not classes
+#### Test against interfaces, not implementations
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#test-interfaces-not-classes)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#test-against-interfaces-not-implementations)
 
 A practical consequence of the [_Test publics, not private internals_](#test-publics-not-private-internals),
 type your code under test with an _interface_
@@ -4450,7 +4468,7 @@ without interfering with the rest of the system.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
 
 If all other techniques fail, or when in dangerous shallow waters of legacy code,
-refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm)
+refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
 to make things testable.
 
 Although they look comfortable at first sight, test seams are invasive and tend to get entangled
