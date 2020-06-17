@@ -3,7 +3,9 @@
 
 # ABAP 整洁之道
 
-> [Englisch](CleanABAP.md)
+> [**Chinese**](CleanABAP_zh.md)
+> &nbsp;·&nbsp;
+> [English](CleanABAP.md)
 
 本指南针对 [ABAP](https://en.wikipedia.org/wiki/ABAP) 改编自 [Robert C. Martin 所著的 _Clean Code_]。
 
