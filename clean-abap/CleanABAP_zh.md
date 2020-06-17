@@ -3,7 +3,7 @@
 
 # ABAP 整洁之道
 
-> [English](CleanABAP.md)&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+> [Englisch](CleanABAP.md)
 
 本指南针对 [ABAP](https://en.wikipedia.org/wiki/ABAP) 改编自 [Robert C. Martin 所著的 _Clean Code_]。
 
@@ -11,9 +11,9 @@
 
 [Robert C. Martin 所著的 _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
-> This is a snapshot translation of the [English version from 14 Nov 2019](). -->
-> Kindly refer to the [current English version](CleanABAP.md) for the most recent information. -->
-> Please post issues and pull requests in English to simplify communication with the community. -->
+> This is a snapshot translation of the [English version from 14 Nov 2019]().
+> Kindly refer to the [current English version](CleanABAP.md) for the most recent information.
+> Please post issues and pull requests in English to simplify communication with the community.
 
 ## 目录
 
