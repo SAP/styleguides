@@ -1,3 +1,6 @@
+> Translated from [English original on 14.11.2019](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c).
+> Latest version [in English](CleanABAP.md).
+
 # Coder proprement avec ABAP
 
 > [**Français**](CleanABAP_fr.md)
