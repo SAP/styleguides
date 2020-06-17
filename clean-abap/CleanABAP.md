@@ -347,6 +347,10 @@ This guide also respects the
 [DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf),
 although we are more precise in most details.
 
+Since its publication, Clean ABAP has become a reference guide
+for many of SAP's in-house development teams,
+including the several hundred coders that work on S/4HANA.
+
 ### How to Disagree
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-disagree)
