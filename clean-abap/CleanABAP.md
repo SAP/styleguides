@@ -7,6 +7,8 @@
 > [Français](CleanABAP_fr.md)
 > &nbsp;·&nbsp;
 > [Deutsch](CleanABAP_de.md)
+> &nbsp;·&nbsp;
+> [日本語](CleanABAP_ja.md)
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
