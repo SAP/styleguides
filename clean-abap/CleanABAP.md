@@ -1095,6 +1095,14 @@ LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ENDLOOP.
 ```
 
+However, complex expressions are still a good use case for `LOOP`. `LOOP` has the advantage that a `WHERE` clause is more flexible than a search key or table expression. Therefore `LOOP` is shorter to write and easier to understand for selections that cannot easily be expressed using `line_exists` or a `READ TABLE` statement.
+```ABAP
+  LOOP AT messages TRANSPORTING NO FIELDS WHERE type CA 'AEX'.
+    RAISE EXCEPTION TYPE zcx_error 
+      EXPORTING messages = messages.
+  ENDLOOP.
+```
+
 ### Prefer READ TABLE to LOOP AT
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-read-table-to-loop-at)
@@ -1120,14 +1128,6 @@ LOOP AT my_table REFERENCE INTO DATA(line).
   IF line->key = 'A'.
     EXIT.
   ENDIF.
-ENDLOOP.
-```
-
-An exception to this rule is complex expressions. LOOP has the advantage that a WHERE clause is more flexible than a search key or table expression. Therefore LOOP is shorter to write and easier to understand for selections that cannot easily be expressed in a READ TABLE statement.
-```ABAP
-LOOP AT messages TRANSPORTING NO FIELDS WHERE type CA 'AEX'.
-  RAISE EXCEPTION TYPE zcx_fail 
-    EXPORTING messages = messages.
 ENDLOOP.
 ```
 
