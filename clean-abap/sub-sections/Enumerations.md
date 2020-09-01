@@ -225,8 +225,9 @@ They also provide a natural place for unit tests,
 especially if you added supportive methods,
 but also for common cases such as
 `in_sync_with_domain_fixed_vals`.
-
-The local test class for the constant pattern can look like this:
+<details>
+  <summary>The local test class for the constant pattern can look like this</summary>
+  
 ```ABAP
 CLASS ltcl_constant_pattern DEFINITION CREATE PRIVATE
  FOR TESTING
@@ -300,6 +301,7 @@ CLASS ltcl_constant_pattern IMPLEMENTATION.
 
 ENDCLASS.
 ```
+</details>
 
 Moreover, classes enforce clean object orientation
 through the additions `ABSTRACT` and `FINAL`.
