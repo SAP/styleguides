@@ -10,6 +10,8 @@
 > [Français](CleanABAP_fr.md)
 > &nbsp;·&nbsp;
 > [Deutsch](CleanABAP_de.md)
+> &nbsp;·&nbsp;
+> [日本語](CleanABAP_ja.md)
 
 本指南针对 [ABAP](https://zh.wikipedia.org/wiki/ABAP) 改编自 [Robert C. Martin 所著的 _Clean Code_]。
 
