@@ -1,0 +1,27 @@
+{
+  "name": "abap-code-review-guide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Collect ideas and approachs for reviewing ABAP code.",
+  "main": "index.js",
+  "scripts": {
+    "test": "asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build src/index.adoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xtough/abap-code-review-guide.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xtough/abap-code-review-guide/issues"
+  },
+  "homepage": "https://github.com/xtough/abap-code-review-guide#readme",
+  "dependencies": {
+    "@asciidoctor/cli": "^3.4.0",
+    "@asciidoctor/core": "^2.2.1",
+    "asciidoctor-kroki": "^0.10.0",
+    "asciidoctor-pdf": "^1.0.0-alpha.11",
+    "asciidoctor-plantuml": "^1.5.0"
+  }
+}
