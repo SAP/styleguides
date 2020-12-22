@@ -1,0 +1,15 @@
+== Introduction
+
+Code review is a measure for assuring software quality by letting developers read the code of others. While the primary goal is to increase quality by finding defects, it also fosters learning and mutual code ownership. Change-based code reviews are these days considered more effective than link:formal code inspections!footnote:[Fagan-style code inspections have been taught some years ago]. Conducted continuously, they require less effort while still finding a considerable number of defects at an earlier time.
+
+Continuous integration / continuous delivery (CI/CD) is commonly seen as a prerequisite to faster delivery of cloud-based products. This comprises the ability to review, test, and, if required, veto changes before they affect every other developer working on the same repository.  This capability to validate a change in isolation before integrating it is also known as link:https://trunkbaseddevelopment.com/game-changers/#google-s-internal-devops-2006-onwards[proposed commits] or link:https://martinfowler.com/bliki/PendingHead.html[pending head].
+
+Once your source repository supports such a validation, manual change-based code reviews usually come for free because it does not matter technically whether a change is vetoed by a human vote or an automated test verdict.
+While Git platforms like Gerrit Changes and GitHub Pull Requests already support the concept of proposed commits out of the box, ABAP Change and Transport System (CTS) so far only offers extension points where a comparable flow can be implemented besides or on top to veto the release of transport requests.
+
+== Related Work
+
+.Several attempts have been made to apply git-based code reviews for ABAP:
+* link:https://blogs.sap.com/2018/03/23/abap-code-reviews-with-abapgit/[ABAP code reviews with abapGit] describes the general idea of exporting code to GitHub using abapGit to review it via Pull Requests.
+* link:https://blogs.sap.com/2020/01/30/how-we-do-abap-code-review-using-abapgit/[How we do ABAP code review using abapGit] explains how to use the abapGit feature *transport to branch* to review a CTS transport before it is released.
+* link:https://blogs.sap.com/2020/08/05/create-a-commit-in-git-when-an-abap-task-is-released/[Create a commit in Git when an ABAP task is released] elaborates on code reviews per transport by using existing BAdI interfaces to commit changes per task release to a feature branch using gCTS.

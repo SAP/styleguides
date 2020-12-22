@@ -1,0 +1,24 @@
+== Code Review
+
+What is code review actually?
+
+Take over some parts from introduction?
+
+[ditaa]
+....
+       *          /--------\
+       |       /--+ Rework +<-----------------\
+       v       |  \--------/               No |
+   /-------\   v  /-----------\  /--------\   |  Yes /---------\
+   |Request+--><>-+ Automated +->+  Peer  +-><>----->| Submit  |
+   \-------/      |  Review   |  | Review |          | (merge) |
+                  \-----------/  \--------/  OK?     \---------/
+                                                          |
+                                                          v
+                                                         /\
+                                                         \/
+....
+
+=== Best Practices
+
+https://google.github.io/eng-practices/
