@@ -5,7 +5,7 @@
   "description": "Collect ideas and approachs for reviewing ABAP code.",
   "main": "index.js",
   "scripts": {
-    "test": "asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build src/index.adoc"
+    "test": "asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build src/index.adoc -a stylesheet=\"asciidoctor-pdf/css/asciidoctor.css,asciidoctor-pdf/css/document.css,asciidoctor-pdf/css/features/title-page.css,custom.css\""
   },
   "repository": {
     "type": "git",
