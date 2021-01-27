@@ -14,7 +14,7 @@
 > [日本語](CleanABAP_ja.md) 
 
 Dieser Leitfaden ist eine Adaption des Standardwerks [Robert C. Martins _Clean Code_]
-an [ABAP](https://de.wikipedia.org/wiki/ABAP).
+für [ABAP](https://de.wikipedia.org/wiki/ABAP).
 
 Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 
