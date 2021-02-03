@@ -1,3 +1,19 @@
 == Scenarios
 
-lorem ipsum
+Assumptions: The SAP ABAP developement application servers have network access to the code review platform.
+
+Out of scope: Steampunk.
+
+=== One way synchronization from AS ABAP to git.
+Development is done normally by the developer,
+change recording and transport release is performed via CTS as configured per transport layer,
+only impact are the new review steps conducted via an ABAP git client (either abapGit or gCTS) on a code review platform like GitHub.
+
+...
+
+=== Two way synchronization
+All git operations are manually performed by the developer using the ABAP git client (either abapGit or gCTS), including the pull of changes back from git into AS ABAP.
+
+Only one developer performs changes in a package on one system at a time. Conflicts resulting from concurrent modification of the same objects on different systems need to be resolved on git level.
+
+A special case of this scenario is the combination with classical CTS steps like task and transport releases, which extends it towards "decentralized development", see for example link:https://blogs.sap.com/2020/08/05/create-a-commit-in-git-when-an-abap-task-is-released/[Create a commit in Git when an ABAP task is released].

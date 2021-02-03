@@ -9,9 +9,20 @@ GitHub, GitLab, Gerrit, Bitbucket, TFS, AWS CodeCommit, Azure Repos... ?
 === abapGit
 What is abapGit?
 
+Prerequsites: SAP_BASIS 702 and up
+
+Basic Setup: https://docs.abapgit.org/guide-install.html
+
+abapGit works on object level(R3TR), while the transport system works on subobject level(LIMU), if mirroring transports to git and subobjects exists in multiple transports, abapGit will give an error.
+
+Transports must consistently match the git repositories, an error will be issued if a transport contains objects from multiple git repositories.
+
 === CTS
 What is CTS? The classic transport system, describe what is a request and what is a task
 
 === gCTS
 What is gCTS?
 
+Prerequsites: SAP S/4HANA 1909 and up
+
+Basic Setup: https://help.sap.com/viewer/4a368c163b08418890a406d413933ba7/201909.000/en-US/275739524c7348f0a0ab54fe1fe05954.html

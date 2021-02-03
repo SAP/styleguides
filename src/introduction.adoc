@@ -1,8 +1,23 @@
 == Introduction
 
-Code review is a measure for assuring software quality by letting developers read the code of others. While the primary goal is to increase quality by finding defects, it also fosters learning and mutual code ownership. Change-based code reviews are these days considered more effective than link:formal code inspections!footnote:[Fagan-style code inspections have been taught some years ago]. Conducted continuously, they require less effort while still finding a considerable number of defects at an earlier time.
+Code review is a measure for assuring software quality by letting developers read the code of others. While the primary goal is to increase quality by finding defects, it also fosters learning and mutual code ownership.
 
-Continuous integration / continuous delivery (CI/CD) is commonly seen as a prerequisite to faster delivery of cloud-based products. This comprises the ability to review, test, and, if required, veto changes before they affect every other developer working on the same repository.  This capability to validate a change in isolation before integrating it is also known as link:https://trunkbaseddevelopment.com/game-changers/#google-s-internal-devops-2006-onwards[proposed commits] or link:https://martinfowler.com/bliki/PendingHead.html[pending head].
+Continuous integration / continuous delivery (CI/CD) is commonly seen as a prerequisite to faster delivery of cloud-based products. This comprises the ability to review, test, and, if required, veto changes before they affect every other developer working on the same repository.  This capability to validate a change in isolation before integrating it is also known as link:https://trunkbaseddevelopment.com/game-changers/#google-s-internal-devops-2006-onwards[proposed commits] or link:https://martinfowler.com/bliki/PendingHead.html[pending head]. For instance, most git platforms have implemented this concept as depicted below.
+
+[ditaa]
+....
+       *          /--------\
+       |       /--+ Rework +<-----------------\
+       v       |  \--------/               No |
+   /-------\   v  /-----------\  /--------\   |  Yes /---------\
+   |Request+--><>-+ Automated +->+  Peer  +-><>----->| Submit  |
+   \-------/      |  Review   |  | Review |          | (merge) |
+                  \-----------/  \--------/  OK?     \---------/
+                                                          |
+                                                          v
+                                                         /\
+                                                         \/
+....
 
 Once your source repository supports such a validation, manual change-based code reviews usually come for free because it does not matter technically whether a change is vetoed by a human vote or an automated test verdict.
 While Git platforms like Gerrit Changes and link:https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/reviewing-changes-in-pull-requests[GitHub Pull Requests] already support the concept of proposed commits out of the box, ABAP Change and Transport System (CTS) so far only offers extension points where a comparable flow can be implemented besides or on top to veto the release of transport requests.
