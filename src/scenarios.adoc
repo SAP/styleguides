@@ -4,7 +4,7 @@ Assumptions: The SAP ABAP developement application servers have network access t
 
 Out of scope: Steampunk.
 
-=== One way synchronization from AS ABAP to git.
+=== One way synchronization from AS ABAP to git
 Development is done normally by the developer,
 change recording and transport release is performed via CTS as configured per transport layer,
 only impact are the new review steps conducted via an ABAP git client (either abapGit or gCTS) on a code review platform like GitHub.

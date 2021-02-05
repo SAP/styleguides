@@ -20,7 +20,7 @@
   "dependencies": {
     "@asciidoctor/cli": "^3.4.0",
     "@asciidoctor/core": "^2.2.1",
-    "asciidoctor-kroki": "^0.10.0",
+    "asciidoctor-kroki": "^0.11.0",
     "asciidoctor-pdf": "^1.0.0-alpha.11",
     "asciidoctor-plantuml": "^1.5.0"
   }
