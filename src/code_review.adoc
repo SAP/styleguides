@@ -5,7 +5,8 @@ In this section we give suggestions how to conduct code reviews effectively. Oth
 ===  Why to Perform Code Reviews?
 
 Code reviews can detect issues in the software that are harder to find via other methods:
-* Foster link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md[Clean code] to improve *maintainability* and *readability* of code, including comments, and to avoid unnecessary *complexity*
+
+* Foster link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md[Clean code] to improve *maintainability* and *readability* of code, including comments, and to avoid unnecessary *complexity*.
 * Ensure the code is *well designed*.
 * Consider behavioral aspects like *performance* and *security*.
 * Improve *testability* of code, including test design and adequateness of tests.
@@ -29,6 +30,7 @@ In general, reviewers can be selected manually or automatically. Manual selectio
 *Automated selection* of code reviewers is also possible, for instance, via round robin routing or advanced concepts like link:https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners[Code Owners]. The latter enables you to define (groups of) default reviewers for certain files and folders on git level. This can be useful for critical coding parts or known hotspots.
 
 Attributes qualifying colleagues as reviewers include:
+
 * team assignment,
 * experience and seniority (also outside of the team),
 * consumer role (to check if something was implemented as required).
