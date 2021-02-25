@@ -10,6 +10,10 @@ include::introduction.adoc[]
 
 <<<
 
+include::code_review.adoc[]
+
+<<<
+
 include::tools.adoc[]
 
 <<<
@@ -18,4 +22,8 @@ include::scenarios.adoc[]
 
 <<<
 
-include::code_review.adoc[]
+include::abapgit_example.adoc[]
+
+<<<
+
+include::static_analysis.adoc[]

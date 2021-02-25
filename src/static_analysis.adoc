@@ -1,0 +1,24 @@
+== Static Analysis
+// adding this in a new file for now
+// I would prefer to add this to the <<tools>> section
+
+tooling that can help with code reviews
+
+=== abaplint
+todo
+
+=== Code Inspector (ATC)
+// I will rewrite this later, focussing first on what ATC *can* do, not what it can not ;-)
+
+A callback to Code Inspector in the dev system can be implemented, but with the risk that code inspector is run on code not identical to that in git.
+
+The dev system is the developer's working copy, ie. not a stable copy, whereas git is a fixed set of changes with full traceability.
+
+* link:https://github.com/SAP/code-pal-for-abap[code pal for ABAP]
+* link:https://abapopenchecks.org[abapOpenchecks]
+
+And also trouble with the configuration,
+
+https://blogs.sap.com/2015/08/02/upload-and-download-code-inspector-variants-via-xml/
+
+https://github.com/larshp/upDOWNci/issues/12

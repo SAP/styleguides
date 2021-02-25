@@ -1,28 +1,41 @@
 == Tools
 
 === Git
-What is git?
+link:https://en.wikipedia.org/wiki/Git[Git] is a popular distributed version control system, which helps developers work on the same codebase. Unlike ABAP, git works with files instead of objects in a database, which allows editing any file with
+any favorite editor, and keeping multiple copies (branches) of all files.
+
+Git is a protocol, and is typically used in connection with cloud-based hosting platforms like:
+
+* link:https://github.com[GitHub]
+* link:https://gitlab.com[GitLab]
+* link:https://bitbucket.com[Bitbucket]
+* link:https://azure.microsoft.com/en-us/services/devops/repos/[Azure Repos]
+
+For an introduction to git see:
+
+link:https://git-scm.com/doc[Git Documentation], including reference manual and videos
+
+link:https://guides.github.com/introduction/git-handbook/[Git Handbook] by GitHub
 
 === Code Review Platforms
-GitHub, GitLab, Gerrit, Bitbucket, TFS, AWS CodeCommit, Azure Repos... ?
+Git helps keeping track of changes to files, and the git hosting platforms add extra functionality on top of that. As explained in the <<introduction>>, the most important feature is *proposed commits*, which is the basis for code reviews.
+
+For instance, GitHub provides link:https://github.com/features/code-review/[Code Reviews via Pull Requests]. Other git platforms offer similar features.
 
 === abapGit
-What is abapGit?
+link:https://abapGit.org[abapGit] is a git client written in ABAP for use with ABAP, it serializes the ABAP objects  to files, and provides access to the most common git operations.
 
-Prerequsites: SAP_BASIS 702 and up
-
-Basic Setup: https://docs.abapgit.org/guide-install.html
-
-abapGit works on object level(R3TR), while the transport system works on subobject level(LIMU), if mirroring transports to git and subobjects exists in multiple transports, abapGit will give an error.
-
-Transports must consistently match the git repositories, an error will be issued if a transport contains objects from multiple git repositories.
+It can be link:https://docs.abapgit.org/guide-install.html[installed] on any SAP system version 702 and up which allows changes to custom code.
 
 === CTS
-What is CTS? The classic transport system, describe what is a request and what is a task
+The Change and Transport System (CTS) helps you to organize development projects in the ABAP Workbench and in Customizing, and then transport the changes between the SAP systems in your system landscape.
+
+The complete documentation on how to configure CTS and how to set up transport landscapes is available on the SAP Help Portal at link:https://help.sap.com/viewer/4a368c163b08418890a406d413933ba7/201809.002/en-US/48c4300fca5d581ce10000000a42189c.html[Change and Transport System].
+
 
 === gCTS
-What is gCTS?
+A first set of features of git-enabled CTS (gCTS) is available with SAP S/4HANA 1909. You can find the documentation on how to configure and use gCTS on the SAP Help Portal: link:https://help.sap.com/viewer/4a368c163b08418890a406d413933ba7/201909.000/en-US/f319b168e87e42149e25e13c08d002b9.html[Git-enabled Change and Transport System]. A good starting point is Karin Spiegel's blog post link:https://blogs.sap.com/2019/11/14/gcts-is-here/[gCTS is here].
 
-Prerequsites: SAP S/4HANA 1909 and up
+To get the idea of gCTS and what is planned for future releases, please refer to its link:https://support.sap.com/content/dam/support/en_us/library/ssp/tools/Software-logistic-tools/Ideas_CI_ABAP_V3.pdf[statement of direction].
 
-Basic Setup: https://help.sap.com/viewer/4a368c163b08418890a406d413933ba7/201909.000/en-US/275739524c7348f0a0ab54fe1fe05954.html
+// I tend to add <<static_analysis>> here.

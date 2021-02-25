@@ -2,7 +2,7 @@
 
 In this section we give suggestions how to conduct code reviews effectively. Other code review guides have already dealt with this topic generically, for instance, link:https://google.github.io/eng-practices/[Google's Engineering Practices documentation]. We will focus on ABAP specific considerations.
 
-===  Why to Perform Code Reviews?
+=== Why perform Code Reviews?
 
 Code reviews can detect issues in the software that are harder to find via other methods:
 
@@ -31,9 +31,9 @@ In general, reviewers can be selected manually or automatically. Manual selectio
 
 Attributes qualifying colleagues as reviewers include:
 
-* team assignment,
-* experience and seniority (also outside of the team),
-* consumer role (to check if something was implemented as required).
+* team assignment
+* experience and seniority (also outside of the team)
+* consumer role (to check if something was implemented as required)
 
 === Required Code Reviews
 
@@ -41,4 +41,20 @@ An important decision is how many code reviews are required to release a change.
 
 In case of pair-programming, code reviews can of course be conducted much faster. Usually, a remark documenting the pair-programming should suffice.
 
-Moreover, one could imagine also dynamic conditions that make code reviews mandatory, for instance, a significant drop in test coverage, a high number of low prio ATC messages, or changes of critical objects like DDIC or CDS, security checks, APIs and package interfaces, just to name a few. The practicability of such requirements of course depends on the capabilities of the chosen code review platform.
+Moreover, one could imagine also dynamic conditions that make code reviews mandatory, for instance, a significant drop in test coverage, a high number of low priority ATC messages, or changes of critical objects like DDIC or CDS, security checks, APIs and package interfaces, just to name a few. The practicability of such requirements of course depends on the capabilities of the chosen code review platform.
+
+=== Code Formatting
+
+The code reviewer will look through the textual changes in the source code, and even if the actual change is small
+, there might be a lot of changes due to reformatting of the code.
+
+Having a consistently formatted codebase will help keeping the size of textual changes small, and make reviewing easier.
+
+The SAP ABAP style guide proides multiple recommendations which can be used in the development team,
+
+* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#use-your-pretty-printer-team-settings[Use your pretty printer team settings]
+* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#stick-to-a-reasonable-line-length[Stick to a reasonable line length]
+* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#indent-and-snap-to-tab[Indent and snap to tab]
+* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#dont-align-type-clauses[Align type clauses]
+* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#close-brackets-at-line-end[Close brackets at line end]
+* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#align-parameters[Align parameters]

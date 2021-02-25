@@ -1,0 +1,9 @@
+== Example abapGit Setup
+// adding this in a new file for now
+
+// todo, adjust this URL, the repo will be transferred to the abapGit organization,
+https://github.com/larshp/abapgit-review-example
+
+abapGit works on object level(R3TR), while the transport system works on subobject level(LIMU), if mirroring transports to git and subobjects exists in multiple transports, the abapGit based example will give an error.
+
+Transports must consistently match the git repositories, an error will be issued if a transport contains objects from multiple git repositories.
