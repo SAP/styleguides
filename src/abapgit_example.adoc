@@ -1,9 +1,26 @@
 == Example abapGit Setup
-// adding this in a new file for now
 
-// todo, adjust this URL, the repo will be transferred to the abapGit organization,
-https://github.com/larshp/abapgit-review-example
+// todo, adjust the URL, the repo will be transferred to the abapGit organization,
 
+One way setup from ABAP to git, with commits for each task release.
+
+A sample abapGit setup is provided at link:https://github.com/larshp/abapgit-review-example[https://github.com/larshp/abapgit-review-example] it can be installed via abapGit.
+
+// todo, how much to describe here vs the repo?
+
+For release of each task,
+
+* Determine the corresponding abapGit repository
+* Create branch if not exists
+* Push changes to branch
+* Create PR if not exits
+
+For release of request,
+
+* Check PR is released, if not the request cannot be released
+
+// todo, verify
 abapGit works on object level(R3TR), while the transport system works on subobject level(LIMU), if mirroring transports to git and subobjects exists in multiple transports, the abapGit based example will give an error.
 
+// todo, verify
 Transports must consistently match the git repositories, an error will be issued if a transport contains objects from multiple git repositories.
