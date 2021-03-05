@@ -2,14 +2,28 @@
 :source-highlighter: highlightjs
 
 = ABAP Code Reviews
-Change-based code reviews increase code quality by finding defects earlier and preventing them to pollute the main code line. They also enable continuous integration by registering automated checks as reviewers. These modern capabilities have been on the wish list of ABAP developers for some time. We survey current possibilities of applying git-based review platforms to ABAP code and give recommendations for authors and reviewers.
-
-Build timestamp: {docdatetime}
-:toc:
+A practical guide
+:toc: macro
 :toclevels: 3
 :numbered:
 
+[abstract]
+--
+Change-based code reviews increase code quality by finding defects earlier and preventing them to pollute the main code line. They also enable continuous integration by registering automated checks as reviewers. These modern capabilities have been on the wish list of ABAP developers for some time. We survey current possibilities of applying git-based review platforms to ABAP code and give recommendations for authors and reviewers.
+--
+
+This document is provided as open source via link:https://github.com/SAP/styleguides[https://github.com/SAP/styleguides] under the link:https://github.com/SAP/styleguides/blob/master/LICENSE[Creative Commons License], feedback, ideas and suggestions are welcome.
+
+Build timestamp: {docdatetime}
+
+// I cannot get the TOC to appear behind the abstract :-(
+// toc::[] <-- this macro will only cause 2 TOCs to be printed :-(
+
 include::introduction.adoc[]
+
+<<<
+
+include::related_work.adoc[]
 
 <<<
 
