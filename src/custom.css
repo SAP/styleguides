@@ -6,3 +6,29 @@ h1, h2, h3, h4, #toctitle {
 html, body, [data-id="toc"] ul {
   font-family: sans-serif !important;
 }
+
+@page :first {
+  background-repeat: no-repeat;
+  height: 500px;
+  background-position: center;
+  background-image: url("../images/logo.svg");
+}
+
+@page:left {
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
+@page:right {
+  @bottom-left {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
+/* move the book title to the correct location */
+#cover > h1 {
+  color: black;
+  text-align: left;
+  margin-top: -20cm;
+}
