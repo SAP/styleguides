@@ -1,5 +1,6 @@
 {
   "recommendations": [
-      "asciidoctor.asciidoctor-vscode"
+      "asciidoctor.asciidoctor-vscode",
+      "streetsidesoftware.code-spell-checker"
   ]
 }
