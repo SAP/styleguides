@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="91.258774mm"
-   height="89.908791mm"
-   viewBox="0 0 91.258774 89.908791"
+   width="190mm"
+   height="200mm"
+   viewBox="0 0 190 200"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
@@ -35,9 +35,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="92.016679"
-     inkscape:cy="240.75965"
+     inkscape:zoom="0.7"
+     inkscape:cx="548.06268"
+     inkscape:cy="475.3127"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -59,7 +59,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -67,56 +67,97 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-47.851736,-65.994598)">
+     transform="translate(-76.750919,-71.664238)">
     <ellipse
        style="fill:none;stroke:#808080;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
        id="path833"
-       cx="78.01487"
-       cy="96.15773"
+       cx="149.45238"
+       cy="133.95534"
        rx="28.663134"
        ry="28.663132" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="64.898506"
-       y="86.443153"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="136.33601"
+       y="124.24077"
        id="text837"><tspan
          sodipodi:role="line"
          id="tspan835"
-         x="64.898506"
-         y="86.443153"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';stroke-width:0.264583;fill:#808080;fill-opacity:1;">ABAP</tspan></text>
+         x="136.33601"
+         y="124.24077"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#808080;fill-opacity:1;stroke-width:0.264583">ABAP</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:5.64444px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="53.797497"
-       y="101.67255"
+       style="font-style:normal;font-weight:normal;font-size:5.64444px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="125.23501"
+       y="139.47017"
        id="text837-1"><tspan
          sodipodi:role="line"
          id="tspan835-2"
-         x="53.797497"
-         y="101.67255"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444px;font-family:monospace;-inkscape-font-specification:'monospace Bold';stroke-width:0.264583;fill:#808080;fill-opacity:1;">WRITE 'review'.</tspan></text>
+         x="125.23501"
+         y="139.47017"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#808080;fill-opacity:1;stroke-width:0.264583">WRITE 'review'.</tspan></text>
     <path
        style="fill:none;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 98.840772,116.9512 5.291668,5.48065"
+       d="m 170.27827,154.74881 5.29167,5.48065"
        id="path863"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 110.55804,120.38542 c -3.97515,-0.87792 -10.01981,4.47042 -8.31548,8.88243 1.89709,4.91099 21.0549,25.18425 27.59226,25.13542 6.53736,-0.0488 7.98251,-1.72266 7.74852,-8.88244 -0.23399,-7.15978 -22.38364,-24.11029 -27.0253,-25.13541 z"
+       d="m 181.99554,158.18303 c -3.97515,-0.87792 -10.01981,4.47042 -8.31548,8.88243 1.89709,4.91099 21.0549,25.18425 27.59226,25.13542 6.53736,-0.0488 7.98251,-1.72266 7.74852,-8.88244 -0.23399,-7.15978 -22.38364,-24.11029 -27.0253,-25.13541 z"
        id="path865"
        sodipodi:nodetypes="sszzs" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:5.64444px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="53.989784"
-       y="95.744522"
+       style="font-style:normal;font-weight:normal;font-size:5.64444px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="125.42729"
+       y="133.54213"
        id="text837-1-4"><tspan
          sodipodi:role="line"
          id="tspan835-2-8"
-         x="53.989784"
-         y="95.744522"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444px;font-family:monospace;-inkscape-font-specification:'monospace Bold';stroke-width:0.264583;fill:#808080;fill-opacity:1;">WRITE 'code'.</tspan></text>
+         x="125.42729"
+         y="133.54213"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#808080;fill-opacity:1;stroke-width:0.264583">WRITE 'code'.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="92.830902"
+       y="220.20888"
+       id="text842"><tspan
+         sodipodi:role="line"
+         id="tspan840"
+         x="92.830902"
+         y="220.20888"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583">Change-based code reviews increase code quality by finding defects </tspan><tspan
+         sodipodi:role="line"
+         x="92.830902"
+         y="226.38249"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
+         id="tspan844">earlier and preventing them to pollute the main code line. They also </tspan><tspan
+         sodipodi:role="line"
+         x="92.830902"
+         y="232.55611"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
+         id="tspan846">enable continuous integration by registering automated checks as </tspan><tspan
+         sodipodi:role="line"
+         x="92.830902"
+         y="238.72972"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
+         id="tspan848">reviewers. These modern capabilities have been on the wish list of </tspan><tspan
+         sodipodi:role="line"
+         x="92.830902"
+         y="244.90332"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
+         id="tspan850">ABAP developers for some time. We survey current possibilities of </tspan><tspan
+         sodipodi:role="line"
+         x="92.830902"
+         y="251.07693"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
+         id="tspan852">applying git-based review platforms to ABAP code and give </tspan><tspan
+         sodipodi:role="line"
+         x="92.830902"
+         y="257.25055"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
+         id="tspan854">recommendations for authors and reviewers.</tspan></text>
   </g>
 </svg>

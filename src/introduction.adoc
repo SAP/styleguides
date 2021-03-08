@@ -1,3 +1,15 @@
+[cols="1,3",frame=none,grid=none]
+|===
+|Home
+|link:https://github.com/SAP/styleguides[https://github.com/SAP/styleguides]
+
+|License
+|link:https://github.com/SAP/styleguides/blob/master/LICENSE[Creative Commons]
+
+|Build
+|{docdatetime}
+|===
+
 == Introduction
 
 Code review is a measure for assuring software quality by letting developers read the code of others. While the primary goal is to increase quality by finding defects, it also fosters learning and mutual code ownership.

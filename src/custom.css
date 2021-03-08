@@ -7,6 +7,11 @@ html, body, [data-id="toc"] ul {
   font-family: sans-serif !important;
 }
 
+/* disable zebra stripes */
+table tr.even, table tr.alt, table tr:nth-of-type(even) {
+  background: unset
+}
+
 @page :first {
   background-repeat: no-repeat;
   height: 500px;
