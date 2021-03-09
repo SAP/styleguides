@@ -3032,7 +3032,7 @@ CALL FUNCTION 'BAPI_GET_CURRENT_DATE'
     response     = response.
 
 IF response-type = 'E'.
-  RAISE EXCEPTION NEW /clean/some_error( );
+  RAISE EXCEPTION NEW /clean/some_error( ).
 ENDIF.
 ```
 
