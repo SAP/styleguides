@@ -62,7 +62,7 @@ link:https://abaplint.org[abaplint] is a open source static analysis tool for AB
 
 The abaplint configuration file `abaplint.json` is stored in the repository along with the code.
 // todo, I'll probably rewrite some of this, plus add a link to https://abaplint.app -Hvam
-// todo, link https://github.com/abaplint/abaplint/blob/master/docs/ci/README.md
+// todo, link https://github.com/abaplint/abaplint/blob/main/docs/ci/README.md
 To let the developer check their working copy, link:https://github.com/abaplint/abaplint-sci-client[abaplint-sci-client] can be setup. And the linter also works in vscode or running standalone in a browser window.
 
 ==== Code Inspector (ATC)

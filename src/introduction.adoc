@@ -4,7 +4,7 @@
 |link:https://github.com/SAP/styleguides[https://github.com/SAP/styleguides]
 
 |License
-|link:https://github.com/SAP/styleguides/blob/master/LICENSE[Creative Commons]
+|link:https://github.com/SAP/styleguides/blob/main/LICENSE[Creative Commons]
 
 |Build
 |{docdatetime}

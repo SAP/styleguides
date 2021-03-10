@@ -6,7 +6,7 @@ In this section we give suggestions how to conduct code reviews effectively. Oth
 
 Code reviews can detect issues in the software that are harder to find via other methods:
 
-* Foster link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md[Clean code] to improve *maintainability* and *readability* of code, including comments, and to avoid unnecessary *complexity*.
+* Foster link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md[Clean code] to improve *maintainability* and *readability* of code, including comments, and to avoid unnecessary *complexity*.
 * Ensure the code is *well designed*.
 * Consider behavioral aspects like *performance* and *security*.
 * Improve *testability* of code, including test design and adequateness of tests.
@@ -52,9 +52,9 @@ Having a consistently formatted codebase will help keeping the size of textual c
 
 The SAP ABAP style guide proides multiple recommendations which can be used in the development team,
 
-* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#use-your-pretty-printer-team-settings[Use your pretty printer team settings]
-* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#stick-to-a-reasonable-line-length[Stick to a reasonable line length]
-* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#indent-and-snap-to-tab[Indent and snap to tab]
-* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#dont-align-type-clauses[Align type clauses]
-* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#close-brackets-at-line-end[Close brackets at line end]
-* link:https://github.com/SAP/styleguides/blob/master/clean-abap/CleanABAP.md#align-parameters[Align parameters]
+* link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#use-your-pretty-printer-team-settings[Use your pretty printer team settings]
+* link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#stick-to-a-reasonable-line-length[Stick to a reasonable line length]
+* link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#indent-and-snap-to-tab[Indent and snap to tab]
+* link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#dont-align-type-clauses[Align type clauses]
+* link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#close-brackets-at-line-end[Close brackets at line end]
+* link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#align-parameters[Align parameters]
