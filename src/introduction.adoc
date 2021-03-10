@@ -16,19 +16,22 @@ Code review is a measure for assuring software quality by letting developers rea
 
 link:https://help.sap.com/viewer/Continuous-Integration-and-Delivery-Introduction-Guide/5ba483a2c97b4ad5ab0148f4a6c5a9ee.html[Continuous integration / continuous delivery] (CI/CD) is commonly seen as a prerequisite to faster delivery of cloud-based products. This comprises the ability to review, test, and, if required, veto changes before they affect every other developer working on the same repository.  This capability to validate a change in _isolation_ before integrating it is also known as link:https://trunkbaseddevelopment.com/game-changers/#google-s-internal-devops-2006-onwards[proposed commits] or link:https://martinfowler.com/bliki/PendingHead.html[pending head]. For instance, most git platforms have implemented this concept as depicted below.
 
-[ditaa]
+[plantuml,activity,svg,align="center"]
 ....
-       *          /--------\
-       |       /--+ Rework +<-----------------\
-       v       |  \--------/               No |
-   /-------\   v  /-----------\  /--------\   |  Yes /---------\
-   |Request+--><>-+ Automated +->+  Peer  +-><>----->| Submit  |
-   \-------/      |  Review   |  | Review |          | (merge) |
-                  \-----------/  \--------/  OK?     \---------/
-                                                          |
-                                                          v
-                                                         /\
-                                                         \/
+@startuml
+skinparam monochrome true
+
+start
+:Request;
+repeat
+  :Automated Review;
+  :Peer Review;
+backward:Rework;
+repeat while (OK?) is (No)
+->Yes;
+:Submit(merge);
+stop
+@enduml
 ....
 
 Once your source repository supports such a validation, manual change-based code reviews usually come for free because it does not matter technically whether a change is vetoed by a human vote or an automated test verdict.
