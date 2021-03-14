@@ -68,18 +68,18 @@ To let the developer check their working copy, link:https://github.com/abaplint/
 ==== Code Inspector (ATC)
 The developer can use link:https://help.sap.com/viewer/c238d694b825421f940829321ffa326a/7.51.7/en-US/4ec5711c6e391014adc9fffe4e204223.html[ATC] to check the working copy in an ABAP system.
 
-If the state of the ABAP system matches the git state, ATC can be executed an information given in the pull request to help the code reviewer.
+If the state of the ABAP system matches the git state, ATC can be executed locally for the scope given in the transport or pull request to help the code reviewer.
 
-In addition to the checks in the standard system, there are open source projects which provides additional checks:
+In addition to the standard checks provided by SAP, there are open source projects that provide additional checks:
 
 * link:https://github.com/SAP/code-pal-for-abap[code pal for ABAP]
 * link:https://abapopenchecks.org[abapOpenchecks]
 
-It is however not so trivial (yet) to execute ATC as part of a pipeline.
+It is however not so trivial (yet) to execute ATC as part of a continuous integration pipeline.
 
 One possibility is to use BAdI `CTS_REQUEST_CHECK` to execute ATC programmatically during the release of a transport.
 
-//todo which release was ADT first introduced with?
+/ /todo: which release was ADT first introduced with?
 In case the SAP ABAP Development Tools for Eclipse are already configured for your system, you could use its REST APIs to trigger ATC and ABAP Unit externally. This is what, for instance, the pipeline step link:https://www.project-piper.io/steps/gctsExecuteABAPUnitTests/[gctsExecuteABAPUnitTests] of project Piper does.
 
 Additionally, it is possible to upload and download the Code Inspector variant via link:https://blogs.sap.com/2015/08/02/upload-and-download-code-inspector-variants-via-xml/[upDOWNci] and stored in link:https://github.com/larshp/upDOWNci/issues/12[git]
@@ -90,7 +90,4 @@ These newer features are of course not available to customers working on older r
 
 === abap-openapi-client
 
-External check services often have an link:https://swagger.io/docs/specification/about/[OpenAPI] definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet.
-
-// todo,
-https://github.com/abap-openapi/abap-openapi-client
+External check services often have an link:https://swagger.io/docs/specification/about/[OpenAPI] definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet. An emerging open source OpenAPI client for ABAP can be found at https://github.com/abap-openapi/abap-openapi-client

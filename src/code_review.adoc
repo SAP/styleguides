@@ -27,7 +27,7 @@ Code reviews need to be done *fast*. Hence, you need to balance between the inte
 
 In general, reviewers can be selected manually or automatically. Manual selection happens either by the author explicitly requesting reviews from qualified colleagues, or by interested reviewers actively picking open changes for review. The latter requires a certain "meritocracy" culture in an organization, where novice developers may gain reputation by reviewing open changes.
 
-*Automated selection* of code reviewers is also possible, for instance, via round robin routing or advanced concepts like link:https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners[Code Owners]. The latter enables you to define (groups of) default reviewers for certain files and folders on git level. This can be useful for critical coding parts or known hotspots.
+*Automated selection* of code reviewers is also possible, for instance, via round robin routing or advanced concepts like link:https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners[Code Owners]. The latter enables you to define (groups of) default reviewers for certain files and folders on git level. This can be useful for critical coding parts or known hot spots.
 
 Attributes qualifying colleagues as reviewers include:
 
@@ -45,12 +45,12 @@ Moreover, one could imagine also dynamic conditions that make code reviews manda
 
 === Code Formatting
 
-The code reviewer will look through the textual changes in the source code, and even if the actual change is small
-, there might be a lot of changes due to reformatting of the code.
+The code reviewer will look through the textual changes in the source code, and even if the actual change is small,
+there might be a lot of changes due to reformatting of the code.
 
 Having a consistently formatted codebase will help keeping the size of textual changes small, and make reviewing easier.
 
-The SAP ABAP style guide proides multiple recommendations which can be used in the development team,
+The SAP ABAP style guide provides multiple recommendations which can be used in the development team,
 
 * link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#use-your-pretty-printer-team-settings[Use your pretty printer team settings]
 * link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#stick-to-a-reasonable-line-length[Stick to a reasonable line length]

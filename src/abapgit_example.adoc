@@ -2,13 +2,13 @@
 
 // todo, adjust the URL, the repo will be transferred to the abapGit organization,
 
-One way setup from ABAP to git, with commits for each task release.
+In this section we introduce a simple implementation of the <<One Way Synchronization from ABAP to Git>>, with commits for each task release.
 
-A sample abapGit setup is provided at link:https://github.com/larshp/abapgit-review-example[https://github.com/larshp/abapgit-review-example] it can be installed via abapGit.
+A sample abapGit setup is provided at link:https://github.com/larshp/abapgit-review-example[https://github.com/larshp/abapgit-review-example]. It can be installed via abapGit.
 
 // todo, how much to describe here vs the repo?
 
-For release of each task,
+For the release of each task, the following steps are performed:
 
 * Determine the corresponding abapGit repository
 * Create branch if not exists
@@ -18,6 +18,8 @@ For release of each task,
 For release of request,
 
 * Check PR is released, if not the request cannot be released
+
+// What happens if the PR is released but user wants to deliberately add further tasks (or accidentally does so)? see https://github.com/larshp/abapgit-review-example/issues/12
 
 // todo, verify
 abapGit works on object level(R3TR), while the transport system works on subobject level(LIMU), if mirroring transports to git and subobjects exists in multiple transports, the abapGit based example will give an error.
