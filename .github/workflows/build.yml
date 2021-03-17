@@ -1,20 +1,16 @@
-name: Build
+name: build
 
 on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
     - run: npm ci
-    - run: npm run build --if-present
     - run: npm test
-
     - name: Upload build artifact
       uses: actions/upload-artifact@main
       with:
