@@ -7,7 +7,6 @@ A practical guide
 :toclevels: 3
 :numbered:
 
-
 include::introduction.adoc[]
 
 <<<
