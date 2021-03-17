@@ -22,6 +22,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./build/index.pdf
-          asset_name: index.pdf
+          asset_name: abap-code-review-guide.pdf
           tag: latest
           overwrite: true
