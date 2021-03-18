@@ -3,6 +3,8 @@ ABAP Code Review Guide is a collection of ideas, tools, and approaches for imple
 
 The document is provided as open source under the [CC license](https://github.com/SAP/styleguides/blob/main/LICENSE), suggestions and bugfixes are welcome.
 
+Latest release from main can be found out [abap-code-review-guide.pdf](https://github.com/xtough/abap-code-review-guide/releases/download/latest/abap-code-review-guide.pdf).
+
 ## Building Locally
 The PDF file can be built locally, if [Node.js](https://nodejs.org/en/) is installed, by running
 
