@@ -2,22 +2,22 @@
 
 // todo, adjust the URL, the repo will be transferred to the abapGit organization,
 
-In this section we introduce a simple implementation of the <<One Way Synchronization from ABAP to Git>>, with commits for each task release.
+There are lots of ways to setup code reviews, this section introduces a simple implementation of the <<One Way Synchronization from ABAP to Git>>, with commits for each task release, the example can be extended according to the needs of each organization.
 
-A sample abapGit setup is provided at link:https://github.com/larshp/abapgit-review-example[https://github.com/larshp/abapgit-review-example]. It can be installed via abapGit.
+A sample abapGit setup is provided at link:https://github.com/larshp/abapgit-review-example[https://github.com/larshp/abapgit-review-example], it can be installed via abapGit.
 
 // todo, how much to describe here vs the repo?
 
 For the release of each task, the following steps are performed:
 
-* Determine the corresponding abapGit repository
-* Create branch if not exists
-* Push changes to branch
-* Create PR if not exits
+. Determine the corresponding abapGit repository
+. Create branch if not exists
+. Push changes to branch
+. Create PR if not exits
 
 For release of request,
 
-* Check PR is released, if not the request cannot be released
+. Check PR is released, if not the request cannot be released
 
 // What happens if the PR is released but user wants to deliberately add further tasks (or accidentally does so)? see https://github.com/larshp/abapgit-review-example/issues/12
 

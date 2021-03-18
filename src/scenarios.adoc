@@ -8,6 +8,16 @@ We assume the SAP ABAP development application servers have network access to th
 By one-way we mean that CTS is the primary source of truth of your component. It is in full control of your software lifecycle. Git is only used for code review purposes as a secondary persistence or USB-stick-like export channel.
 Developers work normally, releasing transports via CTS as configured per transport layer.
 
+[plantuml,one-way,svg,align="center"]
+....
+@startuml
+skinparam monochrome true
+cloud git
+rectangle abap
+abap -> git: push
+@enduml
+....
+
 The only difference are the new review steps, which are conducted via an ABAP git client (either abapGit or gCTS) on a code review platform like GitHub.
 Even though code reviews could also be conducted independently from transport releases, it is more efficient to synchronize both tightly because their granularity typically captures a logical unit of work.
 
@@ -15,6 +25,16 @@ Even though code reviews could also be conducted independently from transport re
 
 In contrast, open source projects or reusable assets developed by partners for multiple clients usually have a lifecycle of their own, independent of the target systems they are deployed to. Git becomes the primary persistence. Classical CTS is only used optionally for software logistics of the consuming target project (or you rely completely on gCTS).
 All git operations are manually performed by the developer using the ABAP git client (either abapGit or gCTS), including the pull of changes back from git into AS ABAP.
+
+[plantuml,two-way,svg,align="center"]
+....
+@startuml
+skinparam monochrome true
+cloud git
+rectangle abap
+abap <-> git: push & pull
+@enduml
+....
 
 Only one developer performs changes in a package on one system at a time. Conflicts resulting from concurrent modification of the same objects on different systems need to be resolved on git level.
 

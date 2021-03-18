@@ -35,10 +35,6 @@ stop
 ....
 
 Once your source repository supports such a validation, manual change-based code reviews usually come for free because it does not matter technically whether a change is vetoed by a human vote or an automated test verdict.
-While Git platforms like Gerrit Changes and link:https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/reviewing-changes-in-pull-requests[GitHub Pull Requests] already support the concept of proposed commits out of the box, ABAP Change and Transport System (CTS) so far only offers extension points where a comparable flow can be implemented besides or on top to veto the release of transport requests.
-
-// todo, Hvam,
-// ABAP is the art of the possible, no single scenario will fit into all organizations, with the tools mentioned in this document it is possible for each organization to setup their workflow
-// Like this document is public, it is encuraged to share setups and code.   // todo, lets keep a section with links etc?
+While Git platforms like link:https://www.gerritcodereview.com/[Gerrit Changes] and link:https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/reviewing-changes-in-pull-requests[GitHub Pull Requests] already support the concept of proposed commits out of the box, ABAP Change and Transport System (CTS) only offers extension points where a comparable flow can be implemented besides or on top to veto the release of transport requests.
 
 This document provides an overview of possible scenarios which can be implemented in various development landscapes.

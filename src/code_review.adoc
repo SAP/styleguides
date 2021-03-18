@@ -1,6 +1,6 @@
 == Code Review Best Practices
 
-In this section we give suggestions how to conduct code reviews effectively. Other code review guides have already dealt with this topic generically, for instance, link:https://google.github.io/eng-practices/[Google's Engineering Practices documentation]. We will focus on ABAP specific considerations.
+This section contains suggestions on how to conduct code reviews effectively. Other code review guides have already dealt with this topic generically, for instance, link:https://google.github.io/eng-practices/[Google's Engineering Practices documentation]. We will focus on ABAP specific considerations.
 
 === Why perform Code Reviews?
 
@@ -11,7 +11,7 @@ Code reviews can detect issues in the software that are harder to find via other
 * Consider behavioral aspects like *performance* and *security*.
 * Improve *testability* of code, including test design and adequateness of tests.
 
-Code reviews are one possibility to *share experience and knowledge* between developers. It works a bit like "asynchronous pair programming", so that unexperienced colleagues can learn from more experienced ones and know-how about all parts of the coding is distributed across the team.
+Code reviews are one possibility to *share experience and knowledge* between developers. It works a bit like "asynchronous pair programming", so that colleagues can learn from each other, and share know-how about all parts of the code.
 
 Code reviews help to prevent that *code health* deteriorates over time.
 
@@ -25,6 +25,7 @@ Code reviews need to be done *fast*. Hence, you need to balance between the inte
 
 === How to Select Reviewers?
 
+// todo, wording? remove "qualified" ? "gain reputation" -> "developers can actively become more knowledgeable about the codebase" something like that
 In general, reviewers can be selected manually or automatically. Manual selection happens either by the author explicitly requesting reviews from qualified colleagues, or by interested reviewers actively picking open changes for review. The latter requires a certain "meritocracy" culture in an organization, where novice developers may gain reputation by reviewing open changes.
 
 *Automated selection* of code reviewers is also possible, for instance, via round robin routing or advanced concepts like link:https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners[Code Owners]. The latter enables you to define (groups of) default reviewers for certain files and folders on git level. This can be useful for critical coding parts or known hot spots.
@@ -37,7 +38,7 @@ Attributes qualifying colleagues as reviewers include:
 
 === Required Code Reviews
 
-An important decision is how many code reviews are required to release a change. Most projects require at least the so-called 4-eyes-principle for every change. It is important to note the culture aspect of this configuration: This is not meant as an additional hurdle to harass developers that should be generally mistrusted. It is rather an opportunity and safety net that prevents slip errors from spreading unnoticed, because they can happy anytime to anyone. If reviews from *Code Owners* are required, individual approvals will not suffice.
+An important decision is how many code reviews are required to release a change. Most projects require at least the so-called 4-eyes-principle for every change. It is important to note the culture aspect of this configuration: This is not meant as an additional hurdle to harass developers that should be generally mistrusted. It is rather an opportunity and safety net that prevents slip errors from spreading unnoticed, because they can happen anytime to anyone. If reviews from *Code Owners* are required, individual approvals will not suffice.
 
 In case of pair-programming, code reviews can of course be conducted much faster. Usually, a remark documenting the pair-programming should suffice.
 
@@ -58,3 +59,5 @@ The SAP ABAP style guide provides multiple recommendations which can be used in 
 * link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#dont-align-type-clauses[Align type clauses]
 * link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#close-brackets-at-line-end[Close brackets at line end]
 * link:https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md#align-parameters[Align parameters]
+
+Objects can be mass pretty printed via link:https://www.npmjs.com/package/abappretty[abappretty], and developers reminded to follow the team conventions via static analysis tooling.
