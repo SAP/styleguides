@@ -1,4 +1,4 @@
-== Code Review Best Practices
+== Best Practices
 
 This section contains suggestions on how to conduct code reviews effectively. Other code review guides have already dealt with this topic generically, for instance, link:https://google.github.io/eng-practices/[Google's Engineering Practices documentation]. We will focus on ABAP specific considerations.
 
