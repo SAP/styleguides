@@ -21,13 +21,13 @@ table tr.even, table tr.alt, table tr:nth-of-type(even) {
 
 @page:left {
   @bottom-right {
-    content: "Page " counter(page) " of " counter(pages);
+    content: "Page " counter(page);
   }
 }
 
 @page:right {
   @bottom-left {
-    content: "Page " counter(page) " of " counter(pages);
+    content: "Page " counter(page);
   }
 }
 
