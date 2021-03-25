@@ -19,7 +19,7 @@
   "homepage": "https://github.com/xtough/abap-code-review-guide#readme",
   "dependencies": {
     "@asciidoctor/cli": "^3.4.0",
-    "@asciidoctor/core": "^2.2.1",
+    "@asciidoctor/core": "^2.2.2",
     "asciidoctor-kroki": "^0.12.0",
     "asciidoctor-pdf": "1.0.0-alpha.12",
     "asciidoctor-plantuml": "^1.5.0"
