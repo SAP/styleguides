@@ -18,6 +18,7 @@ Multiple setup steps are required in the development system,
 
 . abapGit development edition link:https://https://docs.abapgit.org/guide-install.html#install-developer-version[installed]
 . Connectivity from the ABAP system to Github, link:https://docs.abapgit.org/guide-ssl-setup.html[SSL setup]
+. link:https://docs.abapgit.org/ref-exits.html#create_http_client[Background user authentication]
 . Online repositories are link:https://docs.abapgit.org/guide-online-install.html[created] and linked to the development packages
 . Enable abapGit link:https://docs.abapgit.org/ref-dot-abapgit.html#write-protected[write protection] for the repos
 
@@ -56,11 +57,11 @@ For release of request,
 
 // What happens if the PR is released but user wants to deliberately add further tasks (or accidentally does so)? see https://github.com/larshp/abapgit-review-example/issues/12
 
-// todo, verify
-abapGit works on object level(`R3TR`), while the transport system works on subobject level(LIMU), if mirroring transports to git and subobjects exists in multiple transports, the abapGit based example will give an error.
+abapGit works on object level(`R3TR`), while the transport system works on subobject level(`LIMU`), if mirroring transports to git and subobjects exists in multiple transports, the abapGit based example will give an error.
 
-// todo, verify
 Transports must consistently match the git repositories, an error will be issued if a transport contains objects from multiple git repositories.
+
+The example is provided as a starting point, different organizations have different requirements and work processes, the example can be adjusted to fit any requirements.
 
 === Two Way
 

@@ -97,11 +97,11 @@ abap2 -> abap2: 5: ATC
 link:https://abaplint.org[abaplint] is a open source static analysis tool for ABAP, it works on files serialized by abapGit.
 abaplint is "cloud native" and built to link:https://github.com/abaplint/abaplint/blob/main/docs/ci/README.md[run on CI] pipelines, and only requires that the pipeline can access the files in git. There are no specific system requirements, as abaplint can run on the lowest/free pipeline tiers.
 
-The abaplint configuration file `abaplint.json` is stored in the repository along with the code, following the same change process as the code.
+Multiple link:https://rules.abaplint.org[rules] can be configured and the corresponding configuration file  `abaplint.json` is stored in the repository along with the code, following the same change process as the code.
 
 The link:https://abaplint.app[abaplint.app] can be installed via one-click from link:https://github.com/marketplace/abaplint[Github Marketplace], and provides extra features like automatic suggestions and code insights.
 
-The developers can check their working copy using link:https://github.com/abaplint/abaplint-sci-client[abaplint-sci-client] which integrates the rules into Code Inspector/ATC. And the linter also works in vscode or running standalone in a browser window.
+The developers can check their working copy using link:https://github.com/abaplint/abaplint-sci-client[abaplint-sci-client] which integrates the rules into Code Inspector/ATC. And the linter also works in link:https://marketplace.visualstudio.com/items?itemName=larshp.vscode-abaplint[vscode] or running link:https://playground.abaplint.org[standalone] in a browser window.
 
 [plantuml,abaplint,svg,align="center"]
 ....
