@@ -52,6 +52,3 @@ abap <-> git: push & pull
 ....
 
 Conflicts resulting from concurrent modification of the same objects on different systems need to be resolved on git level.
-
-// todo, is this a special case? its exactly this case, or the one way case?
-A special case of this scenario is the combination with classical CTS steps like task and transport releases, which extends it towards "decentralized development", see for example link:https://blogs.sap.com/2020/08/05/create-a-commit-in-git-when-an-abap-task-is-released/[Create a commit in Git when an ABAP task is released].

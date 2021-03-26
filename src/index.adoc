@@ -28,3 +28,7 @@ include::scenarios.adoc[]
 <<<
 
 include::abapgit_example.adoc[]
+
+<<<
+
+include::gcts_example.adoc[]
