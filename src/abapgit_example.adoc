@@ -16,7 +16,7 @@ GitHub setup required,
 
 Multiple setup steps are required in the development system,
 
-. abapGit development edition link:https://https://docs.abapgit.org/guide-install.html#install-developer-version[installed]
+. abapGit development edition link:https://docs.abapgit.org/guide-install.html#install-developer-version[installed]
 . Connectivity from the ABAP system to Github, link:https://docs.abapgit.org/guide-ssl-setup.html[SSL setup]
 . link:https://docs.abapgit.org/ref-exits.html#create_http_client[Background user authentication]
 . Online repositories are link:https://docs.abapgit.org/guide-online-install.html[created] and linked to the development packages

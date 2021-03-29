@@ -2,23 +2,23 @@
 Various tools can be used to orchestrate the code review process, this section introduces the tooling required for conducting code reviews in the context of ABAP development.
 
 === Git
-link:https://en.wikipedia.org/wiki/Git[Git] is a popular link:https://en.wikipedia.org/wiki/Distributed_version_control[distributed version control system], which helps developers work on the same codebase. Unlike ABAP, git works with files instead of objects in a database, which allows editing any file with
+link:https://en.wikipedia.org/wiki/Git[Git] is a popular link:https://en.wikipedia.org/wiki/Distributed_version_control[distributed version control system], which helps developers work on the same codebase. Unlike ABAP, Git works with files instead of objects in a database, which allows editing any file with
 any editor, and keeping multiple copies (branches) of files.
 
-Git is a protocol, and is typically used in connection with cloud-based hosting platforms like:
+At a technical level Git is a protocol, and is typically used in connection with cloud-based hosting platforms like:
 
 * link:https://github.com[GitHub]
 * link:https://gitlab.com[GitLab]
 * link:https://bitbucket.com[Bitbucket]
 * link:https://azure.microsoft.com/en-us/services/devops/repos/[Azure Repos]
 
-For an introduction to git see:
+For an introduction to Git see:
 
 * link:https://git-scm.com/doc[Git Documentation]
 * link:https://guides.github.com/introduction/git-handbook/[Git Handbook]
 
 === Code Review Platforms
-Git helps keeping track of changes to files, and the git hosting platforms add extra functionality on top of that. As explained in the <<_introduction>>, the most important feature is *proposed commits*, which is the basis for code reviews.
+Git helps keeping track of changes to files, and the Git hosting platforms add extra functionality on top of that. As explained in the <<_introduction>>, the most important feature is *proposed commits*, which is the basis for code reviews.
 The general idea is to keep all commits of a feature in a separate branch, propose to merge this branch to a parent or main branch, and to conduct a review conversation over this proposal.
 
 For instance, GitHub provides link:https://github.com/features/code-review/[Code Reviews via Pull Requests]. Other git platforms offer similar features.
@@ -26,7 +26,7 @@ For instance, GitHub provides link:https://github.com/features/code-review/[Code
 === CTS
 The Change and Transport System (CTS) helps organizing development projects in transports, both for objects in the ABAP Workbench and in Customizing. After the development is completed the change is transported between the SAP systems in the system landscape.
 
-The complete documentation on how to configure CTS and how to set up transport landscapes is available on  link:https://help.sap.com/viewer/4a368c163b08418890a406d413933ba7/201809.002/en-US/48c4300fca5d581ce10000000a42189c.html[SAP Help Portal].
+The complete documentation on how to configure CTS and how to set up transport landscapes is available on  link:https://help.sap.com/viewer/4a368c163b08418890a406d413933ba7/201809.latest/en-US/48c4300fca5d581ce10000000a42189c.html[SAP Help Portal].
 
 CTS also offers the possibility to integrate custom logic in the flow of transport requests via the BAdI `CTS_REQUEST_CHECK`.
 In particular, the method `CHECK_BEFORE_RELEASE` is useful for vetoing the release of transports based on external conditions, like code reviews.

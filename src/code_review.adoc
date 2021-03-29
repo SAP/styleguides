@@ -17,14 +17,13 @@ Code reviews help to prevent that *code health* deteriorates over time.
 
 === Size and Speed of Reviews
 
-Change-based code reviews are these days considered more effective than formal link:https://en.wikipedia.org/wiki/Fagan_inspection[Fagan-style code inspections] as they were practiced some years ago. Conducted continuously, they require less effort while still finding a considerable number of defects at an earlier time. Main reason is the *smaller size* of code deltas to digest. This ensures that reviews can be performed both, more *quickly* and *thoroughly*, while keeping the process lean, i.e., less waste if changes are rejected and lower probability to block other development. Changes should be self-contained to help reviewers focus on the task at hand.
+Change-based code reviews are these days considered more effective than formal link:https://en.wikipedia.org/wiki/Fagan_inspection[Fagan-style code inspections] as they were practiced some years ago. Conducted continuously, they require less effort while still finding a considerable number of defects at an earlier time.The main reason is the *smaller size* of code deltas to digest. This ensures that reviews can be performed both, more *quickly* and *thoroughly*, while keeping the process lean, i.e., less waste if changes are rejected and lower probability to block other development. Changes should be self-contained to help reviewers focus on the task at hand.
 
 An *ABAP Transport Request* typically fulfills these criteria.
 
 Code reviews need to be done *fast*. Hence, you need to balance between the interruption of your own work against the probability of blocking the release of other developers' transport. Rule of thumb for the maximum delay should be *one day*. Usually, the speed of code reviews will improve over time.
 
 === How to Select Reviewers?
-
 
 In general, reviewers can be selected manually or automatically. Manual selection happens either by the author explicitly requesting reviews from colleagues with matching expertise, or by interested reviewers actively picking open changes for review. The latter requires a certain "meritocracy" culture in an organization, where novice developers may gain reputation by reviewing open changes.
 
