@@ -5,19 +5,19 @@
   "description": "Collect ideas and approaches for reviewing ABAP code.",
   "main": "index.js",
   "scripts": {
-    "links": "find src -name \\*.adoc | xargs -n1 asciidoc-link-check -p",
-    "test": "npm run links && asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build src/index.adoc -a stylesheet=\"asciidoctor-pdf/css/asciidoctor.css,asciidoctor-pdf/css/document.css,asciidoctor-pdf/css/features/title-page.css,custom.css\""
+    "links": "find abap-code-review/src -name \\*.adoc | xargs -n1 asciidoc-link-check -p",
+    "test": "npm run links && asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build abap-code-review/src/index.adoc -a stylesheet=\"asciidoctor-pdf/css/asciidoctor.css,asciidoctor-pdf/css/document.css,asciidoctor-pdf/css/features/title-page.css,custom.css\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xtough/abap-code-review-guide.git"
+    "url": "git+https://github.com/SAP/styleguides.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xtough/abap-code-review-guide/issues"
+    "url": "https://github.com/SAP/styleguides/issues"
   },
-  "homepage": "https://github.com/xtough/abap-code-review-guide#readme",
+  "homepage": "https://github.com/SAP/styleguides#readme",
   "dependencies": {
     "@asciidoctor/cli": "^3.4.0",
     "@asciidoctor/core": "^2.2.2",
