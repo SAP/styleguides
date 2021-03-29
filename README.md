@@ -19,3 +19,7 @@ The document is written in [AsciiDoc](https://asciidoc.org), and can be edited i
 Each time a commit is pushed(except from forks), GitHub actions will run, build the PDF and attach it to the actions run as an artifact.
 
 When changes is pushed to the default branch, the [latest release](https://github.com/xtough/abap-code-review-guide/releases/download/latest/abap-code-review-guide.pdf) will be updated with the latest version of the document.
+
+# Thanks To
+* [Christoph Pohl](https://github.com/xtough/), [@sap](https://github.com/sap)
+* [Lars Hvam Petersen](https://github.com/larshp), [@heliconialabs](https://github.com/heliconialabs)
