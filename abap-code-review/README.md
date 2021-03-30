@@ -13,6 +13,8 @@ The PDF file can be built locally, if [Node.js](https://nodejs.org/en/) is insta
 ## Editing Locally
 The document is written in [AsciiDoc](https://asciidoc.org), and can be edited in any text editor.
 
+AsciiDoc lies between [Markdown](https://en.wikipedia.org/wiki/Markdown) and [LaTeX](https://en.wikipedia.org/wiki/LaTeX), allowing more markup than Markdown, but less syntax than LaTeX. AsciiDoc provides possibility for inlining diagrams, easy table of contents, plus PDF generation.
+
 [vscode](https://code.visualstudio.com) with the [AsciiDoc extension](https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode) provides preview directly in the editor.
 
 ## Automatic Build
