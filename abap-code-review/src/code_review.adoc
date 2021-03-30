@@ -11,7 +11,7 @@ Code reviews can detect issues in the software that are harder to find via other
 * Consider behavioral aspects like *performance* and *security*.
 * Improve *testability* of code, including test design and adequateness of tests.
 
-Code reviews are one possibility to *share experience and knowledge* between developers. It works a bit like "asynchronous pair programming", so that colleagues can learn from each other, and share know-how about all parts of the code.
+Code reviews are one possibility to *share experience and knowledge* between developers. It works a bit like "asynchronous pair programming", so that colleagues can learn from each other, see different perspectives, and share know-how about all parts of the code.
 
 Code reviews help to prevent that *code health* deteriorates over time.
 
@@ -25,7 +25,7 @@ Code reviews need to be done *fast*. Hence, you need to balance between the inte
 
 === How to Select Reviewers?
 
-In general, reviewers can be selected manually or automatically. Manual selection happens either by the author explicitly requesting reviews from colleagues with matching expertise, or by interested reviewers actively picking open changes for review. The latter requires a certain "meritocracy" culture in an organization, where novice developers may gain reputation by reviewing open changes.
+In general, reviewers can be selected manually or automatically. Manual selection happens either by the author explicitly requesting reviews from colleagues with matching expertise, or by interested reviewers actively picking open changes for review. The latter requires a certain "meritocracy" culture in an organization, where novice developers may gain reputation by reviewing open changes. Some organisations may even chose to let team leads assign reviewers to changes. 
 
 *Automated selection* of code reviewers is also possible, for instance, via round robin routing or advanced concepts like link:https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners[Code Owners]. The latter enables you to define (groups of) default reviewers for certain files and folders on git level. This can be useful for critical coding parts or known hot spots.
 
