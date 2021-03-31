@@ -24,7 +24,7 @@ skinparam monochrome true
 start
 :Request;
 repeat
-  :Automated Review;
+  :Automated Checks;
   :Peer Review;
 backward:Rework;
 repeat while (OK?) is (No)
