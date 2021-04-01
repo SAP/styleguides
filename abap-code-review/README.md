@@ -11,7 +11,8 @@ The PDF file can be built locally, if [Node.js](https://nodejs.org/en/) is insta
 `npm install && npm test`
 
 ## Editing Locally
-The document is written in [AsciiDoc](https://asciidoc.org), and can be edited in any text editor.
+The document is written in [AsciiDoc](https://asciidoc.org), and can be edited in any text editor. 
+You can start at [src/index.adoc](src/index.adoc).
 
 AsciiDoc lies between [Markdown](https://en.wikipedia.org/wiki/Markdown) and [LaTeX](https://en.wikipedia.org/wiki/LaTeX), allowing more markup than Markdown, but less syntax than LaTeX. AsciiDoc provides possibility for inlining diagrams, easy table of contents, plus PDF generation.
 
