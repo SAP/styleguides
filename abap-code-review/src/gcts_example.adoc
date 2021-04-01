@@ -1,0 +1,5 @@
+== gCTS Examples
+
+In principle, gCTS can also be used like a Git client for implementing a similar code review flow as in the previous example.
+
+A combination with classical CTS steps like task and transport releases, which extends it towards "decentralized development", is described in link:https://blogs.sap.com/2020/08/05/create-a-commit-in-git-when-an-abap-task-is-released/[Create a commit in Git when an ABAP task is released].
