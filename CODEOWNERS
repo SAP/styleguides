@@ -1,0 +1,6 @@
+# global owners as fallback for anything not matched below
+* @KlausHaeuptleSAP @HrFlorianHoffmann @xtough
+
+# one line for each document
+/abap-code-review/ @xtough
+/clean-abap/ @HrFlorianHoffmann @KlausHaeuptleSAP
