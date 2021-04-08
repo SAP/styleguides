@@ -321,8 +321,8 @@ team to grow a common understanding.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-check-automatically)
 
-There is no comprehensive suite of static code checks
-that automatically detect the anti-patterns we describe here.
+[code pal for ABAP](https://github.com/SAP/code-pal-for-abap)
+provides a comprehensive suite of automatic checks for Clean ABAP.
 
 ABAP Test Cockpit, Code Inspector, Extended Check, and Checkman provide
 some checks that may help you find certain issues.
