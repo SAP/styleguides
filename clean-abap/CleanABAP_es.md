@@ -577,7 +577,7 @@ METHOD add_two_numbers.
 ENDMETHOD.
 ```
 
-> [Evita codificaciones](sub-sections/Avoidencodings.md)
+> [Evita codificaciones](sub-sections/AvoidEncodings.md)
 > describe el razonamiento a detalle.
 
 ## Lenguaje
@@ -1674,26 +1674,30 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Clases: Orientación a objetos](#clases-orientación-a-objetos) > [Esta sección](#prefiere-composición-a-herencia)
 
-Avoid building hierarchies of classes with inheritance. Instead, favor composition.
+Evita construir jerarquías de clases con herencia. En su lugar, prefiere la composición.
 
-Clean inheritance is hard to design because you need to respect rules
-like the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
-It is also hard to understand because people need to realize and digest the guiding principles behind the hierarchy.
-Inheritance reduces reuse because methods tend to be made available only to sub-classes.
-It also complicates refactoring because moving or changing members tend to require changes to the whole hierarchy tree.
+La herencia limpia es difícil de diseñar porque necesitas respetar reglas
+como el [Principio de sustitución de Liskov](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
 
-Composition means that you design small, independent objects, each of which serves one specific purpose.
-These objects can be recombined into more complex objects by simple delegation and facade patterns.
-Composition may produce more classes, but has otherwise no further disadvantages.
+También es difícil de entender porque las personas necesitan analizar y digerir los principios guía
+detrás de la jerarquía. La herencia reduce el reuso, dado que los métodos tienden a solo estar 
+disponibles para las sub-clases.
+También complica la refactorización, porque mover o cambiar números tiende a requerir cambios a todo el 
+árbol de la jerarquía.
 
-Don't let this rule discourage you from using inheritance in the right places.
-There are good applications for inheritance,
-for example the [Composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern).
-Just ask yourself critically whether inheritance in your case will really provide more benefits than disadvantages.
-If in doubt, composition generally is the safer choice.
+La composición significa que diseñas objetos pequeños e independientes, donde cada uno sirve
+un propósito específico. Estos objetos pueden ser recombinados en objetos más complejos mediante
+simple delegación y patrones de facade.
+La composición puede producir más clases, pero además de eso no tiene otras desventajas.
 
-> [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
-compares some details.
+No permitas que esta regla te desanime de usar herencia cuando es correcto hacerlo.
+Hay buenas applicaciones para herencia, por ejemplo el 
+[Patrón de diseño Composite](https://en.wikipedia.org/wiki/Composite_pattern).
+Solo pregúntate críticamente si la herencia en tu caso realmente proveerá más beneficios que desventajas.
+Si tienes duda, la composición es generalmente la opción más segura.
+
+> [Interfaces vs. clases abstractas](sub-sections/InterfacesVsAbstractClasses.md)
+compara algunos detalles.
 
 #### No mezcles lógica stateful y stateless en la misma clase
 
@@ -1702,10 +1706,10 @@ compares some details.
 No mezcles los paradigmas de programación stateless y stateful 
 en la misma clase.
 
-In stateless programming, methods get input and produce output,
-_without any side effects_, resulting in methods
-that produce the same result
-no matter when and in what order they are called.
+En programación stateless, los métodos reciben una entrada y producen una salida
+_sin ningún efecto secundario_, resultando en métodos
+que producen el mismo resultado sin importar
+en qué orden fueron llamados.
 
 ```ABAP
 CLASS /clean/xml_converter DEFINITION PUBLIC FINAL CREATE PUBLIC.
@@ -1730,8 +1734,9 @@ CLASS /clean/xml_converter IMPLEMENTATION.
 ENDCLASS.
 ```
 
-In stateful programming, we manipulate the internal state of objects
-through their methods, meaning it is _full of side effects_.
+En programación stateful, manipulamos el estado interno del objeto
+a través de sus métodos, lo que significa que está 
+_llena de efectos secundarios_.
 
 ```ABAP
 CLASS /clean/log DEFINITION PUBLIC CREATE PUBLIC.
@@ -1748,11 +1753,12 @@ CLASS /clean/log IMPLEMENTATION.
 ENDCLASS.
 ```
 
-Both paradigms are okay and have their applications.
-However, _mixing_ them in the same object produces code
-that is hard to understand and sure to fail
-with obscure carry-over errors and synchronicity problems.
-Don't do that.
+Ambos paradigmas están bien y cada uno tiene sus usos.
+Sin embargo, _mezclarlos_ en el mismo objeto produce código
+que es difícil de entender y seguro que fallará
+con errores acarreados ocultos y problemas de 
+sincronicidad.
+No lo haga, compa.
 
 ### Alcance
 
@@ -1762,88 +1768,100 @@ Don't do that.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Alcance](#alcance) > [Esta sección](#global-por-default-solo-local-cuando-sea-apropiado)
 
-Work with global classes as default.
-Use local classes only where appropriate.
+Usa clases globales por default.
+Usa clases locales solo cuando sea apropiado.
 
-> Global classes are the ones that are visible in the data dictionary.
-> Local classes live within an include of another development object
-> and are only visible to this other object.
+> Las clases globales son las que son visibles en el diccionario de datos.
+> Las clases locales viven dentro de un include de otro objeto de desarrollo y
+> solo son visibles a ese objeto.
 
-Local classes are suited
+Las clases locales funcionan para
 
-- for very specific private data structures,
-for example an iterator for the global class's data,
-which will only ever be needed here,
+- estructuras de datos privadas muy específicas,
+por ejemplo un iterador de los datos de la clase global,
+que nunca será usado en otra clase más que esta,
 
-- to extract a complex private piece algorithm,
-for example to disentangle that special purpose multi-method
-sort-aggregate algorithm from the rest of your class's code,
+- extraer un algoritmo privado complejo,
+por ejemplo para desenredar esa estrategia de ordenamiento
+y agregación que usa múltiples métodos del resto del
+código de tu clase,
 
-- to enable mocking certain aspects of the global class,
-for example by extracing all database access to a separate local class
-that can the be replaced with a test double in the unit tests.
+- para permitir hacer mock a ciertos aspectos de la clase global,
+por ejemplo extrayendo todos los accesos de base de datos a una
+clase local separada para que puedan ser reemplazados con
+un doble de prueba en las pruebas unitarias.
 
-Local classes hinder reuse because they cannot be used elsewhere.
-Although they are easy to extract, people will usually fail to even find them,
-leading to undesired code duplication.
-Orientation, navigation, and debugging in very long local class includes
-is tedious and annoying. 
-As ABAP locks on include level, people will not be able to work on
-different parts of the local include simultaneously
-(which would be possible if they were separate global classes).
+Las clases locales evitan el reuso porque no pueden ser usadas
+en ninguna otra parte.
+Aunque son fáciles de extraer, la gente fallará incluso en encontrarlas, 
+llevando a indeseable código duplicado.
+Hacer debugging, navegar y orientarse en includes con clases locales
+extensas es tedioso y molesto.
 
-Reconsider your use of local classes if
+Ya que ABAP bloquea los objetos a nivel de include, la gente
+no podrá trabajar en diferentes partes del include de manera simultánea
+(lo cual sería posible si fueran clases globales separadas).
 
-- your local include spans dozens of classes and thousands of lines of code,
-- you think about global classes as "packages" that hold other classes,
-- your global classes degenerate into empty hulls,
-- you find duplicate code repeated throughout separate local includes,
-- your developers start locking each other out and become unable to work in parallel,
-- your backlog estimates go sky-high because your teams fail to understand each other's local sub-trees.
+Reconsidera tu uso de clases locales si
+
+- tu include local tiene decenas de clases y miles de líneas de código, 
+- piensas de las clases globales como "paquetes" que almacenan otras clases,
+- tus clases globales terminan siendo cascarones vacíos
+- encuentras código duplicado a través de includes locales separados,
+- tus desarrolladores comienzan a bloquearse unos a los otros y dejan de poder
+trabajar en paralelo
+- tus estimaciones de backlog están por los cielos porque tus equipos no logran entender
+los sub-árboles locales de los otros miembros.
 
 #### Marcar como FINAL si no fue diseñada para herencia
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Alcance](#alcance) > [Esta sección](#marcar-como-final-si-no-fue-diseñada-para-herencia)
 
-Make classes that are not explicitly designed for inheritance `FINAL`.
+Marca las clases que no están diseñadas explícitamente para herencia como `FINAL`.
 
-When designing class cooperation,
-your first choice should be [composition, not inheritance](#prefer-composition-to-inheritance).
-Enabling inheritance is not something that should be done lightly,
-as it requires you to think about things like `PROTECTED` vs. `PRIVATE`
-and the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle),
-and freezes a lot of design internals.
-If you didn't consider these things in your class design,
-you should thus prevent accidental inheritance by making your class `FINAL`.
+Al diseñar cooperación entre clases, tu primera opción debería ser 
+[composición, no herencia](#prefiere-composición-a-herencia).
+Habilitar la herencia no es algo que se debe hacer a la ligera,
+ya que requiere que pienses en temas como `PROTECTED` vs. `PRIVATE`
+y el [Principio de sustitución de Liskov](https://en.wikipedia.org/wiki/Liskov_substitution_principle),
+lo que congela muchos de los componentes internos.
+Si no consideraste estas cosas en tu diseño de clase,
+deberías evitar que alguien herede accidentalmente haciendo tu clase `FINAL`.
 
-There _are_ some good applications for inheritance, of course,
-for example the design pattern [composite](https://en.wikipedia.org/wiki/Composite_pattern).
-Business Add-Ins can also become more useful by allowing sub-classes,
-enabling the customer to reuse most of the original code.
-However, note that all of these cases have inheritance built in by design from the start.
+_Existen_ algunos ejemplos buenos de uso de herencia,
+por ejemplo el patrón de diseño [composite](https://en.wikipedia.org/wiki/Composite_pattern).
+Las BAdI también pueden volverse más útiles permitiendo las sub-clases,
+habilitando al cliente para reutilizar la mayoría del código original.
+Sin embargo, observa que todos estos casos tienen la herencia
+incluida desde su diseño.
 
-Unclean classes that don't [implement interfaces](#public-instance-methods-should-be-part-of-an-interface)
-should be left non-`FINAL` to allow consumers mocking them in their unit tests.
+Clases no limpias que no [implementan interfaces](#los-métodos-de-instancia-públicos-deben-ser-parte-de-una-interfaz)
+deberían de dejarse como no `FINAL` para permitir a los consumidores
+hacer un mock de ellas en sus pruebas unitarias.
 
 #### Miembros PRIVATE por default, PROTECTED solo si es necesario
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Alcance](#alcance) > [Esta sección](#miembros-private-por-default-protected-solo-si-es-necesario)
 
-Make attributes, methods, and other class members `PRIVATE` by default.
+Haz atributos, métodos y otros miembros de tu clase `PRIVATE` por default.
 
-Make them only `PROTECTED` if you want to enable sub-classes that override them.
+Solo hazlos `PROTECTED` si quieres que las sub-clases puedan re-definirlos.
 
-Internals of classes should be made available to others only on a need-to-know basis.
-This includes not only outside callers but also sub-classes.
-Making information over-available can cause subtle errors by unexpected redefinitions and hinder refactoring
-because outsiders freeze members in place that should still be liquid.
+Los componentes internos de una clase solo se deben hacer disponibles 
+a otros cuando sea estrictamente necesario.
+Esto incluye no solamente consumidores externos, sino también las sub-clases.
+Permitir que información de más esté disponible puede provocar errores
+sútiles debido a re-definiciones inesperadas y complican la refactorización,
+debido a que los consumidores externos congelan los miembros que aún 
+deberían estar líquidos.
 
 #### Considera usar inmutables en lugar de getters
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Alcance](#alcance) > [Esta sección](#considera-usar-inmutables-en-lugar-de-getters)
 
-An immutable is an object that never changes after its construction.
-For this kind of object consider using public read-only attributes instead of getter methods.
+Un inmutable es un objeto que nunca cambia después de su construcción.
+Para este tipo de objeto considera usar atributos públicos y `READ-ONLY`, en lugar
+de métodos getter.
 
 ```ABAP
 CLASS /clean/some_data_container DEFINITION.
@@ -1859,7 +1877,7 @@ CLASS /clean/some_data_container DEFINITION.
 ENDCLASS.
 ```
 
-instead of
+en lugar de
 
 ```ABAP
 CLASS /dirty/some_data_container DEFINITION.
@@ -1874,29 +1892,37 @@ CLASS /dirty/some_data_container DEFINITION.
 ENDCLASS.
 ```
 
-> **Caution**: For objects which **do** have changing values, do not use public read-only attributes.
-> Otherwise this attributes always have to be kept up to date,
-> regardless if their value is needed by any other code or not.
+> **Precaución**: Para los objetos que **sí tienen** valores que cambian, no usar
+atributos públicos `READ-ONLY`.
+> De otra manera estos atributos se tienen que mantener actualizados,
+> independientemente de si su valor se requiere por otro código o no.
 
 #### Utiliza READ-ONLY con mesura
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Alcance](#alcance) > [Esta sección](#utiliza-read-only-con-mesura)
 
-Many modern programming languages, especially Java, recommend making class members read-only
-wherever appropriate to prevent accidental side effects.
+Varios lenguajes de programación modernos, especialmente Java, recomiendan hacer los miembros de la clase `READ-ONLY` donde sea apropiado para evitar efectos secundarios
+accidentales.
 
-While ABAP _does_ offer the `READ-ONLY` addition for data declarations, we recommend to use it sparingly.
+Mientras que ABAP _sí_ odrece la adición `READ-ONLY` para declaraciones de datos,
+recomendamos usarla con mesura.
 
-First, the addition is only available in the `PUBLIC SECTION`, reducing its applicability drastically.
-You can neither add it to protected or private members nor to local variables in a method.
+La adición solamente está disponible en la `PUBLIC SECTION`, reduciendo su uso
+drásticaamente. No puedes agregarla a la `PROTECTED SECTION` o `PRIVATE SECTION`,
+ni a las variables locales en un método.
 
-Second, the addition works subtly different from what people might expect from other programming languages:
-READ-ONLY data can still be modified freely from any method within the class itself, its friends, and its sub-classes.
-This contradicts the more widespread write-once-modify-never behavior found in other languages.
-The difference may lead to bad surprises.
+Además, funciona ligeramente diferente de lo que la gente podría esperar
+de otros lenguajes de programación:
+Los datos con la adición `READ-ONLY` pueden ser aún modificados desde cualquier 
+método de la clase, sus `FRIENDS` y sus sub-classes.
+Esto contradice el comportamiento más pervasivo de escribir-una-vez-nunca-modificar 
+que podemos encontrar en otros lenguajes.
+Esta diferencia puede llevar a malas sorpresas.
 
-> To avoid misunderstandings: Protecting variables against accidental modification is a good practice.
-> We would recommend applying it to ABAP as well if there was an appropriate statement.
+> Para evitar malentendidos: Proteger variables contra modificación accidental
+es una buena práctica.
+> Recomendaríamos aplicarlo a ABAP también si hubiera una sentencia
+apropiada.
 
 ### Constructores
 
@@ -1915,7 +1941,7 @@ DATA(object) = NEW /clean/some_number_range( '/CLEAN/CXTGEN' ).
 DATA(object) = CAST /clean/number_range( NEW /clean/some_number_range( '/CLEAN/CXTGEN' ) ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -1925,7 +1951,7 @@ CREATE OBJECT object
     number_range = '/DIRTY/CXTGEN'.
 ```
 
-except where you need dynamic types, of course
+a excepción de cuando requieras tipos dinámicos, por supuesto
 
 ```ABAP
 CREATE OBJECT number_range TYPE (dynamic_type)
@@ -1943,13 +1969,15 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
     METHODS constructor.
 ```
 
-We agree that this contradicts itself.
-However, according to the article
-[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
-specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
+Estamos de acuerdo que esto se contradice a sí mismo.
 
-This applies only to global classes.
-In local classes, make the constructor private, as it should be.
+Sin embargo, de acuerdo al artículo
+[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
+especificar el `CONSTRUCTOR` en la `PUBLIC SECTION` es requerido para
+garantizar correcta compilación y validación de sintaxis.
+
+Esto aplica solamente a clases globales.
+En clases locales, haz el constructor privado, como debe ser.
 
 #### Prefiere múltiples métodos de construcción estáticos a parámetros opcionales
 
@@ -1962,8 +1990,9 @@ CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [..
 CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 ```
 
-ABAP does not support [overloading](https://en.wikipedia.org/wiki/Function_overloading).
-Use name variations and not optional parameters to achieve the desired semantics.
+ABAP no soporta [sobrecarga](https://en.wikipedia.org/wiki/Function_overloading).
+Usa variaciones de nombres y no parámetros opcionales para lograr
+la semántica requerida.
 
 ```ABAP
 " anti-pattern
@@ -1976,12 +2005,12 @@ METHODS constructor
   [...]
 ```
 
-The general guideline
-[_Split methods instead of adding OPTIONAL parameters_](#split-methods-instead-of-adding-optional-parameters)
-explains the reasoning behind this.
+La sección general
+[_Separa métodos en lugar de agregar parámetros OPTIONAL_](#separa-métodos-en-lugar-de-agregar-parámetros-optional)
+explica el razonamiento detrás de esto.
 
-Consider resolving complex constructions to a multi-step construction with the
-[Builder design pattern](https://en.wikipedia.org/wiki/Builder_pattern).
+Considera resolver construcciones complejas en una creación
+en varios pasos con el [Patrón de diseo Builder](https://en.wikipedia.org/wiki/Builder_pattern).
 
 #### Usa nombres descriptivos para múltiples métodos de construcción
 
