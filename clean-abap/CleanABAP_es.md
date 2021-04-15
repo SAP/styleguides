@@ -4242,87 +4242,112 @@ DATA reader TYPE REF TO /clean/reader.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Principios](#principios) > [Esta sección](#escribe-código-que-se-pueda-probar)
 
-Write all code in a way that allows you to test it in an automatic fashion.
+Escribe todo tu código de manera que te permita probarlo automáticamente.
 
-If this requires refactoring your code, do it.
-Do that first, before you start adding other features.
+Si esto requiere que lo refactorices, hazlo.
+Haz eso primero, antes de comenzar a agregar otras funcionalidades.
 
-If you add to legacy code that is too badly structured to be tested,
-refactor it at least to the extent that you can test your additions.
+Si agregas funcionalidades a código legacy que está muy mal estructurado
+para ser probado, refactorízalo por lo menos hasta que puedas probar
+tu funcionalidad agregada.
 
 #### Permite que otros hagan mock de tu código 
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Principios](#principios) > [Esta sección](#permite-que-otros-hagan-mock-de-tu-código)
 
-If you write code to be consumed by others, enable them to write unit tests for their own code,
-for example by adding interfaces in all outward-facing places,
-providing helpful test doubles that facilitate integration tests,
-or applying dependency inversion to enable them to substitute the productive configuration with a test config.
+Si escribes tu propio código para ser consumido por otros, permite que escriban
+pruebas unitarias para su propio código.
+Esto se puede hacer, por ejemplo, agregando interfaces en todas las porciones 
+de código públicas, proveyendo dobles de prueba que facilitan las pruebas de 
+integración o aplicando inversión de dependencias para habilitarlos a que
+sustituyan la configuración productiva por una de prueba.
 
 #### Reglas de legibilidad  
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Principios](#principios) > [Esta sección](#reglas-de-legibilidad)
 
-Make your test code even more readable than your productive code.
-You can tackle bad productive code with good tests, but if you don't even get the tests, you're lost.
+Haz tu prueba aún más legible que tu código productivo.
+Puedes manejar código productivo malo con buenas pruebas, pero si no le entiendes
+ni a las pruebas, estás perdido chavo.
 
-Keep your test code so simple and stupid that you will still understand it in a year from now.
+Mantén tu código de prueba tan simple y estúpido que lo seguirás entendiendo 
+dentro de un año.
 
-Stick to standards and patterns, to enable your co-workers to quickly get into the code.
+Apégate a los estándares y patrones, para permitir que tus compañeros se
+adapten rápidamente al código.
 
 #### No hagas copias ni escribas reportes de prueba
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Principios](#principios) > [Esta sección](#no-hagas-copias-ni-escribas-reportes-de-prueba)
 
-Don't start working on a backlog item by making a `$TMP` copy of a development object and playing around with it.
-Others won't notice these objects and therefore won't know the status of your work.
-You will probably waste a lot of time by making the working copy in the first place.
-You will also forget to delete the copy afterwards, spamming your system and dependencies.
-(Don't believe this? Go to your development system and check your `$TMP` right now.)
+No comiences a trabajar en un requerimiento haciendo una copia en `$TMP` de un objeto 
+de desarrollo.
+Otros no notarán estos objetos y no sabrán el estatus de tu avance.
+Probablemente desperdiciarás mucho tiempo haciendo que funcione la copia en primer
+lugar.
+Probablemente olvides borrar la copia después, dejando basura y dependencias en el
+sistema.
+(¿Crees que no pasa? Ve a tu sistema de desarrollo y revisa tu `$TMP` en este
+momento)
 
-Also, don't start by writing a test report that calls something in a specific way,
-and repeat that to verify that things are still working when you're working on it.
-This is poor man's testing: repeating a test report by hand and verifying by eye whether everything is still fine.
-Take the next step and automate this report in a unit test,
-with an automatic assertion that tells you whether the code is still okay.
-First, you will spare yourself the effort of having to write the unit tests afterwards.
-Second, you will save a lot of time for the manual repetitions, plus avoid getting bored and tired over it.
+No comiences escribiendo un reporte de prueba que llama algo de una manera
+específica y que esa sea tu herramienta para verificar que las cosas siguen 
+funcionando.
+Estas son las pruebas del pobre: repitiendo un reporte de prueba a mano y verificando
+visualmente que todo siga bien.
+
+Toma el siguiente paso y automatiza este reporte en una prueba unitaria,
+con una aserción automática que te diga si tu código aún está bien.
+Te vas a salvar a ti mismo del esfuerzo de tener que escribir las pruebas unitarias
+después.
+Además, salvarás mucho tiempo de las repeticiones manuales y evitarás aburrirte
+y cansarte de hacerlo.
 
 #### Prueba componentes públicos, no los privados
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Principios](#principios) > [Esta sección](#prueba-componentes-públicos-no-los-privados)
 
-Public parts of classes, especially the interfaces they implement, are rather stable and unlikely to change.
-Let your unit tests validate only the publics to make them robust
-and minimize the effort you have to spend when you refactor the class.
-Protected and private internals, in contrast, may change very quickly through refactoring,
-such that each refactoring would needlessly break your tests.
+Las partes públicas de las clases, especialmente las interfaces que implementan,
+son relativamente estables y es poco probable que cambien.
+Tus pruebas unitarias solo deberían validar los componentes públicos para que
+sean robustas y minimicen el esfuerzo que tienes que hacer cuando refactorices
+la clase.
+Los componentes internos `PRIVATE` y `PROTECTED` pueden llegar a cambiar muy
+rápido a través de refactorización, lo cual provocaría que tus pruebas
+dejen de funcionar sin necesidad.
 
-An urgent need to test private or protected methods may be an early warning sign for several kinds of design flaws.
-Ask yourself:
+Una necesidad urgente de probar métodos `PRIVATE` o `PROTECTED` puede ser
+una advertencia temprana de fallas en tu diseño.
+Pregúntate:
 
-- Did you accidentally bury a concept in your class that wants to come out into its own class,
-with its own dedicated suite of tests?
+- ¿Escondiste accidentalmente un concepto en tu clase que quiere salir en su 
+propia clase, con su propio set de pruebas?
 
-- Did you forget to separate the domain logic from the glue code?
-For example, implementing the domain logic directly in the class that is plugged into BOPF as an action,
-determination, or validation, or that was generated by SAP Gateway as a `*_DPC_EXT` data provider, may not the best idea.
+- ¿Olvidaste separar la lógica de dominio del código del glue code?
+Por ejemplo, implementar la lógica de dominio directamente en la clase que
+está conectada a BOPF como una acción, determinación o validación o que fue
+generada por SAP Gateway como un proveedor de datos `*_DPC_EXT`, puede no ser
+la mejor idea.
 
-- Are your interfaces too complicated and request too much data that is irrelevant or that cannot be mocked easily?
+- ¿Tus interfaces son tan complicadas y requieren tantos datos irrelevantes que no
+se le puede crear un mock fácilmente?
 
 #### No te obsesiones con la cobertura del código
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Principios](#principios) > [Esta sección](#no-te-obsesiones-con-la-cobertura-del-código)
 
-Code coverage is there to help you find code you forgot to test, not to meet some random KPI:
+La cobertura del código está ahí para ayudarte a encontrar código que olvidaste
+probar, no para cumplir un KPI aleatorio.
 
-Don't make up tests without or with dummy asserts just to reach the coverage.
-Better leave things untested to make transparent that you cannot safely refactor them.
-You can have < 100% coverage and still have perfect tests.
-There are cases - such as IFs in the constructor to insert test doubles -
-that may make it unpractical to reach 100%.
-Good tests tend to cover the same statement multiple times, for different branches and conditions.
-They will in fact have imaginary > 100% coverage.
+No inventes pruebas con o sin aserciones dummy solo para llegar a una meta
+de cobertura de código.
+
+Es mejor dejar componentes sin pruebas para que sea transparente que no se pueden
+refactorizar adecuadamente. Hay casos - como `IF`s en el constructor para insertar
+dobles de prueba - que hacen impráctico llegar al 100%.
+Las buenas pruebas tienden a cubrir la misma sentencia en múltiples ocasiones, para
+diferentes bloques y condiciones.
+De hecho, tendrán una cobertura imaginaria > 100%.
 
 ### Clases de prueba
 
@@ -4332,13 +4357,13 @@ They will in fact have imaginary > 100% coverage.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Clases de prueba](#clases-de-prueba) > [Esta sección](#llama-las-clases-locales-de-prueba-de-acuerdo-a-su-objetivo)
 
-Name local test classes either by the "when" part of the story
+Nombra las clases de prueba por el "cuando" de la historia
 
 ```ABAP
 CLASS ltc_<public method name> DEFINITION FOR TESTING ... ."
 ```
 
-or the "given" part of the story
+o por el "dado" de la historia
 
 ```ABAP
 CLASS ltc_<common setup semantics> DEFINITION FOR TESTING ... .
@@ -4354,26 +4379,31 @@ CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Clases de prueba](#clases-de-prueba) > [Esta sección](#coloca-tus-pruebas-en-clases-locales)
 
-Put unit tests into the local test include of the class under test.
-This ensures that people find these tests when refactoring the class
-and allows them to run all associated tests with a single key press,
-as described in [How to execute test classes](#how-to-execute-test-classes).
+Coloca tus pruebas unitarias en el include de pruebas locales de la clase
+bajo prueba. Esto asegura que las personas encuentren estas pruebas cuando
+refactoricen la clase y permite que corran todos las pruebas asociadas
+con un solo atajo de teclado, como está descrito en [Cómo ejecutar clases de prueba](#cómo-ejecutar-clases-de-prueba)
 
-Put component-, integration- and system tests into the local test include of a separate global class.
-They do not directly relate to a single class under test, therefore they should not arbitrarily be
-placed in one of the involved classes, but in a separate one.  
-Mark this global test class as `FOR TESTING` and `ABSTRACT`
-to avoid that it is accidentally referenced in production code.  
-Putting tests into other classes has the danger that people overlook them
-and forget to run them when refactoring the involved classes.
 
-Therefore it is beneficial to use *test relations* to document which objects
-are tested by the test.  
-With the example below the test class `hiring_test`
-could be executed while being in the class `recruting` or `candidate` via the shrotcut `Shift-Crtl-F12` (Windows) or `Cmd-Shift-F12` (macOS).
+Coloca las pruebas de componente, integración y sistema en el include de prueba
+local de una clase global separada. No se relacionan directamente a una sola
+clase bajo prueba y por lo tanto no deberían ser colocadas arbitrariamente en
+una de las clases involucradas, sino en una separada.
+
+Marca esta clase global de prueba como `FOR TESTING` y `ABSTRACT` para evitar
+que sea accidentalmente utilizada en código de producción. Poner pruebas
+en otras clases tiene el peligro de que las personas no las vean
+y olviden correr las pruebas antes de refactorizar.
+
+Por lo tanto es beneficioso usar *test relations* para documentar cuáles objetos
+esán siendo probados por la prueba.
+
+Con el ejemplo de abajo de la clase de prueba `hiring_test`
+se podría ejecutar al estar en la clase `recruiting` o `candidate` via el atajo
+`Shift + Ctrl + F12` (Windows) o  `Cmd + Shift + F12` (macOS).
 
 ```abap
-"! @testing recruting
+"! @testing recruiting
 "! @testing candidate
 class hiring_test definition
   for testing risk level dangerous duration medium
@@ -4386,8 +4416,8 @@ endclass.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Clases de prueba](#clases-de-prueba) > [Esta sección](#coloca-métodos-de-ayuda-en-clases-de-ayuda)
 
-Put help methods used by several test classes in a help class. Make the help methods available through 
-inheritance (is-a relationship) or delegation (has-a relationship).
+Coloca métodos auxiliares usados por varias clases de prueba en una clase
+auxiliar. Haz los métodos auxiliares disponibles mediante herencia o delegación.
 
 ```abap
 " inheritance example
@@ -4421,11 +4451,13 @@ ENDCLASS.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Clases de prueba](#clases-de-prueba) > [Esta sección](#cómo-ejecutar-clases-de-prueba)
 
-In the ABAP Development Tools, press Ctrl+Shift+F10 to run all tests in a class.
-Press Ctrl+Shift+F11 to include coverage measurements.
-Press Ctrl+Shift+F12 to also run tests in other classes that are maintained as test relations.
+En ABAP Development Tools, presiona `Ctrl + Shift + F10` para correr todas las
+pruebas en una clase.
+Presiona `Ctrl + Shift + F11` para incluir mediciones de cobertura.
+Presiona `Ctrl + Shift + F12` para también correr pruebas en otras clases que
+están mantenidas como relaciones.
 
-> On macOS, use `Cmd` instead of `Ctrl`.
+> En macOS, usa `Cmd` en lugar de `Ctrl`.
 
 ### Código bajo prueba
 
@@ -4435,20 +4467,21 @@ Press Ctrl+Shift+F12 to also run tests in other classes that are maintained as t
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#nombra-el-código-bajo-prueba-con-sentido-o-usa-cut-como-default)
 
-Give the variable that represents the code under test a meaningful name:
+Nombra la variable que representa el código bajo prueba un nombre con un significado
+adecuado:
 
 ```ABAP
 DATA blog_post TYPE REF TO ...
 ```
 
-Don't just repeat the class name with all its non-valuable namespaces and prefixes:
+No solo repitas el nombre de la clase con todos sus prefijos que no aportan valor:
 
 ```ABAP
 " anti-pattern
 DATA clean_fra_blog_post TYPE REF TO ...
 ```
-
-If you have different test setups, it can be helpful to describe the object's varying state:
+Si tienes diferentes setups de prueba, puede ser de ayuda describir el estado variante
+del objeto:
 
 ```ABAP
 DATA empty_blog_post TYPE REF TO ...
@@ -4456,29 +4489,29 @@ DATA simple_blog_post TYPE REF TO ...
 DATA very_long_blog_post TYPE REF TO ...
 ```
 
-If you have problems finding a meaningful name, resort to `cut` as a default.
-The abbreviation stands for "code under test".
+Si tienes problemas encontrando un nombre adecuado, usa `cut` como default. 
+La abreviación proviene de _code under test_.
 
 ```ABAP
 DATA cut TYPE REF TO ...
 ```
 
-Especially in unclean and confusing tests, calling the variable `cut`
-can temporarily help the reader see what's actually tested.
-However, tidying up the tests is the actual way to go for the long run.
+En pruebas confusas con código no limpio, llamar la variable `cut` puede
+temporalmente ayudar al lector a identificar qué es lo que se está probando.
+Sin embargo, limpiar las pruebas es la verdadera solución a largo plazo.
 
 #### Prueba sobre interfaces, no implementaciones
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#prueba-sobre-interfaces-no-implementaciones)
 
-A practical consequence of the [_Test publics, not private internals_](#test-publics-not-private-internals),
-type your code under test with an _interface_
+Una consecuencia práctica de [_Prueba componentes públicos, no los privados_](#prueba-componentes-públicos-no-los-privados),
+el tipo de tu código bajo prueba debe ser una _interfaz_.
 
 ```ABAP
 DATA code_under_test TYPE REF TO some_interface.
 ```
 
-rather than a _class_
+en lugar de una _clase_
 
 ```ABAP
 " anti-pattern
@@ -4489,8 +4522,9 @@ DATA code_under_test TYPE REF TO some_class.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#extrae-la-llamada-al-código-bajo-prueba-a-su-propio-método)
 
-If the method to be tested requires a lot of parameters or prepared data,
-it can help to extract the call to it to a helper method of its own that defaults the uninteresting parameters:
+Si el método a ser probado requiere muchos parámetros o preparación de datos,
+puede ayudar extraer la llamada a un método auxiliar que ponga por default
+los parámetros no relevantes para la prueba:
 
 ```ABAP
 METHODS map_xml_to_itab
@@ -4508,7 +4542,8 @@ ENDMETHOD.
 DATA(itab) = map_xml_to_itab( '<xml></xml>' ).
 ```
 
-Calling the original method directly can swamp your test with a lot of meaningless details:
+Llamar al método original directamente puede ensuciar tu prueba con muchos detalles
+sin relevancia:
 
 ```ABAP
 " anti-pattern
@@ -4525,7 +4560,8 @@ DATA(itab) = cut->map_xml_to_itab( xml_string = '<xml></xml>'
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#usa-inversión-de-dependencias-para-inyectar-dobles-de-prueba)
 
-Dependency inversion means that you hand over all dependencies to the constructor:
+La inversión de dependencias significa que le entregas todas tus dependencias
+al constructor_
 
 ```ABAP
 METHODS constructor
@@ -4537,8 +4573,8 @@ METHOD constructor.
 ENDMETHOD.
 ```
 
-Don't use setter injection.
-It enables using the productive code in ways that are not intended:
+No uses inyección por setter.
+Permite que el código productivo sea usado en maneras que no se pretende:
 
 ```ABAP
 " anti-pattern
@@ -4552,10 +4588,12 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
+No uses inyección mediante `FRIENDS`.
+Esto inicializará las dependencias productivas antes de que sean reemplazadas,
+probablemente provocando consecuencias no esperadas.
 Don't use FRIENDS injection.
-It will initialize productive dependencies before they are replaced, with probably unexpected consequences.
-It will break as soon as you rename the internals.
-It also circumvents initializations in the constructor.
+Además dejará de funcionar tan pronto renombres los componentes internos y
+se salta las inicializaciones del constructor.
 
 ```ABAP
 " anti-pattern
@@ -4580,7 +4618,7 @@ cl_abap_testdouble=>configure_call( customizing_reader )->returning( sub_claim_c
 customizing_reader->read( 'SOME_ID' ).
 ```
 
-Shorter and easier to understand than custom test doubles:
+Más corto y sencillo que entender dobles de prueba personalizados:
 
 ```ABAP
 " anti-pattern
@@ -4606,33 +4644,31 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#explota-el-uso-de-las-herramientas-de-prueba)
 
-In general, a clean programming style
-will let you do much of the work
-with standard ABAP unit tests and test doubles.
-However, there are tools that will allow you
-to tackle trickier cases in elegant ways:
+En general, un estilo de programación limpio te dejará hacer mucho del trabajo
+con pruebas unitarias ABAP estándar y dobles de prueba.
+Sin embargo, hay herramientas que te permitirán atacar casos más complejos:
 
-- Use the `CL_OSQL_REPLACE` service
-to test complex OpenSQL statements
-by redirecting them to a test data bin
-that can be filled with test data
-without interfering with the rest of the system.
+- Usa el servicio `CL_OSQL_REPLACE` para probar sentencias complejas de
+OpenSQL, redireccionándolas a una fuente de datos de prueba sin que las operaciones 
+interfieran con el resto del sistema.
 
-- Use the CDS test framework to test your CDS views.
+- Usa la librería de prueba de CDS para probar tus vistas CDS.
 
 #### Usa test seams como una solución temporal
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#usa-test-seams-como-una-solución-temporal)
 
-If all other techniques fail, or when in dangerous shallow waters of legacy code,
-refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
-to make things testable.
+Si todas las otras técnicas fallan, o cuando estés en las aguas peligrosas del
+código legacy, utiliza [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
+para que sea posible probar.
 
-Although they look comfortable at first sight, test seams are invasive and tend to get entangled
-in private dependencies, such that they are hard to keep alive and stable in the long run.
+Aunque puede parecer cómodo de usar a primera vista, los test seams son invasivos
+y tienden a enredarse con dependencias privadas, de tal manera que es difícil
+mantenerlos vivos y estables en el largo plazo.
 
-We therefore recommend to refrain to test seams only as a temporary workaround
-to allow you refactoring the code into a more testable form.
+Por lo tanto recomendamos abstenerse de usar test seams, usándolos solo
+como una solución temporal para permitir refactorizar el código en una forma
+más apta para probarse.
 
 #### Usa LOCAL FRIENDS para acceder al constructor inversor de dependencias
 
@@ -4661,8 +4697,9 @@ ENDCLASS.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-uses-local-friends-para-invadir-el-código-bajo-prueba)
 
-Unit tests that access private and protected members to insert mock data are fragile:
-they break when the internal structure of the tested code changes.
+Las pruebas unitarias que acceden componentes `PRIVATE` y `PROTECTED` para insertar
+datos con un mock son frágiles: dejan de funcionar tan pronto la estructura interna
+del código bajo prueba cambia.
 
 ```ABAP
 " anti-pattern
@@ -4687,10 +4724,10 @@ IF me->in_test_mode = abap_true.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-uses-herencia-para-hacer-mock-a-métodos)
 
-Don't sub-class and overwrite methods to mock them in your unit tests.
-Although this works, it is fragile because the tests break easily when refactoring the code.
-It also enables real consumers to inherit your class,
-which [may hit you unprepared when not explicitly designing for it](#final-if-not-designed-for-inheritance).
+No uses herencia para sobre-escribir métodos y crearles un mock en tus pruebas.
+Aunque esto funciona, es muy frágil ya que las pruebas dejan de funcionar al
+refactorizar el código. Esto también permite que consumidores productivos de la
+clase puedan heredar de ella [que puede tomarte desprevenido si no se planeó específicamente para ello](#marcar-como-final-si-no-fue-diseñada-para-herencia)
 
 ```ABAP
 " anti-pattern
@@ -4699,18 +4736,18 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
     METHODS needs_to_be_mocked REDEFINITION.
 ```
 
-To get legacy code under test,
-[resort to test seams instead](#use-test-seams-as-temporary-workaround).
-They are just as fragile but still the cleaner way because they at least don't change the class's productive behavior,
-as would happen when enabling inheritance by removing a previous `FINAL` flag or by changing method scope from `PRIVATE` to `PROTECTED`.
+Para lograr usar código legacy para pruebas,
+[utiliza test seams](#usa-test-seams-como-una-solución-temporal).
+Son igual de frágiles, pero aún así una manera más limpia porque por lo menos no cambian el comportamiento productivo de la clase, como pasaría al habilitar
+herencia quitando el `FINAL` o cambiando el alcance de un método de `PRIVATE` a `PROTECTED`.
 
-When writing new code, take this testability issue into account directly when designing the class,
-and find a different, better way.
-Common best practices include [resorting to other test tools](#exploit-the-test-tools)
-and extracting the problem method to a separate class with its own interface.
+Al escribir nuevo código, toma este punto de posibilidad de probar la clase 
+directamente como parte de su diseño y encuentra una manera diferente y mejor.
+Las mejores prácticas comunes incluyen [usar las herramientas de pruebas](#explota-el-uso-de-las-herramientas-de-prueba) y extraer el método problema
+a una clase separada con su propia interfaz.
 
-> A more specific variant of
-> [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
+> Una variante más específica de
+> [No cambies el código productivo para poder probarlo](#no-cambies-el-código-productivo-para-poder-probarlo).
 
 #### No hagas mock sin necesidad
 
@@ -4722,9 +4759,9 @@ cut = NEW /clean/class_under_test( db_reader = db_reader
                                    writer    = VALUE #( ) ).
 ```
 
-Define your givens as precisely as possible: don't set data that your test doesn't need,
-and don't mock objects that are never called.
-These things distract the reader from what's really going on.
+Define tus "dados" tan precisamente como sea posible: no asignes información
+que tu prueba no necesita y no le hagas mock a objetos que nunca se llaman.
+Estas coss distraen al lector de lo que realmente está pasando.
 
 ```ABAP
 " anti-pattern
@@ -4733,23 +4770,26 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
                                    writer    = writer ).
 ```
 
-There are also cases where it's not necessary to mock something at all -
-this is usually the case with data structures and data containers.
-For example, your unit tests may well work with the productive version of a `transient_log`
-because it only stores data without any side effects.
+También hay casos donde no es necesario crear un mock para nada - este es 
+usualmente el caso con estructuras de datos y contenedores de datos.
+Por ejemplo, tus casos de prueba pueden funcionar bien con la versión
+productiva de `transient_log` porque solo almacena datos sin efectos secundarios.
 
 #### No crees librerías para pruebas
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-crees-librerías-para-pruebas)
 
-Unit tests - in contrast to integration tests - should be data-in-data-out, with all test data being defined on the fly as needed.
+Las pruebas unitarias - en contraste con las pruebas de integración - deberían de ser 
+una caja negra con datos que entran y datos que salen, con todos los datos de 
+prueba siendo definidos a medida que se requieren.
 
 ```ABAP
 cl_abap_testdouble=>configure_call( test_double )->returning( data ).
 ```
 
-Don't start building frameworks that distinguish "*test case IDs*" to decide what data to provide.
-The resulting code will be so long and tangled that you won't be able to keep these tests alive in the long term.
+No comiences a construir librerías que distingan "*test case IDs*" para decidir
+qué datos se van a usar. El código resultante será tan largo y enredado
+que no te será posible mantener estas pruebas vivas en el largo plazo.
 
 ```ABAP
 " anti-pattern
@@ -4770,7 +4810,7 @@ ENDCASE.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#nomenclatura-para-métodos-de-prueba-considera-el-supuesto-y-el-resultado-esperado)
 
-Good names reflect the given and then of the test:
+Nombres adecuados para métodos de prueba reflejan el "dado" y el "entonces"
 
 ```ABAP
 METHOD reads_existing_entry.
@@ -4778,7 +4818,7 @@ METHOD throws_on_invalid_key.
 METHOD detects_invalid_input.
 ```
 
-Bad names reflect the when, repeat meaningless facts, or are cryptic:
+Nombres poco útiles reflejan el "cuando", repiten hechos sin sentido o son crípticos:
 
 ```ABAP
 " anti-patterns
@@ -4796,9 +4836,14 @@ METHOD parameterized_test.
 METHOD get_attributes_wo_w.
 ```
 
-As ABAP allows only 30 characters in method names, it's fair to add an explanatory comment
-if the name is too short to convey enough meaning.
-ABAP Doc or the first line in the test method may be an appropriate choice for the comment.
+Ya que ABAP solo permite 30 caracteres en nombres de métodos, es justo agregar
+un comentario para explicar si el nombre es muy corto para transmitir el significado.
+ABAP Doc o la primera línea en el método de prueba puede ser una elección apropiada
+para el comentario.
+
+Teniendo muchos métodos de prueba que tienen nombres muy largos puede ser un
+indicador de que necesitas separar tu clase de prueba en varias y expresar
+las diferencias en los "dados" de los nombres de las clases.
 
 Having lots of test methods whose names are too long may be an indicator
 that you should split your single test class into several ones
@@ -4808,22 +4853,24 @@ and express the differences in the givens in the class's names.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#usa-dado-cuando-entonces)
 
-Organize your test code along the given-when-then paradigm:
-First, initialize stuff in a given section ("given"),
-second call the actual tested thing ("when"),
-third validate the outcome ("then").
+Organiza tu código de prueba junto con el paradigma de dado-cuando-entonces:
+Primero, inicializa las cosas en una sección donde se dan supuestos ("dado"),
+después, llama el método a probar ("cuando"),
+y finalmente valida el resultado ("entonces").
 
-If the given or then sections get so long
-that you cannot visually separate the three sections anymore, extract sub-methods.
-Blank lines or comments as separators may look good at first glance
-but don't really reduce the visual clutter.
-Still they are helpful for the reader and the novice test writer to separate the sections.
+Si la sección de "dado" o "entonces" son tan extensas qeu no puedes separar
+visualmente las tres secciones, refactoriza en sub-métodos.
+Usar líneas blancas o comentarios como separadores puede parecer buena idea a primera
+vista, pero no reduce la contaminación visual.
+Aún así, son de ayuda para el lector y el escritor de pruebas novato para separar
+las secciones.
 
 #### "Cuando" es exactamente una llamada
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#cuando-es-exactamente-una-llamada)
 
-Make sure that the "when" section of your test method contains exactly one call to the class under test:
+Asegúrate que la sección de "cuando" de tu código de prueba contenga exactamente
+una llamada a la clase bajo prueba:
 
 ```ABAP
 METHOD rejects_invalid_input.
@@ -4834,20 +4881,22 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-Calling multiple things indicates that the method has no clear focus and tests too much.
-This makes it harder to find the cause when the test fails:
-was it the first, second, or third call that caused the failure?
-It also confuses the reader because he is not sure what the exact feature under test is.
+Llamar múltiples cosas indica que el método no tiene un enfoque claro y 
+prueba demasiado.
+Esto hace más difícil encontrar la causa cuando la prueba falla:
+¿fue la primera, segunda o tercera llamada que causó el error?
+También confunde al lector porque no está seguro de cuál es la funcionalidad
+exacta que está siendo probada
 
 #### No uses el método TEARDOWN a menos que realmente lo necesites
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#no-uses-el-método-teardown-a-menos-que-realmente-lo-necesites)
 
-`teardown` methods are usually only needed to clear up database entries
-or other external resources in integration tests.
+Los métodos `teardown` son usualmente necesarios para limpiar entradas
+en base de datos u otros recursos en pruebas de integración.
 
-Resetting members of the test class, esp. `cut` and the used test doubles, is superfluous;
-they are overwritten by the `setup` method before the next test method is started.
+Reiniciar miembros de la clase de prueba, especialmente `cut` y los dobles de prueba, es superfluo; son sobre-escritos por el método `setup` antes de que se ejecute
+el siguiente método de prueba.
 
 ### Datos de prueba
 
@@ -4857,9 +4906,10 @@ they are overwritten by the `setup` method before the next test method is starte
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#haz-que-sea-fácil-detectar-la-intención)
 
-In unit tests, you want to be able to quickly tell which data and doubles are important,
-and which ones are only there to keep the code from crashing.
-Support this by giving things that have no meaning obvious names and values, for example:
+En pruebas unitarias, quieres poder identificar rápidamente qué datos y dobles
+son importantes y cuales solo están ahí para que el código no falle.
+Permite esto dándole valores que no tienen un significado específico a los datos
+de prueba, por ejemplo:
 
 ```ABAP
 DATA(alert_id) = '42'.                             " well-known meaningless numbers
@@ -4867,7 +4917,8 @@ DATA(detection_object_type) = '?=/"&'.             " 'keyboard accidents'
 CONSTANTS some_random_number TYPE i VALUE 782346.  " revealing variable names
 ```
 
-Don't trick people into believing something connects to real objects or real customizing if it doesn't:
+No engañes al lector haciéndole creer que algo se conecta a objetos reales
+o customizing real, si no lo hace:
 
 ```ABAP
 " anti-pattern
@@ -4885,7 +4936,7 @@ exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345
                             ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END2' ) ).
 ```
 
-Don't force readers to compare long meaningless strings to spot tiny differences.
+No forces al lector a comparar strings extensos para detectar diferencias mínimas.
 
 #### Usa constantes para describir el objetivo y la importancia de los datos de prueba
 
@@ -4913,7 +4964,8 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#usa-pocas-aserciones-enfocadas)
 
-Assert only exactly what the test method is about, and this with a small number of assertions.
+Haz una aserción únicamente sobre lo que se trata el método de prueba y con un número
+pequeño de aserciones.
 
 ```ABAP
 METHOD rejects_invalid_input.
@@ -4923,12 +4975,12 @@ METHOD rejects_invalid_input.
   cl_abap_unit_assert=>assert_false( is_valid ).
 ENDMETHOD.
 ```
-
-Asserting too much is an indicator that the method has no clear focus.
-This couples productive and test code in too many places: changing a feature
-will require rewriting a large number of tests although they are not really involved with the changed feature.
-It also confuses the reader with a large variety of assertions,
-obscuring the one important, distinguishing assertion among them.
+Hacer muchas aserciones es un indicador de que el método no tiene un enfoque claro.
+Esto acopla código productivo y de prueba en muchos lugares: cambiar una funcionalidad
+requerirá reescribir un número largo de pruebas, aunque realmente no tengan que ver
+con la funcionalidad.
+También confunde al lector con una variedad larga de aserciones, escondiendo
+la aserción importante.
 
 ```ABAP
 " anti-pattern
@@ -4952,10 +5004,11 @@ cl_abap_unit_assert=>assert_equals( act = table
                                     exp = test_data ).
 ```
 
-Asserts often do more than meets the eye, for example `assert_equals`
-includes type matching and providing precise descriptions if values differ.
-Using the wrong, too-common asserts will force you into the debugger immediately
-instead of allowing you to see what is wrong right from the error message.
+Las aserciones usualmente hacen más de lo que parece, por ejemplo `assert_equals`
+incluye comparación de tipos y provee descripciones precisas si los valores
+son diferentes.
+Usar el tipo incorrecto te forzará inmediatamente a usar el debugger
+en lugar de permitirte ver que está mal desde el mensaje de error.
 
 ```ABAP
 " anti-pattern
@@ -4971,9 +5024,11 @@ assert_contains_exactly( actual   = table
                          expected = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
 ```
 
-Don't write magic-number-quantity assertions if you can express the actual contenido you expect.
-Numbers may vary although the expectations are still met.
-In reverse, the numbers may match although the contenido is something completely unexpected.
+No escribas aserciones con números mágicos si puedes expresar el contenido actual
+que esperas.
+Los números pueden variar, aunque las expectativas se cumplan.
+A la inversa, los números pueden cuadrar aunque el contenido sea completamente
+inesperado.
 
 ```ABAP
 " anti-pattern
@@ -4985,17 +5040,18 @@ assert_equals( act = lines( log_messages )
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#haz-aserciones-sobre-la-calidad-no-el-contenido)
 
-If you are interested in a meta quality of the result,
-but not in the actual contenido itself, express that with a suitable assert:
+Si estás interesado en una meta característica del resultado, pero no en el contenido
+real, expresa esto con una aserción adecuada:
 
 ```ABAP
 assert_all_lines_shorter_than( actual_lines        = table
                                expected_max_length = 80 ).
 ```
 
-Asserting the precise contenido obscures what you actually want to test.
-It is also fragile because refactoring may produce a different
-but perfectly acceptable result although it breaks all your too-precise unit tests.
+Hacerle una aserción al contenido esconde lo que realmente quieres probar. También
+es frágil, porque refactorizar pueede producir un resultado diferente
+pero perfectamente aceptable, aunque provoque que tus pruebas unitarias precisas
+dejen de funcionar.
 
 ```ABAP
 " anti-pattern
@@ -5034,7 +5090,8 @@ METHOD reads_entry.
 ENDMETHOD.
 ```
 
-Your test code remains focused on the happy path and is therefore much easier to read and understand, as compared to:
+Tu código de prueba se mantiene enfocado en el happy path y por lo tanto es mucho 
+más fácil de leer y entender, comparado con:
 
 ```ABAP
 " anti-pattern
@@ -5067,4 +5124,4 @@ METHOD assert_contains.
 ENDMETHOD.
 ```
 
-Instead of copy-pasting this over and over again.
+En lugar de copiar y pegar una y otra vez
