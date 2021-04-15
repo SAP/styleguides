@@ -3509,7 +3509,7 @@ Código Limpio _no_ te prohibe comentar tu código - te anima a explotar
 _mejores_ maneras y recurrir a comentarios únicamente si éstas fallan.
 
 > Este ejemplo ha sido señalado desde un punto de vista de rendimiento,
-> mencionando que dividir tan pequeños los métodos se empeora fuertemente.
+> mencionando que dividir tan pequeños los métodos lo empeora fuertemente.
 > Mediciones de prueba demuestran que el código refactorizado es 2.13 veces más
 > lento que la variante original. 
 > La variante limpia toma 9.6 microsegundos para arreglar la entrada `31-02-2018`,
