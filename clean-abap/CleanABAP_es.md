@@ -2016,9 +2016,9 @@ en varios pasos con el [Patrón de diseo Builder](https://en.wikipedia.org/wiki/
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Constructores](#constructores) > [Esta sección](#usa-nombres-descriptivos-para-múltiples-métodos-de-construcción)
 
-Good words to start creation methods are `new_`, `create_`, and `construct_`.
-People intuitively connect them to the construction of objects.
-They also add up nicely to verb phrases like `new_from_template`, `create_as_copy`, or `create_by_name`.
+Palabras adecuadas para comenzar métodos de creación son `new_`, `create_`, y `construct_`.
+La gente intuitivamente lo conectan a la construcción de objetos.
+También se prestan bien a frases con verbos como `new_from_template`, `create_as_copy`, o `create_by_name`.
 
 ```ABAP
 CLASS-METHODS new_describe_by_data IMPORTING p_data TYPE any [...]
@@ -2027,7 +2027,7 @@ CLASS-METHODS new_describe_by_object_ref IMPORTING p_object_ref TYPE REF TO obje
 CLASS-METHODS new_describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
 ```
 
-instead of something meaningless like
+en lugar de algo sin sentido como
 
 ```ABAP
 " anti-pattern
@@ -2050,22 +2050,24 @@ METHOD new.
 ENDMETHOD.
 ```
 
-Apply the singleton pattern where your object-oriented design says
-that having a second instance of something doesn't make sense.
-Use it to ensure that every consumer is working with the same thing in the same state and with the same data.
+Aplica el patrón de diseño de [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern) cuando tu diseño orientado a objetos
+indica que tener una segunda instancia de algo no hace sentido.
+Úsalo para asegurar que cada consumidor que está trabajando con la misma
+clase tiene un objeto con el mismo estado y los mismos datos.
 
-Do not use the singleton pattern out of habit or because some performance rule tells you so.
-It is the most overused and wrongly applied pattern and
-produces unexpected cross-effects and needlessly complicates testing.
-If there are no design-driven reasons for a unitary object,
-leave that decision to the consumer - he can still reach the same by means outside the constructor,
-for example with a factory.
+No uses el patrón Singleton por hábito o porque una regla de rendimiento
+te indica que lo hagas.
+Es el patrón de diseño más sobre-utilizado y mal aplicado y produce
+efectos secundarios no esperados y complica innecesariamente las pruebas.
+Si no hay razones de diseño para un objeto unitario, déjale esa decisión al
+consumidor - él puede llegar a ese mismo resultado por fuera del constructor,
+por ejemplo con un patrón de diseño de fábrica.
 
 ## Métodos
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Esta sección](#métodos)
 
-These rules apply to methods in classes and function modules.
+Estas reglas aplican a métodos en clases y módulos de funciones.
 
 ### Llamadas
 
@@ -2082,7 +2084,7 @@ modify->update( node           = /clean/my_bo_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -2094,7 +2096,7 @@ CALL METHOD modify->update
     changed_fields = changed_fields.
 ```
 
-If dynamic typing forbids functional calls, resort to the procedural style
+Si la programación dinámica prohibe llamadas funcionales, recurre al estilo procedural
 
 ```ABAP
 CALL METHOD modify->(method_name)
@@ -2105,7 +2107,8 @@ CALL METHOD modify->(method_name)
     changed_fields = changed_fields.
 ```
 
-Many of the detailed rules below are just more specific variations of this advice.
+Varias de las reglas detalladas abajo son solo variaciones específicas de este
+consejo.
 
 #### Omite el uso de RECEIVING
 
@@ -2115,7 +2118,7 @@ Many of the detailed rules below are just more specific variations of this advic
 DATA(sum) = aggregate_values( values ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -2137,7 +2140,7 @@ modify->update( node           = /clean/my_bo_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -2157,15 +2160,16 @@ modify->update(
 DATA(unique_list) = remove_duplicates( list ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
 DATA(unique_list) = remove_duplicates( list = list ).
 ```
 
-There are cases, however, where the method name alone is not clear enough
-and repeating the parameter name may further understandability:
+Sin embargo, hay algunos casos donde el nombre del método no es suficiente
+para que sea claro lo que se está haciendo, y el nombre del parámetro
+puede dar la claridad necesaria:
 
 ```ABAP
 car->drive( speed = 50 ).
@@ -2176,13 +2180,14 @@ update( asynchronous = abap_true ).
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Calls](#calls) > [Esta sección](#omite-la-referencia-a-sí-mismo-cuando-llames-un-método-de-instancia)
 
-Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance method
+Ya que la referencia a la misma clase `me->` se coloca implícitamente por el sistema,
+omite la sentencia cuando llames un método de instancia
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -2197,15 +2202,16 @@ DATA(sum) = me->aggregate_values( values ).
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Métodos: Orientación a objetos](#métodos-orientación-a-objetos) > [Esta sección](#prefiere-métodos-de-instancia-a-estáticos)
 
-Methods should be instance members by default.
-Instance methods better reflect the "object-hood" of the class.
-They can be mocked easier in unit tests.
+Los métodos deben ser miembros de instancia por default.
+Los métodos de instancia reflejan mejor el estado de objeto de la clase.
+Se puede crear un mock de ellos en pruebas unitarias.
 
 ```ABAP
 METHODS publish.
 ```
 
-Methods should be static only in exceptional cases, such as static creation methods.
+Los métodos debe ser estáticos únicamente en casos excepcionales, como métodos
+de creación estática.
 
 ```ABAP
 CLASS-METHODS create_instance
@@ -2217,19 +2223,18 @@ CLASS-METHODS create_instance
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Métodos: Orientación a objetos](#métodos-orientación-a-objetos) > [Esta sección](#los-métodos-de-instancia-públicos-deben-ser-parte-de-una-interfaz)
 
-Public instance methods should always be part of an interface.
-This decouples dependencies and simplifies mocking them in unit tests.
+Los métodos de instancia públicos deben _siempre_ ser parte de una interfaz.
+Esto desacopla dependencias y simplifica crear un mock de ellos en pruebas unitarias.
 
 ```ABAP
 METHOD /clean/blog_post~publish.
 ```
+En la orientación a objetos limpia, tener un método público sin una interfaz no hace
+sentido - con algunas excepciones como clases de enumeración, que nunca tendrán
+una implementación alterna y nunca se les creará un mock.
 
-In clean object orientation, having a method public without an interface does not make much sense -
-with few exceptions such as enumeration classes
-which will never have an alternative implementation and will never be mocked in test cases.
-
-> [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
-describes why this also applies to classes that overwrite inherited methods.
+> [Interfaces vs. clases abstractas](sub-sections/InterfacesVsAbstractClasses.md)
+describe porque esto aplica también a las clases que sobre-escriben métodos heredados.
 
 ### Número de parámetros
 
@@ -2249,7 +2254,7 @@ FUNCTION seo_class_copy
     ...
 ```
 
-would be much clearer than
+sería mucho más claro que
 
 ```ABAP
 " anti-pattern
@@ -2269,11 +2274,13 @@ FUNCTION seo_class_copy
     ...
 ```
 
-Too many input parameters let the complexity of a method explode
-because it needs to handle an exponential number of combinations.
-Many parameters are an indicator that the method may do more than one thing.
+Muchos parámetros de entrada permiten que la complejidad de un método explote
+porque necesita manejar un número exponencial de combinaciones.
+Muchos parámetros son un indicador de que el método puede estar haciendo
+más de una sola cosa.
 
-You can reduce the number of parameters by combining them into meaningful sets with structures and objects.
+Puedes reducir el número de parámetros combinándolos en conjuntos que muestran
+su significado a través de estructuras y objetos.
 
 #### Separa métodos en lugar de agregar parámetros OPTIONAL
 
@@ -2284,7 +2291,7 @@ METHODS do_one_thing IMPORTING what_i_need TYPE string.
 METHODS do_another_thing IMPORTING something_else TYPE i.
 ```
 
-to achieve the desired semantic as ABAP does not support [overloading](https://en.wikipedia.org/wiki/Function_overloading).
+para lograr la semántica deseada, ya que ABAP no soporta la [sobrecarga](https://en.wikipedia.org/wiki/Function_overloading).
 
 ```ABAP
 " anti-pattern
@@ -2294,33 +2301,36 @@ METHODS do_one_or_the_other
     something_else TYPE i OPTIONAL.
 ```
 
-Optional parameters confuse callers:
+Los parámetros opcionales confunden a los consumidores:
 
-- Which ones are really required?
-- Which combinations are valid?
-- Which ones exclude each other?
+- ¿Cuáles se requieren de verdad?
+- ¿Cuáles combinaciones son válidas?
+- ¿Cuáles excluyen otros parámetros?
 
-Multiple methods with specific parameters for the use case avoid this confusion by giving clear guidance which parameter combinations are valid and expected.
+Se puede evitar esta confusión teniendo múltiples métodos con parámetros específicos,
+dando una guía clara de que combinaciones de parámetros son validas y esperadas.
 
 #### Usa PREFERRED PARAMETER con mesura
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Número de parámetros](#número-de-parámetros) > [Esta sección](#usa-preferred-parameter-con-mesura)
 
-The addition `PREFERRED PARAMETER` makes it hard to see which parameter is actually supplied,
-making it harder to understand the code.
-Minimizing the number of parameters, especially optional ones,
-automatically reduces the need for `PREFERRED PARAMETER`.
+La adición `PREFERRED PARAMETER` hace difícil ver cuál parámetro se está enviando,
+lo que hace más difícil entender el código.
+Minimizar el número de parámetros, especialmente los opcionales,
+automáticamente reduce la necesidad de `PREFERRED PARAMETER`.
 
 #### Usa RETURNING, EXPORTING y CHANGING para exactamente un parámetro
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Número de parámetros](#número-de-parámetros) > [Esta sección](#usa-returning-exporting-y-changing-para-exactamente-un-parámetro)
 
-A good method does _one thing_, and that should be reflected by the method also returning exactly one thing.
-If the output parameters of your method do _not_ form a logical entity,
-your method does more than one thing and you should split it.
+Un buen método hace _una sola cosa_ y eso se debería ver reflejado en que
+solo debe retornar exactamente una cosa.
+Si los parámetros de salida de tu método _no_ forman una entidad lógica,
+tu método está haciendo más de una cosa y debes dividirlo.
 
-There are cases where the output is a logical entity that consists of multiple things.
-These are easiest represented by returning a structure or object:
+Hay casos donde la salida es una entidad lógica que consiste de múltiples
+entidades. Este caso es fácilmente representado retornando una estructura
+o un objeto:
 
 ```ABAP
 TYPES:
@@ -2337,7 +2347,7 @@ METHODS check_business_partners
     VALUE(result)     TYPE check_result.
 ```
 
-instead of
+en lugar de
 
 ```ABAP
 " anti-pattern
@@ -2350,11 +2360,13 @@ METHODS check_business_partners
     messages          TYPE /bobf/t_frw_message.
 ```
 
-Especially in comparison to multiple EXPORTING parameters, this allows people to use the functional call style,
-spares you having to think about `IS SUPPLIED` and saves people from accidentally forgetting
-to retrieve a vital `ERROR_OCCURRED` information.
+Especialmente en comparación a múltiples parámetros `EXPORTING`, esto permite a la
+gente usar el método funcional de llamado de métodos, evitando tener que pensar
+en usar `IS SUPPLIED` y ayuda a las personas de accidentalmente olvidar
+obtener información vital de `ERROR_OCCURRED`.
 
-Instead of multiple optional output parameters, consider splitting the method according to meaningful call patterns:
+En lugar de múltiples parámetros opcionales de salida, considera dividir el método
+de acuerdo a patrones de llamada que hagan sentido:
 
 ```ABAP
 TYPES:
@@ -2395,7 +2407,7 @@ METHODS square
 DATA(result) = square( 42 ).
 ```
 
-Instead of the needlessly longer
+En lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -2412,17 +2424,17 @@ square(
     result = DATA(result) ).
 ```
 
-`RETURNING` not only makes the call shorter,
-it also allows method chaining and prevents [same-input-and-output errors](#take-care-if-input-and-output-could-be-the-same).
+`RETURNING` no solo hace la llamada más corta,
+habilita el encadenamiento de métodos y previene [errores cuando la entrada y salida son iguales](#cuida-si-la-entrada-y-la-salida-pueden-ser-lo-mismo).
 
 #### No hay problema generalmente con usar RETURNING para tablas grandes
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Tipos de parámetros](#tipos-de-parámetros) > [Esta sección](#no-hay-problema-generalmente-con-usar-returning-para-tablas-grandes)
 
-Although the ABAP language documentation and performance guides say otherwise,
-we rarely encounter cases where handing over a large or deeply-nested table in a VALUE parameter
-_really_ causes performance problems.
-We therefore recommend to generally use
+Aunque la documentación de ABAP y las guías de rendimiento dicen otra cosa,
+rara vez hemos encontrado un caso donde una tabla grande o con estructura
+profunda en un parámetro `VALUE` _realmente_ causen problemas de rendimiento.
+Por lo tanto recomendamos usar generalmente
 
 ```ABAP
 METHODS get_large_table
@@ -2436,8 +2448,8 @@ ENDMETHOD.
 DATA(my_table) = get_large_table( ).
 ```
 
-Only if there is actual proof (= a bad performance measurement) for your individual case
-should you resort to the more cumbersome procedural style
+Únicamente si hay prueba (= una medición de mal rendimiento) para tu caso individual
+es que deberías recurrir al estilo procedural
 
 ```ABAP
 " anti-pattern
@@ -2452,10 +2464,11 @@ ENDMETHOD.
 get_large_table( IMPORTING result = DATA(my_table) ).
 ```
 
-> Esta sección contradicts the ABAP Programming Guidelines and Code Inspector checks,
-> both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
-> We consistently failed to reproduce any performance and memory deficits
-> and received notice about kernel optimization that generally improves RETURNING performance.
+> Esta sección contradice las ABAP Programming Guidelines y las revisiones
+> de Code Inspector, donde ambos sugieren que las tablas grandes deben estar
+> en la sección `EXPORTING` para evitar problemas de rendimiento.
+> Hemos fallado consistentemente en reproducir problemas de rendimiento y/o memoria
+> y notado que hay optimizaciones de kernel que generalmente mejoran el rendimiento usando la sentencia `RETURNING`.
 
 #### Usa solo RETURNING o EXPORTING, o CHANGING, pero no en conjunto
 
