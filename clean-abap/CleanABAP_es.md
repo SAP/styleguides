@@ -3800,35 +3800,39 @@ entre pseudo-comentarios obsoletos y los pragmas que los han reemplazado.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Esta sección](#formato)
 
-The suggestions below are [optimized for reading, not for writing](#optimize-for-reading-not-for-writing).
+Las sugerencias en esta sección están [optimizadas para lectura, no para escritura](#optimiza-para-lectura-no-para-escritura).
+Ya que el Pretty Printer de ABAP no las cubre, algunas de ellas provocan trabajo
+adicional manual para re-formatear sentencias cuando las longitudes de los nombres
+cambian, etc.; si quieres evitar esto, considera no usar reglas como 
 As ABAP's Pretty Printer doesn't cover them, some of them produce additional manual work to reformat statements
 when name lengths etc. change; if you want to avoid this, consider dropping rules like
-[Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones).
+[Alinea asignaciones al mismo objeto, pero no a objetos diferentes](#alinea-asignaciones-al-mismo-objeto-pero-no-a-objetos-diferentes).
 
 ### Sé consistente
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Esta sección](#sé-consistente)
 
-Format all code of a project in the same way.
-Let all team members use the same formatting style.
+Dale formato a todo el código de un proyecto de la misma manera.
+Permite que todos los miembros del equipo usen el mismo estilo.
 
-If you edit foreign code, adhere to that project's formatting style
-instead of insisting on your personal style.
+Si editas código externo, adhiérete al estilo de ese proyectom
+en lugar de insistir en tu estilo personal.
 
-If you change your formatting rules over time,
-use [refactoring best practices](#how-to-refactor-legacy-code)
-to update your code over time.
+Si las reglas de formato cambian con el tiempo,
+usa [las mejores prácticas de refactorización](#cómo-refactorizar-código-legacy) 
+para actualizar tu código.
 
 ### Optimiza para lectura, no para escritura
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#optimiza-para-lectura-no-para-escritura)
 
-Developers spend most time _reading_ code.
-Actually _writing_ code takes up a way smaller portion of the day.
+Los desarrolladores pasan la mayor parte de su tiempo _leyendo_ código.
+En realidad, _escribir_ código toma parte de una porción muy pequeña del día.
 
-As a consequence, you should optimize your code formatting for reading and debugging, not for writing.
+Como consecuencia, deberías optimizar el formato de tu código para leer
+y hacer debugging, no para escribir.
 
-For example, you should prefer
+Por ejemplo, prefiere
 
 ```ABAP
 DATA:
@@ -3837,7 +3841,7 @@ DATA:
   e TYPE f.
 ```
 
-to hacks such as
+a
 
 ```ABAP
 " anti-pattern
@@ -3851,7 +3855,14 @@ DATA:
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#use-the-pretty-printer-before-activating)
 
-Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating an object.
+Aplica el Pretty Printer - Shift + F1 en SE80, SE24 y ADT - antes de activar
+un objeto.
+
+Si modificas código legacy sin formato,
+puede que quieras aplicar el Pretty Printer solo a líneas selectas
+para evitar generar listas de cambios enormes y dependencias
+en transportes. Considera hacer Pretty Print en una orden 
+de transporte individual o nota.
 
 If you modify a larger unformatted legacy code base,
 you may want to apply the Pretty Printer only to selected lines
@@ -3859,23 +3870,23 @@ to avoid huge change lists and transport dependencies.
 Consider pretty-printing the complete development object
 in a separate Transport Request or Note.
 
-> Lee más en _Capítulo 5: Formatting: Team Rules_ de [_Código Limpio_ por Robert C. Martin].
+> Lee más en _Capítulo 5: Formato: Reglas de equipo_ de [_Código Limpio_ por Robert C. Martin].
 
 ### Usa la configuración de Pretty Printer de tu equipo 
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#usa-la-configuración-de-pretty-printer-de-tu-equipo)
 
-Always use your team settings.
-Specify them under
+Siempre usa la configuración de tu equipo.
+Configúralo en
 _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
 
-Set _Indent_ and _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
-as agreed in your team.
+Configura _Indent_ y _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
+según se haya acordado en tu equipo.
 
-> [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) explains
-> why we do not give clear guidance for the type case of keywords.
+> [Mayúsculas vs. Minúsculas](sub-sections/UpperVsLowerCase.md) explica 
+> por qué no damos una guía clara sobre este tema.
 >
-> Lee más en _Capítulo 5: Formatting: Team Rules_ de [_Código Limpio_ por Robert C. Martin].
+> Lee más en _Capítulo 5: Formato: Reglas de equipo_ de [_Código Limpio_ por Robert C. Martin].
 
 ### No más de una sentencia por línea de código
 
@@ -3886,7 +3897,7 @@ DATA do_this TYPE i.
 do_this = input + 3.
 ```
 
-Even if some occurrences may trick you into the misconception that this was readable:
+Aún si algunas situaciones pueden llevarte a creer que esto es legible:
 
 ```ABAP
 " anti-pattern
@@ -3897,19 +3908,21 @@ DATA do_this TYPE i. do_this = input + 3.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#mantén-una-longitud-de-línea-razonable)
 
-Adhere to a maximum line length of 120 characters.
+Mantén una longitud máxima de línea de 120 caracteres.
 
-The human eye reads text more comfortably if the lines are not too wide -
-ask a UI designer or eye movement researcher of your choice.
-You will also appreciate the narrower code when debugging or comparing two sources next to each other.
+El ojo humano lee el texto más cómodamente si las líneas no son tan anchas - 
+pregunta a un diseñador de UI o investigador de movimiento del ojo de tu confianza.
+También podrás apreciar mejor el código más angosto al hacer debugging o comparar
+dos fuentes de código una junto a la otra.
 
-The 80 or even 72 characters limit originating in the old terminal devices is a little too restrictive.
-While 100 characters are often recommended and a viable choice, 120 characters seem to work a little better for ABAP,
-maybe because of the general verbosity of the language.
+El límite de 80 o incluso 72 caracteres originado en las terminales viejas
+es muy restrictivo. Mientras que 100 caracteres son recomendados comúnmente y 
+son una opción viable, para ABAP 120 funcionan un poco mejor, probablemente
+debido a la verbosidad del lenguaje.
 
-> As a reminder you can configure in ADT the print margin to 120 characters,
-> which then is visualized in the code view as a vertical line.
-> Configure it under _Menu_ > _Window_ > _Preferences_ > _General_ > _Editors_ > _Text Editors_.
+> Como recordatorio, puedes configurar ADT el margen a 120 caracteres
+> que son visualizados en el código como una línea vertical.
+> Configúralo en _Menu_ > _Window_ > _Preferences_ > _General_ > _Editors_ > _Text Editors_.
 
 ### Condensa tu código
 
@@ -3919,7 +3932,7 @@ maybe because of the general verbosity of the language.
 DATA(result) = calculate( items ).
 ```
 
-instead of adding unneeded blanks
+en lugar de agregar espacios innecesarios
 
 ```ABAP
 " anti-pattern
@@ -3936,7 +3949,7 @@ DATA(result) = do_something( ).
 DATA(else) = calculate_this( result ).
 ```
 
-to highlight that the two statements do different things. But there is no reason for
+para resaltar que las dos sentencias hacen cosas diferentes. Pero no hay razón para
 
 ```ABAP
 " anti-pattern
@@ -3946,8 +3959,8 @@ DATA(result) = do_something( ).
 
 DATA(else) = calculate_this( result ).
 ```
-
-The urge to add separating blank lines may be an indicator that your method doesn't [do one thing](#do-one-thing-do-it-well-do-it-only).
+La urgencia de agregar líneas en blanco puede ser un indicador de que tu método
+no [hace una sola cosa](#haz-una-cosa-hazla-bien-no-hagas-más-que-eso).
 
 ### No te obsesiones con separar usando líneas en blanco 
 
@@ -3960,7 +3973,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-No reason for the bad habit to tear your code apart with blank lines
+No hay razón para tener el mal hábito de separar tu código con líneaas en blanco
 
 ```ABAP
 " anti-pattern
@@ -3973,7 +3986,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Blank lines actually only make sense if you have statements that span multiple lines
+Las líneas en blanco solo hacen sentido si tienes una sentencia que usa varias líneas
 
 ```ABAP
 METHOD do_something.
@@ -3993,28 +4006,28 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#alinea-asignaciones-al-mismo-objeto-pero-no-a-objetos-diferentes)
 
-To highlight that these things somehow belong together
+Para resaltar que estas cosas van juntas
 
 ```ABAP
 structure-type = 'A'.
 structure-id   = '4711'.
 ```
 
-or even better
+o aún mejor
 
 ```ABAP
 structure = VALUE #( type = 'A'
                      id   = '4711' ).
 ```
 
-But leave things ragged that have nothing to do with each other:
+Pero no alinees cosas que no tienen nada que ver una con la otra:
 
 ```ABAP
 customizing_reader = fra_cust_obj_model_reader=>s_get_instance( ).
 hdb_access = fra_hdbr_access=>s_get_instance( ).
 ```
 
-> Lee más en _Capítulo 5: Formatting: Horizontal Alignment_ de [_Código Limpio_ por Robert C. Martin].
+> Lee más en _Capítulo 5: Formato: Alineación horizontal_ de [_Código Limpio_ por Robert C. Martin].
 
 ### Cierra paréntesis en la última línea de código 
 
@@ -4027,7 +4040,7 @@ modify->update( node           = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -4047,7 +4060,7 @@ DATA(unique_list) = remove_duplicates( list ).
 remove_duplicates( CHANGING list = list ).
 ```
 
-instead of the needlessly longer
+en lugar del innecesariamente largo
 
 ```ABAP
 " anti-pattern
@@ -4067,7 +4080,8 @@ DATA(sum) = add_two_numbers( value_1 = 5
                              value_2 = 6 ).
 ```
 
-When this makes the lines very long, you can break the parameters into the next line:
+Cuando esto haga las líneas muy largas, puedes hacer un salto de línea con los
+parámetros a la siguiente línea:
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4085,7 +4099,8 @@ DATA(sum) = add_two_numbers(
                 value_2 = 6 ).
 ```
 
-Aligning the parameters elsewhere makes it hard to spot what they belong to:
+Alinear los parámetros en cualquier otra parte provoca que sea difícil
+identificar a qué pertenecen:
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4093,7 +4108,8 @@ DATA(sum) = add_two_numbers(
     value_2 = 6 ).
 ```
 
-However, this is the best pattern if you want to avoid the formatting to be broken by a name length change.
+Sin embargo, este es el mejor patrón si quieres evitar que el formato
+se descomponga por el cambio de la longitud de un nombre.
 
 ### Usa saltos de línea para múltiples parámetros 
 
@@ -4104,8 +4120,9 @@ DATA(sum) = add_two_numbers( value_1 = 5
                              value_2 = 6 ).
 ```
 
-Yes, this wastes space.
-However, otherwise, it's hard to spot where one parameter ends and the next starts:
+Sí, esto desperdicia espacio.
+Sin embargo, de otra manera, es difícil identificar dónde termina un parámetro y
+dónde empieza el siguiente.
 
 ```ABAP
 " anti-pattern
@@ -4123,7 +4140,8 @@ modify->update( node           = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-Ragged margins make it hard to see where the parameter ends and its value begins:
+No alinear los parámetros hace difícil ver donde termina el parámetro y comienza
+su valor:
 
 ```ABAP
 " anti-pattern
@@ -4133,7 +4151,8 @@ modify->update( node = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-> This is on the other side the best pattern if you want to avoid the formatting to be broken by a name length change.
+> Por otro lado, este es el mejor patrón si quieres evitar que el formato se pierda
+por un cambio de longitud en un nombre.
 
 ### Usa un salto de línea si la llamada a un método se vuelve muy extensa 
 
@@ -4150,7 +4169,8 @@ DATA(some_super_long_param_name) =
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#usa-indentado-apropiado)
 
-Indent parameter keywords by 2 spaces and parameters by 4 spaces:
+Indenta los parámetros de palabras clave con 2 espacios y los parámetros con 
+4 espacios:
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4161,6 +4181,7 @@ DATA(sum) = add_two_numbers(
                 errors  = errors ).
 ```
 
+Si no tienes palabras clave, indenta con 4 espacios.
 If you have no keywords, indent the parameters by 4 spaces.
 
 ```ABAP
@@ -4169,14 +4190,16 @@ DATA(sum) = add_two_numbers(
                 value_2 = 6 ).
 ```
 
-Use the Tab key to indent. It's okay if this adds one more space than needed.
-(This happens if the `DATA(sum) =` part at the left has an uneven number of characters.)
+Usa la tecla de Tab para indentar. Está bien si esto agrega un espacio más del
+necesario. (Esto pasa si la parte de la izquierda en `DATA(sum) =` tiene un número
+impar de caracteres).
 
 ### Indenta declaraciones in-line como llamadas a métodos 
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Formato](#formato) > [Esta sección](#indenta-declaraciones-in-line-como-llamadas-a-métodos)
 
-Indent in-line declarations with VALUE or NEW as if they were method calls:
+Indenta las declaraciones in-line con `VALUE` o `NEW` como si fueran llamadas a 
+métodos:
 
 ```ABAP
 DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
@@ -4194,9 +4217,12 @@ DATA name TYPE seoclsname.
 DATA reader TYPE REF TO /clean/reader.
 ```
 
-A variable and its type belong together and should therefore be visually grouped in close proximity.
-Aligning the `TYPE` clauses draws attention away from that and suggests that the variables form one vertical group, and their types another one.
-Alignment also produces needless editing overhead, requiring you to adjust all indentations when the length of the longest variable name changes.
+Una variable y su tipo deben estar juntos y por lo tanto visualmente agrupados
+uno próximo al otro.
+Alinear los `TYPE` aleja la atención de eso e indica que las variables forman
+un grupo vertical y sus tipos otro.
+La alineación también provoca overhead innecesario de edición, requiriendo que
+ajustes todas las indentaciones cuando el nombre de la variable más larga cambia.
 
 ```ABAP
 " anti-pattern
