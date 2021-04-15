@@ -552,7 +552,7 @@ Los patrones más comunes son:
 [composite](https://en.wikipedia.org/wiki/Composite_pattern),
 [decorator](https://en.wikipedia.org/wiki/Decorator_pattern),
 [iterator](https://en.wikipedia.org/wiki/Iterator_pattern),
-[observer](https://en.wikipedia.org/wiki/Observer_pattern), and
+[observer](https://en.wikipedia.org/wiki/Observer_pattern), y
 [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
 
 > Lee más en _Capítulo 2: Nombres con sentido: Evitar la desinformación_ de [_Código Limpio_ por Robert C. Martin]
@@ -5124,4 +5124,4 @@ METHOD assert_contains.
 ENDMETHOD.
 ```
 
-En lugar de copiar y pegar una y otra vez
+En lugar de copiar y pegar una y otra vez.
