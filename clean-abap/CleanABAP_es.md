@@ -3146,7 +3146,8 @@ METHODS entry_exists_in_db
     cx_not_found_exception.
 ```
 
-If something is a regular, valid case, it should be handled with regular result parameters.
+Si algo es un caso regular y válido, debería ser manejado a través de 
+parámetros de salida regulares.
 
 ```ABAP
 METHODS entry_exists_in_db
@@ -3156,7 +3157,8 @@ METHODS entry_exists_in_db
     VALUE(result) TYPE abap_bool.
 ```
 
-Exceptions should be reserved for cases that you don't expect and that reflect error situations.
+Las excepciones deben estar reservadas para casos que no esperas y que reflejan
+situaciones de error.
 
 ```ABAP
 METHODS assert_user_input_is_valid
@@ -3166,9 +3168,10 @@ METHODS assert_user_input_is_valid
     cx_bad_user_input.
 ```
 
-Misusing exceptions misguides the reader into thinking something went wrong, when really everything is just fine.
-Exceptions are also much slower than regular code because they need to be constructed
-and often gather lots of context information.
+Usar mal las excepciones hace pensar al lector que algo falló, cuando en realidad
+todo está bien.
+Las excepciones son además mucho más lentas que el código regular porque necesitan
+ser construidas y generalmente acumulan mucha información de contexto del sistema.
 
 #### Usa excepciones basadas en clases
 
@@ -3181,7 +3184,8 @@ TRY.
 ENDTRY.
 ```
 
-The outdated non-class-based exceptions have the same features as return codes and shouldn't be used anymore.
+Las excepciones clásicas no basadas en clases tienen las mismas características 
+que los códigos de retorno y ya no deberían ser utilizadas.
 
 ```ABAP
 " anti-pattern
@@ -3204,11 +3208,13 @@ CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_static_check.
 CLASS cx_fra_no_check DEFINITION ABSTRACT INHERITING FROM cx_no_check.
 ```
 
-Consider creating abstract super classes for each exception type for your application,
-instead of sub-classing the foundation classes directly.
-Allows you to `CATCH` all _your_ exceptions.
-Enables you to add common functionality to all exceptions, such as special text handling.
-`ABSTRACT` prevents people from accidentally using these non-descriptive errors directly.
+Considera crear súper clases abstractas para cada tipo de excepción para tu
+aplicación, en lugar de hacer una heredar de las clases principales de excepción.
+Esto te permite manejar con un `CATCH` todas _tus excepciones_.
+Te permite también agregar funcionalidad común a todas tus excepciones, como 
+manejo especial de texto.
+El `ABSTRACT` previene que las personas usen accidentalmente estos errores
+no descriptivos directamente.
 
 #### Lanza un solo tipo de excepción
 
@@ -3220,10 +3226,10 @@ METHODS generate
     cx_generation_error.
 ```
 
-In the vast majority of cases, throwing multiple types of exceptions has no use.
-The caller usually is neither interested nor able to distinguish the error situations.
-He will therefore typically handle them all in the same way -
-and if this is the case, why distinguish them in the first place?
+En la gran mayoría de los casos, lanzar múltiples tipos de excepción no tiene uso.
+El consumidor usualmente no está interesado ni es capaz de distinguir las situaciones
+de error. Por lo tanto, típicamente las va a manejar todas de la misma manera - 
+si este es el caso, para que distinguirlas en primer lugar?
 
 ```ABAP
 " anti-pattern
@@ -3234,9 +3240,9 @@ METHODS generate
     cx_model_read_error.
 ```
 
-A better solution to recognize different error situations is using one exception type
-but adding sub-classes that allow - but don't require - reacting to individual error situations,
-as described in [Use sub-classes to enable callers to distinguish error situations](#use-sub-classes-to-enable-callers-to-distinguish-error-situations).
+Una mejor solución para reconocer diferentes situaciones de error es usar un tipo de
+excepción, pero agregar sub-clases que permitan (pero no requieran) reaccionar a
+situaciones individuales de error, como está descrito en  [Usa sub-clases para permitir que el usuario de la clase distinga situaciones de error](#usa-sub-clases-para-permitir-que-el-usuario-de-la-clase-distinga-situaciones-de-error).
 
 #### Usa sub-clases para permitir que el usuario de la clase distinga situaciones de error
 
@@ -3257,7 +3263,7 @@ TRY.
 ENDTRY.
 ```
 
-If there are many different error situations, use error codes instead:
+Si hay varias situaciones de error, usa códigos de error en su lugar:
 
 ```ABAP
 CLASS cx_generation_error DEFINITION ...
@@ -3286,9 +3292,10 @@ ENDTRY.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Lanzamiento de excepciones](#lanzamiento-de-excepciones) > [Esta sección](#lanza-cx_static_check-para-excepciones-que-se-pueden-manejar)
 
-If an exception can be expected to occur and be reasonably handled by the receiver,
-throw a checked exception inheriting from `CX_STATIC_CHECK`: failing user input validation,
-missing resource for which there are fallbacks, etc.
+Si una excepción se espera que puede ocurrir y que puede razonablemente
+ser manejada por el receptor, lanza una excepción con revisión, heredando
+de `CX_STATIC_CHECK`: fallar validación de parámetros de entrada,
+un recurso faltante para el cual hay una solución, etc.
 
 ```ABAP
 CLASS cx_file_not_found DEFINITION INHERITING FROM cx_static_check.
@@ -3300,21 +3307,24 @@ METHODS read_file
     cx_file_not_found.
 ```
 
-This exception type _must_ be given in method signatures and _must_ be caught or forwarded to avoid syntax errors.
-It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
-and will take care of reacting to the error situation.
+Este tipo de escepción _debe_ aparecer en el prototipo del método y _debe_
+ser atrapado o propagado para evitar errores de sintaxis.
+Por lo tanto es claramente visible para el consumidor y asegura que no
+será sorprendido por una excepción inesperada y podrá hacerse cargo
+de la situación de error.
 
-> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
-> but contradicts [_Código Limpio_ por Robert C. Martin],
-> which recommends to prefer unchecked exceptions;
-> [Excepciones](sub-sections/Exceptions.md) explains why.
+> Esto está en sincronización con las [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
+> pero contradice [_Código Limpio_ por Robert C. Martin],
+> que recomienda preferir excepciones sin revisión;
+> [Excepciones](sub-sections/Exceptions.md) explica por qué.
 
 #### Lanza CX_NO_CHECK para situaciones de las que típicamente no se puede recuperar
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Lanzamiento de excepciones](#lanzamiento-de-excepciones) > [Esta sección](#lanza-cx_no_check-para-situaciones-de-las-que-típicamente-no-se-puede-recuperar)
 
-If an exception is so severe that the receiver is unlikely to recover from it, use `CX_NO_CHECK`:
-failure to read a must-have resource, failure to resolve the requested dependency, etc.
+Si una excepción es tan severa que es poco probable que el receptor se recupere, 
+usa `CX_NO_CHECK`: error al leer un recurso imprescindible, error al resolver 
+la dependencia solicitada, etc.
 
 ```ABAP
 CLASS cx_out_of_memory DEFINITION INHERITING FROM cx_no_check.
@@ -3324,27 +3334,30 @@ METHODS create_guid
     VALUE(result) TYPE /bobf/conf_key.
 ```
 
-`CX_NO_CHECK` _cannot_ be declared in method signatures,
-such that its occurrence will come as a bad surprise to the consumer.
-In the case of unrecoverable situations, this is okay
-because the consumer will not be able to do anything useful about it anyway.
+`CX_NO_CHECK` _no puede_ ser declarada en el prototipo de los métodos,
+de tal manera que al ocurrir será una mala sorpresa para el consumidor.
+En el caso de situaciones de las cuales no se puede recuperar, esto está bien
+porque el consumidor no tendrá la capacidad de hacer algo al respecto.
 
-However, there _may_ be cases where the consumer actually wants to recognize and react to this kind of failure.
-For example, a dependency manager could throw a `CX_NO_CHECK` if it's unable to provide an implementation
-for a requested interface because regular application code will not be able to continue.
-However, there may be a test report that tries to instantiate all kinds of things just to see if it's working,
-and that will report failure simply as a red entry in a list -
-this service should be able to catch and ignore the exception instead of being forced to dump.
+Sin embargo, _puede_ haber casos donde el consumidor quiere reconocer y reaccionar
+a este tipo de error.
+Por ejemplo, un administrador de dependencias podría lanzar un `CX_NO_CHECK` si
+no le es posible proveer una implementación para una interfaz requerida
+porque el código de la aplicación no podría continuar
+Sin embargo, puede haber un reporte de prueba que trata de crear una instancia
+de todos los tipos, solo para ver si funcionan; el cual reportará el fallo
+simplemente como una entrada en rojo en una lista - este servicio debería
+poder atrapar e ignorar la excepción en lugar de ser forzado a lanzar un dump.
 
 #### Considera CX_DYNAMIC_CHECK para excepciones que no se pueden evitar
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Lanzamiento de excepciones](#lanzamiento-de-excepciones) > [Esta sección](#considera-cx_dynamic_check-para-excepciones-que-no-se-pueden-evitar)
 
-Use cases for `CX_DYNAMIC_CHECK` are rare,
-and in general we recommend to resort to the other exception types.
-However, you may want to consider this kind of exception
-as a replacement for `CX_STATIC_CHECK` if the caller has full,
-conscious control over whether an exception can occur.
+Los casos de uso para `CX_DYNAMIC_CHECK` son raros,
+y en general recomendamos usar los otros tipos de excepción.
+Sin embargo, puedes querer considerar este tipo de excepción
+como un reemplazo para `CX_STATIC_CHECK` si el consumidor tiene control completo
+y consciente de que una excepción puede ocurrir.
 
 ```ABAP
 DATA value TYPE decfloat.
@@ -3356,25 +3369,24 @@ cl_abap_math=>get_db_length_decs(
     length = DATA(length) ).
 ```
 
-For example, consider the method `get_db_length_decs`
-of class `cl_abap_math`, that tells you the number of digits
-and decimal places of a decimal floating point number.
-This method raises the dynamic exception `cx_parameter_invalid_type`
-if the input parameter does not reflect a decimal floating point number.
-Usually, this method will be called
-for a fully and statically typed variable,
-such that the developer knows
-whether that exception can ever occur or not.
-In this case, the dynamic exception would enable the caller
-to omit the unnecessary `CATCH` clause.
+Por ejemplo, considera el método `get_db_length_decs`
+de la clase`cl_abap_math`, que te dice el número de dígitos y decimales de un
+número de punto flotante.
+Este método lanza la excepción dinámica `cx_parameter_invalid_type`
+si el parámetro de entrada no representa un número de punto flotante.
+Usualmente, este método será llamado para una variable estática y completamente
+tipificada, de tal manera que el desarrollador sabe si la excepción puede ocurrir 
+o no. La excepción dinámica permitiría al consumidor
+omitir la sentencia `CATCH` que no es necesaria en este caso.
 
 #### Lanza un dump para situaciones que son completamente irrecuperables
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Lanzamiento de excepciones](#lanzamiento-de-excepciones) > [Esta sección](#lanza-un-dump-para-situaciones-que-son-completamente-irrecuperables)
 
-If a situation is so severe that you are totally sure the receiver is unlikely to recover from it,
-or that clearly indicates a programming error, dump instead of throwing an exception:
-failure to acquire memory, failed index reads on a table that must be filled, etc.
+Si una situación es tan severa que estás totalmente seguro que el consumidor
+no se podrá recuperar de ella, o que claramente indica un error de programación, 
+lanza un dump en lugar de una excepción: error al adquirir memoria, lectura fallida
+de índices en una tabla que debe estar llena, etc.
 
 ```ABAP
 RAISE SHORTDUMP TYPE cx_sy_create_object_error.  " >= NW 7.53
@@ -3388,13 +3400,13 @@ Use this only if you are sure about that.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Lanzamiento de excepciones](#lanzamiento-de-excepciones) > [Esta sección](#prefiere-raise-exception-new-en-lugar-de-raise-exception-type)
 
-Note: Available from NW 7.52 onwards.
+Nota: Disponible a partir de NW 7.52.
 
 ```ABAP
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
 
-in general is shorter than the needlessly longer
+en general es más corto que el innecesariamente largo
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
@@ -3402,7 +3414,7 @@ RAISE EXCEPTION TYPE cx_generation_error
     previous = exception.
 ```
 
-However, if you make massive use of the addition `MESSAGE`, you may want to stick with the `TYPE` variant:
+Sin embargo, si haces mucho uso de la adición `MESSAGE`, podrías querer mantener el uso con la variante `TYPE`:
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
@@ -3431,10 +3443,11 @@ METHOD generate.
 ENDMETHOD.
 ```
 
-The [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter) recommends de-coupling things.
-Forwarding exceptions from other components violates this principle.
-Make yourself independent from the foreign code by catching those exceptions
-and wrapping them in an exception type of your own.
+La [Ley de Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter) recomienda
+desacoplar las cosas.
+Propagar excepciones de otros componentes viola este principio.
+Vuélvete independiente de código externo atrapando estas excepciones
+y propagándolas con tu propia excepción.
 
 ```ABAP
 " anti-pattern
@@ -3471,7 +3484,7 @@ METHOD reduce_day_by_one.
 ENDMETHOD.
 ```
 
-instead of
+en lugar de
 
 ```ABAP
 " anti-pattern
@@ -3492,16 +3505,20 @@ METHOD fix_day_overflow.
 ENDMETHOD.
 ```
 
-Clean Code does _not_ forbid you to comment your code - it encourages you to exploit _better_ means,
-and resort to comments only if that fails.
+Código Limpio _no_ te prohibe comentar tu código - te anima a explotar
+_mejores_ maneras y recurrir a comentarios únicamente si éstas fallan.
 
-> This example has been challenged from a performance point of view,
-> claiming that cutting the methods so small worsens performance too much.
-> Sample measurements show that the refactored code is 2.13 times slower than the original dirty variant.
-> The clean variant takes 9.6 microseconds to fix the input `31-02-2018`, the dirty variant only 4.5 microseconds.
-> This may be a problem when the method is run very often in a high-performance application;
-> for regular user input validation, it should be acceptable.
-> Resort to the section [Mind the performance](#mind-the-performance) to deal with Clean Code and performance issues.
+> Este ejemplo ha sido señalado desde un punto de vista de rendimiento,
+> mencionando que dividir tan pequeños los métodos se empeora fuertemente.
+> Mediciones de prueba demuestran que el código refactorizado es 2.13 veces más
+> lento que la variante original. 
+> La variante limpia toma 9.6 microsegundos para arreglar la entrada `31-02-2018`,
+la variante no limpia toma 4.5 microsegundos.
+> Este puede ser un problema cuando el método se corre muy seguido en una
+> aplicación de alto rendimiento;
+> para validación de parámetros de entrada regular, es aceptable.
+> Recurre a la sección [Cuida el rendimiento](#cuida-el-rendimiento) para atender
+> temas relacionados con Código Limpio y problemas de rendimiento.
 
 ### Los comentarios no son excusa para nombrar mal objetos
 
