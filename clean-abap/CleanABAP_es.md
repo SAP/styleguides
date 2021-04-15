@@ -2633,8 +2633,9 @@ o en métodos que crean algo pero no retornan la entidad creada, sino solo su ll
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Inicialización de parámetros](#inicialización-de-parámetros) > [Esta sección](#limpia-o-sobre-escribe-parámetros-de-referencia-exporting)
 
-Reference parameters refer to existing memory areas that may be filled beforehand.
-Clear or overwrite them to provide reliable data:
+Los parámetros por referencia apuntan a áreas de memoria existentes
+que pueden estar llenas de antemano.
+Limpia o sobre-escribelos para proveer información confiable.
 
 ```ABAP
 METHODS square
@@ -2653,18 +2654,24 @@ METHOD square.
 ENDMETHOD.
 ```
 
-> Code inspector and Checkman point out `EXPORTING` variables that are never written.
-Use these static checks to avoid this otherwise rather obscure error source.
+> El Code Inspector and Checkman marcan variables `EXPORTING` que nunca se les asigna
+un valor.
+Usa estas revisiones estáticas para evitar este error difícil de resolver.
 
 ##### [Cuida si la entrada y la salida pueden ser lo mismo]
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Inicialización de parámetros](#inicialización-de-parámetros) > [Esta sección](#cuida-si-la-entrada-y-la-salida-pueden-ser-lo-mismo)
 
-Generally, it is a good idea to clear the parameter as a first thing in the method after type and data declarations.
-This makes the statement easy to spot and avoids that the still-contained value is accidentally used by later statements.
+Generalmente, es una buena idea limpiar el parámetro como el primer paso después de
+la declaración de datos y tipos.
+Esto hace la sentencia fácil de ubicar y evita que el valor que aún está
+contenido pueda ser usado accidentalmente en sentencias posteriores.
 
-However, some parameter configurations could use the same variable as input and output.
-In this case, an early `CLEAR` would delete the input value before it can be used, producing wrong results.
+Sin embargo, algunas configuraciones de parámetro podrían usar la misma variable
+como entrada y como salida.
+
+En este caso, un `CLEAR` borraría el valor de entrada antes de que pueda ser usado,
+produciendo resultados erróneos.
 
 ```ABAP
 " anti-pattern
@@ -2682,16 +2689,18 @@ METHOD square_dirty.
 ENDMETHOD.
 ```
 
-Consider redesigning such methods by replacing `EXPORTING` with `RETURNING`.
-Also consider overwriting the `EXPORTING` parameter in a single result calculation statement.
-If neither fits, resort to a late `CLEAR`.
+Considera rediseñar estos métodos reemplazando `EXPORTING` con `RETURNING`.
+También considera sobre-escribir el parámetro `EXPORTING` en una sola sentencia
+de cálculo.
+Si ninguna se adecua al requerimiento, utiliza un `CLEAR` tardío.
 
 #### No hagas CLEAR a parámetros VALUE
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Inicialización de parámetros](#inicialización-de-parámetros) > [Esta sección](#no-hagas-clear-a-parámetros-value)
 
-Parameters that work by `VALUE` are handed over as new, separate memory areas that are empty by definition.
-Don't clear them again:
+Los parámetros que funcionan por `VALUE` son entregados como áreas de memoria
+nuevas y separadas, que están vacías por definición.
+No las limpies de nuevo:
 
 ```ABAP
 METHODS square
@@ -2703,7 +2712,8 @@ METHOD square.
 ENDMETHOD.
 ```
 
-`RETURNING` parameters are always `VALUE` parameters, so you never have to clear them:
+Los parámetros `RETURNING` son siempre del tipo `VALUE`, así que nunca es necesario
+hacerles un `CLEAR`:
 
 ```ABAP
 METHODS square
@@ -2723,19 +2733,19 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Cuerpo del método](#cuerpo-del-método) > [Esta sección](#haz-una-cosa-hazla-bien-no-hagas-más-que-eso)
 
-A method should do one thing, and only one thing.
-It should do it in the best way possible.
+Un método debería hacer una cosa y una sola cosa.
+Y lo debe hacer de la mejor manera posible.
 
-A method likely does one thing if
+Un método probablemente hace una cosa si:
 
-- it has [few input parameters](#aim-for-few-importing-parameters-at-best-less-than-three)
-- it [doesn't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
-- it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
-- it is [small](#keep-methods-small)
-- it [descends one level of abstraction](#descend-one-level-of-abstraction)
-- it only [throws one type of exception](#throw-one-type-of-exception)
-- you cannot extract meaningful other methods
-- you cannot meaningfully group its statements into sections
+- [tiene pocos parámetros](#procura-usar-pocos-parámetros-importing-menos-de-tres-es-lo-ideal)
+- [no tiene parámetros booleanos de entrada](#separa-los-métodos-en-lugar-de-recibir-parámetros-booleanos-de-entrada)
+- [tiene exactamente un parámetro de salida](#usa-returning-exporting-y-changing-para-exactamente-un-parámetro)
+- [es corto](#mantén-los-métodos-cortos)
+- [desciende un nivel de abstracción](#desciende-un-nivel-de-abstracción)
+- [lanza un solo tipo de excepción](#lanza-un-solo-tipo-de-excepción)
+- no puedes extraer más métodos de él con un significado claro
+- no puedes agrupar sus sentencias en secciones lógicas
 
 #### Enfócate en el happy path o en manejo de errores, no en ambos
 
