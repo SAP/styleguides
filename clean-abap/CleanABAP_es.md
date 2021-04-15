@@ -2751,10 +2751,9 @@ Un método probablemente hace una cosa si:
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Cuerpo del método](#cuerpo-del-método) > [Esta sección](#enfócate-en-el-happy-path-o-en-manejo-de-errores-no-en-ambos)
 
-As a specialization of the rule [_Do one thing, do it well, do it only_](#do-one-thing-do-it-well-do-it-only),
-a method should either follow the happy-path it's built for,
-or the error-handling-detour in case it can't,
-but probably not both.
+Como una especialización de la regla [_Haz una cosa, hazla bien, no hagas más que eso_](#haz-una-cosa-hazla-bien-no-hagas-más-que-eso), un método debería seguir
+el happy path para el que fue construido o el camino de manejo de errores en
+caso de que no pueda, pero probablemente no ambos.
 
 ```ABAP
 " anti-pattern
@@ -2773,7 +2772,7 @@ METHOD append_xs.
 ENDMETHOD.
 ```
 
-Can be decomposed into
+Puede ser dividido en
 
 ```ABAP
 METHOD append_xs.
@@ -2794,7 +2793,7 @@ METHOD validate.
 ENDMETHOD.
 ```
 
-or, to stress the validation part
+o, para recalcar la parte de la validación
 
 ```ABAP
 METHOD append_xs.
@@ -2820,8 +2819,9 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Cuerpo del método](#cuerpo-del-método) > [Esta sección](#desciende-un-nivel-de-abstracción)
 
-Statements in a method should be one level of abstraction below the method itself.
-Correspondingly, they should all be on the same level of abstraction.
+Las sentencias en un método deberían ser un nivel de abstracción más abajo
+que el método mismo. De la misma manera, todas las sentencias deberían estar en el
+mismo nivel de abstracción.
 
 ```ABAP
 METHOD create_and_publish.
@@ -2829,8 +2829,7 @@ METHOD create_and_publish.
   post->publish( ).
 ENDMETHOD.
 ```
-
-instead of confusing mixtures of low level (`trim`, `to_upper`, ...) and high level (`publish`, ...) concepts like
+en lugar de mezclas confusas de sentencias de bajo nivel (`trim`, `to_upper`, ...) y alto nivel (`publish`, ...) como
 
 ```ABAP
 " anti-pattern
@@ -2842,9 +2841,12 @@ METHOD create_and_publish.
 ENDMETHOD.
 ```
 
-A reliable way to find out what the right level of abstraction is is this:
-Let the method's author explain what the method does in few, short words, without looking at the code.
-The bullets (s)he numbers are the sub-methods the method should call or the statements it should execute.
+Una manera confiable de encontrar cuál es el nivel de abstracción adecuado
+es la siguiente:
+Permite al autor del método explicar lo que hace el método en pocas palabras,
+sin que vea el código.
+Los incisos que mencione son los submétodos que el método debería de llamar
+o las sentencias que debería ejecutar.
 
 #### Mantén los métodos cortos
 
@@ -2860,7 +2862,8 @@ METHOD read_and_parse_version_filters.
 ENDMETHOD.
 ```
 
-The following `DATA` declaration alone is sufficient to see that the surrounding method does way more than one thing:
+La siguiente declaración `DATA` por si misma es suficiente para ver que el método
+que la contiene hace más de una cosa:
 
 ```ABAP
 " anti-pattern
@@ -2890,8 +2893,9 @@ DATA:
   new_clskey_save TYPE seoclskey.
 ```
 
-Of course there are occasions where it does not make sense to reduce a larger method further.
-This is perfectly okay as long as the method remains [focused on one thing](#do-one-thing-do-it-well-do-it-only):
+Por supuesto hay ocasiones donde no hace sentido reducir un método grande más
+de lo que ya está.
+Esto es correcto siempre que el método [_haga una sola cosa_](#haz-una-cosa-hazla-bien-no-hagas-más-que-eso):
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2910,7 +2914,8 @@ METHOD decide_what_to_do.
 ENDMETHOD.
 ```
 
-However, it still makes sense to validate whether the verbose code hides a more suitable pattern:
+Sin embargo, aún hace sentido validar si el código extenso esconde
+un patrón más adecuado:
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2918,8 +2923,9 @@ METHOD decide_what_to_do.
 ENDMETHOD.
 ```
 
-> Cutting methods very small can have bad impact on performance because it increases the number of method calls.
-> The [section _Mind the performance_](#mind-the-performance) gives guidance on how to balance Clean Code and performance.
+> Dividir los métodos hasta hacerlos muy pequeños puede tener un impacto negativo
+en el rendimiento al incrementar el número de llamadas a métodos.
+> La sección [_Considera el rendimiento_](#considera-el-rendimiento) provee guía en cómo balancear el Código Limpio y el rendimiento.
 
 ### Flujo de control
 
