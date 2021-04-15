@@ -26,7 +26,7 @@ La [Cheat Sheet](cheat-sheet/CheatSheet.md) es una versión optimizada para impr
   - [Cómo refactorizar código legacy](#cómo-refactorizar-código-legacy)
   - [Cómo revisar automáticamente](#cómo-revisar-automáticamente)
   - [Cómo se relaciona con otras guías](#cómo-se-relaciona-con-otras-guías)
-  - [Cómo estar en desacuerdo](#cómo-estar-en-desacuerdo
+  - [Cómo estar en desacuerdo](#cómo-estar-en-desacuerdo)
 - [Nomenclatura](#nomenclatura)
   - [Usa nombres descriptivos](#usa-nombres-descriptivos)
   - [Prefiere nombres del dominio de solución o de problema](#prefiere-nombres-del-dominio-de-solución-o-de-problema)
