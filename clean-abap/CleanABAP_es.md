@@ -143,7 +143,7 @@ La [Cheat Sheet](cheat-sheet/CheatSheet.md) es una versión optimizada para impr
     - [Haz que los mensajes sean fáciles de encontrar](#haz-que-los-mensajes-sean-fáciles-de-encontrar)
   - [Códigos de retorno](#códigos-de-retorno)
     - [Prefiere excepciones a códigos de retorno](#prefiere-excepciones-a-códigos-de-retorno)
-    - [No dejes pasar las fallas](#no-dejes-pasar-las-fallas)
+    - [No dejes pasar los errores](#no-dejes-pasar-los-errores)
   - [Excepciones](#excepciones)
     - [Las excepciones son para errores, no para casos regulares](#las-excepciones-son-para-errores-no-para-casos-regulares)
     - [Usa excepciones basadas en clases](#usa-excepciones-basadas-en-clases)
@@ -2935,7 +2935,7 @@ en el rendimiento al incrementar el número de llamadas a métodos.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Flujo de control](#flujo-de-control) > [Esta sección](#falla-rápido)
 
-Validate and fail as early as possible:
+Valida y falla tan pronto como sea posible.
 
 ```ABAP
 METHOD do_something.
@@ -2947,7 +2947,8 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Later validations are harder to spot and understand and may have already wasted resources to get there.
+Las validaciones que se hacen después son más difíciles de ubicar y pueden
+haber malgastado recursos para llegar a ese punto.
 
 ```ABAP
 " anti-pattern
@@ -2964,10 +2965,10 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Flujo de control](#flujo-de-control) > [Esta sección](#check-vs-return)
 
-There is no consensus on whether you should use `CHECK` or `RETURN` to exit a method
-if the input doesn't meet expectations.
+No hay un consenso acerca de si debes usar `CHECK` o `RETURN` para salir de un método
+si las entradas no cumplen con los requisitos.
 
-While `CHECK` definitely provides the shorter syntax
+Mientras que `CHECK` definitivamente provee una sintaxis más corta
 
 ```ABAP
 METHOD read_customizing.
@@ -2976,8 +2977,8 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-the statement's name doesn't reveal what happens if the condition fails,
-such that people will probably understand the long form better:
+el nombre de la sentencia no revela lo que pasa si la condición falla,
+de manera que las personas probablemente entenderán la forma larga mejor:
 
 ```ABAP
 METHOD read_customizing.
@@ -2988,8 +2989,8 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-You can avoid the question completely by reversing the validation
-and adopting a single-return control flow
+Puedes evitar la pregunta completamente invirtiendo la validación
+y adoptando un flujo de control de un solo retorno
 
 ```ABAP
 METHOD read_customizing.
@@ -2999,29 +3000,33 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-In any case, consider whether returning nothing is really the appropriate behavior.
-Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
-Returning nothing is in many cases similar to returning `null`, which should be avoided.
+En cualquier caso, considera si no retornar algo es el comportamiento adecuado.
+Los métodos deben proveer un resultado con significado, lo que implica un 
+parámetro de retorno con un valor asignado o una excepción.
+No retornar algo es en muchos casos similar a retornar `null`, lo que debería ser evitado.
 
-> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
-> recommends using `CHECK` in this instance.
-> Community discussion suggests that the statement is so unclear
-> that many people will not understand the program's behavior.
+> La sección [_Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> recomienda usar `CHECK` en este caso.
+> La discusión en la comunidad sugiere que la sentencia no es tan clara,
+> lo que causará que muchas personas no entiendan el comportamiento del programa.
 
 #### Evita CHECK en otros lugares
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Flujo de control](#flujo-de-control) > [Esta sección](#evita-check-en-otros-lugares)
 
-Do not use `CHECK` outside of the initialization section of a method.
-The statement behaves differently in different positions and may lead to unclear, unexpected effects.
+No uses `CHECK` fuera de la inicialización de un método.
+La sentencia se comporta diferente en diferentes posiciones y puede llevar a efectos 
+no esperados.
 
-For example,
-[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
-people might accidentally expect it to end the method or exit the loop.
-Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
+Por ejemplo,
+[`CHECK` en un `LOOP` termina la iteración actual y continúa con la siguiente](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
+las personas podrían accidentalmente esperar que se termine la ejecución del método
+o que se salga del `LOOP`.
+Es preferible usar una sentencia `IF` en combinación con un `CONTINUE`, ya que
+`CONTINUE` solo puede usarse dentro de `LOOP`.
 
-> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
-> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
+> Basado en la sección [_Exiting Procedures_ en las ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
+> Observa que esto contradice [la referencia para la palabra clave `CHECK` en loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
 
 ## Manejo de errores
 
@@ -3035,28 +3040,28 @@ Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CO
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Mensajes](#mensajes) > [Esta sección](#haz-que-los-mensajes-sean-fáciles-de-encontrar)
 
-To make messages easy to find through a where-used search from transaction SE91, use the following pattern:
+Para hacer los mensajes fáciles de encontrar en una búsqueda desde la transacción SE91, utiliza el siguiente patrón:
 
 ```ABAP
 MESSAGE e001(ad) INTO DATA(message).
 ```
 
-In case variable `message` is not needed, add the pragma `##NEEDED`:
+En caso de que la variable `message` no sea requerida, agrega el pragma `##NEEDED`:
 
 ```ABAP
 MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 ```
 
-Avoid the following:
+Evita lo siguiente:
 
 ```ABAP
 " anti-pattern
 IF 1 = 2. MESSAGE e001(ad). ENDIF.
 ```
 
-This is an anti-pattern since:
-- It contains unreachable code.
-- It tests a condition which can never be true for equality.
+Este es un anti-patrón, ya que:
+- Contiene código al que nunca se va a llegar.
+- Prueba una condición que nunca puede ser `TRUE`.
 
 ### Códigos de retorno
 
@@ -3072,7 +3077,7 @@ METHOD try_this_and_that.
 ENDMETHOD.
 ```
 
-instead of
+en lugar de
 
 ```ABAP
 " anti-pattern
@@ -3081,28 +3086,32 @@ METHOD try_this_and_that.
 ENDMETHOD.
 ```
 
-Exceptions have multiple advantages over return codes:
+Las excepciones tienen múltiples ventajas sobre los códigos de retorno:
 
-- Exceptions keep your method signatures clean:
-you can return the result of the method as a `RETURNING` parameter and still throw exceptions alongside.
-Return codes pollute your signatures with additional parameters for error handling.
+- Las excepciones mantienen el prototipo de tu método limpio:
+puedes retornar el resultado de un método como un parámetro `RETURNING` y aún así
+lanzar excepciones al mismo tiempo.
+Los códigos de retorno contaminan tus prototipos con parámetros adicionales para 
+manejo de errores.
 
-- The caller doesn't have to react to them immediately.
-He can simply write down the happy path of his code.
-The exception-handling `CATCH` can be at the very end of his method, or completely outside.
+- El consumidor no tiene que reaccionar a ellos inmediatamente.
+Puede simplemente escribir el happy path de su código. La palabra para manejo
+de excepciones `CATCH` puede estar hasta el final de su método o incluso afuera.
 
-- Exceptions can provide details on the error in their attributes and through methods.
-Return codes require you to devise a different solution on your own, such as also returning a log.
+- Las excepciones pueden proveer detalles del error en sus atributos y a través 
+de métodos. Los códigos de retorno requieren que encuentres una solución diferente
+por tu cuenta, como también regresar un log.
 
-- The environment reminds the caller with syntax errors to handle exceptions.
-Return codes can be accidentally ignored without anybody noticing.
+- El ambiente le recuerda al consumidor con errores de sintaxis que tiene
+que manejar excepciones. Los códigos de retorno pueden ser accidentalmente
+ignorados sin que se dé cuenta alguien.
 
-#### No dejes pasar las fallas
+#### No dejes pasar los errores
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Return Codes](#códigos-de-retorno) > [Esta sección](#no-dejes-pasar-las-fallas)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Manejo de errores](#manejo-de-errores) > [Return Codes](#códigos-de-retorno) > [Esta sección](#no-dejes-pasar-los-errores)
 
-If you do have to use return codes, for example because you call Functions and older code not under your control,
-make sure you don't let failures slip through.
+Si tienes que usar códigos de retorno, por ejemplo porque usas módulos de funciones y
+código que no está bajo tu control, asegúrate de no dejar que los errores se escapen.
 
 ```ABAP
 DATA:
