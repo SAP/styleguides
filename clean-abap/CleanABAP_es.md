@@ -3545,8 +3545,9 @@ DATA(statement) = build_statement( ).
 DATA(data) = execute_statement( statement ).
 ```
 
-This not only makes the intent, structure, and dependencies of the code much clearer,
-it also avoids carry-over errors when temporary variables aren't properly cleared between the sections.
+Esto no solo muestra la intención, estructura y dependencias mucho más claramente,
+también evita acarrear errores cuando variables temporales no son limpiadas
+adecuadamente entre secciones.
 
 ```ABAP
 " anti-pattern
@@ -3572,7 +3573,7 @@ result_set->next_package( IMPORTING data = data ).
 DATA(first_line) = table[ 1 ].
 ```
 
-Nobody needs repeating the code in natural language
+_Nadie_ necesita repetir el código en lenguaje natural
 
 ```ABAP
 " anti-pattern
@@ -3592,17 +3593,20 @@ SELECT * FROM d_alert_root WHERE key = key.
 " Have a look at this and that to get the details.
 ```
 
-Nobody reads that - seriously.
-If people need to read a textbook to be able to use your code,
-this may be an indicator that your code has severe design issues that you should solve otherwise.
-Some code _does_ need some explanation beyond a single line of comment;
-consider linking the design document in these cases.
+Nadie lee eso - en serio.
+Si las personas necesitan leer una novela para usar tu código,
+esto puede ser un indicador de que tu código tiene problemas severos de diseño
+que deberías resolver.
+Hay código que _sí necesita_ algo de explicación adicional más allá de una
+sola línea de comentario; considera colocar la liga del documento de diseño 
+en estos casos.
 
 ### Usa " para comentar, no *
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Comentarios](#comentarios) > [Esta sección](#usa--para-comentar-no-)
 
-Quote comments indent along with the statements they comment
+Los comentarios con comillas se indentan junto con las sentencias que están
+siendo comentadas
 
 ```ABAP
 METHOD do_it.
@@ -3613,7 +3617,7 @@ METHOD do_it.
 ENDMETHOD.
 ```
 
-Asterisked comments tend to indent to weird places
+Los comentarios con asteriscos tienden a indentarse de manera extraña
 
 ```ABAP
 " anti-pattern
@@ -3634,7 +3638,7 @@ ENDMETHOD.
 output = calculate_result( input ).
 ```
 
-Clearer than
+Más claro que
 
 ```ABAP
 " anti-pattern
@@ -3642,7 +3646,7 @@ output = calculate_result( input ).
 " delegate pattern
 ```
 
-And less invasive than
+Y menos invasivo que
 
 ```ABAP
 output = calculate_result( input ).  " delegate pattern
@@ -3657,10 +3661,12 @@ output = calculate_result( input ).  " delegate pattern
 * output = calculate_result( input ).
 ```
 
-When you find something like this, delete it.
-The code is obviously not needed because your application works and all tests are green.
-Deleted code can be reproduced from the version history later on.
-If you need to preserve a piece of code permanently, copy it to a file or a `$TMP` or `HOME` object.
+Cuando encuentres algo como esto, **bórralo**.
+Este código obviamente no se necesita, porque tu aplicación funciona y todos las
+pruebas están en verde.
+Código borrado puede ser recuperado del historial de versiones si se necesita.
+Si necesitas preservar una porción de código permanentemente, cópiala a un archivo
+a `$TMP` o a `HOME`.
 
 ### Usa FIXME, TODO y XXX y agrega tu usuario
 
@@ -3672,18 +3678,20 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-- `FIXME` points to errors that are too small or too much in-the-making for internal incidents.
-- `TODO`s are places where you want to complete something in the near(!) future.
-- `XXX` marks code that works but could be better.
+- `FIXME` indica errores que son muy pequeños o muy lejanos al propósito del 
+incidente.
+- `TODO` marca secciones donde quieres completar algo en el futuro(!) cercano.
+- `XXX` indica código que funciona, pero podría mejorarse.
 
-When you enter such a comment, add your nick, initials, or user to enable your co-developers to contact you
-and ask questions if the comment is unclear.
+Cuando introduzcas un comentario de este estilo, agrega tu sobrenombre, 
+iniciales o usuario para permitir que otros desarrolladores te contacten y
+puedan hacer preguntas si el comentario no está claro.
 
 ### No agregues prototipos ni comentarios de fin de métodos
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Comentarios](#comentarios) > [Esta sección](#no-agregues-prototipos-ni-comentarios-de-fin-de-métodos)
 
-Method signature comments don't help anybody.
+Los comentarios de prototipos de métodos no le sirven a nadie.
 
 ```ABAP
 " anti-pattern
@@ -3697,20 +3705,23 @@ Method signature comments don't help anybody.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
 ```
 
-Decades ago, when you couldn't see the method signature when inspecting its code,
-or working with printouts that had dozens of pages, these comments may have made sense.
-But all modern ABAP IDEs (SE24, SE80, ADT) show the method signature easily
-such that these comments have become nothing but noise.
+Hace décadas, cuando no podías ver el prototipo al inspeccionar el código o
+que trabajabas con impresiones con docenas de páginas, estos comentarios puede
+que hayan hecho sentido.
+Pero todos los IDEs modernos (SE24, SE80, ADT) muestran la firma del método
+fácilmente, de manera que estos comentarios no son nada más que ruido.
 
-> In the form-based editor of SE24/SE80, press button _Signature_.
-> In the ABAP Development Tools, mark the method name and press F2
-> or add the view _ABAP Element Info_ to your perspective.
+> En el editor basado en formas de la SE24/SE80, presiona el botón _Signature_.
+> En ABAP Development Tools, selecciona el nombre del método y presiona F2
+> o agrega la vista _ABAP Element Info_ a tu perspectiva en Eclipse.
 
-Similarly, end-of comments are superfluous.
-These comments may have been helpful decades ago,
-when programs and functions and the nested IFs inside were hundreds of lines of code long.
-But our modern coding style produces methods short enough to readily see
-what opening statement an `ENDIF` or `ENDMETHOD` belongs to:
+Similarmente, los comentarios de fin de método son súperfluos.
+Estos comentarios pueden haber sido útiles hace décadas,
+cuando los programas, las funciones y los `IF`s anidados estaban dentro de cientos 
+de líneas de código.
+Pero nuestro estilo moderno de programación produce métodos lo suficientemente
+cortos para que se pueda ver fácilmente la sentencia inicial a la que pertenece
+un `ENDIF` o un `ENDMETHOD`:
 
 ```ABAP
 " anti-pattern
@@ -3731,17 +3742,17 @@ ENDMETHOD.   " get_kpi_calc
 MESSAGE e003 INTO dummy.
 ```
 
-Messages change independently from your code,
-and nobody will remember adjusting the comment,
-such that it will outdate and even become misleading quickly
-and without anybody noticing.
+Los mensajes van a cambiar independientemente de tu código
+y nadie va a recordar ajustar el comentario,
+de tal manera que se va a desactualizar y va a confundir
+a los desarrolladores rápidamente sin que nadie lo note.
 
-The modern IDEs give you easy ways to see the text behind a message,
-for example in the ABAP Development Tools,
-mark the message ID and press Shift+F2.
+Los IDEs modernos proveen maneras sencillas de ver el texto detrás de un mensaje,
+por ejemplo en ABAP Development Tools,
+seleccionas el ID de mensaje y presionas Shift + F2.
 
-If you want it more explicit,
-consider extracting the message to a method of its own.
+Si quieres que sea más explícito, considera extraer el mensaje a su
+propio método.
 
 ```ABAP
 METHOD create_alert_not_found_message.
@@ -3753,25 +3764,26 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Comentarios](#comentarios) > [Esta sección](#usa-abap-doc-únicamente-para-apis-públicas)
 
-Write ABAP Doc to document public APIs,
-meaning APIs that are intended for developers
-in other teams or applications.
-Don't write ABAP Doc for internal stuff.
+Escribe ABAP Doc para documentar APIs públicas,
+lo que significa APIs que están dirigidas a otros desarrolladores en otros
+equipos o aplicaciones.
+No escribas ABAP Doc para material interno.
 
-ABAP Doc suffers from the same weaknesses as all comments,
-that is, it outdates quickly and then becomes misleading.
-As a consequence, you should employ it only where it makes sense,
-not enforce writing ABAP Doc for each and everything.
+ABAP Doc sufre de las mismas debilidades que todos los comentarios,
+que se desactualizan rápidamente y solo confunden al desarrollador cuando pasa.
+Como consecuencia, solo deberías usar esta herramienta cuando hace sentido, 
+no obligar a que se use para todos los casos
 
-> Lee más en _Capítulo 4: Good Comments: Javadocs in Public APIs_ and _Capítulo 4: Bad Comments:
+> Lee más en _Capítulo 4: Comentarios: Javadoc en APIs públicas_ y en _Capítulo 4: Comentarios incorrectos:
 > Javadocs in Nonpublic Code_ de [_Código Limpio_ por Robert C. Martin].
 
 ### Usa pragmas en lugar de pseudo-comentarios
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Comentarios](#comentarios) > [Esta sección](#usa-pragmas-en-lugar-de-pseudo-comentarios)
 
-Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments 
-have mostly become obsolete and have been replaced by pragmas.
+Prefiere el uso de pragmas a pseudo-comentarios para suprimir advertencias
+y errores irrelevantes identificados por ATC. Los pseudo-comentarios
+están en su mayoría obsoletos y han sido reemplazados por pragmas.
 
 ```ABAP
 " pattern
@@ -3781,8 +3793,8 @@ MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 MESSAGE e001(ad) INTO DATA(message). "#EC NEEDED
 ```
 
-Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that 
-have replaced them.
+Usa el programa `ABAP_SLIN_PRAGMAS` o la tabla `SLIN_DESC` para encontrar el mapeo
+entre pseudo-comentarios obsoletos y los pragmas que los han reemplazado.
 
 ## Formato
 
