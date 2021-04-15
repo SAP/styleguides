@@ -4303,9 +4303,9 @@ Press Ctrl+Shift+F12 to also run tests in other classes that are maintained as t
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Esta sección](#código-bajo-prueba)
 
-#### Name the code under test meaningfully, or default to CUT
+#### Nombra el código bajo prueba con sentido, o usa CUT como default
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#name-the-code-under-test-meaningfully-or-default-to-cut)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#nombra-el-código-bajo-prueba-con-sentido-o-usa-cut-como-default)
 
 Give the variable that represents the code under test a meaningful name:
 
@@ -4339,9 +4339,9 @@ Especially in unclean and confusing tests, calling the variable `cut`
 can temporarily help the reader see what's actually tested.
 However, tidying up the tests is the actual way to go for the long run.
 
-#### Test against interfaces, not implementations
+#### Prueba sobre interfaces, no implementaciones
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#test-against-interfaces-not-implementations)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#prueba-sobre-interfaces-no-implementaciones)
 
 A practical consequence of the [_Test publics, not private internals_](#test-publics-not-private-internals),
 type your code under test with an _interface_
@@ -4357,9 +4357,9 @@ rather than a _class_
 DATA code_under_test TYPE REF TO some_class.
 ```
 
-#### Extract the call to the code under test to its own method
+#### Extrae la llamada al código bajo prueba a su propio método
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#extract-the-call-to-the-code-under-test-to-its-own-method)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Código Bajo Prueba](#código-bajo-prueba) > [Esta sección](#extrae-la-llamada-al-código-bajo-prueba-a-su-propio-método)
 
 If the method to be tested requires a lot of parameters or prepared data,
 it can help to extract the call to it to a helper method of its own that defaults the uninteresting parameters:
@@ -4389,13 +4389,13 @@ DATA(itab) = cut->map_xml_to_itab( xml_string = '<xml></xml>'
                                    format     = VALUE #( 'more meaningless stuff' ) ).
 ```
 
-### Injection
+### Inyección
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Esta sección](#inyección)
 
-#### Use dependency inversion to inject test doubles
+#### Usa inversión de dependencias para inyectar dobles de prueba
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#use-dependency-inversion-to-inject-test-doubles)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#usa-inversión-de-dependencias-para-inyectar-dobles-de-prueba)
 
 Dependency inversion means that you hand over all dependencies to the constructor:
 
@@ -4442,9 +4442,9 @@ METHOD constructor.
 ENDMETHOD.
 ```
 
-#### Consider to use the tool ABAP test double
+#### Considera usar la herramienta de ABAP test double
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#consider-to-use-the-tool-abap-test-double)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#considera-usar-la-herramienta-de-abap-test-double)
 
 ```ABAP
 DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
@@ -4474,9 +4474,9 @@ METHOD test_something.
 ENDMETHOD.
 ```
 
-#### Exploit the test tools
+#### Explota el uso de las herramientas de prueba
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#exploit-the-test-tools)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#explota-el-uso-de-las-herramientas-de-prueba)
 
 In general, a clean programming style
 will let you do much of the work
@@ -4492,9 +4492,9 @@ without interfering with the rest of the system.
 
 - Use the CDS test framework to test your CDS views.
 
-#### Use test seams as temporary workaround
+#### Usa test seams como una solución temporal
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#use-test-seams-as-temporary-workaround)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#usa-test-seams-como-una-solución-temporal)
 
 If all other techniques fail, or when in dangerous shallow waters of legacy code,
 refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
@@ -4506,9 +4506,9 @@ in private dependencies, such that they are hard to keep alive and stable in the
 We therefore recommend to refrain to test seams only as a temporary workaround
 to allow you refactoring the code into a more testable form.
 
-#### Use LOCAL FRIENDS to access the dependency-inverting constructor
+#### Usa LOCAL FRIENDS para acceder al constructor inversor de dependencias
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#use-local-friends-to-access-the-dependency-inverting-constructor)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#usa-local-friends-para-acceder-al-constructor-inversor-de-dependencias)
 
 ```ABAP
 CLASS /clean/unit_tests DEFINITION.
@@ -4529,9 +4529,9 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't misuse LOCAL FRIENDS to invade the tested code
+#### No uses LOCAL FRIENDS para invadir el código bajo prueba
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#dont-misuse-local-friends-to-invade-the-tested-code)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-uses-local-friends-para-invadir-el-código-bajo-prueba)
 
 Unit tests that access private and protected members to insert mock data are fragile:
 they break when the internal structure of the tested code changes.
@@ -4546,18 +4546,18 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't change the productive code to make the code testable
+#### No cambies el código productivo para poder probarlo
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#dont-change-the-productive-code-to-make-the-code-testable)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-cambies-el-código-productivo-para-poder-probarlo)
 
 ```ABAP
 " anti-pattern
 IF me->in_test_mode = abap_true.
 ```
 
-#### Don't sub-class to mock methods
+#### No uses herencia para hacer mock a métodos
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#dont-sub-class-to-mock-methods)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-uses-herencia-para-hacer-mock-a-métodos)
 
 Don't sub-class and overwrite methods to mock them in your unit tests.
 Although this works, it is fragile because the tests break easily when refactoring the code.
@@ -4584,9 +4584,9 @@ and extracting the problem method to a separate class with its own interface.
 > A more specific variant of
 > [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
 
-#### Don't mock stuff that's not needed
+#### No hagas mock sin necesidad
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#dont-mock-stuff-thats-not-needed)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-hagas-mock-sin-necesidad)
 
 ```ABAP
 cut = NEW /clean/class_under_test( db_reader = db_reader
@@ -4610,9 +4610,9 @@ this is usually the case with data structures and data containers.
 For example, your unit tests may well work with the productive version of a `transient_log`
 because it only stores data without any side effects.
 
-#### Don't build test frameworks
+#### No crees librerías para pruebas
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#dont-build-test-frameworks)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Inyección](#inyección) > [Esta sección](#no-crees-librerías-para-pruebas)
 
 Unit tests - in contrast to integration tests - should be data-in-data-out, with all test data being defined on the fly as needed.
 
@@ -4634,13 +4634,13 @@ CASE me->test_case.
 ENDCASE.
 ```
 
-### Test Methods
+### Métodos de prueba
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Esta sección](#métodos-de-prueba)
 
-#### Test method names: reflect what's given and expected
+#### Nomenclatura para métodos de prueba: considera el supuesto y el resultado esperado
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#test-method-names-reflect-whats-given-and-expected)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#nomenclatura-para-métodos-de-prueba-considera-el-supuesto-y-el-resultado-esperado)
 
 Good names reflect the given and then of the test:
 
@@ -4676,9 +4676,9 @@ Having lots of test methods whose names are too long may be an indicator
 that you should split your single test class into several ones
 and express the differences in the givens in the class's names.
 
-#### Use given-when-then
+#### Usa dado-cuando-entonces
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#use-given-when-then)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#usa-dado-cuando-entonces)
 
 Organize your test code along the given-when-then paradigm:
 First, initialize stuff in a given section ("given"),
@@ -4691,9 +4691,9 @@ Blank lines or comments as separators may look good at first glance
 but don't really reduce the visual clutter.
 Still they are helpful for the reader and the novice test writer to separate the sections.
 
-#### "When" is exactly one call
+#### "Cuando" es exactamente una llamada
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#when-is-exactly-one-call)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#cuando-es-exactamente-una-llamada)
 
 Make sure that the "when" section of your test method contains exactly one call to the class under test:
 
@@ -4711,9 +4711,9 @@ This makes it harder to find the cause when the test fails:
 was it the first, second, or third call that caused the failure?
 It also confuses the reader because he is not sure what the exact feature under test is.
 
-#### Don't add a TEARDOWN unless you really need it
+#### No uses el método TEARDOWN a menos que realmente lo necesites
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#dont-add-a-teardown-unless-you-really-need-it)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Métodos de prueba](#métodos-de-prueba) > [Esta sección](#no-uses-el-método-teardown-a-menos-que-realmente-lo-necesites)
 
 `teardown` methods are usually only needed to clear up database entries
 or other external resources in integration tests.
@@ -4721,13 +4721,13 @@ or other external resources in integration tests.
 Resetting members of the test class, esp. `cut` and the used test doubles, is superfluous;
 they are overwritten by the `setup` method before the next test method is started.
 
-### Test Data
+### Datos de prueba
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Esta sección](#datos-de-prueba)
 
-#### Make it easy to spot meaning
+#### Haz que sea fácil detectar la intención
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#make-it-easy-to-spot-meaning)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#haz-que-sea-fácil-detectar-la-intención)
 
 In unit tests, you want to be able to quickly tell which data and doubles are important,
 and which ones are only there to keep the code from crashing.
@@ -4748,9 +4748,9 @@ DATA(detection_object_type) = 'FRA_SCLAIM'.  " this detection object type, too
 CONSTANTS memory_limit TYPE i VALUE 4096.    " this number looks carefully chosen
 ```
 
-#### Make it easy to spot differences
+#### Haz que sea fácil detectar las diferencias
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#make-it-easy-to-spot-differences)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#haz-que-sea-fácil-detectar-las-diferencias)
 
 ```ABAP
 exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END1' )
@@ -4759,9 +4759,9 @@ exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345
 
 Don't force readers to compare long meaningless strings to spot tiny differences.
 
-#### Use constants to describe purpose and importance of test data
+#### Usa constantes para describir el objetivo y la importancia de los datos de prueba
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#use-constants-to-describe-purpose-and-importance-of-test-data)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Datos de prueba](#datos-de-prueba) > [Esta sección](#usa-constantes-para-describir-el-objetivo-y-la-importancia-de-los-datos-de-prueba)
 
 ```ABAP
 CONSTANTS some_nonsense_key TYPE char8 VALUE 'ABCDEFGH'.
@@ -4777,13 +4777,13 @@ METHOD throws_on_invalid_entry.
 ENDMETHOD.
 ```
 
-### Assertions
+### Aserciones
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Esta sección](#aserciones)
 
-#### Few, focused assertions
+#### Usa pocas aserciones, enfocadas
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#few-focused-assertions)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#usa-pocas-aserciones-enfocadas)
 
 Assert only exactly what the test method is about, and this with a small number of assertions.
 
@@ -4815,9 +4815,9 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-#### Use the right assert type
+#### Usa el tipo de aserción correcto
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#use-the-right-assert-type)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#usa-el-tipo-de-aserción-correcto)
 
 ```ABAP
 cl_abap_unit_assert=>assert_equals( act = table
@@ -4834,9 +4834,9 @@ instead of allowing you to see what is wrong right from the error message.
 cl_abap_unit_assert=>assert_true( xsdbool( act = exp ) ).
 ```
 
-#### Assert contenido, not quantity
+#### Haz aserciones sobre el contenido, no la cantidad
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#assert-contenido-not-quantity)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#haz-aserciones-sobre-el-contenido-no-la-cantidad)
 
 ```ABAP
 assert_contains_exactly( actual   = table
@@ -4853,9 +4853,9 @@ assert_equals( act = lines( log_messages )
                exp = 3 ).
 ```
 
-#### Assert quality, not contenido
+#### Haz aserciones sobre la calidad, no el contenido
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#assert-quality-not-contenido)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#haz-aserciones-sobre-la-calidad-no-el-contenido)
 
 If you are interested in a meta quality of the result,
 but not in the actual contenido itself, express that with a suitable assert:
@@ -4875,9 +4875,9 @@ assert_equals( act = table
                exp = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
 ```
 
-#### Use FAIL to check for expected exceptions
+#### Usa FAIL para evaluar excepciones esperadas
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#use-fail-to-check-for-expected-exceptions)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#usa-fail-para-evaluar-excepciones-esperadas)
 
 ```ABAP
 METHOD throws_on_empty_input.
@@ -4891,9 +4891,9 @@ METHOD throws_on_empty_input.
 ENDMETHOD.
 ```
 
-#### Forward unexpected exceptions instead of catching and failing
+#### Propaga excepciones inesperadas en lugar de atraparlas y enviar error
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#forward-unexpected-exceptions-instead-of-catching-and-failing)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#propaga-excepciones-inesperadas-en-lugar-de-atraparlas-y-enviar-error)
 
 ```ABAP
 METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
@@ -4920,9 +4920,9 @@ METHOD reads_entry.
 ENDMETHOD.
 ```
 
-#### Write custom asserts to shorten code and avoid duplication
+#### Escribe aserciones a la medida para reducir el código y evitar duplicados
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Testing](#testing) > [Aserciones](#aserciones) > [Esta sección](#escribe-aserciones-a-la-medida-para-reducir-el-código-y-evitar-duplicados)
 
 ```ABAP
 METHODS assert_contains
