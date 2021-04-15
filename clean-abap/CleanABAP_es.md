@@ -1,5 +1,7 @@
 # Clean ABAP
 
+> [**Español**](CleanABAP_es.md)
+> &nbsp;·&nbsp;
 > [English](CleanABAP.md)
 > &nbsp;·&nbsp;
 > [中文](CleanABAP_zh.md)
@@ -9,8 +11,7 @@
 > [Deutsch](CleanABAP_de.md)
 > &nbsp;·&nbsp;
 > [日本語](CleanABAP_ja.md)
-> &nbsp;·&nbsp;
-> [**Español**](CleanABAP_es.md)
+
 
 Esta guía fue adaptada en base a [_Clean Code_ por Robert C. Martin] 
 para [ABAP](https://en.wikipedia.org/wiki/ABAP).

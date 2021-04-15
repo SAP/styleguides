@@ -12,6 +12,8 @@
 > [Français](CleanABAP_fr.md)
 > &nbsp;·&nbsp;
 > [Deutsch](CleanABAP_de.md)
+> &nbsp;·&nbsp;
+> [Español](CleanABAP_es.md)
 
 このガイドは [ABAP](https://en.wikipedia.org/wiki/ABAP) 向けに [Robert C. Martin の _Clean Code_] を採用したものです。
 
