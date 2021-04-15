@@ -2485,7 +2485,7 @@ METHODS copy_class
     /clean/class_copy_failure.
 ```
 
-instead of confusing mixtures like
+en lugar de confundir con mezclas como
 
 ```ABAP
 " anti-pattern
@@ -2500,10 +2500,10 @@ METHODS copy_class
     package            TYPE devclass.
 ```
 
-Different sorts of output parameters is an indicator that the method does more than one thing.
-It confuses the reader and makes calling the method needlessly complicated.
+Diferentes tipos de parámetros de salida es un indicador de que el método hace más de una sola cosa.
+Confunde al lector y hace llamar al método innecesariamente complicado.
 
-An acceptable exception to this rule may be builders that consume their input while building their output:
+Una excepción aceptable a esta regla son los builders que consumen su entrada mientras construyen su salida.
 
 ```ABAP
 METHODS build_tree
@@ -2513,7 +2513,8 @@ METHODS build_tree
     VALUE(result) TYPE REF TO tree.
 ```
 
-However, even those can be made clearer by objectifying the input:
+Sin embargo, incluso estos casos se pueden volver más claros convirtiendo la entrda
+en un objeto:
 
 ```ABAP
 METHODS build_tree
@@ -2527,8 +2528,8 @@ METHODS build_tree
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Tipos de parámetros](#tipos-de-parámetros) > [Esta sección](#usa-changing-con-mesura-donde-aplique)
 
-`CHANGING` should be reserved for cases where an existing local variable
-that is already filled is updated in only some places:
+`CHANGING` debe estar reservado para casos donde una variable local existente que ya
+está siendo llenada es actualizada solo en algunos lugares:
 
 ```ABAP
 METHODS update_references
@@ -2544,15 +2545,16 @@ METHOD update_references.
 ENDMETHOD.
 ```
 
-Do not force your callers to introduce unnecessary local variables only to supply your `CHANGING` parameter.
-Do not use `CHANGING` parameters to initially fill a previously empty variable.
+No forces a tus consumidores a introducir variables locales innecesarias solo para
+llenar tu parámetro `CHANGING`.
+No uses parámetros `CHANGING` para llenar una variable previamente vacía.
 
 #### Separa los métodos, en lugar de recibir parámetros booleanos de entrada
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Tipos de parámetros](#tipos-de-parámetros) > [Esta sección](#separa-los-métodos-en-lugar-de-recibir-parámetros-booleanos-de-entrada)
 
-Boolean input parameters are often an indicator
-that a method does _two_ things instead of one.
+Los parámetros de entrada booleanos son seguid un indicador de que un método
+hace _dos_ cosas en lugar de una.
 
 ```ABAP
 " anti-pattern
@@ -2561,23 +2563,24 @@ METHODS update
     do_save TYPE abap_bool.
 ```
 
-Also, method calls with a single - and thus unnamed - Boolean parameter
-tend to obscure the parameter's meaning.
+Además, las llamadas a métodos con un solo parámetro booleano tienden
+a esconder el significado del parámetro
 
 ```ABAP
 " anti-pattern
 update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
 ```
 
-Splitting the method may simplify the methods' code
-and describe the different intentions better
+Dividir el método puede simplificar el código del método y describir
+mejor las intenciones
 
 ```ABAP
 update_without_saving( ).
 update_and_save( ).
 ```
 
-Common perception suggests that setters for Boolean variables are okay:
+La percepción común sugiere que los setters para variables booleanas
+son aceptables:
 
 ```ABAP
 METHODS set_is_deleted
@@ -2585,7 +2588,7 @@ METHODS set_is_deleted
     new_value TYPE abap_bool.
 ```
 
-> Read more in
+> Lee más en
 > [1](http://www.beyondcode.org/articles/booleanVariables.html)
 > [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
 > [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
@@ -2598,10 +2601,12 @@ METHODS set_is_deleted
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Nombres de parámetros](#nombres-de-parámetros) > [Esta sección](#considera-llamar-result-al-parámetro-returning)
 
-Good method names are usually so good that the `RETURNING` parameter does not need a name of its own.
-The name would do little more than parrot the method name or repeat something obvious.
+Los buenos nombres para métodos son usualmente _tan buenos_ que el parámetro 
+`RETURNING` no necesita su propio nombre.
+El nombre lograría poco menos que repetir el nombre del método o algo obvio.
 
-Repeating a member name can even produce conflicts that need to be resolved by adding a superfluous `me->`.
+Repetir el nombre de un miembro puede incluso producir conflictos que necesitan
+ser resueltos agregando un superfluo `me->`
 
 ```ABAP
 " anti-pattern
@@ -2614,11 +2619,11 @@ METHOD get_name.
 ENDMETHOD.
 ```
 
-In these cases, simply call the parameter `RESULT`, or something like `RV_RESULT` if you prefer Hungarian notation.
+En estos casos, simplemente llama al parámetro `RESULT`, o algo como `R_RESULT` si prefieres la notación Húngara.
 
-Name the `RETURNING` parameter if it is _not_ obvious what it stands for,
-for example in methods that return `me` for method chaining,
-or in methods that create something but don't return the created entity but only its key or so.
+Nombra el parámetro `RETURNING` si _no_ es obvio su objetivo,
+por ejemplo en métodos que retornan la instancia `me` para encadenamiento de métodos,
+o en métodos que crean algo pero no retornan la entidad creada, sino solo su llave.
 
 ### Inicialización de parámetros
 
@@ -2626,7 +2631,7 @@ or in methods that create something but don't return the created entity but only
 
 #### Clear or overwrite EXPORTING reference parameters
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Inicialización de parámetros](#inicialización-de-parámetros) > [Esta sección]Limpia o sobre-escribe parámetros de referencia EXPORTING
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Métodos](#métodos) > [Inicialización de parámetros](#inicialización-de-parámetros) > [Esta sección](#limpia-o-sobre-escribe-parámetros-de-referencia-exporting)
 
 Reference parameters refer to existing memory areas that may be filled beforehand.
 Clear or overwrite them to provide reliable data:
