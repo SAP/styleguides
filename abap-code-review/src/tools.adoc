@@ -117,12 +117,12 @@ pipeline -> pipeline: 4: abaplint
 @enduml
 ....
 
-=== abap-openapi-client
-
-External check services often have an link:https://swagger.io/docs/specification/about/[OpenAPI] definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet. An emerging open source OpenAPI client for ABAP can be found at https://github.com/abap-openapi/abap-openapi-client
-
-=== SonarCloud
+==== SonarCloud
 
 link:https://sonarcloud.io/[SonarCloud] is a product for Continuous Code Quality online,  free for open-source projects. It supports multiple languages, ABAP serialized by abapGit being one of them. There are about 100 different rules, with examples and explanations, that can be turned on and off depending on your needs. SonarCloud can be used to seamlessly integrate ABAP-code together with checks for other languages that a project might use.
 
 SonarCloud can easily be added by using their link:https://github.com/apps/sonarcloud[GitHub App]
+
+=== abap-openapi-client
+
+External check services often have an link:https://swagger.io/docs/specification/about/[OpenAPI] definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet. An emerging open source OpenAPI client for ABAP can be found at https://github.com/abap-openapi/abap-openapi-client
