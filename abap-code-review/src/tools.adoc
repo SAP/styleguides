@@ -121,7 +121,7 @@ pipeline -> pipeline: 4: abaplint
 
 link:https://sonarcloud.io/[SonarCloud] is a product for Continuous Code Quality online,  free for open-source projects. It supports multiple languages, ABAP serialized by abapGit being one of them. There are about 100 different rules, with examples and explanations, that can be turned on and off depending on your needs. SonarCloud can be used to seamlessly integrate ABAP-code together with checks for other languages that a project might use.
 
-SonarCloud can easily be added by using their link:https://github.com/apps/sonarcloud[GitHub App]
+SonarCloud can be added by using their link:https://github.com/apps/sonarcloud[GitHub App]
 
 === abap-openapi-client
 
