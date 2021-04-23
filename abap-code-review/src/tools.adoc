@@ -117,12 +117,12 @@ pipeline -> pipeline: 4: abaplint
 @enduml
 ....
 
-==== SonarCloud
+==== Third party checks
 
-link:https://sonarcloud.io/[SonarCloud] is a product for Continuous Code Quality online,  free for open-source projects. It supports multiple languages, ABAP serialized by abapGit being one of them. There are about 100 different rules, with examples and explanations, that can be turned on and off depending on your needs. SonarCloud can be used to seamlessly integrate ABAP-code together with checks for other languages that a project might use.
+There are other tools from third party vendors that can be also used for ABAP code analysis. 
 
-SonarCloud can be added by using their link:https://github.com/apps/sonarcloud[GitHub App]
-
+For instance, link:https://www.sonarsource.com/abap/[SonarSource ABAP] can be used to check ABAP source serialized by abapGit. 
+Their link:https://github.com/apps/sonarcloud[App] can be used to integrate it with GitHub-based CI pipelines.
 === abap-openapi-client
 
 External check services often have an link:https://swagger.io/docs/specification/about/[OpenAPI] definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet. An emerging open source OpenAPI client for ABAP can be found at https://github.com/abap-openapi/abap-openapi-client
