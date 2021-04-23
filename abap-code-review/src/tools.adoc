@@ -123,6 +123,7 @@ There are other tools from third party vendors that can be also used for ABAP co
 
 For instance, link:https://www.sonarsource.com/abap/[SonarSource ABAP] can be used to check ABAP source serialized by abapGit. 
 Their link:https://github.com/apps/sonarcloud[App] can be used to integrate it with GitHub-based CI pipelines.
+
 === abap-openapi-client
 
 External check services often have an link:https://swagger.io/docs/specification/about/[OpenAPI] definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet. An emerging open source OpenAPI client for ABAP can be found at https://github.com/abap-openapi/abap-openapi-client
