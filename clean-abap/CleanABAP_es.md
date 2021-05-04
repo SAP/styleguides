@@ -934,7 +934,7 @@ variables.
 Aunque esto es posible, el esfuerzo rara vez vale la pena.
 
 El encadenamiento complica innecesariamente reformatear y refactorizar el código,
-ya que cada línea se ve diferente y cambiarlas require lidiar con 
+ya que cada línea se ve diferente y cambiarlas requiere lidiar con 
 comas, puntos, dos puntos, lo cual no vale la pena.
 
 ```ABAP
