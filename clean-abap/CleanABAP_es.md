@@ -591,7 +591,7 @@ ENDMETHOD.
 Si programas para versiones anteriores de ABAP, toma el consejo de esta guía con cuidado:
 Varias recomendaciones hacen uso de síntaxis relativamente nueva que podría no estar
 soportada en versiones anteriores de ABAP.
-VAlida que la guía que quieres seguir en la versión más vieja que tienes que soportar.
+Verifica que la guía que quieres seguir es viable en la versión más vieja que tienes que soportar.
 No descartes Código Limpio completamente - la gran mayoría de las reglas (ej. nomenclatura, comentarios)
 funcionarán en _cualquier_ versión de ABAP.
 
