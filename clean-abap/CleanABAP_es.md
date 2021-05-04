@@ -420,7 +420,7 @@ sin requerir un diccionario a la medida.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Nomenclatura](#nomenclatura) > [Esta sección](#usa-plural)
 
-Hay una práctica legacy en SAP en la que nombran las tablas de las entidades en singular,
+Hay una práctica antigua en SAP en la que nombran las tablas de las entidades en singular,
 por ejemplo `country` para una "tabla de países".
 Una tendencia común en el mundo fuera de SAP es usar plural para listas de cosas.
 Por lo tanto, recomendamos elegir `countries` en su lugar.
