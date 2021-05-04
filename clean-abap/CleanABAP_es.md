@@ -633,7 +633,7 @@ refactorizar y afinar código bien estructurado.
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Lenguaje](#lenguaje) > [Esta sección](#prefiere-orientado-a-objetos-que-programación-procedural)
 
 Los programas orientados a objetos (clases, interfaces) están mejor segmentados
-y pueden ser refactorizados y probados más fácil que el código procedural (funciones, programas).
+y pueden ser refactorizados y probados más fácilmente que el código procedural (funciones, programas).
 Aunque hay situaciones donde debes usar objetos procedurales (una función para una RFC, un programa
 para una transacción), estos objetos deberían hcaer poco menos que llamar la clase correspondiente
 que contiene la funcionalidad:
