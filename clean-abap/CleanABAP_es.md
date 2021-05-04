@@ -976,7 +976,7 @@ ASSIGN COMPONENT name OF STRUCTURE structure TO FIELD-SYMBOL(<component>).
 ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
 ```
 
-Las revisiones de código demuestran que la gente tiene a escoger entre las dos arbitrariamente,
+Las revisiones de código demuestran que la gente tiende a escoger entre las dos arbitrariamente,
 "solo porque sí", "porque siempre hacemos LOOPs de esa manera", o "sin una razón en particular".
 Las decisiones arbitrarias hacen que el lector pierda el tiempo en la pregunta sin sentido de por qué
 se usó uno en lugar del otro, por lo tanto se debería reemplazar con decisiones precisas y bien fundamentadas.
