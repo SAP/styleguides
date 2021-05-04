@@ -937,10 +937,6 @@ El encadenamiento complica innecesariamente reformatear y refactorizar el códig
 ya que cada línea se ve diferente y cambiarlas require lidiar con 
 comas, puntos, dos puntos, lo cual no vale la pena.
 
-Chaining also needlessly complicates reformatting and refactoring
-because each line looks different and changing them requires meddling with
-colons, dots, and commas, that are not worth the effort.
-
 ```ABAP
 " anti-pattern
 DATA:
