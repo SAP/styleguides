@@ -944,7 +944,7 @@ DATA:
   reader TYPE REF TO reader.
 ```
 
-> También lee [Don't align type clauses](#dont-align-type-clauses)  
+> También lee [No alinees los TYPE](#no-alinees-los-type)  
 > Si el encadenamiento de la declaración de datos es usada, entonces usa una cadena por cada grupo de variables que pertenecen juntas lógicamente.
 
 ### Prefiere REF TO a FIELD-SYMBOL
