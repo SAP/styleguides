@@ -352,7 +352,7 @@ que trabajan en S/4HANA.
 
 Escribimos esta guía de estilo para lectores que ya están familiarizados con Clean Code o que están en el proceso de hacerlo, con un enfoque específico en cómo aplicar código limpio _específicamente para ABAP_.
 
-Por este motivo, por favor toma en cuenta que no introducimos todos los conceptos en el mismo detalle
+Por este motivo, por favor ten en cuenta que no introducimos todos los conceptos con el mismo detalle
 que el libro original y las fuentes mencionadas: estas fuentes aún vale la pena que sean leídas, especialmente
 si no estás de acuerdo con elementos de esta guía porque no los explicamos tan bien.
 Usa las ligas en las secciones para leer el trasfondo de nuestra guía.
