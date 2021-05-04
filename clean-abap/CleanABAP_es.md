@@ -614,7 +614,7 @@ Solo entonces deberías tomar una decisión, basada en hechos, para descartar re
 
 Algunos pensamientos adicionales, tomados en parte del Capítulo 2 de [_Refactoring_ por Martin Fowler](https://martinfowler.com/books/refactoring.html):
 
-En una aplicación típica la mayoría del tiempo de ejecución se dedica en una proporción muy
+En una aplicación típica la mayoría del tiempo de ejecución se concentra en una proporción muy
 pequeña del código. Tan poco como 10% del código puede consumir el 90% del tiempo de ejecución
 y especialmente en ABAP una proporción grande del tiempo de ejecución se suele
 dedicar en base de datos.
