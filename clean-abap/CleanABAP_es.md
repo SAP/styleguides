@@ -993,7 +993,7 @@ orientado a objetos.
 
 - Los `field-symbols` son más cortos que las referencias, pero el ahorro resultante en memoria es tan
 pequeño que puede ser ignorado sin problema.
-De la misma manera, la velocidad no es un problema. Como consecuencia, no hay razón relacionada con rendimiento
+De la misma manera, la velocidad no es un problema. Como consecuencia, no hay razón relacionada con el rendimiento
 para preferir uno sobre el otro.
 
 > Lee más en el artículo
