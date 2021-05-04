@@ -718,7 +718,7 @@ SELECT *
 Nuevas alternativas tienden a mejorar la legibilidad del código
 y reducir conflictos de diseño con paradigmas modernos de programación,
 de manera que cambiar a ellas pueden automáticamente resultar
-en código más limpio
+en código más limpio.
 
 Aunque continuan funcionando, elementos obsoletos pueden dejar
 de beneficiarse de optimizaciones en términos de velocidad de procesamiento
