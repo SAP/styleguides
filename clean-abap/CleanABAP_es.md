@@ -813,7 +813,7 @@ ENDINTERFACE.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Constantes](#constantes) > [Esta sección](#si-no-usas-clases-de-enumeración-agrupa-tus-constantes)
 
-Si coleccionas constantes de una manera desordenada, por ejemplo en una interfaz, agrúpalas:
+Si juntas constantes de una manera desordenada, por ejemplo en una interfaz, agrúpalas:
 
 ```ABAP
 CONSTANTS:
