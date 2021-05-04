@@ -299,7 +299,7 @@ con un sub-conjunto de reglas indiscutibles y evoluciona a partir de eso.
 2. Sigue la regla de los _boy scout_ en tu rutina de trabajo diaria:
 _siempre deja el código un poco más limpio de lo que lo encontraste_.
 No te obsesiones dedicando horas a "limpiar el campamento", solo
-dedica un par de minutos adicionales y observa como las mejoras se acumulan en el tiempo.
+dedica un par de minutos adicionales y observa como las mejoras se acumulan con el tiempo.
 
 3. Construye _islas limpias_: de vez en cuando, elige un pequeño objeto o componente y trata
 de hacerlo limpio en todos los sentidos. Estas islas demuestran el beneficio de lo que estás
