@@ -335,7 +335,7 @@ lo que significa que hicimos algunos ajustes para el lenguaje de programación A
 por ejemplo [Lanza CX_STATIC_CHECK para excepciones que se pueden manejar](#lanza-cx_static_check-para-excepciones-que-se-pueden-manejar).
 
 Algunos hechos provienen de la [Guía para programación ABAP](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm),
-con la cual esta guía es compatible en su mayor parte. Las desviaciones a esa guía siempre están indicadas
+con la cual esta guía es compatible en su mayor parte. Las desviaciones respecto a esa guía siempre están indicadas
 y son siempre con el objetivo de tener código más limpio.
 
 Esta guía también respeta las 
