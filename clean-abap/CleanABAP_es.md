@@ -543,7 +543,7 @@ METHODS query_those.
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Nomenclatura](#nomenclatura) > [Esta sección](#usa-nombres-de-patrones-solo-si-los-estás-usando)
 
 No uses los nombres de patrones de diseño de software para clases e interfaces a menos que de 
-verdad los estés usando. Por ejemplo, no le llames a tu clase `file_factory` a menos que realmente
+verdad los estés usando. Por ejemplo, no llames a tu clase `file_factory` a menos que realmente
 implemente el patrón de diseño de fábrica.
 Los patrones más comunes son:
 [singleton](https://en.wikipedia.org/wiki/Singleton_pattern),
