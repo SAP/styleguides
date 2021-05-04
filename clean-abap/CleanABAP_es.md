@@ -406,7 +406,7 @@ Las capas que pertenecen a negocio cuando son nombradas de acuerdo al dominio de
 Esto especialmente cierto para componetes que son diseñados bajo el diseño guiado por el dominio, como las APIs
 y los objetos de negocio.
 
-Las capas que proveen la mayor parte de la funcionalidad técnica, como las clases de fábrica y algoritmos abstractos, 
+Las capas que proveen la mayor parte de la funcionalidad técnica, como las clases fábrica y algoritmos abstractos, 
 sonarán mejor cuando son nombradas de acuerdo al dominio de solución.
 
 En cualquier caso, no trates de hacer tu propio lenguaje. Necesitamos poder intercambiar información
