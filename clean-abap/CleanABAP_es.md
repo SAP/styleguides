@@ -403,7 +403,7 @@ Busca nombres buenos en el dominio de solución, por ejemplo en ciencias de la c
 "pila" o "árbol"; y en el dominio de problema, por ejemplo "cuenta" o "libro_mayor".
 
 Las capas que pertenecen a negocio cuando son nombradas de acuerdo al dominio de problema.
-Esto especialmente cierto para componetes que son diseñados bajo el diseño guiado por el dominio, como las APIs
+Esto es especialmente cierto para componentes que son diseñados bajo el diseño guiado por el dominio, como las APIs
 y los objetos de negocio.
 
 Las capas que proveen la mayor parte de la funcionalidad técnica, como las clases fábrica y algoritmos abstractos, 
