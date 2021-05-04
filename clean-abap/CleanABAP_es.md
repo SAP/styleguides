@@ -252,7 +252,7 @@ Si eres nuevo al Código Limpio, deberías leer primero
 La [iniciativa Clean Code Developer](https://clean-code-developer.com/)
 puede ayudarte a comenzar con una introducción didáctica al tema en general.
 
-Te recomendamos comenzar con cosas que sean fáciles de atender y ampliamente aceptadas,
+Te recomendamos comenzar con cosas que sean fáciles de entender y ampliamente aceptadas,
 como [Booleanos](#booleanos), [Condiciones](#condiciones) e [Ifs](#ifs).
 
 Probablemente te beneficiarás más de la sección [Métodos](#métodos),
