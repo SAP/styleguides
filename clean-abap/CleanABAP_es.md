@@ -355,7 +355,7 @@ Escribimos esta guía de estilo para lectores que ya están familiarizados con C
 Por este motivo, por favor ten en cuenta que no introducimos todos los conceptos con el mismo detalle
 que el libro original y las fuentes mencionadas: estas fuentes aún vale la pena que sean leídas, especialmente
 si no estás de acuerdo con elementos de esta guía porque no los explicamos tan bien.
-Usa las ligas en las secciones para leer el trasfondo de nuestra guía.
+Usa los enlaces en las secciones para leer el trasfondo de nuestra guía.
 
 Eres libre de discutir y estar en desacuerdo con cualquier cosa que decimos aquí.
 Uno de los pilares de Clean Code es que _el equipo manda_. Solo asegúrate de 
