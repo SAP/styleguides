@@ -460,7 +460,7 @@ Las tres son muy comunes en aplicaciones SAP.
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Nomenclatura](#nomenclatura) > [Esta sección](#usa-las-mismas-abreviaciones-en-todas-partes)
 
-Las personas buscan usando palabras claves para encontrar código relevante.
+Las personas realizan búsquedas usando palabras clave para encontrar código relevante.
 Apoya esto usando la misma abreviación para el mismo concepto.
 Por ejemplo, siempre abrevia "tipo de objeto de detección" a "tipobjdet",
 en lugar de mezclar "tod", "tipod", "tipobjd", etc.
