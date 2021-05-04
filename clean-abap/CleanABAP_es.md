@@ -393,7 +393,7 @@ CLASS /dirty/t005_reader ...
 
 [No trates de arreglar nombres malos con comentarios.](#los-comentarios-no-son-excusa-para-nombrar-mal-objetos)
 
-> Lee más en el _Capítulo 2: Nombres con sentido: Usar nombres que revelen las intencioness_ de [_Código Limpio_ por Robert C. Martin].
+> Lee más en el _Capítulo 2: Nombres con sentido: Usar nombres que revelen las intenciones_ de [_Código Limpio_ por Robert C. Martin].
 
 ### Prefiere nombres del dominio de solución o de problema
 
