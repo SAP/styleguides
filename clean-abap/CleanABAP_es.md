@@ -256,7 +256,7 @@ Te recomendamos comenzar con cosas que sean fáciles de entender y ampliamente a
 como [Booleanos](#booleanos), [Condiciones](#condiciones) e [Ifs](#ifs).
 
 Probablemente te beneficiarás más de la sección [Métodos](#métodos),
-especialmente [Haz una cosa, hazla bien, solo haz eso](#haz-una-cosa-hazla-bien-solo-haz-eso) and [Mantén los métodos cortos](#mantén-los-métodos-cortos), ya que mejoran tremendamente la estructura de tu código.
+especialmente [Haz una cosa, hazla bien, solo haz eso](#haz-una-cosa-hazla-bien-solo-haz-eso) y [Mantén los métodos cortos](#mantén-los-métodos-cortos), ya que mejoran tremendamente la estructura de tu código.
 
 Algunos temas de esta guía pueden iniciar conversaciones difíciles en los equipos
 que tienen experiencia en lo que hacen, pero son nuevos al código limpio.
