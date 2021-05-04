@@ -260,7 +260,7 @@ especialmente [Haz una cosa, hazla bien, solo haz eso](#haz-una-cosa-hazla-bien-
 
 Algunos temas de esta guía pueden iniciar conversaciones difíciles en los equipos
 que tienen experiencia en lo que hacen, pero son nuevos al código limpio.
-Estas temas son perfectamente "sanos", pero la gente puede tener problemas
+Estos temas son perfectamente "sanos", pero la gente puede tener problemas
 adaptándose a ellos en el principio.
 
 Una vez que domines los primeros temas, pasa a otros más controversiales;
