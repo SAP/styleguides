@@ -276,7 +276,7 @@ Los temas [Booleanos](#booleanos), [Condiciones](#condiciones), [Ifs](#ifs),
 y [Métodos](#métodos) son los que más te recompensan al trabajar con un proyecto legacy con mucho código
 que no puedes o no quieres cambiar, dado que puede ser aplicado solo al código nuevo sin conflicto.
 
-El tema [Nomenclatura](#nomenclatura) es muy demandante para proyectos legacy,
+El tema [Nomenclatura](#nomenclatura) es muy exigente para proyectos legacy,
 ya que puede introducir una fuerte diferencia entre código viejo y nuevo,
 al grado que secciones como [Evita codificaciones, como notación Húngara y prefijos](#evita-codificaciones-como-notación-húngara-y-prefijos) es mejor ignorarlas.
 
