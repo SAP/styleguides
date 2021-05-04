@@ -437,7 +437,7 @@ Por lo tanto, recomendamos elegir `countries` en su lugar.
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Nomenclatura](#nomenclatura) > [Esta sección](#usa-nombres-pronunciables)
 
 Pensamos y hablamos mucho de objetos, así que usa nombres que puedas pronunciar,
-por ejemplo, prefiere `tipos_de_objeto_de_detección` a algo ininteligible como `tipobjdet`
+por ejemplo, es preferible `tipos_de_objeto_de_detección` a algo ininteligible como `tipobjdet`
 
 > Lee más en _Capítulo 2: Nombres con sentido: Usar nombres que se puedan pronunciar_ de [_Código Limpio_ por Robert C. Martin]
 
