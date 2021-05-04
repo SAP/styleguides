@@ -272,7 +272,7 @@ y solo deberían ser utilizadas por equipos que ya tengan prueba de los efectos 
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Introducción](#introducción) > [Esta sección](#cómo-refactorizar-código-legacy)
 
-Los temass [Booleanos](#booleanos), [Condiciones](#condiciones), [Ifs](#ifs),
+Los temas [Booleanos](#booleanos), [Condiciones](#condiciones), [Ifs](#ifs),
 y [Métodos](#métodos) son los que más te recompensan al trabajar con un proyecto legacy con mucho código
 que no puedes o no quieres cambiar, dado que puede ser aplicado solo al código nuevo sin conflicto.
 
