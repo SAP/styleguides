@@ -427,7 +427,7 @@ Por lo tanto, recomendamos elegir `countries` en su lugar.
 
 > Este consejo es principalmente para cosas como variables y propiedades. 
 > Para objetos de desarrollo, puede haber patrones
-> que también hacen sentido, por ejemplo la convención ampliamente usada
+> que también tienen sentido, por ejemplo la convención ampliamente usada
 > de nombrar tablas de bases de datos ("tablas transparentes") en singular.
 
 > Lee más en _Capítulo 2: Nombres con sentido: Usar nombres que revelen las intenciones_ de [_Código Limpio_ por Robert C. Martin].
