@@ -617,7 +617,7 @@ Algunos pensamientos adicionales, tomados en parte del Capítulo 2 de [_Refactor
 En una aplicación típica la mayoría del tiempo de ejecución se concentra en una proporción muy
 pequeña del código. Tan poco como 10% del código puede consumir el 90% del tiempo de ejecución
 y especialmente en ABAP una proporción grande del tiempo de ejecución se suele
-dedicar en base de datos.
+concentrar en bases de datos.
 
 Por lo tanto, no es el mejor uso de los recursos dedicar esfuerzo significativo en tratar
 de hacer _todo_ el código súper eficiente todo el tiempo. No estamos sugiriendo que ignores
