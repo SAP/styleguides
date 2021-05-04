@@ -606,7 +606,7 @@ ABAP tiene algunas particularidades que pueden intensificar este detalle, por ej
 compara los tipos de dato al llamar un método, por lo que al dividir un método largo
 en varios sub-métodos puede hacer el código más lento.
 
-Sin embargo, recomendamos fuertemente no optimizar prematuramente, basado en miedos irracionales.
+Sin embargo, recomendamos fuertemente no optimizar prematuramente, basándose en miedos irracionales.
 La gran mayoría de las reglas (ej. nomenclatura, comentarios) no tiene impacto negativo.
 Trata de construir las cosas de una manera limpia, orientada a objetos.
 Si algo es muy lento, haz una medición de rendimiento.
