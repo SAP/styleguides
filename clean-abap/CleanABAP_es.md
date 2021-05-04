@@ -303,7 +303,7 @@ dedica un par de minutos adicionales y observa como las mejoras se acumulan con 
 
 3. Construye _islas limpias_: de vez en cuando, elige un pequeño objeto o componente y trata
 de hacerlo limpio en todos los sentidos. Estas islas demuestran el beneficio de lo que estás
-haciendo y forman una base solidamente probada para hacer más refactorizaciones en el futuro.
+haciendo y forman una base sólidamente probada para hacer más refactorizaciones en el futuro.
 
 4. Habla de ello. No importa si usas [Revisiones de código Fagan](https://en.wikipedia.org/wiki/Fagan_inspection) como antaño, llevas a cabo sesiones informativas o formas paneles de discusión en tu herramienta de chat favorita: 
 vas a necesitar hablar de tus experiencias y aprendizajes, para habilitar que el equipo llegue
