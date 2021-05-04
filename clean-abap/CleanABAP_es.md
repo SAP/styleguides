@@ -690,7 +690,7 @@ Varias de las reglas detalladas más adelante son reiteraciones específicas de 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Lenguaje](#lenguaje) > [Esta sección](#evita-elementos-obsoletos-del-lenguaje)
 
 Cuando actualices tu versión de ABAP,
-asegúrate de revisar elementos obsoletos del lenguate
+asegúrate de revisar elementos obsoletos del lenguaje
 y evita utilizarlos.
 
 Por ejemplo, las variables de entorno se escapan con `@`, 
