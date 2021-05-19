@@ -1309,7 +1309,7 @@ has_entries = 'X'.
 IF has_entries = space.
 ```
 
-Evita comparaciones con `INITIAL` - forza al lector a recordar que el default de `abap_bool` es `abap_false`:
+Evita comparaciones con `INITIAL` - fuerza al lector a recordar que el default de `abap_bool` es `abap_false`:
 
 ```ABAP
 " anti-pattern
