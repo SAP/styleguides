@@ -1016,7 +1016,7 @@ así que no uses este tipo para tablas que son modificadas muy frecuentemente.
 
 - Típicamente se usan tablas del tipo `SORTED` para **tablas grandes**
 que necesitan estar **ordenadas en todo momento**, que son **llenadas poco a poco** o que 
-**necesitan ser modificadas** y **leídas por una o más llaves parciales o completas** o procesadas
+**necesitan ser modificadas** y **leídas por una o más claves parciales o completas** o procesadas
 **en cierto orden**.
 Agregar, cambiar o quitar contenido require encontrar el punto de inserción adecuado,
 pero no requiere reajustar los índices de la tabla completa.
