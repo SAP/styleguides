@@ -1012,7 +1012,7 @@ para preferir uno sobre el otro.
 Su overhead en memoria y procesamiento hace a las tablas hash únicamente valiosas
 cuando se tienen cantidades grandes de datos y muchos accesos de lectura.
 Cada cambio al contenido de la tabla requiere costosos recálculos del hash,
-así que no uses este tipo para tablas que son modificadas muy seguido.
+así que no uses este tipo para tablas que son modificadas muy frecuentemente.
 
 - Típicamente se usan tablas del tipo `SORTED` para **tablas grandes**
 que necesitan estar **ordenadas en todo momento**, que son **llenadas poco a poco** o que 
