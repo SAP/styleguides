@@ -1278,7 +1278,7 @@ esconde el hecho de que estamos lidiando con una variable booleana.
 
 También evita otros tipos de booleanos ya que seguido tienen efectos secundarios,
 por ejemplo el tipo `boolean` usa un tercer valor llamado "undefined" que resulta
-en sútiles errores de programación.
+en sutiles errores de programación.
 
 En algunos casos, puedes necesitar un elemento de diccionario de datos, por ejemplo
 para campos de DynPro. `abap_bool` no puede ser usado en este caso porque está
