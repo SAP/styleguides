@@ -1038,13 +1038,13 @@ de acceso a la tabla (por ejemplo, acceso por índice y acceso ordenado via `SOR
 " anti-pattern
 DATA itab TYPE STANDARD TABLE OF row_type WITH DEFAULT KEY.
 ```
-Las llaves default comúnmente son solo agregadas a las sentencias nuevas funcionales
-para que funcionen. Las llaves en sí mismas son usualmente superfluas y desperdician recursos
+Las claves por defecto comúnmente son solo agregadas a las sentencias nuevas funcionales
+para que funcionen. Las claves en sí mismas son usualmente superfluas y desperdician recursos
 sin ningún motivo. Pueden incluso llevar a errores difíciles de detectar porque ignoran
 los tipos de datos numéricos.
 Las sentencias `SORT` y `DELETE ADJACENT` sin una lista explícita de campos va a utilizar la 
-llave primaria de la tabla interna, que en el caso de `DEFAULT KEY` puede provocar
-resultados inesperados cuando tengas campos numéricos como componente de la llave,
+clave primaria de la tabla interna, que en el caso de `DEFAULT KEY` puede provocar
+resultados inesperados cuando tengas campos numéricos como componente de la clave,
 en particular en combinación con `READ TABLE ... BINARY`, etc.
 
 Especifica los componentes de la llave explícitamente
@@ -1052,7 +1052,7 @@ Especifica los componentes de la llave explícitamente
 ```ABAP
 DATA itab2 TYPE STANDARD TABLE OF row_type WITH NON-UNIQUE KEY comp1 comp2.
 ```
-o recurre a usar `EMPTY KEY` si no necesitas la llave para nada.
+o recurre a usar `EMPTY KEY` si no necesitas la clave para nada.
 
 ```ABAP
 DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
@@ -1061,7 +1061,7 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 > Para más detalles, lee [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
 > 
 > **Precaución:** `SORT` en tablas internas con `EMPTY KEY` (sin campos de ordenamiento explícitos) no va a ordenar
-> nada, pero aparecerán advertencias de síntaxis en caso de que se pueda determinar estáticamente que la llave está 
+> nada, pero aparecerán advertencias de síntaxis en caso de que se pueda determinar estáticamente que la clave está 
 > vacía.
 
 ### Prefiere INSERT INTO TABLE a APPEND TO
@@ -1072,8 +1072,8 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 INSERT VALUE #( ... ) INTO TABLE itab.
 ```
 
-`INSERT INTO TABLE` funciona con todos los tipos de tabla y de llave,
-por lo tanto haciendo más fácil refactorizar el tipo de tabla y definiciones llave si los requerimientos
+`INSERT INTO TABLE` funciona con todos los tipos de tabla y de clave,
+por lo tanto haciendo más fácil refactorizar el tipo de tabla y definiciones clave si los requerimientos
 de rendimiento cambian.
 
 Utiliza `APPEND TO` únicamente si usas una tabla `STANDARD` en modo de arreglo,
@@ -1218,7 +1218,7 @@ DATA(some_string) = |ABC|.
 DATA(message) = |Received HTTP code { status_code } with message { text }|.
 ```
 
-Las plantillas o templates de string resaltan mejor qué es una literal
+Las plantillas o templates de string resaltan mejor qué es un literal
 y qué es una variable, especialmente si colocas múltiples variables en un texto.
 
 ```ABAP
@@ -1276,7 +1276,7 @@ DATA has_entries TYPE abap_bool.
 No uses el tipo genérico `char1`. Aunque es técnicamente compatible,
 esconde el hecho de que estamos lidiando con una variable booleana.
 
-También evita otros tipos de booleanos ya que seguido tienen efectos secundarios,
+También evita otros tipos de booleanos ya que a menudo tienen efectos secundarios,
 por ejemplo el tipo `boolean` usa un tercer valor llamado "undefined" que resulta
 en sutiles errores de programación.
 
