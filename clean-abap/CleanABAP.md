@@ -2201,7 +2201,9 @@ which will never have an alternative implementation and will never be mocked in 
 describes why this also applies to classes that overwrite inherited methods.
 
 #### Use alias for using interface members
+
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#use-alias)
+
 While calling interface methods or using interface attributes, using alias is much cleaner.
 
 ```ABAP
@@ -2216,8 +2218,8 @@ private section.
 get_something( changing result = input )
 ```
 
-" anti-pattern
 ```ABAP
+" anti-pattern
 if_clean_interface~get_something( changing if_clean_interface~result = if_clean_interface~input )
 ```
 
