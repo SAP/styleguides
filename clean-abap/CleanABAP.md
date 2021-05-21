@@ -111,7 +111,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Methods: Object orientation](#methods-object-orientation)
     - [Prefer instance to static methods](#prefer-instance-to-static-methods)
     - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
-    - [Use alias for using interface members](#use-alias)
+    - [Use alias for using interface members](#use-alias-for-using-interface-members)
   - [Parameter Number](#parameter-number)
     - [Aim for few IMPORTING parameters, at best less than three](#aim-for-few-importing-parameters-at-best-less-than-three)
     - [Split methods instead of adding OPTIONAL parameters](#split-methods-instead-of-adding-optional-parameters)
@@ -2200,18 +2200,20 @@ which will never have an alternative implementation and will never be mocked in 
 > [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
 describes why this also applies to classes that overwrite inherited methods.
 
-#### Use alias for using interface members
+#### Use alias for using interface members 
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#use-alias)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#use-alias-for-using-interface-members)
 
-While calling interface methods or using interface attributes, using alias is much cleaner.
+While calling interface methods or using interface attributes, if the interface name is long, using alias is cleaner.
 
 ```ABAP
-class clean_class definition public inheriting from if_clean_interface.
+class clean_class definition ...
+public section.
+  interfaces legacy_interface_long_name.
 private section.
-  aliases result for if_clean_interface~result .
-  aliases input  for if_clean_interface~input  .
-  aliases get_something for if_clean_interface~get_something .
+  aliases result for legacy_interface_long_name~result .
+  aliases input  for legacy_interface_long_name~input  .
+  aliases get_something for legacy_interface_long_name~get_something .
  ....
  ```
 ```ABAP
@@ -2220,9 +2222,8 @@ get_something( changing result = input )
 
 ```ABAP
 " anti-pattern
-if_clean_interface~get_something( changing if_clean_interface~result = if_clean_interface~input )
+legacy_interface_long_name~get_something( changing result = legacy_interface_long_name~input )
 ```
-
 ### Parameter Number
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-number)
