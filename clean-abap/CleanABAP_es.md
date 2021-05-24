@@ -1009,7 +1009,7 @@ para preferir uno sobre el otro.
 
 - Típicamente se usan tablas del tipo `HASHED` para **tablas grandes** que son 
 **llenadas en un solo paso**, **nunca se modifican** y son **leídas seguido por su llave**.
-Su overhead en memoria y procesamiento hace a las tablas hash únicamente valiosas
+Su sobrecoste en memoria y procesamiento hace a las tablas hash únicamente valiosas
 cuando se tienen cantidades grandes de datos y muchos accesos de lectura.
 Cada cambio al contenido de la tabla requiere costosos recálculos del hash,
 así que no uses este tipo para tablas que son modificadas muy frecuentemente.
@@ -1022,12 +1022,12 @@ Agregar, cambiar o quitar contenido require encontrar el punto de inserción ade
 pero no requiere reajustar los índices de la tabla completa.
 Las tablas ordenadas demustran su valor únicamente para cantidades grandes de accesos de lectura.
 
-- Usa tablas del tipo `STANDARD` para **tablas pequeñas**, donde el indexado genera más overhead
+- Usa tablas del tipo `STANDARD` para **tablas pequeñas**, donde el indexado genera más coste
 que beneficio, y **arreglos**, donde no te interesa el orden de las filas o quieres procesarlas
 exactamente en el orden que se agregaron a la tabla. Además, si se requieren diferentes tipos
 de acceso a la tabla (por ejemplo, acceso por índice y acceso ordenado via `SORT` y `BINARY SEARCH`)
 
-> Estas es una guía a grandes rasgos.
+> Ésta es una guía a grandes rasgos.
 > Encuentra más detalles en [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
 
 ### Evita usar DEFAULT KEY
@@ -1203,7 +1203,7 @@ DATA some_string TYPE string.
 some_string = 'ABC'.
 ```
 
-`|` está generalmente bien, pero no puede ser usada para `CONSTANTS` y agrega overhead innecesario cuando se especifica un valor fijo:
+`|` está generalmente bien, pero no puede ser usada para `CONSTANTS` y agrega coste innecesario cuando se especifica un valor fijo:
 
 ```ABAP
 " anti-pattern
@@ -1234,7 +1234,7 @@ DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message 
 
 > [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Booleanos](#booleanos) > [Esta sección](#usa-los-booleanos-sabiamente)
 
-Seguido encontramos casos donde los booleanos naturalmente parecen ser la opción
+Frecuentemente encontramos casos donde los booleanos naturalmente parecen ser la opción
 
 ```ABAP
 " anti-pattern
@@ -1287,8 +1287,8 @@ definido en el type pool `abap`, no en el diccionario de datos.
 En este caso, utiliza `boole_d` o `xfeld`.
 Crea tu propio elemento de datos si necesitas una descripción personalizada.
 
-> Puede que ABAP sea el único lenguaje de programación que no tiene un tipo de dato
-> universal booleano.
+> Puede que ABAP sea el único lenguaje de programación que no tiene un tipo de datos
+> booleano universal.
 > Sin embargo, tener uno es imperativo.
 > Esta recomendación está basada en las ABAP Programming Guidelines.
 
@@ -1316,9 +1316,9 @@ Evita comparaciones con `INITIAL` - fuerza al lector a recordar que el default d
 IF has_entries IS NOT INITIAL.
 ```
 
-> Puede que ABAP sea el único lenguaje de programación que no tiene un tipo de dato
-> universal booleano.
-> Sin embargo, tener uno es imperativo.
+> Puede que ABAP sea el único lenguaje de programación que no constantes integradas
+> para verdadero y falso.
+> Sin embargo, tenerlas es imperativo.
 > Esta recomendación está basada en las ABAP Programming Guidelines.
 
 ### Usa XSDBOOL para asignar variables booleanas
