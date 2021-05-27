@@ -2215,7 +2215,6 @@ private section.
   aliases input  for legacy_interface_long_name~input  .
   aliases get_something for legacy_interface_long_name~get_something .
  ....
- ```
 ```ABAP
 get_something( changing result = input )
 ```
