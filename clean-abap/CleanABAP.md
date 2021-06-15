@@ -3153,6 +3153,8 @@ as described in [Use sub-classes to enable callers to distinguish error situatio
 CLASS cx_bad_generation_variable DEFINITION INHERITING FROM cx_generation_error.
 CLASS cx_bad_code_composer_template DEFINITION INHERITING FROM cx_generation_error.
 
+METHODS generate RAISING cx_generation_error.
+
 TRY.
     generator->generate( ).
   CATCH cx_bad_generation_variable.
