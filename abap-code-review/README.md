@@ -3,7 +3,9 @@ ABAP Code Review Guide is a collection of ideas, tools, and approaches for imple
 
 The document is provided as open source under the [CC license](../LICENSE), suggestions and bugfixes are welcome.
 
-Latest release from main can be found at [abap-code-review-guide.pdf](https://github.com/SAP/styleguides/releases/download/latest/abap-code-review-guide.pdf).
+Latest **PDF** release from main can be found at **[abap-code-review-guide.pdf](https://github.com/SAP/styleguides/releases/download/latest/abap-code-review-guide.pdf)**.
+
+Or you can start browsing the **AsciiDoc** *text* online at **[src/index.adoc](src/index.adoc)** (see also editing locally below). Caveat: PlantUML images will just be source code.
 
 ## Building Locally
 The PDF file can be built locally, if [Node.js](https://nodejs.org/en/) is installed, by running
