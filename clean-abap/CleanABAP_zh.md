@@ -3673,7 +3673,7 @@ CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's
 ```abap
 "! @testing recruting
 "! @testing candidate
-class hiring_test defintion
+class hiring_test definition
   for testing risk level dangerous duration medium
   abstract.
   ...

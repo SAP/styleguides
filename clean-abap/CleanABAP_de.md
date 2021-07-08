@@ -4002,7 +4002,7 @@ bzw. `Cmd-Shift-F12` (macOS) ausgeführt werden.
 ```abap
 "! @testing recruting
 "! @testing candidate
-class hiring_test defintion
+class hiring_test definition
   for testing risk level dangerous duration medium
   abstract.
   ...

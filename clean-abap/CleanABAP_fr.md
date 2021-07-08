@@ -3674,7 +3674,7 @@ Par conséquent, il est bénéfique d'utiliser des *relations de test* pour docu
 ```abap
 "! @testing recruting
 "! @testing candidate
-class hiring_test defintion
+class hiring_test definition
   for testing risk level dangerous duration medium
   abstract.
   ...
