@@ -191,6 +191,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Indent and snap to tab](#indent-and-snap-to-tab)
   - [Indent in-line declarations like method calls](#indent-in-line-declarations-like-method-calls)
   - [Don't align type clauses](#dont-align-type-clauses)
+  - [Don't chain assignments](#dont-chain-assignments)
 - [Testing](#testing)
   - [Principles](#principles)
     - [Write testable code](#write-testable-code)
@@ -4080,6 +4081,26 @@ Alignment also produces needless editing overhead, requiring you to adjust all i
 " anti-pattern
 DATA name   TYPE seoclsname.
 DATA reader TYPE REF TO /clean/reader.
+```
+
+### Don't chain assignments
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-chain-assignments)
+
+```abap
+var2 = var3.
+var1 = var3.
+```
+
+```abap
+var1 = xsdbool( var2 = var3 ).
+```
+
+Chained assignments usually confuse the reader. Besides, the inline declaration doesn't work in any position of a multiple assignment.
+
+```abap
+" anti-pattern
+var1 = var2 = var3.
 ```
 
 ## Testing
