@@ -2049,6 +2049,19 @@ METHOD static_method.
 ENDMETHOD.
 ```
 
+However, within an instance method, even when calling a static method of the same class, you should still qualify the call with the class name:
+
+```ABAP
+CLASS cl_my_class IMPLEMENTATION.
+
+  METHOD instance_method.
+    cl_my_class=>a_static_method( ).
+    another_instance_method( ).
+  ENDMETHOD.
+
+  ...
+```
+
 #### Prefer functional to procedural calls
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#prefer-functional-to-procedural-calls)
