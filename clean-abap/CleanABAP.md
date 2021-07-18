@@ -49,6 +49,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
   - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
   - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
+  - [Constants also need descriptive names](#constants-also-need-descriptive-names)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
@@ -863,6 +864,33 @@ ENDDO.
 ```
 
 > Read more in _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ of [Robert C. Martin's _Clean Code_].
+
+### Constants also need descriptive names
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#constants-also-need-descriptive-names)
+
+There is a historic tendency in ABAP to wrap every literal in constants with names 
+that merely repeat their content or even their type:
+```ABAP
+" anti-pattern 
+CONSTANTS: 
+  c_01 TYPE spart VALUE '01',
+  c_mmsta TYPE mmsta VALUE '90'.
+```
+There is little benefit to either variant. It is not informative for the reader, and if 
+the value ever needs to change then a constant that parrots its value must also be renamed. 
+
+If a constant is declared in code then it should describe its meaning not its content.
+```ABAP
+CONSTANTS c_status_inactive TYPE mmsta VALUE '90'.
+```
+
+Literals are also perfectly acceptable if the value is commonly understood.
+```ABAP
+SELECT count(*) FROM swwwihead
+  WHERE status = 'ERROR'
+  INTO @DATA(error_count).
+```
 
 ## Variables
 
