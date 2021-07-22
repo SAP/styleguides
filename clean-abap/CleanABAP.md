@@ -65,6 +65,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Strings](#strings)
   - [Use ` to define literals](#use--to-define-literals)
   - [Use | to assemble text](#use--to-assemble-text)
+  - [Use && to split long text](#use--to-split-long-text)
 - [Booleans](#booleans)
   - [Use Booleans wisely](#use-booleans-wisely)
   - [Use ABAP_BOOL for Booleans](#use-abap_bool-for-booleans)
@@ -111,6 +112,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Methods: Object orientation](#methods-object-orientation)
     - [Prefer instance to static methods](#prefer-instance-to-static-methods)
     - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
+    - [Use alias for using interface members](#use-alias-for-using-interface-members)
   - [Parameter Number](#parameter-number)
     - [Aim for few IMPORTING parameters, at best less than three](#aim-for-few-importing-parameters-at-best-less-than-three)
     - [Split methods instead of adding OPTIONAL parameters](#split-methods-instead-of-adding-optional-parameters)
@@ -1227,6 +1229,23 @@ especially if you embed multiple variables in a text.
 DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
 ```
 
+### Use && to split long text
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Strings](#strings) > [This section](#use--to-split-long-text)
+
+```ABAP
+DATA(message) = |This is a really long text having { variable } and characters| && 
+                |exceeding the preferred limit of { character_limit } with message { text }|.
+```
+
+If the text is long and exceeds the preferred limit of 120 characters, the text should be split 
+into multiple lines. However, pipe operator does not allow splitting texts in multiple lines.
+In such scenario, && can be used. Ideally, keep your texts short and crisp avoiding such occurence.
+```ABAP
+" anti-pattern
+DATA(message) = |This is a really long text having { variable } and characters exceeding the preferred limit of { character_limit } with message { text }|.
+```
+
 ## Booleans
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#booleans)
@@ -2222,6 +2241,29 @@ which will never have an alternative implementation and will never be mocked in 
 > [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
 describes why this also applies to classes that overwrite inherited methods.
 
+#### Use alias for using interface members 
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#use-alias-for-using-interface-members)
+
+While calling interface methods or using interface attributes, if the interface name is long, using alias is cleaner.
+
+```ABAP
+class clean_class definition ...
+public section.
+  interfaces legacy_interface_long_name.
+private section.
+  aliases result for legacy_interface_long_name~result .
+  aliases input  for legacy_interface_long_name~input  .
+  aliases get_something for legacy_interface_long_name~get_something .
+ ....
+```ABAP
+get_something( changing result = input )
+```
+
+```ABAP
+" anti-pattern
+legacy_interface_long_name~get_something( changing result = legacy_interface_long_name~input )
+```
 ### Parameter Number
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-number)
