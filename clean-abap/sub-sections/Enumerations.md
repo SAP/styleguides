@@ -101,7 +101,7 @@ ENDCLASS.
 used as
 
 ```ABAP
-IF log_contains( /clean/message_severity=>warning->value ).
+IF log_contains( /clean/message_severity=>warning ).
 ```
 
 ### Interface Pattern
