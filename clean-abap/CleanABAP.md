@@ -96,6 +96,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Members PRIVATE by default, PROTECTED only if needed](#members-private-by-default-protected-only-if-needed)
     - [Consider using immutable instead of getter](#consider-using-immutable-instead-of-getter)
     - [Use READ-ONLY sparingly](#use-read-only-sparingly)
+    - [Omit the self-reference me if not needed](#omit-the-self-reference-me-unless-needed)
   - [Constructors](#constructors)
     - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
     - [If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public](#if-your-global-class-is-create-private-leave-the-constructor-public)
@@ -109,7 +110,6 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Omit RECEIVING](#omit-receiving)
     - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
     - [Omit the parameter name in single parameter calls](#omit-the-parameter-name-in-single-parameter-calls)
-    - [Omit the self-reference me when calling an instance method](#omit-the-self-reference-me-when-calling-an-instance-method)
   - [Methods: Object orientation](#methods-object-orientation)
     - [Prefer instance to static methods](#prefer-instance-to-static-methods)
     - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
@@ -1881,6 +1881,24 @@ The difference may lead to bad surprises.
 > To avoid misunderstandings: Protecting variables against accidental modification is a good practice.
 > We would recommend applying it to ABAP as well if there was an appropriate statement.
 
+#### Omit the self-reference me if not needed
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-method)
+
+Since the self-reference `me->` is implicitly set by the system, omit it when accessing components (methods, attributes, aliases) of the current class.
+
+```ABAP
+DATA(sum) = aggregate_values( values ).
+```
+
+instead of the needlessly longer
+
+```ABAP
+" anti-pattern
+DATA(sum) = me->aggregate_values( me->values ).
+```
+
+
 ### Constructors
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#constructors)
@@ -2163,23 +2181,6 @@ and repeating the parameter name may further understandability:
 ```ABAP
 car->drive( speed = 50 ).
 update( asynchronous = abap_true ).
-```
-
-#### Omit the self-reference me when calling an instance method
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-method)
-
-Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance method
-
-```ABAP
-DATA(sum) = aggregate_values( values ).
-```
-
-instead of the needlessly longer
-
-```ABAP
-" anti-pattern
-DATA(sum) = me->aggregate_values( values ).
 ```
 
 ### Methods: Object orientation
