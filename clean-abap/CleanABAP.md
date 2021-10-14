@@ -40,6 +40,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Pick one word per concept](#pick-one-word-per-concept)
   - [Use pattern names only if you mean them](#use-pattern-names-only-if-you-mean-them)
   - [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+  - [Avoid obscuring built-in functions](#avoid-obscuring-built-in-functions)
 - [Language](#language)
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
@@ -592,6 +593,27 @@ ENDMETHOD.
 
 > [Avoid Encodings](sub-sections/AvoidEncodings.md)
 > describes the reasoning in depth.
+
+### Avoid obscuring built-in functions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-obscuring-built-in-functions)
+
+Within a class, a built-in function is always obscured by methods of the class if they have the same name, regardless of the number and type of arguments in the function. The function is also obscured regardless of the number and type of method parameters. Built-in functions are, for instance, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )`, etc. 
+
+```ABAP
+"anti-pattern
+METHODS lines RETURNING VALUE(result) TYPE i.    
+METHODS line_exists RETURNING VALUE(result) TYPE i.  
+```
+
+```ABAP
+"anti-pattern 
+CLASS-METHODS condense RETURNING VALUE(result) TYPE i.   
+CLASS-METHODS strlen RETURNING VALUE(result) TYPE i.  
+```
+
+> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-us/abenbuilt_in_functions_syntax.htm#@@ITOC@@ABENBUILT_IN_FUNCTIONS_SYNTAX_3?file=abenbuilt_in_functions_syntax.htm).
+
 
 ## Language
 
