@@ -11,7 +11,7 @@
 > [日本語](CleanABAP_ja.md)
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
-> &nbsp;·&nbsp;
+> &nbsp;·&nbsp; 
 > [한국어](CleanABAP_kr.md)
 
 이 가이드는 [ABAP](https://en.wikipedia.org/wiki/ABAP) 용
