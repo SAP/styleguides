@@ -219,7 +219,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
     - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
     - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
-    - [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable)
+    - [Don't add unit test features to productive code](#dont-add-unit-test-features-to-productive-code)
     - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
     - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
     - [Don't build test frameworks](#dont-build-test-frameworks)
@@ -4589,14 +4589,16 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't change the productive code to make the code testable
+#### Don't add unit test features to productive code
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-change-the-productive-code-to-make-the-code-testable)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont add unit test features-to-productive-code)
 
+For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding test features to product code should also be avoided.
 ```ABAP
 " anti-pattern
 IF me->in_test_mode = abap_true.
 ```
+Note that test features for intended for the end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
 
 #### Don't sub-class to mock methods
 
