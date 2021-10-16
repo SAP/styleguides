@@ -4591,7 +4591,7 @@ ENDCLASS.
 
 #### Don't add unit test features to productive code
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont add unit test features-to-productive-code)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-unit-test-features-to-productive-code)
 
 For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding test features to product code should also be avoided.
 ```ABAP
