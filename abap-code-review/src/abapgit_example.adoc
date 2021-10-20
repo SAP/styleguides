@@ -20,7 +20,7 @@ Multiple setup steps are required in the development system,
 . Connectivity from the ABAP system to Github, link:https://docs.abapgit.org/guide-ssl-setup.html[SSL setup]
 . link:https://docs.abapgit.org/ref-exits.html#create_http_client[Background user authentication]
 . Online repositories are link:https://docs.abapgit.org/guide-online-install.html[created] and linked to the development packages
-. Enable abapGit link:https://docs.abapgit.org/ref-dot-abapgit.html#write-protected[write protection] for the repos
+. Enable abapGit link:https://docs.abapgit.org/settings-local.html#write-protected[write protection] for the repos
 
 ==== Workflow
 
