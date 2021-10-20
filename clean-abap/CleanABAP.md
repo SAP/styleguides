@@ -75,6 +75,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Conditions](#conditions)
   - [Try to make conditions positive](#try-to-make-conditions-positive)
   - [Prefer IS NOT to NOT IS](#prefer-is-not-to-not-is)
+  - [Consider using predicative method calls for boolean methods](#consider-using-predicative-method-calls-for-boolean-methods)
   - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
   - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
 - [Ifs](#ifs)
@@ -1415,6 +1416,8 @@ Also as described in the section
 in the ABAP programming guidelines.
 
 ### Consider using predicative method calls for boolean methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-using-predicative-method-calls-for-boolean-methods)
 
 The predicative method call for boolean methods, e.g.
 
