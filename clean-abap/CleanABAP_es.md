@@ -339,7 +339,7 @@ con la cual esta guía es compatible en su mayor parte. Las desviaciones respect
 y son siempre con el objetivo de tener código más limpio.
 
 Esta guía también respeta las 
-[Recomendaciones de DSAG para desarrollo ABAP](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf),
+[Recomendaciones de DSAG para desarrollo ABAP](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
 aunque es más precisa en la mayoría de los casos.
 
 Desde su publicación, Clean ABAP se ha convertido en una guía de referencia para muchos

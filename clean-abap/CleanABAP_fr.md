@@ -296,7 +296,7 @@ Notre guide suit l'_esprit_ de la méthodologie Clean Code, ce qui veut dire que
 
 Certains éléments sont issus des [Directives de programmation ABAP](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm), avec lesquelles ce guide est largement compatible ; les écarts sont signalés et vont toujours dans le sens d'un code plus propre.
 
-Ce guide respecte également les [Recommandations de la DSAG pour le développement ABAP](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf), mais nous sommes plus précis dans grand nombre de détails.
+Ce guide respecte également les [Recommandations de la DSAG pour le développement ABAP](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf), mais nous sommes plus précis dans grand nombre de détails.
 
 ### Exprimer un désaccord
 
