@@ -296,7 +296,7 @@ ABAP 测试主控室、代码分析器、扩展检查和检查管理器提供了
 
 某些论据来自 [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm) 与本指南大多是兼容的；背离之处予以指明，务求符合整洁代码的精神。
 
-本指南也遵循 [DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf)，不过我们在大多数细节上更加精确。
+本指南也遵循 [DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf)，不过我们在大多数细节上更加精确。
 
 ### 表示异议之法
 

@@ -307,7 +307,7 @@ Unser Leitfaden folgt dem _Geist_ des Clean Code. Das bedeutet, wir haben einige
 
 Einige Fakten stammen aus den [ABAP-Programmierrichtlinien](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/de-DE/index.htm?file=abenabap_pgl.htm), mit denen dieser Leitfaden größtenteils kompatibel ist. Abweichungen werden explizit hervorgehoben und sind immer im Geist des Clean Code verankert.
 
-Dieser Leitfaden respektiert außerdem die [DSAG-Empfehlungen für die ABAP-Entwicklung](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf), auch wenn der vorliegende Leitfaden in den meisten Einzelheiten sehr viel präziser ist.
+Dieser Leitfaden respektiert außerdem die [DSAG-Empfehlungen für die ABAP-Entwicklung](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf), auch wenn der vorliegende Leitfaden in den meisten Einzelheiten sehr viel präziser ist.
 
 ### How-to: Kritik, Änderungsvorschläge
 
