@@ -1,5 +1,7 @@
 # SAP Code Style Guides
 
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/styleguides)](https://api.reuse.software/info/github.com/SAP/styleguides)
+
 [**Continuous Release**](#continuous-release)
 &nbsp;·&nbsp;
 [**Open Source**](#open-source)
@@ -45,7 +47,10 @@ may be easier to understand for non-jurists.
 In short, you can freely use and share this repository's content.
 You can also use it in own works, such as presentations or books,
 even commercially, as long as you give credit to this source,
-and point out your changes.
+and point out your changes. Detailed information including third-party
+components and their licensing/copyright information is available
+via the
+[REUSE tool](https://api.reuse.software/info/github.com/SAP/styleguides).
 
 [CONTRIBUTING](CONTRIBUTING.md) describes how you can contribute.
 In short, you can use GitHub's standard means to add to this repository,

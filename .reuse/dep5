@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: styleguides
+Upstream-Contact: Klaus Hauptle <klaus.haeuptle@sap.com>, Florian Hoffmann <fl.hoffmann@sap.com>
+Source: https://github.com/SAP/styleguides
+
+Files: *
+Copyright: 2019-2021 SAP SE or an SAP affiliate company and styleguides contributors
+License: CC-BY-3.0
