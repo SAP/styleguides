@@ -11,7 +11,7 @@
 > &nbsp;·&nbsp;
 > [Français](CleanABAP_fr.md)
 > &nbsp;·&nbsp;
-> [日本語](CleanABAP_ja.md)
+> [日本語](CleanABAP_ja.md) 
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
 > &nbsp;·&nbsp;
@@ -29,221 +29,221 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 ## Inhalt
 
 - [How-to](#how-to)
-    - [How-to: Erste Schritte mit Clean Code](#how-to-erste-schritte-mit-clean-code)
-    - [How-to: Refactoring von Legacy Code](#how-to-refactoring-von-legacy-code)
-    - [How-to: Automatische Prüfung](#how-to-automatische-prfung)
-    - [How-to: Weitere Leitfäden](#how-to-weitere-leitfden)
-    - [How-to: Kritik, Änderungsvorschläge](#how-to-kritik-nderungsvorschlge)
+   - [How-to: Erste Schritte mit Clean Code](#how-to-erste-schritte-mit-clean-code)
+   - [How-to: Refactoring von Legacy Code](#how-to-refactoring-von-legacy-code)
+   - [How-to: Automatische Prüfung](#how-to-automatische-prfung)
+   - [How-to: Weitere Leitfäden](#how-to-weitere-leitfden)
+   - [How-to: Kritik, Änderungsvorschläge](#how-to-kritik-nderungsvorschlge)
 - [Namen](#namen)
-    - [Aussagekräftige Namen verwenden](#aussagekrftige-namen-verwenden)
-    - [Begriffe der Lösungsdomäne und Problemdomäne bevorzugen](#begriffe-der-lsungsdomne-und-problemdomne-bevorzugen)
-    - [Plural verwenden](#plural-verwenden)
-    - [Aussprechbare Namen verwenden](#aussprechbare-namen-verwenden)
-    - [Abkürzungen vermeiden](#abkrzungen-vermeiden)
-    - [Abkürzungen konsistent verwenden](#abkrzungen-konsistent-verwenden)
-    - [Nomen für Klassen, Verben für Methoden](#nomen-fr-klassen-verben-fr-methoden)
-    - [Füllwörter wie „Daten“, „Info“, „Objekt“ vermeiden](#fllwrter-wie-daten-info-objekt-vermeiden)
-    - [Ein Wort pro Konzept wählen](#ein-wort-pro-konzept-whlen)
-    - [Musternamen nur mit Absicht verwenden](#musternamen-nur-mit-absicht-verwenden)
-    - [Codierungen vermeiden, insbes. Ungarische Notation und Präfixe](#codierungen-vermeiden-insbes-ungarische-notation-und-prfixe)
+   - [Aussagekräftige Namen verwenden](#aussagekrftige-namen-verwenden)
+   - [Begriffe der Lösungsdomäne und Problemdomäne bevorzugen](#begriffe-der-lsungsdomne-und-problemdomne-bevorzugen)
+   - [Plural verwenden](#plural-verwenden)
+   - [Aussprechbare Namen verwenden](#aussprechbare-namen-verwenden)
+   - [Abkürzungen vermeiden](#abkrzungen-vermeiden)
+   - [Abkürzungen konsistent verwenden](#abkrzungen-konsistent-verwenden)
+   - [Nomen für Klassen, Verben für Methoden](#nomen-fr-klassen-verben-fr-methoden)
+   - [Füllwörter wie „Daten“, „Info“, „Objekt“ vermeiden](#fllwrter-wie-daten-info-objekt-vermeiden)
+   - [Ein Wort pro Konzept wählen](#ein-wort-pro-konzept-whlen)
+   - [Musternamen nur mit Absicht verwenden](#musternamen-nur-mit-absicht-verwenden)
+   - [Codierungen vermeiden, insbes. Ungarische Notation und Präfixe](#codierungen-vermeiden-insbes-ungarische-notation-und-prfixe)
 - [Sprache](#sprache)
-    - [Vorsicht bei älteren ABAP-Releases](#vorsicht-bei-lteren-abap-releases)
-    - [Performance beachten](#performance-beachten)
-    - [Besser Objektorientierung als prozedurale Programmierung](#besser-objektorientierung-als-prozedurale-programmierung)
-    - [Besser funktionale als prozedurale Sprachkonstrukte](#besser-funktionale-als-prozedurale-sprachkonstrukte)
-    - [Obsolete Sprachelemente vermeiden](#obsolete-sprachelemente-vermeiden)
-    - [Entwurfsmuster mit Bedacht einsetzen](#entwurfsmuster-mit-bedacht-einsetzen)
+   - [Vorsicht bei älteren ABAP-Releases](#vorsicht-bei-lteren-abap-releases)
+   - [Performance beachten](#performance-beachten)
+   - [Besser Objektorientierung als prozedurale Programmierung](#besser-objektorientierung-als-prozedurale-programmierung)
+   - [Besser funktionale als prozedurale Sprachkonstrukte](#besser-funktionale-als-prozedurale-sprachkonstrukte)
+   - [Obsolete Sprachelemente vermeiden](#obsolete-sprachelemente-vermeiden)
+   - [Entwurfsmuster mit Bedacht einsetzen](#entwurfsmuster-mit-bedacht-einsetzen)
 - [Konstanten](#konstanten)
-    - [Konstanten statt magischer Zahlen verwenden](#konstanten-statt-magischer-zahlen-verwenden)
-    - [Besser Enumerationsklassen als Konstanten-Interfaces](#besser-enumerationsklassen-als-konstanten-interfaces)
-    - [Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten](#konstanten-gruppieren-wenn-sie-auf-enumerationsklassen-verzichten)
+   - [Konstanten statt magischer Zahlen verwenden](#konstanten-statt-magischer-zahlen-verwenden)
+   - [Besser Enumerationsklassen als Konstanten-Interfaces](#besser-enumerationsklassen-als-konstanten-interfaces)
+   - [Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten](#konstanten-gruppieren-wenn-sie-auf-enumerationsklassen-verzichten)
 - [Variablen](#variablen)
-    - [Besser Inline-Deklaration als voranstehende Deklaration](#besser-inline-deklaration-als-voranstehende-deklaration)
-    - [Keine Inline-Deklaration in optionalen Verzweigungen](#keine-inline-deklaration-in-optionalen-verzweigungen)
-    - [Keine Verkettung von voranstehenden Deklarationen](#keine-verkettung-von-voranstehenden-deklarationen)
-    - [Besser REF TO als FIELD-SYMBOL](#besser-ref-to-als-field-symbol)
+   - [Besser Inline-Deklaration als voranstehende Deklaration](#besser-inline-deklaration-als-voranstehende-deklaration)
+   - [Keine Inline-Deklaration in optionalen Verzweigungen](#keine-inline-deklaration-in-optionalen-verzweigungen)
+   - [Keine Verkettung von voranstehenden Deklarationen](#keine-verkettung-von-voranstehenden-deklarationen)
+   - [Besser REF TO als FIELD-SYMBOL](#besser-ref-to-als-field-symbol)
 - [Tabellen](#tabellen)
-    - [Korrekte Tabellenart verwenden](#korrekte-tabellenart-verwenden)
-    - [DEFAULT KEY vermeiden](#default-key-vermeiden)
-    - [Besser INSERT INTO TABLE als APPEND TO](#besser-insert-into-table-als-append-to)
-    - [Besser LINE_EXISTS als READ TABLE oder LOOP AT](#besser-line_exists-als-read-table-oder-loop-at)
-    - [Besser READ TABLE als LOOP AT](#besser-read-table-als-loop-at)
-    - [Besser LOOP AT WHERE als verschachteltes IF](#besser-loop-at-where-als-verschachteltes-if)
-    - [Überflüssige Lesezugriffe auf Tabelle vermeiden](#berflssige-lesezugriffe-auf-tabelle-vermeiden)
+   - [Korrekte Tabellenart verwenden](#korrekte-tabellenart-verwenden)
+   - [DEFAULT KEY vermeiden](#default-key-vermeiden)
+   - [Besser INSERT INTO TABLE als APPEND TO](#besser-insert-into-table-als-append-to)
+   - [Besser LINE_EXISTS als READ TABLE oder LOOP AT](#besser-line_exists-als-read-table-oder-loop-at)
+   - [Besser READ TABLE als LOOP AT](#besser-read-table-als-loop-at)
+   - [Besser LOOP AT WHERE als verschachteltes IF](#besser-loop-at-where-als-verschachteltes-if)
+   - [Überflüssige Lesezugriffe auf Tabelle vermeiden](#berflssige-lesezugriffe-auf-tabelle-vermeiden)
 - [Strings](#strings)
-    - [Literale mit ` definieren](#literale-mit--definieren)
-    - [Text mit | zusammensetzen](#text-mit--zusammensetzen)
+   - [Literale mit ` definieren](#literale-mit--definieren)
+   - [Text mit | zusammensetzen](#text-mit--zusammensetzen)
 - [Boolesche Ausdrücke](#boolesche-ausdrcke)
-    - [Boolesche Variablen mit Bedacht einsetzen](#boolesche-variablen-mit-bedacht-einsetzen)
-    - [ABAP_BOOL für boolesche Ausdrücke verwenden](#abap_bool-fr-boolesche-ausdrcke-verwenden)
-    - [ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden](#abap_true-und-abap_false-fr-vergleiche-verwenden)
-    - [XSDBOOL für boolesche Variablen verwenden](#xsdbool-fr-boolesche-variablen-verwenden)
+   - [Boolesche Variablen mit Bedacht einsetzen](#boolesche-variablen-mit-bedacht-einsetzen)
+   - [ABAP_BOOL für boolesche Ausdrücke verwenden](#abap_bool-fr-boolesche-ausdrcke-verwenden)
+   - [ABAP_TRUE und ABAP_FALSE für Vergleiche verwenden](#abap_true-und-abap_false-fr-vergleiche-verwenden)
+   - [XSDBOOL für boolesche Variablen verwenden](#xsdbool-fr-boolesche-variablen-verwenden)
 - [Bedingungen](#bedingungen)
-    - [Bedingungen nach Möglichkeit positiv definieren](#bedingungen-nach-mglichkeit-positiv-definieren)
-    - [Besser IS NOT als NOT IS](#besser-is-not-als-not-is)
-    - [Komplexe Bedingungen zerlegen](#komplexe-bedingungen-zerlegen)
-    - [Komplexe Bedingungen extrahieren](#komplexe-bedingungen-extrahieren)
+   - [Bedingungen nach Möglichkeit positiv definieren](#bedingungen-nach-mglichkeit-positiv-definieren)
+   - [Besser IS NOT als NOT IS](#besser-is-not-als-not-is)
+   - [Komplexe Bedingungen zerlegen](#komplexe-bedingungen-zerlegen)
+   - [Komplexe Bedingungen extrahieren](#komplexe-bedingungen-extrahieren)
 - [IF](#if)
-    - [Keine leeren IF-Verzweigungen](#keine-leeren-if-verzweigungen)
-    - [Bei mehreren Alternativbedingungen besser CASE als ELSE IF](#bei-mehreren-alternativbedingungen-besser-case-als-else-if)
-    - [Schachtelungstiefe so gering wie möglich halten](#schachtelungstiefe-so-gering-wie-mglich-halten)
+   - [Keine leeren IF-Verzweigungen](#keine-leeren-if-verzweigungen)
+   - [Bei mehreren Alternativbedingungen besser CASE als ELSE IF](#bei-mehreren-alternativbedingungen-besser-case-als-else-if)
+   - [Schachtelungstiefe so gering wie möglich halten](#schachtelungstiefe-so-gering-wie-mglich-halten)
 - [Reguläre Ausdrücke](#regulre-ausdrcke)
-    - [Besser einfachere Methoden als reguläre Ausdrücke](#besser-einfachere-methoden-als-regulre-ausdrcke)
-    - [Besser Basisprüfungen als reguläre Ausdrücke](#besser-basisprfungen-als-regulre-ausdrcke)
-    - [Komplexe reguläre Ausdrücke zusammensetzen](#komplexe-regulre-ausdrcke-zusammensetzen)
+   - [Besser einfachere Methoden als reguläre Ausdrücke](#besser-einfachere-methoden-als-regulre-ausdrcke)
+   - [Besser Basisprüfungen als reguläre Ausdrücke](#besser-basisprfungen-als-regulre-ausdrcke)
+   - [Komplexe reguläre Ausdrücke zusammensetzen](#komplexe-regulre-ausdrcke-zusammensetzen)
 - [Klassen](#klassen)
-    - [Klassen: Objektorientierung](#klassen-objektorientierung)
-        - [Besser Objekte als statische Klassen](#besser-objekte-als-statische-klassen)
-        - [Besser Komposition als Vererbung](#besser-komposition-als-vererbung)
-        - [Kein Mix von Stateful und Stateless in derselben Klasse](#kein-mix-von-stateful-und-stateless-in-derselben-klasse)
-    - [Scope](#scope)
-        - [Global als Standard, lokal nur im Bedarfsfall](#global-als-standard-lokal-nur-im-bedarfsfall)
-        - [FINAL, wenn keine Vererbung vorgesehen](#final-wenn-keine-vererbung-vorgesehen)
-        - [Attribute und Methoden standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED](#attribute-und-methoden-standardmig-private-nur-im-bedarfsfall-protected)
-        - [Unveränderlichkeit anstelle von Gettern erwägen](#unvernderlichkeit-anstelle-von-gettern-erwgen)
-        - [READ-ONLY sparsam verwenden](#read-only-sparsam-verwenden)
-    - [Konstruktoren](#konstruktoren)
-        - [Besser NEW als CREATE OBJECT](#besser-new-als-create-object)
-        - [Bei globaler Klasse CREATE PRIVATE lassen Sie den CONSTRUCTOR öffentlich](#bei-globaler-klasse-create-private-lassen-sie-den-constructor-ffentlich)
-        - [Besser mehrere statische Konstruktionsmethoden als optionale Parameter](#besser-mehrere-statische-konstruktionsmethoden-als-optionale-parameter)
-        - [Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
-        - [Singletons nur, wenn mehrere Instanzen keinen Sinn machen](#singletons-nur-wenn-mehrere-instanzen-keinen-sinn-machen)
+   - [Klassen: Objektorientierung](#klassen-objektorientierung)
+      - [Besser Objekte als statische Klassen](#besser-objekte-als-statische-klassen)
+      - [Besser Komposition als Vererbung](#besser-komposition-als-vererbung)
+      - [Kein Mix von Stateful und Stateless in derselben Klasse](#kein-mix-von-stateful-und-stateless-in-derselben-klasse)
+   - [Scope](#scope)
+      - [Global als Standard, lokal nur im Bedarfsfall](#global-als-standard-lokal-nur-im-bedarfsfall)
+      - [FINAL, wenn keine Vererbung vorgesehen](#final-wenn-keine-vererbung-vorgesehen)
+      - [Attribute und Methoden standardmäßig PRIVATE, nur im Bedarfsfall PROTECTED](#attribute-und-methoden-standardmig-private-nur-im-bedarfsfall-protected)
+      - [Unveränderlichkeit anstelle von Gettern erwägen](#unvernderlichkeit-anstelle-von-gettern-erwgen)
+      - [READ-ONLY sparsam verwenden](#read-only-sparsam-verwenden)
+   - [Konstruktoren](#konstruktoren)
+      - [Besser NEW als CREATE OBJECT](#besser-new-als-create-object)
+      - [Bei globaler Klasse CREATE PRIVATE lassen Sie den CONSTRUCTOR öffentlich](#bei-globaler-klasse-create-private-lassen-sie-den-constructor-ffentlich)
+      - [Besser mehrere statische Konstruktionsmethoden als optionale Parameter](#besser-mehrere-statische-konstruktionsmethoden-als-optionale-parameter)
+      - [Aussagekräftige Namen bei mehreren Erstellungsmethoden verwenden](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
+      - [Singletons nur, wenn mehrere Instanzen keinen Sinn machen](#singletons-nur-wenn-mehrere-instanzen-keinen-sinn-machen)
 - [Methoden](#methoden)
-    - [Aufrufe](#aufrufe)
-        - [Besser funktionale als prozedurale Aufrufe](#besser-funktionale-als-prozedurale-aufrufe)
-        - [RECEIVING weglassen](#receiving-weglassen)
-        - [Optionales Schlüsselwort EXPORTING weglassen](#optionales-schlsselwort-exporting-weglassen)
-        - [Parametername in einzelnen Parameteraufrufen weglassen](#parametername-in-einzelnen-parameteraufrufen-weglassen)
-        - [Eigenbezug me beim Aufruf einer Instanzmethode weglassen](#eigenbezug-me-beim-aufruf-einer-instanzmethode-weglassen)
-    - [Methoden: Objektorientierung](#methoden-objektorientierung)
-        - [Besser Instanzmethode als statische Methode](#besser-instanzmethode-als-statische-methode)
-        - [Öffentliche Instanzmethoden sollten Teil einer Schnittstelle sein](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein)
-    - [Parameteranzahl](#parameteranzahl)
-        - [So wenig IMPORTING-Parameter wie möglich, im Bestfall weniger als drei](#so-wenig-importing-parameter-wie-mglich-im-bestfall-weniger-als-drei)
-        - [Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen)
-        - [PREFERRED PARAMETER sparsam verwenden](#preferred-parameter-sparsam-verwenden)
-        - [RETURN, EXPORT oder CHANGE - nur eins davon](#return-export-oder-change---nur-eins-davon)
-    - [Parametertypen](#parametertypen)
-        - [Besser RETURNING als EXPORTING](#besser-returning-als-exporting)
-        - [RETURNING von großen Tabellen ist in der Regel okay](#returning-von-groen-tabellen-ist-in-der-regel-okay)
-        - [RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination](#returning-oder-exporting-oder-changing-verwenden-jedoch-keine-kombination)
-        - [CHANGING sparsam verwenden, wo geeignet](#changing-sparsam-verwenden-wo-geeignet)
-        - [Aufgeteilte Methode statt boolescher Eingabeparameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter)
-    - [Parameternamen](#parameternamen)
-        - [RETURNING-Parameter evtl. RESULT nennen](#returning-parameter-evtl-result-nennen)
-    - [Parameterinitialisierung](#parameterinitialisierung)
-        - [EXPORTING-Referenzparameter löschen oder überschreiben](#exporting-referenzparameter-lschen-oder-berschreiben)
-            - [Vorsicht bei identischer Ein- und Ausgabe](#vorsicht-bei-identischer-ein--und-ausgabe)
-        - [VALUE-Parameter nicht löschen](#value-parameter-nicht-lschen)
-    - [Methodenrumpf](#methodenrumpf)
-        - [Tue eine Sache, nur eine, und mache sie gut](#tue-eine-sache-nur-eine-und-mache-sie-gut)
-        - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehandlung-aber-nicht-beides-zugleich)
-        - [Eine Abstraktionsebene tiefer steigen](#eine-abstraktionsebene-tiefer-steigen)
-        - [Methoden klein halten](#methoden-klein-halten)
-    - [Kontrollfluss](#kontrollfluss)
-        - [Früh scheitern](#frh-scheitern)
-        - [CHECK vs. RETURN](#check-vs-return)
-        - [CHECK an anderer Stelle vermeiden](#check-an-anderer-stelle-vermeiden)
+   - [Aufrufe](#aufrufe)
+      - [Besser funktionale als prozedurale Aufrufe](#besser-funktionale-als-prozedurale-aufrufe)
+      - [RECEIVING weglassen](#receiving-weglassen)
+      - [Optionales Schlüsselwort EXPORTING weglassen](#optionales-schlsselwort-exporting-weglassen)
+      - [Parametername in einzelnen Parameteraufrufen weglassen](#parametername-in-einzelnen-parameteraufrufen-weglassen)
+      - [Eigenbezug me beim Aufruf einer Instanzmethode weglassen](#eigenbezug-me-beim-aufruf-einer-instanzmethode-weglassen)
+   - [Methoden: Objektorientierung](#methoden-objektorientierung)
+      - [Besser Instanzmethode als statische Methode](#besser-instanzmethode-als-statische-methode)
+      - [Öffentliche Instanzmethoden sollten Teil einer Schnittstelle sein](#ffentliche-instanzmethoden-sollten-teil-einer-schnittstelle-sein)
+   - [Parameteranzahl](#parameteranzahl)
+      - [So wenig IMPORTING-Parameter wie möglich, im Bestfall weniger als drei](#so-wenig-importing-parameter-wie-mglich-im-bestfall-weniger-als-drei)
+      - [Besser Methoden aufteilen als OPTIONAL-Parameter hinzufügen](#besser-methoden-aufteilen-als-optional-parameter-hinzufgen)
+      - [PREFERRED PARAMETER sparsam verwenden](#preferred-parameter-sparsam-verwenden)
+      - [RETURN, EXPORT oder CHANGE - nur eins davon](#return-export-oder-change---nur-eins-davon)
+   - [Parametertypen](#parametertypen)
+      - [Besser RETURNING als EXPORTING](#besser-returning-als-exporting)
+      - [RETURNING von großen Tabellen ist in der Regel okay](#returning-von-groen-tabellen-ist-in-der-regel-okay)
+      - [RETURNING oder EXPORTING oder CHANGING verwenden, jedoch keine Kombination](#returning-oder-exporting-oder-changing-verwenden-jedoch-keine-kombination)
+      - [CHANGING sparsam verwenden, wo geeignet](#changing-sparsam-verwenden-wo-geeignet)
+      - [Aufgeteilte Methode statt boolescher Eingabeparameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter)
+   - [Parameternamen](#parameternamen)
+      - [RETURNING-Parameter evtl. RESULT nennen](#returning-parameter-evtl-result-nennen)
+   - [Parameterinitialisierung](#parameterinitialisierung)
+      - [EXPORTING-Referenzparameter löschen oder überschreiben](#exporting-referenzparameter-lschen-oder-berschreiben)
+         - [Vorsicht bei identischer Ein- und Ausgabe](#vorsicht-bei-identischer-ein--und-ausgabe)
+      - [VALUE-Parameter nicht löschen](#value-parameter-nicht-lschen)
+   - [Methodenrumpf](#methodenrumpf)
+      - [Tue eine Sache, nur eine, und mache sie gut](#tue-eine-sache-nur-eine-und-mache-sie-gut)
+      - [Glücklicher Pfad oder Fehlerbehebung, nicht Beides](#glcklicher-pfad-oder-fehlerbehandlung-aber-nicht-beides-zugleich)
+      - [Eine Abstraktionsebene tiefer steigen](#eine-abstraktionsebene-tiefer-steigen)
+      - [Methoden klein halten](#methoden-klein-halten)
+   - [Kontrollfluss](#kontrollfluss)
+      - [Früh scheitern](#frh-scheitern)
+      - [CHECK vs. RETURN](#check-vs-return)
+      - [CHECK an anderer Stelle vermeiden](#check-an-anderer-stelle-vermeiden)
 - [Fehlerbehandlung](#fehlerbehandlung)
-    - [Meldungen](#meldungen)
-        - [Nachrichten leicht auffindbar machen](#nachrichten-leicht-auffindbar-machen)
-    - [Rückgabecodes](#rckgabecodes)
-        - [Ausnahmen statt Rückgabecodes](#ausnahmen-statt-rckgabecodes)
-        - [Alle Fehler abfangen](#alle-fehler-abfangen)
-    - [Ausnahmen](#ausnahmen)
-        - [Ausnahmen sind für Fehler gedacht, nicht für den Normalfall](#ausnahmen-sind-fr-fehler-gedacht-nicht-fr-den-normalfall)
-        - [Klassenbasierte Ausnahmen verwenden](#klassenbasierte-ausnahmen-verwenden)
-    - [Ausnahme absetzen](#ausnahme-absetzen)
-        - [Eigene übergeordnete Klassen verwenden](#eigene-bergeordnete-klassen-verwenden)
-        - [Nur einen Ausnahmetyp werfen](#nur-einen-ausnahmetyp-werfen)
-        - [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen)
-        - [CX_STATIC_CHECK für behandelbare Ausnahmen absetzen](#cx_static_check-fr-behandelbare-ausnahmen-absetzen)
-        - [CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen](#cx_no_check-fr-gewhnlich-nicht-behebbare-situationen-absetzen)
-        - [CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen](#cx_dynamic_check-fr-vermeidbare-ausnahmen-absetzen)
-        - [Dump für schwerwiegende, nicht behebbare Situationen absetzen](#dump-fr-schwerwiegende-nicht-behebbare-situationen-absetzen)
-        - [Besser RAISE EXCEPTION NEW als RAISE EXCEPTION TYPE](#besser-raise-exception-new-als-raise-exception-type)
-    - [Ausnahmen abfangen](#ausnahmen-abfangen)
-        - [Externe Ausnahmen umschließen, um das Eindringen in Ihren Code zu verhindern](#externe-ausnahmen-umschlieen-um-das-eindringen-in-ihren-code-zu-verhindern)
+   - [Meldungen](#meldungen)
+      - [Nachrichten leicht auffindbar machen](#nachrichten-leicht-auffindbar-machen)
+   - [Rückgabecodes](#rckgabecodes)
+      - [Ausnahmen statt Rückgabecodes](#ausnahmen-statt-rckgabecodes)
+      - [Alle Fehler abfangen](#alle-fehler-abfangen)
+   - [Ausnahmen](#ausnahmen)
+      - [Ausnahmen sind für Fehler gedacht, nicht für den Normalfall](#ausnahmen-sind-fr-fehler-gedacht-nicht-fr-den-normalfall)
+      - [Klassenbasierte Ausnahmen verwenden](#klassenbasierte-ausnahmen-verwenden)
+   - [Ausnahme absetzen](#ausnahme-absetzen)
+      - [Eigene übergeordnete Klassen verwenden](#eigene-bergeordnete-klassen-verwenden)
+      - [Nur einen Ausnahmetyp werfen](#nur-einen-ausnahmetyp-werfen)
+      - [Übersichtlichere Fehlersituationen mit untergeordneten Klassen](#bersichtlichere-fehlersituationen-mit-untergeordneten-klassen)
+      - [CX_STATIC_CHECK für behandelbare Ausnahmen absetzen](#cx_static_check-fr-behandelbare-ausnahmen-absetzen)
+      - [CX_NO_CHECK für gewöhnlich nicht behebbare Situationen absetzen](#cx_no_check-fr-gewhnlich-nicht-behebbare-situationen-absetzen)
+      - [CX_DYNAMIC_CHECK für vermeidbare Ausnahmen absetzen](#cx_dynamic_check-fr-vermeidbare-ausnahmen-absetzen)
+      - [Dump für schwerwiegende, nicht behebbare Situationen absetzen](#dump-fr-schwerwiegende-nicht-behebbare-situationen-absetzen)
+      - [Besser RAISE EXCEPTION NEW als RAISE EXCEPTION TYPE](#besser-raise-exception-new-als-raise-exception-type)
+   - [Ausnahmen abfangen](#ausnahmen-abfangen)
+      - [Externe Ausnahmen umschließen, um das Eindringen in Ihren Code zu verhindern](#externe-ausnahmen-umschlieen-um-das-eindringen-in-ihren-code-zu-verhindern)
 - [Kommentare](#kommentare)
-    - [In Code ausdrücken, nicht in Kommentaren](#in-code-ausdrcken-nicht-in-kommentaren)
-    - [Kommentare sind keine Ausrede für schlechte Namenswahl](#kommentare-sind-keine-ausrede-fr-schlechte-namenswahl)
-    - [Methoden statt Kommentaren zur Code-Segmentierung verwenden](#methoden-statt-kommentaren-zur-code-segmentierung-verwenden)
-    - [Mit Kommentaren das Warum, nicht das Was erläutern](#mit-kommentaren-das-warum-nicht-das-was-erlutern)
-    - [Design gehört in das Design-Dokument, nicht in den Code](#design-gehrt-in-das-design-dokument-nicht-in-den-code)
-    - [Kommentare mit ", nicht mit * markieren](#kommentare-mit--nicht-mit--markieren)
-    - [Kommentare gehören vor die Anweisung, auf die sie sich beziehen](#kommentare-gehren-vor-die-anweisung-auf-die-sie-sich-beziehen)
-    - [Code löschen, nicht kommentieren](#code-lschen-nicht-kommentieren)
-    - [FIXME, TODO und XXX verwenden, und Ihre ID hinzufügen](#fixme-todo-und-xxx-verwenden-und-ihre-id-hinzufgen)
-    - [Kein Kommentar zu Methodensignatur und Ende](#kein-kommentar-zu-methodensignatur-und-ende)
-    - [Meldungstexte nicht in Kommentaren wiederholen](#meldungstexte-nicht-in-kommentaren-wiederholen)
-    - [ABAP Doc nur für öffentliche APIs](#abap-doc-nur-fr-ffentliche-apis)
-    - [Besser Pragmas als Pseudokommentare](#besser-pragmas-als-pseudokommentare)
+   - [In Code ausdrücken, nicht in Kommentaren](#in-code-ausdrcken-nicht-in-kommentaren)
+   - [Kommentare sind keine Ausrede für schlechte Namenswahl](#kommentare-sind-keine-ausrede-fr-schlechte-namenswahl)
+   - [Methoden statt Kommentaren zur Code-Segmentierung verwenden](#methoden-statt-kommentaren-zur-code-segmentierung-verwenden)
+   - [Mit Kommentaren das Warum, nicht das Was erläutern](#mit-kommentaren-das-warum-nicht-das-was-erlutern)
+   - [Design gehört in das Design-Dokument, nicht in den Code](#design-gehrt-in-das-design-dokument-nicht-in-den-code)
+   - [Kommentare mit ", nicht mit * markieren](#kommentare-mit--nicht-mit--markieren)
+   - [Kommentare gehören vor die Anweisung, auf die sie sich beziehen](#kommentare-gehren-vor-die-anweisung-auf-die-sie-sich-beziehen)
+   - [Code löschen, nicht kommentieren](#code-lschen-nicht-kommentieren)
+   - [FIXME, TODO und XXX verwenden, und Ihre ID hinzufügen](#fixme-todo-und-xxx-verwenden-und-ihre-id-hinzufgen)
+   - [Kein Kommentar zu Methodensignatur und Ende](#kein-kommentar-zu-methodensignatur-und-ende)
+   - [Meldungstexte nicht in Kommentaren wiederholen](#meldungstexte-nicht-in-kommentaren-wiederholen)
+   - [ABAP Doc nur für öffentliche APIs](#abap-doc-nur-fr-ffentliche-apis)
+   - [Besser Pragmas als Pseudokommentare](#besser-pragmas-als-pseudokommentare)
 - [Formatierungen](#formatierungen)
-    - [Konsistent sein](#konsistent-sein)
-    - [Zum Lesen optimieren, nicht zum Schreiben](#zum-lesen-optimieren-nicht-zum-schreiben)
-    - [Pretty Printer vor der Aktivierung verwenden](#pretty-printer-vor-der-aktivierung-verwenden)
-    - [Ihre Pretty-Printer-Teameinstellungen verwenden](#ihre-pretty-printer-teameinstellungen-verwenden)
-    - [Maximal eine Anweisung pro Zeile](#maximal-eine-anweisung-pro-zeile)
-    - [Vernünftige Zeilenlänge einhalten](#vernnftige-zeilenlnge-einhalten)
-    - [Ihren Code kondensieren](#ihren-code-kondensieren)
-    - [Nur eine Leerzeile zum Trennen](#nur-eine-leerzeile-zum-trennen)
-    - [Keine exzessiven Leerzeilen](#keine-exzessiven-leerzeilen)
-    - [Zuordnung zum selben Objekt verdeutlichen](#zuordnung-zum-selben-objekt-verdeutlichen)
-    - [Klammern am Zeilenende schließen](#klammern-am-zeilenende-schlieen)
-    - [Einzelne Parameteraufrufe auf einer Zeile belassen](#einzelne-parameteraufrufe-auf-einer-zeile-belassen)
-    - [Parameter hinter dem Aufruf angeben](#parameter-hinter-dem-aufruf-angeben)
-    - [Bei Zeilenumbruch Parameter unter dem Aufruf einrücken](#bei-zeilenumbruch-parameter-unter-dem-aufruf-einrcken)
-    - [Zeilenumbruch bei mehreren Parametern](#zeilenumbruch-bei-mehreren-parametern)
-    - [Parameter anordnen](#parameter-anordnen)
-    - [Aufruf auf eine neue Zeile umbrechen, wenn die Zeile zu lang wird](#aufruf-auf-eine-neue-zeile-umbrechen-wenn-die-zeile-zu-lang-wird)
-    - [Einrücken und Tabulator verwenden](#einrcken-und-tabulator-verwenden)
-    - [Inline-Deklarationen wie Methodenaufrufe einrücken](#inline-deklarationen-wie-methodenaufrufe-einrcken)
-    - [Type-Klauseln nicht ausrichten](#type-klauseln-nicht-ausrichten)
+   - [Konsistent sein](#konsistent-sein)
+   - [Zum Lesen optimieren, nicht zum Schreiben](#zum-lesen-optimieren-nicht-zum-schreiben)
+   - [Pretty Printer vor der Aktivierung verwenden](#pretty-printer-vor-der-aktivierung-verwenden)
+   - [Ihre Pretty-Printer-Teameinstellungen verwenden](#ihre-pretty-printer-teameinstellungen-verwenden)
+   - [Maximal eine Anweisung pro Zeile](#maximal-eine-anweisung-pro-zeile)
+   - [Vernünftige Zeilenlänge einhalten](#vernnftige-zeilenlnge-einhalten)
+   - [Ihren Code kondensieren](#ihren-code-kondensieren)
+   - [Nur eine Leerzeile zum Trennen](#nur-eine-leerzeile-zum-trennen)
+   - [Keine exzessiven Leerzeilen](#keine-exzessiven-leerzeilen)
+   - [Zuordnung zum selben Objekt verdeutlichen](#zuordnung-zum-selben-objekt-verdeutlichen)
+   - [Klammern am Zeilenende schließen](#klammern-am-zeilenende-schlieen)
+   - [Einzelne Parameteraufrufe auf einer Zeile belassen](#einzelne-parameteraufrufe-auf-einer-zeile-belassen)
+   - [Parameter hinter dem Aufruf angeben](#parameter-hinter-dem-aufruf-angeben)
+   - [Bei Zeilenumbruch Parameter unter dem Aufruf einrücken](#bei-zeilenumbruch-parameter-unter-dem-aufruf-einrcken)
+   - [Zeilenumbruch bei mehreren Parametern](#zeilenumbruch-bei-mehreren-parametern)
+   - [Parameter anordnen](#parameter-anordnen)
+   - [Aufruf auf eine neue Zeile umbrechen, wenn die Zeile zu lang wird](#aufruf-auf-eine-neue-zeile-umbrechen-wenn-die-zeile-zu-lang-wird)
+   - [Einrücken und Tabulator verwenden](#einrcken-und-tabulator-verwenden)
+   - [Inline-Deklarationen wie Methodenaufrufe einrücken](#inline-deklarationen-wie-methodenaufrufe-einrcken)
+   - [Type-Klauseln nicht ausrichten](#type-klauseln-nicht-ausrichten)
 - [Test](#test)
-    - [Grundlagen](#grundlagen)
-        - [Testbaren Code schreiben](#testbaren-code-schreiben)
-        - [Ermöglichen Sie anderen, Test-Doubles zu verwenden](#ermglichen-sie-anderen-test-doubles-zu-verwenden)
-        - [Regeln für die Lesbarkeit](#regeln-fr-die-lesbarkeit)
-        - [Keine Kopien oder Testreports](#keine-kopien-oder-testreports)
-        - [Nur PUBLIC-Anteile testen](#nur-public-anteile-testen)
-        - [Nicht von der Code Coverage verrückt machen lassen](#nicht-von-der-code-coverage-verrckt-machen-lassen)
-    - [Testklassen](#testklassen)
-        - [Lokale Testklassen nach ihrem Zweck benennen](#lokale-testklassen-nach-ihrem-zweck-benennen)
-        - [Tests im lokalen Test-Include unterbringen](#tests-im-lokalen-test-include-unterbringen)
-        - [Hilfsmethoden in Hilfsklassen extrahieren](#hilfsmethoden-in-hilfsklassen-extrahieren)
-        - [Testklassen ausführen](#testklassen-ausfhren)
-    - [Getesteter Code](#getesteter-code)
-        - [Sinnvolle Code-Namen oder Standardname CUT](#sinnvolle-code-namen-oder-standardname-cut)
-        - [Schnittstellen testen, nicht Klassen](#schnittstellen-testen-nicht-klassen)
-        - [Aufruf des Code-Under-Test in eigene Methode extrahieren](#aufruf-des-code-under-test-in-eigene-methode-extrahieren)
-    - [Injection](#injection)
-        - [Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden](#abhngigkeitsumkehr-zum-einbringen-von-testattrappen-verwenden)
-        - [ABAP-Testattrappe verwenden](#abap-testattrappe-verwenden)
-        - [Von Test-Tools unterstützen lassen](#von-test-tools-untersttzen-lassen)
-        - [Testseams als temporäre Behelfslösung verwenden](#testseams-als-temporre-behelfslsung-verwenden)
-        - [Mit LOCAL FRIENDS auf Abhängigkeitsumkehr-Konstruktor zugreifen](#mit-local-friends-auf-abhngigkeitsumkehr-konstruktor-zugreifen)
-        - [LOCAL FRIENDS nicht zum Eindringen in den getesteten Code missbrauchen](#local-friends-nicht-zum-eindringen-in-den-getesteten-code-missbrauchen)
-        - [Produktiven Code nicht zugunsten Testbarkeit ändern](#produktiven-code-nicht-zugunsten-testbarkeit-ndern)
-        - [Keine Unterklassen zum Nachstellen von Methoden](#keine-unterklassen-zum-nachstellen-von-methoden)
-        - [Nichts Unnötiges nachstellen](#nichts-unntiges-nachstellen)
-        - [Keine Test-Frameworks aufbauen](#keine-test-frameworks-aufbauen)
-    - [Testmethoden](#testmethoden)
-        - [Testmethodennamen: was ist gegeben, was wird erwartet](#testmethodennamen-was-ist-gegeben-was-wird-erwartet)
-        - [Given/When/Then verwenden](#givenwhenthen-verwenden)
-        - [„When“ ist genau ein Aufruf](#when-ist-genau-ein-aufruf)
-        - [TEARDOWN nur, wenn es sein muss](#teardown-nur-wenn-es-sein-muss)
-    - [Testdaten](#testdaten)
-        - [Einfach erkennbare Bedeutung](#einfach-erkennbare-bedeutung)
-        - [Einfach erkennbare Abweichungen](#einfach-erkennbare-abweichungen)
-        - [Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden](#konstanten-zur-beschreibung-von-zweck-und-bedeutung-der-testdaten-verwenden)
-    - [Assertions](#Assertions)
-        - [Wenige, fokussierte Assertions](#wenige-fokussierte-Assertions)
-        - [Korrekten Assertion-Typ verwenden](#korrekten-assertion-typ-verwenden)
-        - [Inhalt, nicht Menge validieren](#inhalt-nicht-menge-validieren)
-        - [Qualität, nicht Inhalt validieren](#qualitt-nicht-inhalt-validieren)
-        - [FAIL zum Prüfen erwarteter Ausnahmen verwenden](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
-        - [Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
-        - [Angepasste Assertions: Code verkürzen, Doppeltes vermeiden](#angepasste-Assertions-code-verkrzen-doppeltes-vermeiden)
+   - [Grundlagen](#grundlagen)
+      - [Testbaren Code schreiben](#testbaren-code-schreiben)
+      - [Ermöglichen Sie anderen, Test-Doubles zu verwenden](#ermglichen-sie-anderen-test-doubles-zu-verwenden)
+      - [Regeln für die Lesbarkeit](#regeln-fr-die-lesbarkeit)
+      - [Keine Kopien oder Testreports](#keine-kopien-oder-testreports)
+      - [Nur PUBLIC-Anteile testen](#nur-public-anteile-testen)
+      - [Nicht von der Code Coverage verrückt machen lassen](#nicht-von-der-code-coverage-verrckt-machen-lassen)
+   - [Testklassen](#testklassen)
+      - [Lokale Testklassen nach ihrem Zweck benennen](#lokale-testklassen-nach-ihrem-zweck-benennen)
+      - [Tests im lokalen Test-Include unterbringen](#tests-im-lokalen-test-include-unterbringen)
+      - [Hilfsmethoden in Hilfsklassen extrahieren](#hilfsmethoden-in-hilfsklassen-extrahieren)
+      - [Testklassen ausführen](#testklassen-ausfhren)
+   - [Getesteter Code](#getesteter-code)
+      - [Sinnvolle Code-Namen oder Standardname CUT](#sinnvolle-code-namen-oder-standardname-cut)
+      - [Schnittstellen testen, nicht Klassen](#schnittstellen-testen-nicht-klassen)
+      - [Aufruf des Code-Under-Test in eigene Methode extrahieren](#aufruf-des-code-under-test-in-eigene-methode-extrahieren)
+   - [Injection](#injection)
+      - [Abhängigkeitsumkehr zum Einbringen von Testattrappen verwenden](#abhngigkeitsumkehr-zum-einbringen-von-testattrappen-verwenden)
+      - [ABAP-Testattrappe verwenden](#abap-testattrappe-verwenden)
+      - [Von Test-Tools unterstützen lassen](#von-test-tools-untersttzen-lassen)
+      - [Testseams als temporäre Behelfslösung verwenden](#testseams-als-temporre-behelfslsung-verwenden)
+      - [Mit LOCAL FRIENDS auf Abhängigkeitsumkehr-Konstruktor zugreifen](#mit-local-friends-auf-abhngigkeitsumkehr-konstruktor-zugreifen)
+      - [LOCAL FRIENDS nicht zum Eindringen in den getesteten Code missbrauchen](#local-friends-nicht-zum-eindringen-in-den-getesteten-code-missbrauchen)
+      - [Produktiven Code nicht zugunsten Testbarkeit ändern](#produktiven-code-nicht-zugunsten-testbarkeit-ndern)
+      - [Keine Unterklassen zum Nachstellen von Methoden](#keine-unterklassen-zum-nachstellen-von-methoden)
+      - [Nichts Unnötiges nachstellen](#nichts-unntiges-nachstellen)
+      - [Keine Test-Frameworks aufbauen](#keine-test-frameworks-aufbauen)
+   - [Testmethoden](#testmethoden)
+      - [Testmethodennamen: was ist gegeben, was wird erwartet](#testmethodennamen-was-ist-gegeben-was-wird-erwartet)
+      - [Given/When/Then verwenden](#givenwhenthen-verwenden)
+      - [„When“ ist genau ein Aufruf](#when-ist-genau-ein-aufruf)
+      - [TEARDOWN nur, wenn es sein muss](#teardown-nur-wenn-es-sein-muss)
+   - [Testdaten](#testdaten)
+      - [Einfach erkennbare Bedeutung](#einfach-erkennbare-bedeutung)
+      - [Einfach erkennbare Abweichungen](#einfach-erkennbare-abweichungen)
+      - [Konstanten zur Beschreibung von Zweck und Bedeutung der Testdaten verwenden](#konstanten-zur-beschreibung-von-zweck-und-bedeutung-der-testdaten-verwenden)
+   - [Assertions](#Assertions)
+      - [Wenige, fokussierte Assertions](#wenige-fokussierte-Assertions)
+      - [Korrekten Assertion-Typ verwenden](#korrekten-assertion-typ-verwenden)
+      - [Inhalt, nicht Menge validieren](#inhalt-nicht-menge-validieren)
+      - [Qualität, nicht Inhalt validieren](#qualitt-nicht-inhalt-validieren)
+      - [FAIL zum Prüfen erwarteter Ausnahmen verwenden](#fail-zum-prfen-erwarteter-ausnahmen-verwenden)
+      - [Unerwartete Ausnahmen nicht vergeblich abfangen, sondern weiterleiten](#unerwartete-ausnahmen-nicht-vergeblich-abfangen-sondern-weiterleiten)
+      - [Angepasste Assertions: Code verkürzen, Doppeltes vermeiden](#angepasste-Assertions-code-verkrzen-doppeltes-vermeiden)
 
 ## How-to
 
@@ -278,17 +278,17 @@ besser ignoriert werden.
 Wir haben mit einem Vier-Schritte-Plan für das Refactoring gute Ergebnisse erzielt:
 
 1. Holen Sie das Team an Bord. Kommunizieren und erläutern Sie den neuen Stil, und stellen Sie sicher, dass jedes Mitglied des Projektteams damit einverstanden ist.
-   Sie müssen nicht alle Richtlinien auf einmal festschreiben. Beginnen Sie einfach mit einem kleinen unstrittigen Teilbereich und entwickeln Sie sich von dort aus weiter.
+Sie müssen nicht alle Richtlinien auf einmal festschreiben. Beginnen Sie einfach mit einem kleinen unstrittigen Teilbereich und entwickeln Sie sich von dort aus weiter.
 
 2. Befolgen Sie in Ihrer täglichen Arbeitsroutine die _Pfadfinderregel_ „Verlasse den Campingplatz sauberer als du ihn vorgefunden hast“, in Bezug auf Clean Code _Hinterlassen Sie den Code immer besser, als Sie ihn vorgefunden haben_.
-   Übertreiben Sie es nicht, indem Sie stundenlang „den gesamten Campingplatz aufräumen“.
-   Wenden Sie einfach ein paar Minuten zusätzlich auf und beobachten Sie,
-   wie sich die Verbesserungen im Zeitverlauf akkumulieren.
+Übertreiben Sie es nicht, indem Sie stundenlang „den gesamten Campingplatz aufräumen“.
+Wenden Sie einfach ein paar Minuten zusätzlich auf und beobachten Sie,
+wie sich die Verbesserungen im Zeitverlauf akkumulieren.
 
 3. Bauen Sie von Zeit zu Zeit _saubere Inseln_ auf: Wählen Sie ein kleines Objekt oder eine kleine Komponente aus und versuchen Sie, dieses Objekt oder die Komponente in allen Aspekten „sauber“ zu machen. Diese Inseln demonstrieren den Nutzen von dem, was Sie tun, und bilden eine zuverlässig getestete Basis für das weitere Refactoring.
 
 4. Sprechen Sie drüber. Ganz gleich, ob Sie [Fagan-Code-Inspektionen](https://en.wikipedia.org/wiki/Fagan_inspection) alter Schule aufsetzen, oder Info-Sessions bzw. Forumsdiskussionen in Ihrem bevorzugten Chat Tool veranstalten:
-   Sie müssen über Ihre Erfahrungen und das Gelernte sprechen, damit in Ihrem Team ein gemeinsames Verständnis wachsen kann.
+Sie müssen über Ihre Erfahrungen und das Gelernte sprechen, damit in Ihrem Team ein gemeinsames Verständnis wachsen kann.
 
 ### How-to: Automatische Prüfung
 
@@ -704,7 +704,7 @@ ENDINTERFACE.
 > [Enumerationen](sub-sections/Enumerations.md)
 > beschreibt allgemeine Enumerationsmuster
 > und erläutert ihre Vor- und Nachteile.
->
+> 
 > Mehr erfahren Sie in _Kapitel 17: Smells und Heuristiken: J3: Konstanten im Gegensatz zu Enums_ in [Robert C. Martins _Clean Code_].
 
 ### Konstanten gruppieren, wenn Sie auf Enumerationsklassen verzichten
@@ -788,7 +788,7 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Variablen](#variablen) > [Dieser Abschnitt](#keine-inline-deklaration-in-optionalen-verzweigungen)
 
-Das Beispiel
+Das Beispiel 
 ```ABAP
 " Anti-Pattern
 IF has_entries = abap_true.
@@ -877,7 +877,7 @@ Code-Reviews zeigen, dass Programmierer gerne wechselweise beides einsetzen, aus
 - `HASHED`-Tabellen passen in der Regel für **große Tabellen**, die in einem **einzigen Schritt befüllt**, **nie modifiziert** und **häufig anhand ihres Schlüssels gelesen** werden. Ihr inhärenter Speicher- und Verarbeitungsaufwand macht Hash-Tabellen nur bei großen Datenmengen und häufigen Lesezugriffen sinnvoll. Jede Änderung des Tabelleninhalts erfordert eine kostenintensive Neuberechnung des Hashes. Somit ist diese Tabellenart ungeeignet für Tabellen, die häufig geändert werden.
 
 - `SORTED`-Tabellen nutzen Sie üblicherweise für **umfangreiche Tabellen**, die **nach und nach gefüllt werden**, **ständig sortiert** oder **modifiziert werden müssen** und **häufig anhand eines oder mehrerer Ganz- oder Teilschlüssel gelesen** oder **in einer bestimmten Reihenfolge** verarbeitet werden.
-  Das Hinzufügen, Ändern oder Löschen von Inhalt setzt voraus, dass zunächst die richtige Stelle zum Einfügen gefunden wird, jedoch muss der Rest des Tabellenindizes nicht angepasst werden. Sortierte Tabellen erweisen sich nur bei einer großen Anzahl von Lesezugriffen als wertvoll.
+Das Hinzufügen, Ändern oder Löschen von Inhalt setzt voraus, dass zunächst die richtige Stelle zum Einfügen gefunden wird, jedoch muss der Rest des Tabellenindizes nicht angepasst werden. Sortierte Tabellen erweisen sich nur bei einer großen Anzahl von Lesezugriffen als wertvoll.
 
 - Verwenden Sie `STANDARD`-Tabellen für **kleine Tabellen**, deren Indizierung mehr Aufwand als Nutzen erzeugt, und **Arrays**, bei denen die Reihenfolge der Zeilen entweder überhaupt keine Rolle spielt, oder die Sie genau in der Reihenfolge verarbeiten möchten, in der sie vorliegen. Diese Tabellen sind auch dann geeignet, wenn unterschiedliche Tabellenzugriffe erforderlich sind, z.B. indizierter Zugriff und sortierter Zugriff mit `SORT` und `BINARY SEARCH`.
 
@@ -1566,7 +1566,7 @@ Da ABAP auf Include-Ebene sperrt, können an den verschiedenen Teilen des lokale
 - Ihre globalen Klassen zu leeren Hülsen degenerieren,
 - Sie doppelten Code über separate lokale Includes hinweg wiederholt finden,
 - Ihre Entwickler beginnen, sich gegenseitig auszusperren, und zunehmend unfähig werden, parallel zu arbeiten,
-- Ihre Backlog-Schätzung durch die Decke geht, weil Ihre Teams die lokalen Includes der jeweils anderen Teams nicht mehr verstehen
+- Ihre Backlog-Schätzung durch die Decke geht, weil Ihre Teams die lokalen Includes der jeweils anderen Teams nicht mehr verstehen 
 
 #### FINAL, wenn keine Vererbung vorgesehen
 
@@ -1755,9 +1755,9 @@ in mehrschrittige Konstruktionen mit dem [Entwurfsmuster Erbauer (Builder)](http
 > [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Konstruktoren](#konstruktoren) > [Dieser Abschnitt](#aussagekrftige-namen-bei-mehreren-erstellungsmethoden-verwenden)
 
 Geeignete Anfangswörter für solche Methoden sind `new_`, `create_` und `construct_`.
-Sie werden intuitiv mit dem Aufbau von Objekten
-und sind außerdem eine gute Ergänzung von Verbalphrasen
-wie `new_from_template`, `create_as_copy` oder `create_by_name`.
+Sie werden intuitiv mit dem Aufbau von Objekten 
+ und sind außerdem eine gute Ergänzung von Verbalphrasen
+ wie `new_from_template`, `create_as_copy` oder `create_by_name`.
 
 ```ABAP
 CLASS-METHODS new_describe_by_data IMPORTING p_data TYPE any [...]
@@ -2809,7 +2809,7 @@ Ausnahmen haben gegenüber Rückgabecodes viele Vorteile:
 
 - Der Aufrufer muss nicht sofort auf sie reagieren. Er kann einfach den glücklichen Pfad seines Codes herunterschreiben. Die Ausnahmebehandlung `CATCH` kann sich ganz am Ende dieser Methode oder völlig außerhalb befinden.
 
-- Die Attribute und Methoden von Ausnahmen können Details zu dem Fehler liefern. Rückgabecodes erfordern, dass Sie sich selbst eine Alternativlösung ausdenken, wie z.B. die Rückgabe eines Protokolls.
+- Die Attribute und Methoden von Ausnahmen können Details zu dem Fehler liefern. Rückgabecodes erfordern, dass Sie sich selbst eine Alternativlösung ausdenken, wie z.B. die Rückgabe eines Protokolls. 
 
 - Die Umgebung erinnert den Aufrufer mit Syntaxfehlern daran, Ausnahmen zu bearbeiten. Rückgabecodes können versehentlich ignoriert werden, ohne dass es jemand bemerkt.
 
@@ -2940,7 +2940,7 @@ Der Aufrufer ist gewöhnlich weder geneigt noch in der Lage,
 die Fehlersituationen auseinanderzuhalten.
 Er wird sie daher in der Regel alle auf dieselbe Weise beheben,
 wodurch der Sinn der ursprünglichen Unterscheidung dieser Fehler
-zunichte gemacht wird.
+zunichte gemacht wird. 
 
 ```ABAP
 " Anti-Pattern
@@ -3099,7 +3099,7 @@ Hinweis: ab NW 7.52 verfügbar.
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
 
-ist im Allgemeinen kürzer als das überflüssigerweise längere
+ist im Allgemeinen kürzer als das überflüssigerweise längere 
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
@@ -3917,7 +3917,7 @@ und automatisieren Sie solche Reports als Unit Tests.
 Die Unit Tests werden Sie am Ende eh schreiben wollen,
 es ist also keineswegs Zeitverschwendung.
 Als Bonus bekommen Sie sogar noch Shortcuts (Strg+Shift+F10)
-und jede Menge Tools (nächtliche Ausführung, Code Coverage) geschenkt.
+und jede Menge Tools (nächtliche Ausführung, Code Coverage) geschenkt. 
 
 #### Nur PUBLIC-Anteile testen
 
@@ -3992,7 +3992,7 @@ Bringen Sie die Unit Tests im lokalen Test-Include der getesteten Klasse unter.
 Hierdurch wird sichergestellt, dass diese Tests beim Refactoring der Klasse wiedergefunden werden und alle verbundenen Tests mit einem einzigen Tastendruck ausgeführt werden können, wie in [Testklassen ausführen](#testklassen-ausfhren) beschrieben.
 
 Bringen Sie Komponenten-, Integrations- und Systemtests
-im lokalen Test-Include einer separaten globalen Klasse unter.
+im lokalen Test-Include einer separaten globalen Klasse unter. 
 Sie beziehen sich nicht direkt auf eine einzelne getestete Klasse, daher sollten sie nicht willkürlich in eine der beteiligten Klassen gestellt werden, sondern in eine getrennte Klasse.
 Kennzeichnen Sie diese globale Testklasse als `FOR TESTING` und `ABSTRACT`, um zu vermeiden, dass sie versehentlich im Produktionscode referenziert wird.
 Wenn Tests in andere Klassen gestellt werden, besteht die Gefahr, dass sie übersehen und beim Refactoring der beteiligten Klassen vergessen werden.
@@ -4188,7 +4188,7 @@ ENDMETHOD.
 ```
 
 Verwenden Sie auch keine FRIENDS-Injection.
-Sie initialisiert produktive Abhängigkeiten, bevor diese ersetzt werden, mit wahrscheinlich unerwarteten Folgen.
+Sie initialisiert produktive Abhängigkeiten, bevor diese ersetzt werden, mit wahrscheinlich unerwarteten Folgen. 
 Sie funktioniert nicht mehr, sobald Sie Interna umbenennen.
 Außerdem verhindert sie Initialisierungen im Konstruktor.
 
@@ -4334,7 +4334,7 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
 
 Um Legacy-Code unter Test zu bekommen,
 [greifen Sie besser auf Testseams zurück](#testseams-als-temporre-behelfslsung-verwenden).
-Sie sind zwar ebenso fragil, ändern aber wenigstens
+Sie sind zwar ebenso fragil, ändern aber wenigstens 
 das produktive Verhalten der Klassen nicht,
 weil sie weder `FINAL`s entfernen noch
 Methoden-Scopes von `PRIVATE` in `PROTECTED` ändern müssen.
@@ -4360,7 +4360,7 @@ Definieren Sie die Voraussetzungen Ihres Tests („given“)
 so präzise wie möglich: Legen Sie keine Daten fest,
 die Ihr Test nicht benötigt, und stellen Sie keine Objekte nach,
 die nie aufgerufen werden
-Diese Dinge lenken den Leser nur unnötig vom eigentlichen Geschehen ab.
+ Diese Dinge lenken den Leser nur unnötig vom eigentlichen Geschehen ab.
 
 ```ABAP
 " Anti-Pattern
@@ -4618,7 +4618,7 @@ assert_contains_exactly( actual   = table
 Schreiben Sie keine Magische-Zahlen-Mengen-Assertions,
 wenn Sie den tatsächlichen Inhalt benennen können, den Sie erwarten.
 Zahlen können abweichen, obwohl Ihre Erwartungen trotzdem erfüllt werden.
-Umgekehrt können die Zahlen stimmen, obwohl der Inhalt etwas völlig Unerwartetes ist.
+Umgekehrt können die Zahlen stimmen, obwohl der Inhalt etwas völlig Unerwartetes ist. 
 
 ```ABAP
 " Anti-Pattern

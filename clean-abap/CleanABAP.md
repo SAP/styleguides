@@ -300,29 +300,29 @@ where mixing styles could cause confusion, for example:
 - Mixing `REF TO` and `FIELD-SYMBOL` when looping.
 - Mixing `NEW` and `CREATE OBJECT` when calling a `CONSTRUCTOR`.
 - Mixing `RETURNING` and `EXPORTING` in the method signatures of
-  methods only returning / exporting one parameter.
+methods only returning / exporting one parameter.
 
 We observed good results with a four-step plan for refactoring:
 
 1. Get the team aboard. Communicate and explain the new style,
-   and get everybody on the project team to agree to it.
-   You don't need to commit all guidelines at once, just start
-   with an undisputed small subset and evolve from there.
+and get everybody on the project team to agree to it.
+You don't need to commit all guidelines at once, just start
+with an undisputed small subset and evolve from there.
 
 2. Follow the _boy scout rule_ to your daily work routine:
-   _always leave the code you edit a little cleaner than you found it_.
-   Don't obsess with this by sinking hours into "cleaning the campsite",
-   just spend a couple of minutes extra and observe how the
-   improvements accumulate over time.
+_always leave the code you edit a little cleaner than you found it_.
+Don't obsess with this by sinking hours into "cleaning the campsite",
+just spend a couple of minutes extra and observe how the
+improvements accumulate over time.
 
 3. Build _clean islands_: from time to time, pick a small object or component and
-   try to make it clean in all aspects. These islands demonstrate the benefit
-   of what you're doing and form solidly tested home bases for further refactoring.
+try to make it clean in all aspects. These islands demonstrate the benefit
+of what you're doing and form solidly tested home bases for further refactoring.
 
 4. Talk about it. No matter whether you set up old-school [Fagan code reviews](https://en.wikipedia.org/wiki/Fagan_inspection),
-   hold info sessions, or form discussion boards in your favorite chat tool:
-   you will need to talk about your experiences and learnings, to enable the
-   team to grow a common understanding.
+hold info sessions, or form discussion boards in your favorite chat tool:
+you will need to talk about your experiences and learnings, to enable the
+team to grow a common understanding.
 
 ### How to Check Automatically
 
@@ -997,16 +997,16 @@ and thus should be replaced with well-founded, precise decisions.
 Our recommendation is based on this reasoning:
 
 - Field symbols can do some things that references cannot, such as dynamically accessing the components of a structure.
-  Likewise, references can do things that field symbols can't, such as constructing a dynamically typed data structure.
-  In summary, settling for one alone is not possible.
+Likewise, references can do things that field symbols can't, such as constructing a dynamically typed data structure.
+In summary, settling for one alone is not possible.
 
 - In object-oriented ABAP, references are all over the place and cannot be avoided,
-  as any object is a `REF TO <class-name>`.
-  In contrast, field symbols are only strictly required in few, special cases concerned with dynamic typing.
-  References thus form a natural preference in any object-oriented program.
+as any object is a `REF TO <class-name>`.
+In contrast, field symbols are only strictly required in few, special cases concerned with dynamic typing.
+References thus form a natural preference in any object-oriented program.
 
 - Field symbols are shorter than references, but the resulting memory saving is so tiny that it can be safely neglected.
-  Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
+Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
 
 > Read more in the article
 > [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
@@ -1020,18 +1020,18 @@ Our recommendation is based on this reasoning:
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#use-the-right-table-type)
 
 - You typically use `HASHED` tables for **large tables**
-  that are **filled in a single step**, **never modified**, and **read often by their key**.
-  Their inherent memory and processing overhead makes hash tables only valuable
-  for large amounts of data and lots of read accesses.
-  Each change to the table's content requires expensive recalculation of the hash,
-  so don't use this for tables that are modified too often.
+that are **filled in a single step**, **never modified**, and **read often by their key**.
+Their inherent memory and processing overhead makes hash tables only valuable
+for large amounts of data and lots of read accesses.
+Each change to the table's content requires expensive recalculation of the hash,
+so don't use this for tables that are modified too often.
 
 - You typically use `SORTED` tables for **large tables**
-  that need to be **sorted at all times**, that are **filled bit by bit** or **need to be modified**,
-  and **read often by one or more full or partial keys** or processed **in a certain order**.
-  Adding, changing, or removing content requires finding the right insertion spot,
-  but doesn't require adjusting the rest of the table's index.
-  Sorted tables demonstrate their value only for large numbers of read accesses.
+that need to be **sorted at all times**, that are **filled bit by bit** or **need to be modified**,
+and **read often by one or more full or partial keys** or processed **in a certain order**.
+Adding, changing, or removing content requires finding the right insertion spot,
+but doesn't require adjusting the rest of the table's index.
+Sorted tables demonstrate their value only for large numbers of read accesses.
 
 - Use `STANDARD` tables for **small tables**, where indexing produces more overhead than benefit, and **"arrays"**, where you either don't care at all for the order of the rows, or you want to process them in exactly the order they were appended. Also, if different access to the table is needed e.g. indexed access and sorted access via `SORT` and `BINARY SEARCH`.
 
@@ -1051,8 +1051,8 @@ Default keys are often only added to get the newer functional statements working
 The keys themselves in fact are usually superfluous and waste resources for nothing.
 They can even lead to obscure mistakes because they ignore numeric data types.
 The `SORT` and `DELETE ADJACENT` statements without explicit field list will resort to the primary key of the
-internal table, which in case of usage of `DEFAULT KEY` can lead to very unexpected results when having
-e.g. numeric fields as component of the key, in particular in combination with `READ TABLE ... BINARY` etc.
+ internal table, which in case of usage of `DEFAULT KEY` can lead to very unexpected results when having
+ e.g. numeric fields as component of the key, in particular in combination with `READ TABLE ... BINARY` etc.
 
 Either specify the key components explicitly
 
@@ -1067,7 +1067,7 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 ```
 
 > Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
->
+> 
 > **Caution:** `SORT` on internal tables with `EMPTY KEY` (without explicit sort fields) will not sort at all,
 > but syntax warnings are issued in case the key's emptiness can be determined statically.
 
@@ -1758,22 +1758,22 @@ Use local classes only where appropriate.
 Local classes are suited
 
 - for very specific private data structures,
-  for example an iterator for the global class's data,
-  which will only ever be needed here,
+for example an iterator for the global class's data,
+which will only ever be needed here,
 
 - to extract a complex private piece algorithm,
-  for example to disentangle that special purpose multi-method
-  sort-aggregate algorithm from the rest of your class's code,
+for example to disentangle that special purpose multi-method
+sort-aggregate algorithm from the rest of your class's code,
 
 - to enable mocking certain aspects of the global class,
-  for example by extracing all database access to a separate local class
-  that can the be replaced with a test double in the unit tests.
+for example by extracing all database access to a separate local class
+that can the be replaced with a test double in the unit tests.
 
 Local classes hinder reuse because they cannot be used elsewhere.
 Although they are easy to extract, people will usually fail to even find them,
 leading to undesired code duplication.
 Orientation, navigation, and debugging in very long local class includes
-is tedious and annoying.
+is tedious and annoying. 
 As ABAP locks on include level, people will not be able to work on
 different parts of the local include simultaneously
 (which would be possible if they were separate global classes).
@@ -3046,18 +3046,18 @@ ENDMETHOD.
 Exceptions have multiple advantages over return codes:
 
 - Exceptions keep your method signatures clean:
-  you can return the result of the method as a `RETURNING` parameter and still throw exceptions alongside.
-  Return codes pollute your signatures with additional parameters for error handling.
+you can return the result of the method as a `RETURNING` parameter and still throw exceptions alongside.
+Return codes pollute your signatures with additional parameters for error handling.
 
 - The caller doesn't have to react to them immediately.
-  He can simply write down the happy path of his code.
-  The exception-handling `CATCH` can be at the very end of his method, or completely outside.
+He can simply write down the happy path of his code.
+The exception-handling `CATCH` can be at the very end of his method, or completely outside.
 
 - Exceptions can provide details on the error in their attributes and through methods.
-  Return codes require you to devise a different solution on your own, such as also returning a log.
+Return codes require you to devise a different solution on your own, such as also returning a log.
 
 - The environment reminds the caller with syntax errors to handle exceptions.
-  Return codes can be accidentally ignored without anybody noticing.
+Return codes can be accidentally ignored without anybody noticing.
 
 #### Don't let failures slip through
 
@@ -3706,7 +3706,7 @@ not enforce writing ABAP Doc for each and everything.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#prefer-pragmas-to-pseudo-comments)
 
-Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments
+Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments 
 have mostly become obsolete and have been replaced by pragmas.
 
 ```ABAP
@@ -3717,7 +3717,7 @@ MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 MESSAGE e001(ad) INTO DATA(message). "#EC NEEDED
 ```
 
-Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that
+Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that 
 have replaced them.
 
 ## Formatting
@@ -4220,11 +4220,11 @@ An urgent need to test private or protected methods may be an early warning sign
 Ask yourself:
 
 - Did you accidentally bury a concept in your class that wants to come out into its own class,
-  with its own dedicated suite of tests?
+with its own dedicated suite of tests?
 
 - Did you forget to separate the domain logic from the glue code?
-  For example, implementing the domain logic directly in the class that is plugged into BOPF as an action,
-  determination, or validation, or that was generated by SAP Gateway as a `*_DPC_EXT` data provider, may not the best idea.
+For example, implementing the domain logic directly in the class that is plugged into BOPF as an action,
+determination, or validation, or that was generated by SAP Gateway as a `*_DPC_EXT` data provider, may not the best idea.
 
 - Are your interfaces too complicated and request too much data that is irrelevant or that cannot be mocked easily?
 
@@ -4304,7 +4304,7 @@ endclass.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-help-methods-in-help-classes)
 
-Put help methods used by several test classes in a help class. Make the help methods available through
+Put help methods used by several test classes in a help class. Make the help methods available through 
 inheritance (is-a relationship) or delegation (has-a relationship).
 
 ```abap
@@ -4531,10 +4531,10 @@ However, there are tools that will allow you
 to tackle trickier cases in elegant ways:
 
 - Use the `CL_OSQL_REPLACE` service
-  to test complex OpenSQL statements
-  by redirecting them to a test data bin
-  that can be filled with test data
-  without interfering with the rest of the system.
+to test complex OpenSQL statements
+by redirecting them to a test data bin
+that can be filled with test data
+without interfering with the rest of the system.
 
 - Use the CDS test framework to test your CDS views.
 
