@@ -2,26 +2,23 @@
 
 > [**Español**](CleanABAP_es.md)
 > &nbsp;·&nbsp;
-> [English](../../styleguides4/clean-abap/CleanABAP.md)
+> [English](CleanABAP.md)
 > &nbsp;·&nbsp;
-> [中文](../../styleguides4/clean-abap/CleanABAP_zh.md)
+> [中文](CleanABAP_zh.md)
 > &nbsp;·&nbsp;
-> [Français](../../styleguides4/clean-abap/CleanABAP_fr.md)
+> [Français](CleanABAP_fr.md)
 > &nbsp;·&nbsp;
-> [Deutsch](../../styleguides4/clean-abap/CleanABAP_de.md)
+> [Deutsch](CleanABAP_de.md)
 > &nbsp;·&nbsp;
-> [日本語](../../styleguides4/clean-abap/CleanABAP_ja.md)
+> [日本語](CleanABAP_ja.md)
 > &nbsp;·&nbsp;
-> [한국어](../../styleguides4/clean-abap/CleanABAP_kr.md)
-
+> [한국어](CleanABAP_kr.md)
 
 
 Esta guía fue adaptada en base a [_Clean Code_ por Robert C. Martin] 
 para [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
-
-La [Cheat Sheet](../../styleguides4/clean-abap/cheat-sheet/CheatSheet.md) es una versión optimizada para impresión.
-
+La [Cheat Sheet](cheat-sheet/CheatSheet.md) es una versión optimizada para impresión.
 
 [_Clean Code_ por Robert C. Martin]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
@@ -366,7 +363,7 @@ Eres libre de discutir y estar en desacuerdo con cualquier cosa que decimos aqu�
 Uno de los pilares de Clean Code es que _el equipo manda_. Solo asegúrate de 
 darle a cada cosa una oportunidad justa antes de descartarla.
 
-[CONTRIBUTING.md](../../styleguides4/CONTRIBUTING.md) sugiere maneras en que puedes cambiar esta guía o desviarte de ella en detalles menores. Toda contribución o discusión se lleva a cabo en inglés.
+[CONTRIBUTING.md](../CONTRIBUTING.md) sugiere maneras en que puedes cambiar esta guía o desviarte de ella en detalles menores. Toda contribución o discusión se lleva a cabo en inglés.
 
 ## Nomenclatura
 
@@ -582,9 +579,7 @@ METHOD add_two_numbers.
 ENDMETHOD.
 ```
 
-
-> [Evita codificaciones](../../styleguides4/clean-abap/sub-sections/AvoidEncodings.md)
-
+> [Evita codificaciones](sub-sections/AvoidEncodings.md)
 > describe el razonamiento a detalle.
 
 ## Lenguaje
@@ -652,9 +647,7 @@ FUNCTION check_business_partner [...].
 ENDFUNCTION.
 ```
 
-
-> [Grupos de funciones vs. Clases](../../styleguides4/clean-abap/sub-sections/FunctionGroupsVsClasses.md)
-
+> [Grupos de funciones vs. Clases](sub-sections/FunctionGroupsVsClasses.md)
 > describe la diferencia a detalle.
 
 ### Prefiere sentencias funcionales a procedurales
@@ -812,8 +805,7 @@ INTERFACE /dirty/common_constants.
 ENDINTERFACE.
 ```
 
-> [Enumeraciones](../../styleguides4/clean-abap/sub-sections/Enumerations.md)
-
+> [Enumeraciones](sub-sections/Enumerations.md)
 > describe patrones comunes de enumeración
 > y discute sus ventajas y desventajas.
 >
@@ -1702,9 +1694,7 @@ Hay buenas applicaciones para herencia, por ejemplo el
 Solo pregúntate críticamente si la herencia en tu caso realmente proveerá más beneficios que desventajas.
 Si tienes duda, la composición es generalmente la opción más segura.
 
-
-> [Interfaces vs. clases abstractas](../../styleguides4/clean-abap/sub-sections/InterfacesVsAbstractClasses.md)
-
+> [Interfaces vs. clases abstractas](sub-sections/InterfacesVsAbstractClasses.md)
 compara algunos detalles.
 
 #### No mezcles lógica stateful y stateless en la misma clase
@@ -2241,8 +2231,7 @@ En la orientación a objetos limpia, tener un método público sin una interfaz 
 sentido - con algunas excepciones como clases de enumeración, que nunca tendrán
 una implementación alterna y nunca se les creará un mock.
 
-> [Interfaces vs. clases abstractas](../../styleguides4/clean-abap/sub-sections/InterfacesVsAbstractClasses.md)
-
+> [Interfaces vs. clases abstractas](sub-sections/InterfacesVsAbstractClasses.md)
 describe porque esto aplica también a las clases que sobre-escriben métodos heredados.
 
 ### Número de parámetros
@@ -3325,8 +3314,7 @@ de la situación de error.
 > Esto está en sincronización con las [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
 > pero contradice [_Código Limpio_ por Robert C. Martin],
 > que recomienda preferir excepciones sin revisión;
-
-> [Excepciones](../../styleguides4/clean-abap/sub-sections/Exceptions.md) explica por qué.
+> [Excepciones](sub-sections/Exceptions.md) explica por qué.
 
 #### Lanza CX_NO_CHECK para situaciones de las que típicamente no se puede recuperar
 
@@ -3893,9 +3881,7 @@ _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
 Configura _Indent_ y _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
 según se haya acordado en tu equipo.
 
-
-> [Mayúsculas vs. Minúsculas](../../styleguides4/clean-abap/sub-sections/UpperVsLowerCase.md) explica 
-
+> [Mayúsculas vs. Minúsculas](sub-sections/UpperVsLowerCase.md) explica 
 > por qué no damos una guía clara sobre este tema.
 >
 > Lee más en _Capítulo 5: Formato: Reglas de equipo_ de [_Código Limpio_ por Robert C. Martin].

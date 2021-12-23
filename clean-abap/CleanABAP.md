@@ -14,7 +14,6 @@
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
 
-
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
 for [ABAP](https://en.wikipedia.org/wiki/ABAP).
