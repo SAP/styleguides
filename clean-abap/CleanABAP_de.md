@@ -14,6 +14,8 @@
 > [日本語](CleanABAP_ja.md) 
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
+> &nbsp;·&nbsp;
+> [한국어](CleanABAP_kr.md)
 
 Dieser Leitfaden ist eine Adaption des Standardwerks [Robert C. Martins _Clean Code_]
 an [ABAP](https://de.wikipedia.org/wiki/ABAP).
