@@ -305,7 +305,7 @@ ABAP テストコックピット、コードインスペクタ、拡張チェッ
 
 いくつかの要素は [ABAP プログラミングガイドライン](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm) から引用されており、このガイドはガイドラインとほとんど互換性があります。逸脱は示され、常によりクリーンなコードの精神に基づいています。
 
-このガイドでは、[ABAP 開発に関する DSAG の推奨事項](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf) も尊重していますが、ほとんどの詳細についてはより正確な情報を提供しています。
+このガイドでは、[ABAP 開発に関する DSAG の推奨事項](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf) も尊重していますが、ほとんどの詳細についてはより正確な情報を提供しています。
 
 発行以来、クリーン ABAP は、S/4HANA に取り組む数百人の開発者を含む多くの SAP 社内開発チームのリファレンスガイドとなっています。
 
@@ -892,7 +892,7 @@ ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
   ソートされたテーブルは、多数の読み取りアクセスに対してのみその価値を発揮します。
 
 - `STANDARD` テーブルは、インデックスを作成すると利点よりもオーバーヘッドが大きくなるような**小さなテーブル**や、行の順序をまったく気にしないか、追加された順に正確に処理したい **「配列」** テーブルに使用します。
-また、テーブルへの異なるアクセスが必要な場合、例えば、インデックス付きアクセスや `SORT` や `BINARY SEARCH` によるソートされたアクセスがあります。
+  また、テーブルへの異なるアクセスが必要な場合、例えば、インデックス付きアクセスや `SORT` や `BINARY SEARCH` によるソートされたアクセスがあります。
 
 > これらはあくまでも大まかなガイドラインです。
 > 詳細はこの記事 [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm) を参照してください。
@@ -2797,7 +2797,7 @@ ENDMETHOD.
 - 呼び出し側はすぐに反応する必要はありません。
   シンプルに自分のコードの正常系処理を書けばいいのです。
   例外処理の `CATCH` は、メソッドの最後にあってもいいし、完全にメソッドの外側にあってもいいのです。
-  
+
 - 例外は、その属性やメソッドを通じてエラーの詳細を提供することができます。
   リターンコードでは、ログも返すなど、独自に別の解決策を考案する必要があります。
 
@@ -3548,7 +3548,7 @@ DATA do_this TYPE i. do_this = input + 3.
 
 行の長さは最大120文字までとしてください。
 
-人間の目は、行の幅が広すぎない方が快適にテキストを読みます - 
+人間の目は、行の幅が広すぎない方が快適にテキストを読みます -
 UI デザイナーや目の動きの研究者に聞いてみてください。
 また、デバッグや隣り合った2つのソースを比較する際には、コードの幅が狭い方がありがたいと感じるでしょう。
 
@@ -3991,7 +3991,7 @@ CLASS ltc_test DEFINITION FOR TESTING ....                      " もちろん�
 ```abap
 "! @testing recruting
 "! @testing candidate
-class hiring_test defintion
+class hiring_test definition
   for testing risk level dangerous duration medium
   abstract.
   ...
