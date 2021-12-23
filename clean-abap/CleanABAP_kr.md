@@ -1,6 +1,11 @@
+> Translated from [English original on 14.10.2021](https://github.com/SAP/styleguides/tree/72ecf7fd7d41151d5bbca29020d4ec9de953db8c).
+> Latest version [in English](CleanABAP.md).
+> 
 # Clean ABAP
 
-> [**English**](CleanABAP.md)
+> [**한국어**](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [English](CleanABAP.md)
 > &nbsp;·&nbsp;
 > [中文](CleanABAP_zh.md)
 > &nbsp;·&nbsp;
@@ -11,8 +16,7 @@
 > [日本語](CleanABAP_ja.md)
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
-> &nbsp;·&nbsp; 
-> [한국어](CleanABAP_kr.md)
+
 
 이 가이드는 [ABAP](https://en.wikipedia.org/wiki/ABAP) 용
 [로버트 마틴의 _Clean Code_]라는 책과 관련이 있습니다.
