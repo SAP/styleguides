@@ -77,6 +77,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Conditions](#conditions)
   - [Try to make conditions positive](#try-to-make-conditions-positive)
   - [Prefer IS NOT to NOT IS](#prefer-is-not-to-not-is)
+  - [Consider using predicative method calls for boolean methods](#consider-using-predicative-method-calls-for-boolean-methods)
   - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
   - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
 - [Ifs](#ifs)
@@ -1415,6 +1416,25 @@ IF NOT variable = 42.
 Also as described in the section
 [Alternative Language Constructs](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
 in the ABAP programming guidelines.
+
+### Consider using predicative method calls for boolean methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-using-predicative-method-calls-for-boolean-methods)
+
+The predicative method call for boolean methods, e.g.
+
+```ABAP
+IF [ NOT ] condition_is_fulfilled( ).
+```
+
+is not just very compact, but it also allows to keep the code closer to natural language as the comparison expression:
+
+```ABAP
+" anti-pattern
+IF condition_is_fulfilled( ) = abap_true / abap_false.
+```
+
+Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
 
 ### Consider decomposing complex conditions
 
