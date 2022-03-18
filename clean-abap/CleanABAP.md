@@ -3400,9 +3400,9 @@ However, if you make massive use of the addition `MESSAGE`, you may want to stic
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
+  MESSAGE e136(messages)
   EXPORTING
-    previous = exception
-  MESSAGE e136(messages).
+    previous = exception.
 ```
 
 ### Catching
