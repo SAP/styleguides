@@ -113,7 +113,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Omit RECEIVING](#omit-receiving)
     - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
     - [Omit the parameter name in single parameter calls](#omit-the-parameter-name-in-single-parameter-calls)
-    - [Omit the self-reference me when calling an instance method](#omit-the-self-reference-me-when-calling-an-instance-method)
+    - [Omit the self-reference me when calling an instance attribute or method](#omit-the-self-reference-me-when-calling-an-instance-attribute-or-method)
   - [Methods: Object orientation](#methods-object-orientation)
     - [Prefer instance to static methods](#prefer-instance-to-static-methods)
     - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
@@ -2209,11 +2209,11 @@ car->drive( speed = 50 ).
 update( asynchronous = abap_true ).
 ```
 
-#### Omit the self-reference me when calling an instance method
+#### Omit the self-reference me when calling an instance attribute or method
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-method)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-attribute-or-method)
 
-Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance method
+Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance attribute or method
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
@@ -2223,7 +2223,18 @@ instead of the needlessly longer
 
 ```ABAP
 " anti-pattern
+DATA(sum) = aggregate_values( me->values ).
+```
+
+```ABAP
+" anti-pattern
 DATA(sum) = me->aggregate_values( values ).
+```
+
+unless there is a scope conflict between a local variable or importing parameter and an instance attribute
+
+```ABAP
+me->logger = logger.
 ```
 
 ### Methods: Object orientation
