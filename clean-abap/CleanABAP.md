@@ -1724,7 +1724,7 @@ compares some details.
 
 #### Don't mix stateful and stateless in the same class
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#dont-mix-stateful-and-stateless-in-the-same-class)
 
 Don't mix the stateless and the stateful
 programming paradigms in the same class.
