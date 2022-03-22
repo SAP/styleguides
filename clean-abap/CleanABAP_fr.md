@@ -1427,7 +1427,7 @@ Ne laissez pas cette règle vous décourager d'utiliser de l'héritage quand c'e
 
 #### Ne mélangez pas des paradigmes avec statut et sans statut dans la même classe
 
-> [Coder proprement avec ABAP](#coder-proprement-avec-abap) > [Table des matières](#table-des-matières) > [Classes](#constructeurs) > [Classes : orientation objet](#classes-:-orientation-objet)
+> [Coder proprement avec ABAP](#coder-proprement-avec-abap) > [Table des matières](#table-des-matières) > [Classes](#constructeurs) > [Classes : orientation objet](#classes-:-orientation-objet) > [Cette section](#ne-mélangez-pas-des-paradigmes-avec-statut-et-sans-statut-dans-la-même-classe)
 
 Ne mélangez pas des paradigmes de programmation avec statut et sans statut dans la même classe.
 
