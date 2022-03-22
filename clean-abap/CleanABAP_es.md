@@ -1699,7 +1699,7 @@ compara algunos detalles.
 
 #### No mezcles lógica stateful y stateless en la misma clase
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Clases: Orientación a objetos](#clases-orientación-a-objetos) > [Esta sección] > (#no-mezcles-lógica-stateful-y-stateless-en-la-misma-clase)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Clases: Orientación a objetos](#clases-orientación-a-objetos) > [Esta sección](#no-mezcles-lógica-stateful-y-stateless-en-la-misma-clase)
 
 No mezcles los paradigmas de programación stateless y stateful 
 en la misma clase.
