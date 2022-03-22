@@ -1483,7 +1483,7 @@ vergleicht einige Details.
 
 #### Kein Mix von Stateful und Stateless in derselben Klasse
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung) > [Dieser Abschnitt](#kein-mix-von-stateful-und-stateless-in-derselben-klasse)
 
 Vermischen Sie die Stateless- und Stateful-Programmiermodelle nicht in derselben Klasse.
 
