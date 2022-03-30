@@ -4187,20 +4187,18 @@ DATA reader TYPE REF TO /clean/reader.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-chain-assignments)
 
 ```abap
-var2 = var3.
-var1 = var3.
-```
-
-```abap
-var1 = xsdbool( var2 = var3 ).
+" anti-pattern
+var1 = var2 = var3.
 ```
 
 Chained assignments usually confuse the reader. Besides, the inline declaration doesn't work in any position of a multiple assignment.
 
 ```abap
-" anti-pattern
-var1 = var2 = var3.
+var2 = var3.
+var1 = var3.
 ```
+
+Furthermore, the anti-pattern looks ambiguous because `=` is used for comparisons and assignments in ABAP. It looks similar to how other programming languages implement comparisons, for example `a = ( b == c )` in JavaScript. 
 
 ## Testing
 
