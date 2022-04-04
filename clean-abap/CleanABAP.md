@@ -4198,7 +4198,7 @@ var2 = var3.
 var1 = var3.
 ```
 
-Furthermore, the anti-pattern looks ambiguous because `=` is used for comparisons and assignments in ABAP. It looks similar to how other programming languages implement comparisons, for example `a = ( b == c )` in JavaScript. 
+Furthermore, the anti-pattern looks ambiguous because `=` is used for comparisons and assignments in ABAP. It looks similar to how other programming languages implement comparisons, for example `a = ( b == c )` in JavaScript. [Use `xsdbool` for comparisons.](#use-xsdbool-to-set-boolean-variables)
 
 ## Testing
 
