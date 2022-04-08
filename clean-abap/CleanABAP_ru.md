@@ -19,7 +19,7 @@
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
 
-Это руководство является адаптацией книги  
+Это руководство является адаптацией книги 
 [Robert C. Martin's _Clean Code_]
 для [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
