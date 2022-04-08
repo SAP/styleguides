@@ -13,6 +13,8 @@
 > [Español](CleanABAP_es.md)
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
