@@ -1,6 +1,11 @@
-# Clean ABAP
+> Переведено с [оригинала на английском от 18.03.2022](https://github.com/SAP/styleguides/tree/67dbe274548b8843d3807f0cc98b4655aa2c441b).
+> Последняя версия [на английском](CleanABAP.md).
 
-> [**English**](CleanABAP.md)
+# Чистый ABAP
+
+> [**Русский**](CleanABAP_ru.md)
+> &nbsp;·&nbsp;
+> [English](CleanABAP.md)
 > &nbsp;·&nbsp;
 > [中文](CleanABAP_zh.md)
 > &nbsp;·&nbsp;
@@ -14,380 +19,375 @@
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
 
-This guide is an adoption of
+Это руководство является адаптацией книги  
 [Robert C. Martin's _Clean Code_]
-for [ABAP](https://en.wikipedia.org/wiki/ABAP).
+для [ABAP](https://en.wikipedia.org/wiki/ABAP).
 
-The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
+[Шпаргалка](cheat-sheet/CheatSheet.md) - это версия, оптимизированная для печати.
 
 [Robert C. Martin's _Clean Code_]: https://www.oreilly.com/library/view/clean-code/9780136083238/
 
-## Content
+## Содержание
 
-- [How to](#how-to)
-  - [How to Get Started with Clean Code](#how-to-get-started-with-clean-code)
-  - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
-  - [How to Check Automatically](#how-to-check-automatically)
-  - [How to Relate to Other Guides](#how-to-relate-to-other-guides)
-  - [How to Disagree](#how-to-disagree)
-- [Names](#names)
-  - [Use descriptive names](#use-descriptive-names)
-  - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
-  - [Use plural](#use-plural)
-  - [Use pronounceable names](#use-pronounceable-names)
-  - [Avoid abbreviations](#avoid-abbreviations)
-  - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
-  - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
-  - [Avoid noise words such as "data", "info", "object"](#avoid-noise-words-such-as-data-info-object)
-  - [Pick one word per concept](#pick-one-word-per-concept)
-  - [Use pattern names only if you mean them](#use-pattern-names-only-if-you-mean-them)
-  - [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
-  - [Avoid obscuring built-in functions](#avoid-obscuring-built-in-functions)
-- [Language](#language)
-  - [Mind the legacy](#mind-the-legacy)
-  - [Mind the performance](#mind-the-performance)
-  - [Prefer object orientation to procedural programming](#prefer-object-orientation-to-procedural-programming)
-  - [Prefer functional to procedural language constructs](#prefer-functional-to-procedural-language-constructs)
-  - [Avoid obsolete language elements](#avoid-obsolete-language-elements)
-  - [Use design patterns wisely](#use-design-patterns-wisely)
-- [Constants](#constants)
-  - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
-  - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
-  - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
-- [Variables](#variables)
-  - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
-  - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
-  - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
-- [Tables](#tables)
-  - [Use the right table type](#use-the-right-table-type)
-  - [Avoid DEFAULT KEY](#avoid-default-key)
-  - [Prefer INSERT INTO TABLE to APPEND TO](#prefer-insert-into-table-to-append-to)
-  - [Prefer LINE_EXISTS to READ TABLE or LOOP AT](#prefer-line_exists-to-read-table-or-loop-at)
-  - [Prefer READ TABLE to LOOP AT](#prefer-read-table-to-loop-at)
-  - [Prefer LOOP AT WHERE to nested IF](#prefer-loop-at-where-to-nested-if)
-  - [Avoid unnecessary table reads](#avoid-unnecessary-table-reads)
-- [Strings](#strings)
-  - [Use ` to define literals](#use--to-define-literals)
-  - [Use | to assemble text](#use--to-assemble-text)
-- [Booleans](#booleans)
-  - [Use Booleans wisely](#use-booleans-wisely)
-  - [Use ABAP_BOOL for Booleans](#use-abap_bool-for-booleans)
-  - [Use ABAP_TRUE and ABAP_FALSE for comparisons](#use-abap_true-and-abap_false-for-comparisons)
-  - [Use XSDBOOL to set Boolean variables](#use-xsdbool-to-set-boolean-variables)
-- [Conditions](#conditions)
-  - [Try to make conditions positive](#try-to-make-conditions-positive)
-  - [Prefer IS NOT to NOT IS](#prefer-is-not-to-not-is)
-  - [Consider using predicative method calls for boolean methods](#consider-using-predicative-method-calls-for-boolean-methods)
-  - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
-  - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
-- [Ifs](#ifs)
-  - [No empty IF branches](#no-empty-if-branches)
-  - [Prefer CASE to ELSE IF for multiple alternative conditions](#prefer-case-to-else-if-for-multiple-alternative-conditions)
-  - [Keep the nesting depth low](#keep-the-nesting-depth-low)
-- [Regular expressions](#regular-expressions)
-  - [Prefer simpler methods to regular expressions](#prefer-simpler-methods-to-regular-expressions)
-  - [Prefer basis checks to regular expressions](#prefer-basis-checks-to-regular-expressions)
-  - [Consider assembling complex regular expressions](#consider-assembling-complex-regular-expressions)
-- [Classes](#classes)
-  - [Classes: Object orientation](#classes-object-orientation)
-    - [Prefer objects to static classes](#prefer-objects-to-static-classes)
-    - [Prefer composition to inheritance](#prefer-composition-to-inheritance)
-    - [Don't mix stateful and stateless in the same class](#dont-mix-stateful-and-stateless-in-the-same-class)
-  - [Scope](#scope)
-    - [Global by default, local only where appropriate](#global-by-default-local-only-where-appropriate)
-    - [FINAL if not designed for inheritance](#final-if-not-designed-for-inheritance)
-    - [Members PRIVATE by default, PROTECTED only if needed](#members-private-by-default-protected-only-if-needed)
-    - [Consider using immutable instead of getter](#consider-using-immutable-instead-of-getter)
-    - [Use READ-ONLY sparingly](#use-read-only-sparingly)
-  - [Constructors](#constructors)
-    - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
-    - [If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public](#if-your-global-class-is-create-private-leave-the-constructor-public)
-    - [Prefer multiple static creation methods to optional parameters](#prefer-multiple-static-creation-methods-to-optional-parameters)
-    - [Use descriptive names for multiple creation methods](#use-descriptive-names-for-multiple-creation-methods)
-    - [Make singletons only where multiple instances don't make sense](#make-singletons-only-where-multiple-instances-dont-make-sense)
-- [Methods](#methods)
-  - [Calls](#calls)
-    - [Don't call static methods through instance variables](#dont-call-static-methods-through-instance-variables)
-    - [Prefer functional to procedural calls](#prefer-functional-to-procedural-calls)
-    - [Omit RECEIVING](#omit-receiving)
-    - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
-    - [Omit the parameter name in single parameter calls](#omit-the-parameter-name-in-single-parameter-calls)
-    - [Omit the self-reference me when calling an instance attribute or method](#omit-the-self-reference-me-when-calling-an-instance-attribute-or-method)
-  - [Methods: Object orientation](#methods-object-orientation)
-    - [Prefer instance to static methods](#prefer-instance-to-static-methods)
-    - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
-  - [Parameter Number](#parameter-number)
-    - [Aim for few IMPORTING parameters, at best less than three](#aim-for-few-importing-parameters-at-best-less-than-three)
-    - [Split methods instead of adding OPTIONAL parameters](#split-methods-instead-of-adding-optional-parameters)
-    - [Use PREFERRED PARAMETER sparingly](#use-preferred-parameter-sparingly)
-    - [RETURN, EXPORT, or CHANGE exactly one parameter](#return-export-or-change-exactly-one-parameter)
-  - [Parameter Types](#parameter-types)
-    - [Prefer RETURNING to EXPORTING](#prefer-returning-to-exporting)
-    - [RETURNING large tables is usually okay](#returning-large-tables-is-usually-okay)
-    - [Use either RETURNING or EXPORTING or CHANGING, but not a combination](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
-    - [Use CHANGING sparingly, where suited](#use-changing-sparingly-where-suited)
-    - [Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
-  - [Parameter Names](#parameter-names)
-    - [Consider calling the RETURNING parameter RESULT](#consider-calling-the-returning-parameter-result)
-  - [Parameter Initialization](#parameter-initialization)
-    - [Clear or overwrite EXPORTING reference parameters](#clear-or-overwrite-exporting-reference-parameters)
-      - [Take care if input and output could be the same](#take-care-if-input-and-output-could-be-the-same)
-    - [Don't clear VALUE parameters](#dont-clear-value-parameters)
-  - [Method Body](#method-body)
-    - [Do one thing, do it well, do it only](#do-one-thing-do-it-well-do-it-only)
-    - [Focus on the happy path or error handling, but not both](#focus-on-the-happy-path-or-error-handling-but-not-both)
-    - [Descend one level of abstraction](#descend-one-level-of-abstraction)
-    - [Keep methods small](#keep-methods-small)
-  - [Control flow](#control-flow)
-    - [Fail fast](#fail-fast)
-    - [CHECK vs. RETURN](#check-vs-return)
-    - [Avoid CHECK in other positions](#avoid-check-in-other-positions)
-- [Error Handling](#error-handling)
-  - [Messages](#messages)
-    - [Make messages easy to find](#make-messages-easy-to-find)
-  - [Return Codes](#return-codes)
-    - [Prefer exceptions to return codes](#prefer-exceptions-to-return-codes)
-    - [Don't let failures slip through](#dont-let-failures-slip-through)
-  - [Exceptions](#exceptions)
-    - [Exceptions are for errors, not for regular cases](#exceptions-are-for-errors-not-for-regular-cases)
-    - [Use class-based exceptions](#use-class-based-exceptions)
-  - [Throwing](#throwing)
-    - [Use own super classes](#use-own-super-classes)
-    - [Throw one type of exception](#throw-one-type-of-exception)
-    - [Use sub-classes to enable callers to distinguish error situations](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
-    - [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions)
-    - [Throw CX_NO_CHECK for usually unrecoverable situations](#throw-cx_no_check-for-usually-unrecoverable-situations)
-    - [Consider CX_DYNAMIC_CHECK for avoidable exceptions](#consider-cx_dynamic_check-for-avoidable-exceptions)
-    - [Dump for totally unrecoverable situations](#dump-for-totally-unrecoverable-situations)
-    - [Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE](#prefer-raise-exception-new-to-raise-exception-type)
-  - [Catching](#catching)
-    - [Wrap foreign exceptions instead of letting them invade your code](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
-- [Comments](#comments)
-  - [Express yourself in code, not in comments](#express-yourself-in-code-not-in-comments)
-  - [Comments are no excuse for bad names](#comments-are-no-excuse-for-bad-names)
-  - [Use methods instead of comments to segment your code](#use-methods-instead-of-comments-to-segment-your-code)
-  - [Write comments to explain the why, not the what](#write-comments-to-explain-the-why-not-the-what)
-  - [Design goes into the design documents, not the code](#design-goes-into-the-design-documents-not-the-code)
-  - [Comment with ", not with *](#comment-with--not-with-)
-  - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
-  - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
-  - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
-  - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
-  - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
-  - [ABAP Doc only for public APIs](#abap-doc-only-for-public-apis)
-  - [Prefer pragmas to pseudo comments](#prefer-pragmas-to-pseudo-comments)
-- [Formatting](#formatting)
-  - [Be consistent](#be-consistent)
-  - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
-  - [Use the Pretty Printer before activating](#use-the-pretty-printer-before-activating)
-  - [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings)
-  - [No more than one statement per line](#no-more-than-one-statement-per-line)
-  - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
-  - [Condense your code](#condense-your-code)
-  - [Add a single blank line to separate things, but not more](#add-a-single-blank-line-to-separate-things-but-not-more)
-  - [Don't obsess with separating blank lines](#dont-obsess-with-separating-blank-lines)
-  - [Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones)
-  - [Close brackets at line end](#close-brackets-at-line-end)
-  - [Keep single parameter calls on one line](#keep-single-parameter-calls-on-one-line)
-  - [Keep parameters behind the call](#keep-parameters-behind-the-call)
-  - [If you break, indent parameters under the call](#if-you-break-indent-parameters-under-the-call)
-  - [Line-break multiple parameters](#line-break-multiple-parameters)
-  - [Align parameters](#align-parameters)
-  - [Break the call to a new line if the line gets too long](#break-the-call-to-a-new-line-if-the-line-gets-too-long)
-  - [Indent and snap to tab](#indent-and-snap-to-tab)
-  - [Indent in-line declarations like method calls](#indent-in-line-declarations-like-method-calls)
-  - [Don't align type clauses](#dont-align-type-clauses)
-  - [Don't chain assignments](#dont-chain-assignments)
-- [Testing](#testing)
-  - [Principles](#principles)
-    - [Write testable code](#write-testable-code)
-    - [Enable others to mock you](#enable-others-to-mock-you)
-    - [Readability rules](#readability-rules)
-    - [Don't make copies or write test reports](#dont-make-copies-or-write-test-reports)
-    - [Test publics, not private internals](#test-publics-not-private-internals)
-    - [Don't obsess about coverage](#dont-obsess-about-coverage)
-  - [Test Classes](#test-classes)
-    - [Call local test classes by their purpose](#call-local-test-classes-by-their-purpose)
-    - [Put tests in local classes](#put-tests-in-local-classes)
-    - [Put help methods in help classes](#put-help-methods-in-help-classes)
-    - [How to execute test classes](#how-to-execute-test-classes)
-  - [Code Under Test](#code-under-test)
-    - [Name the code under test meaningfully, or default to CUT](#name-the-code-under-test-meaningfully-or-default-to-cut)
-    - [Test against interfaces, not implementations](#test-against-interfaces-not-implementations)
-    - [Extract the call to the code under test to its own method](#extract-the-call-to-the-code-under-test-to-its-own-method)
-  - [Injection](#injection)
-    - [Use dependency inversion to inject test doubles](#use-dependency-inversion-to-inject-test-doubles)
-    - [Consider to use the tool ABAP test double](#consider-to-use-the-tool-abap-test-double)
-    - [Exploit the test tools](#exploit-the-test-tools)
-    - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
-    - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
-    - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
-    - [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable)
-    - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
-    - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
-    - [Don't build test frameworks](#dont-build-test-frameworks)
-  - [Test Methods](#test-methods)
-    - [Test method names: reflect what's given and expected](#test-method-names-reflect-whats-given-and-expected)
-    - [Use given-when-then](#use-given-when-then)
-    - ["When" is exactly one call](#when-is-exactly-one-call)
-    - [Don't add a TEARDOWN unless you really need it](#dont-add-a-teardown-unless-you-really-need-it)
-  - [Test Data](#test-data)
-    - [Make it easy to spot meaning](#make-it-easy-to-spot-meaning)
-    - [Make it easy to spot differences](#make-it-easy-to-spot-differences)
-    - [Use constants to describe purpose and importance of test data](#use-constants-to-describe-purpose-and-importance-of-test-data)
-  - [Assertions](#assertions)
-    - [Few, focused assertions](#few-focused-assertions)
-    - [Use the right assert type](#use-the-right-assert-type)
-    - [Assert content, not quantity](#assert-content-not-quantity)
-    - [Assert quality, not content](#assert-quality-not-content)
-    - [Use FAIL to check for expected exceptions](#use-fail-to-check-for-expected-exceptions)
-    - [Forward unexpected exceptions instead of catching and failing](#forward-unexpected-exceptions-instead-of-catching-and-failing)
-    - [Write custom asserts to shorten code and avoid duplication](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+- [Инструкция](#инструкция)
+  - [Как начать работу с Чистым кодом](#как-начать-работу-с-чистым-кодом)
+  - [Как рефакторить устаревший код](#как-рефакторить-устаревший-код)
+  - [Как выполнять автоматическую проверку](#как-выполнять-автоматическую-проверку)
+  - [Как относиться к другим руководствам](#как-относиться-к-другим-руководствам)
+  - [Как выражать несогласие](#как-выражать-несогласие)
+- [Имена](#имена)
+  - [Используйте описательные имена](#используйте-описательные-имена)
+  - [Предпочитайте термины из предметной области решения и предметной области проблемы](#предпочитайте-термины-из-предметной-области-решения-и-предметной-области-проблемы)
+  - [Используйте множественной число](#используйте-множественное-число)
+  - [Используйте произносимые имена](#используйте-произносимые-имена)
+  - [Избегайте сокращений](#избегайте-сокращений)
+  - [Используйте одни и те же сокращения везде](#используйте-одни-и-те-же-сокращения-везде)
+  - [Используйте существительные для классов и глаголы для методов](#используйте-существительные-для-классов-и-глаголы-для-методов)
+  - [Избегайте неинформативных слов, таких как "data", "info", "object"](#избегайте-неинформативных-слов-таких-как-data-info-object)
+  - [Выберите одно слово для каждой концепции](#выберите-одно-слово-для-каждой-концепции)
+  - [Используйте имена шаблонов, только если вы имеете в виду именно их](#используйте-имена-шаблонов-только-если-вы-имеете-в-виду-именно-их)
+  - [Избегайте схем кодирования имен, особенно венгерскую нотацию и префиксы](#избегайте-схем-кодирования-имен-особенно-венгерскую-нотацию-и-префиксы)
+  - [Избегайте перекрытия встроенных функций](#избегайте-перекрытия-встроенных-функций)
+- [Язык](#язык)
+  - [Помните о наследии](#помните-о-наследии)
+  - [Помните о производительности](#помните-о-производительности)
+  - [Предпочитайте объектно-ориентированное программирование процедурному](#предпочитайте-объектно-ориентированное-программирование-процедурному)
+  - [Предпочитайте функциональные языковые конструкции процедурным](#предпочитайте-функциональные-языковые-конструкции-процедурным)
+  - [Избегайте устаревших языковых элементов](#избегайте-устаревших-языковых-элементов)
+  - [Используйте шаблоны проектирования с умом](#используйте-шаблоны-проектирования-с-умом)
+- [Константы](#константы)
+  - [Используйте константы вместо магических чисел](#используйте-константы-вместо-магических-чисел)
+  - [Предпочитайте классы перечисления интерфейсам констант](#предпочитайте-классы-перечисления-интерфейсам-констант)
+  - [Если вы не используете классы перечисления, сгруппируйте свои константы](#если-вы-не-используете-классы-перечисления-сгруппируйте-свои-константы)
+- [Переменные](#переменные)
+  - [Предпочитайте встроенные объявления предварительным](#предпочитайте-встроенные-объявления-предварительным)
+  - [Не используйте встроенные объявления в необязательных ветвях](#не-используйте-встроенные-объявления-в-необязательных-ветвях)
+  - [Не сцепливайте предварительные объявления](#не-сцепливайте-предварительные-объявления)
+  - [Предпочитайте REF TO вместо FIELD-SYMBOL](#предпочитайте-ref-to-вместо-field-symbol)
+- [Таблицы](#таблицы)
+  - [Используйте правильный тип таблицы](#используйте-правильный-тип-таблицы)
+  - [Избегайте DEFAULT KEY](#избегайте-default-key)
+  - [Предпочитайте INSERT INTO TABLE вместо APPEND TO](#предпочитайте-insert-into-table-вместо-append-to)
+  - [Предпочитайте LINE_EXISTS вместо READ TABLE или LOOP AT](#предпочитайте-line_exists-вместо-read-table-или-loop-at)
+  - [Предпочитайте READ TABLE вместо LOOP AT](#предпочитайте-read-table-вместо-loop-at)
+  - [Предпочитайте LOOP AT WHERE вместо вложенных IF](#предпочитайте-loop-at-where-вместо-вложенных-if)
+  - [Избегайте ненужного чтения таблиц](#избегайте-ненужного-чтения-таблиц)
+- [Строки](#строки)
+  - [Используйте ` чтобы определить литералы](#используйте--чтобы-определить-литералы)
+  - [Используйте | чтобы собрать текст](#используйте--чтобы-собрать-текст)
+- [Булевы значения](#булевы-значения)
+  - [Используйте булевы значения с умом](#используйте-булевы-значения-с-умом)
+  - [Используйте ABAP_BOOL для булевых значений](#используйте-abap_bool-для-булевых-значений)
+  - [Используйте ABAP_TRUE и ABAP_FALSE для сравнения](#используйте-abap_true-и-abap_false-для-сравнения)
+  - [Используйте XSDBOOL чтобы установить логические переменные](#используйте-xsdbool-чтобы-установить-логические-переменные)
+- [Условия](#условия)
+  - [Постарайтесь сделать условия положительными](#постарайтесь-сделать-условия-положительными)
+  - [Предпочитайте IS NOT вместо NOT IS](#предпочитайте-is-not-вместо-not-is)
+  - [Подумайте об использовании предикативных вызовов для булевых методов](#подумайте-об-использовании-предикативных-вызовов-для-булевых-методов)
+  - [Подумайте о декомпозиции сложных условий](#подумайте-о-декомпозиции-сложных-условий)
+  - [Подумайте об извлечении сложных условий](#подумайте-об-извлечении-сложных-условий)
+- [Если](#если)
+  - [Не допускайте пустых ветвей IF](#не-допускайте-пустых-ветвей-if)
+  - [Предпочитайте CASE вместо ELSE IF для нескольких альтернативных условий](#предпочитайте-case-вместо-else-if-для-нескольких-альтернативных-условий)
+  - [Сохраняйте глубину вложенности низкой](#сохраняйте-глубину-вложенности-низкой)
+- [Регулярные выражения](#регулярные-выражения)
+  - [Предпочитайте более простые методы регулярным выражениям](#предпочитайте-более-простые-методы-регулярным-выражениям)
+  - [Предпочитайте базовые проверки регулярным выражениям](#предпочитайте-базовые-проверки-регулярным-выражениям)
+  - [Рассмотрите возможность сборки сложных регулярных выражений](#рассмотрите-возможность-сборки-сложных-регулярных-выражений)
+- [Классы](#классы)
+  - [Классы: Объектная ориентация](#классы-объектная-ориентация)
+    - [Предпочитайте объекты статическим классам](#предпочитайте-объекты-статическим-классам)
+    - [Предпочитайте композицию наследованию](#предпочитайте-композицию-наследованию)
+    - [Не смешивайте парадигмы с сохранением состояния и без сохранения состояния в одном классе](#не-смешивайте-парадигмы-с-сохранением-состояния-и-без-сохранения-состояния-в-одном-классе)
+  - [Область видимости](#область-видимости)
+    - [Глобальный по умолчанию, локальный только при необходимости](#глобальный-по-умолчанию-локальный-только-при-необходимости)
+    - [FINAL если не предназначен для наследования](#final-если-не-предназначен-для-наследования)
+    - [PRIVATE по умолчанию, PROTECTED только если нужно](#private-по-умолчанию-protected-только-если-нужно)
+    - [Рассмотрите возможность использования неизменяемого объекта, вместо добавления геттера](#рассмотрите-возможность-использования-неизменяемого-объекта-вместо-добавления-геттера)
+    - [Используйте READ-ONLY с осторожностью](#используйте-read-only-с-осторожностью)
+  - [Конструкторы](#конструкторы)
+    - [Предпочитайте NEW вместо CREATE OBJECT](#предпочитайте-new-вместо-create-object)
+    - [Если ваш глобальный класс CREATE PRIVATE, сделайте его CONSTRUCTOR публичным](#если-ваш-глобальный-класс-create-private-сделайте-его-constructor-публичным)
+    - [Предпочитайте несколько статических методов созданию необязательных параметров](#предпочитайте-несколько-статических-методов-созданию-необязательных-параметров)
+    - [Используйте описательные имена для нескольких методов создания](#используйте-описательные-имена-для-нескольких-методов-создания)
+    - [Создавайте синглтоны только там, где несколько экземпляров не имеют смысла](#создавайте-синглтоны-только-там-где-несколько-экземпляров-не-имеют-смысла)
+- [Методы](#методы)
+  - [Вызовы](#вызовы)
+    - [Не вызывайте статические методы через переменные экземпляра](#не-вызывайте-статические-методы-через-переменные-экземпляра)
+    - [Предпочитайте функциональные вызовы процедурным](#предпочитайте-функциональные-вызовы-процедурным)
+    - [Не указывайте RECEIVING](#не-указывайте-receiving)
+    - [Не указывайте необязательное ключевое слово EXPORTING](#не-указывайте-необязательное-ключевое-слово-exporting)
+    - [Не указывайте имя параметра при вызовах с одним параметром](#не-указывайте-имя-параметра-при-вызовах-с-одним-параметром)
+    - [Не указывайте ссылку на себя me при вызове атрибута или метода экземпляра](#не-указывайте-ссылку-на-себя-me-при-вызове-атрибута-или-метода-экземпляра)
+  - [Методы: Объектная ориентация](#методы-объектная-ориентация)
+    - [Предпочитайте экземпляр статическим методам](#предпочитайте-экземпляр-статическим-методам)
+    - [Публичные методы экземпляра должны быть частью интерфейса](#публичные-методы-экземпляра-должны-быть-частью-интерфейса)
+  - [Количество параметров](#количество-параметров)
+    - [Стремитесь к нескольким IMPORTING параметрам, лучше всего меньше трех](#стремитесь-к-нескольким-importing-параметрам-лучше-всего-меньше-трех)
+    - [Разделите методы вместо добавления OPTIONAL параметров](#разделите-методы-вместо-добавления-optional-параметров)
+    - [Используйте PREFERRED PARAMETER с осторожностью](#используйте-preferred-parameter-с-осторожностью)
+    - [RETURN, EXPORT, или CHANGE только одного параметра](#return-export-или-change-только-одного-параметра)
+  - [Типы параметров](#типы-параметров)
+    - [Предпочитайте RETURNING вместо EXPORTING](#предпочитайте-returning-вместо-exporting)
+    - [RETURNING больших таблиц это обычно нормально](#returning-больших-таблиц-это-обычно-нормально)
+    - [Используйте либо RETURNING, либо EXPORTING, либо CHANGING, но не комбинацию](#используйте-либо-returning-либо-exporting-либо-changing-но-не-комбинацию)
+    - [Используйте CHANGING с осторожностью, там, где это подходит](#используйте-changing-с-осторожностью-там-где-это-подходит)
+    - [Разделите метод вместо использования булева входного параметра](#разделите-метод-вместо-использования-булева-входного-параметра)
+  - [Имена параметров](#имена-параметров)
+    - [Подумайте о том, чтобы назвать RETURNING параметр RESULT](#подумайте-о-том-чтобы-назвать-returning-параметр-result)
+  - [Инициализация параметров](#инициализация-параметров)
+    - [Очистите или перезапишите EXPORTING ссылочные параметры](#очистите-или-перезапишите-exporting-ссылочные-параметры)
+      - [Будьте осторожны с идентичным вводом и выводом](#будьте-осторожны-с-идентичным-вводом-и-выводом)
+    - [Не очищайте VALUE параметры](#не-очищайте-value-параметры)
+  - [Тело метода](#тело-метода)
+    - [Делай что-то одно, делай это хорошо, делай только это](#делай-что-то-одно-делай-это-хорошо-делай-только-это)
+    - [Сосредоточьтесь либо на благополучном исходе либо на обработке ошибок, но не на том и другом одновременно](#сосредоточьтесь-либо-на-благополучном-исходе-либо-на-обработке-ошибок-но-не-на-том-и-другом-одновременно)
+    - [Спуститесь на один уровень абстракции](#спуститесь-на-один-уровень-абстракции)
+    - [Сохраняйте методы небольшими](#сохраняйте-методы-небольшими)
+  - [Поток управления](#поток-управления)
+    - [Быстрый провал](#быстрый-провал)
+    - [CHECK против RETURN](#check-против-return)
+    - [Избегайте CHECK в других местах](#избегайте-check-в-других-местах)
+- [Обработка ошибок](#обработка-ошибок)
+  - [Сообщения](#сообщения)
+    - [Сделайте сообщения легко находимыми](#сделайте-сообщения-легко-находимыми)
+  - [Коды возврата](#коды-возврата)
+    - [Предпочитайте исключения кодам возврата](#предпочитайте-исключения-кодам-возврата)
+    - [Не позволяйте неудачам проскользнуть](#не-позволяйте-неудачам-проскользнуть)
+  - [Исключения](#исключения)
+    - [Исключения для ошибок, а не для обычных случаев](#исключения-для-ошибок-а-не-для-обычных-случаев)
+    - [Используйте исключения на основе классов](#используйте-исключения-на-основе-классов)
+  - [Бросание](#бросание)
+    - [Используйте собственные суперклассы](#используйте-собственные-суперклассы)
+    - [Бросайте один тип исключения](#бросайте-один-тип-исключения)
+    - [Используйте подклассы, чтобы вызывающие могли различать ошибочные ситуации](#используйте-подклассы-чтобы-вызывающие-могли-различать-ошибочные-ситуации)
+    - [Бросайте CX_STATIC_CHECK для управляемых исключений](#бросайте-cx_static_check-для-управляемых-исключений)
+    - [Бросайте CX_NO_CHECK для обычно безнадежных ситуаций](#бросайте-cx_no_check-для-обычно-безнадежных-ситуаций)
+    - [Подумайте об использовании CX_DYNAMIC_CHECK для исключений, которых можно избежать](#подумайте-об-использовании-cx_dynamic_check-для-исключений-которых-можно-избежать)
+    - [Дамп для полностью неисправимых ситуаций](#дамп-для-полностью-неисправимых-ситуаций)
+    - [Предпочитайте RAISE EXCEPTION NEW вместо RAISE EXCEPTION TYPE](#предпочитайте-raise-exception-new-вместо-raise-exception-type)
+  - [Отлавливание](#отлавливание)
+    - [Оберните внешние исключения вместо того, чтобы позволять им вторгаться в ваш код](#оберните-внешние-исключения-вместо-того-чтобы-позволять-им-вторгаться-в-ваш-код)
+- [Комментарии](#комментарии)
+  - [Выражайте себя в коде, а не в комментариях](#выражайте-себя-в-коде-а-не-в-комментариях)
+  - [Комментарии — не оправдание плохих имен](#комментарии--не-оправдание-плохих-имен)
+  - [Используйте методы вместо комментариев для сегментации кода](#используйте-методы-вместо-комментариев-для-сегментации-кода)
+  - [Пишите комментарии, чтобы объяснить, почему, а не что](#пишите-комментарии-чтобы-объяснить-почему-а-не-что)
+  - [Описание проекта должно быть в проектной документации, а не в коде](#описание-проекта-должно-быть-в-проектной-документации-а-не-в-коде)
+  - [Комментируйте используя ", а не *](#комментируйте-используя--а-не-)
+  - [Размещайте комментарии перед утверждением, к которому они относятся](#размещайте-комментарии-перед-утверждением-к-которому-они-относятся)
+  - [Удаляйте код вместо того, чтобы комментировать его](#удаляйте-код-вместо-того-чтобы-комментировать-его)
+  - [Используйте FIXME, TODO, и XXX и добавьте свой ID](#используйте-fixme-todo-и-xxx-и-добавьте-свой-id)
+  - [Не добавляйте сигнатуру метода и комментарии в конце](#не-добавляйте-сигнатуру-метода-и-комментарии-в-конце)
+  - [Не дублируйте тексты сообщений в комментариях](#не-дублируйте-тексты-сообщений-в-комментариях)
+  - [ABAP Doc только для публичных APIs](#abap-doc-только-для-публичных-apis)
+  - [Предпочитайте прагмы псевдокомментариям](#предпочитайте-прагмы-псевдокомментариям)
+- [Форматирование](#форматирование)
+  - [Будьте последовательны](#будьте-последовательны)
+  - [Оптимизируйте код для чтения, а не для написания](#оптимизируйте-код-для-чтения-а-не-для-написания)
+  - [Используйте структурную печать перед активацией](#используйте-структурную-печать-перед-активацией)
+  - [Используйте настройки структурной печати вашей команды](#используйте-настройки-структурной-печати-вашей-команды)
+  - [Не более одного оператора в строке](#не-более-одного-оператора-в-строке)
+  - [Придерживайтесь разумной длины строки](#придерживайтесь-разумной-длины-строки)
+  - [Уплотните ваш код](#уплотните-ваш-код)
+  - [Добавьте только одну пустую строку для разделения разных вещей, не более](#добавьте-только-одну-пустую-строку-для-разделения-разных-вещей-не-более)
+  - [Не злоупотребляйте разделением пустыми строками](#не-злоупотребляйте-разделением-пустыми-строками)
+  - [Выравнивайте присвоения для одного и того же объекта, но не для разных](#выравнивайте-присвоения-для-одного-и-того-же-объекта-но-не-для-разных)
+  - [Закрывайте скобки в конце строки](#закрывайте-скобки-в-конце-строки)
+  - [При вызове с одним параметром указывайте его на той же строке](#при-вызове-с-одним-параметром-указывайте-его-на-той-же-строке)
+  - [Указывайте параметры начиная со строки вызова](#указывайте-параметры-начиная-со-строки-вызова)
+  - [При переносе строки сделайте отступ для параметров под вызовом](#при-переносе-строки-сделайте-отступ-для-параметров-под-вызовом)
+  - [Сделайте разрыв строки для нескольких параметров](#сделайте-разрыв-строки-для-нескольких-параметров)
+  - [Выровняйте параметры](#выровняйте-параметры)
+  - [Перенесите вызов на новую строку, если она станет слишком длинной](#перенесите-вызов-на-новую-строку-если-она-станет-слишком-длинной)
+  - [Добавьте отступы и табуляцию](#добавьте-отступы-и-табуляцию)
+  - [Сделайте отступ для встроенных объявлений, таких как вызовы методов](#сделайте-отступ-для-встроенных-объявлений-таких-как-вызовы-методов)
+  - [Не выравнивайте указания типов](#не-выравнивайте-указания-типов)
+  - [Не объединяйте присвоения](#не-объединяйте-присвоения)
+- [Тестирование](#тестирование)
+  - [Принципы](#принципы)
+    - [Пишите тестируемый код](#пишите-тестируемый-код)
+    - [Позвольте другим создавать моки](#позвольте-другим-создавать-моки)
+    - [Правила удобочитаемости](#правила-удобочитаемости)
+    - [Не делайте копии и не пишите тестовые отчеты](#не-делайте-копии-и-не-пишите-тестовые-отчеты)
+    - [Тестируйте публичные, а не приватные части](#тестируйте-публичные-а-не-приватные-части)
+    - [Не зацикливайтесь на покрытии кода](#не-зацикливайтесь-на-покрытии-кода)
+  - [Тестовые классы](#тестовые-классы)
+    - [Называйте локальные тестовые классы в соответствии с их назначением](#называйте-локальные-тестовые-классы-в-соответствии-с-их-назначением)
+    - [Поместите тесты в локальные классы](#поместите-тесты-в-локальные-классы)
+    - [Поместите вспомогательные методы во вспомогательные классы](#поместите-вспомогательные-методы-во-вспомогательные-классы)
+    - [Как выполнять тестовые классы](#как-выполнять-тестовые-классы)
+  - [Тестируемый код](#тестируемый-код)
+    - [Дайте осмысленное имя тестируемому коду или используйте имя по умолчанию CUT](#дайте-осмысленное-имя-тестируемому-коду-или-используйте-имя-по-умолчанию-cut)
+    - [Тестируйте интерфейсы, а не реализации](#тестируйте-интерфейсы-а-не-реализации)
+    - [Поместите вызов тестируемого кода в отдельный метод](#поместите-вызов-тестируемого-кода-в-отдельный-метод)
+  - [Инъекция](#инъекция)
+    - [Используйте инверсию зависимостей для внедрения тестовых двойников](#используйте-инверсию-зависимостей-для-внедрения-тестовых-двойников)
+    - [Рассмотрите возможность использования инструмента ABAP test double](#рассмотрите-возможность-использования-инструмента-abap-test-double)
+    - [Используйте инструменты тестирования](#используйте-инструменты-тестирования)
+    - [Используйте тестовые швы как временное решение](#используйте-тестовые-швы-как-временное-решение)
+    - [Используйте LOCAL FRIENDS для доступа к конструктору инверсии зависимостей](#используйте-local-friends-для-доступа-к-конструктору-инверсии-зависимостей)
+    - [Не злоупотребляйте LOCAL FRIENDS для вторжения в проверенный код](#не-злоупотребляйте-local-friends-для-вторжения-в-проверенный-код)
+    - [Не изменяйте продуктивный код, чтобы сделать код пригодным для тестирования](#не-изменяйте-продуктивный-код-чтобы-сделать-код-пригодным-для-тестирования)
+    - [Не создавайте подклассы чтобы замокать методы](#не-создавайте-подклассы-чтобы-замокать-методы)
+    - [Не мокайте то, что вам не нужно](#не-мокайте-то-что-вам-не-нужно)
+    - [Не создавайте тестовые фреймворки](#не-создавайте-тестовые-фреймворки)
+  - [Тестовые методы](#тестовые-методы)
+    - [Названия тестовых методов должны отражать то, что дано и что ожидается](#названия-тестовых-методов-должны-отражать-то-что-дано-и-что-ожидается)
+    - [Используйте формат дано-когда-тогда](#используйте-формат-дано-когда-тогда)
+    - ["Когда" ровно один вызов](#когда-ровно-один-вызов)
+    - [Не добавляйте TEARDOWN если вам это не нужно](#не-добавляйте-teardown-если-вам-это-не-нужно)
+  - [Тестовые данные](#тестовые-данные)
+    - [Упростите определение смысла](#упростите-определение-смысла)
+    - [Упростите поиск различий](#упростите-поиск-различий)
+    - [Используйте константы для описания предназначения тестовых данных](#используйте-константы-для-описания-предназначения-тестовых-данных)
+  - [Утверждения](#утверждения)
+    - [Несколько целенаправленных утверждений](#несколько-целенаправленных-утверждений)
+    - [Используйте правильный тип утверждения](#используйте-правильный-тип-утверждения)
+    - [Утверждайте содержание, а не количество](#утверждайте-содержание-а-не-количество)
+    - [Утверждайте качество, а не содержание](#утверждайте-качество-а-не-содержание)
+    - [Используйте FAIL для проверки ожидаемых исключений](#используйте-fail-для-проверки-ожидаемых-исключений)
+    - [Не перехватывайте неожиданные исключения, а перенаправляйте их](#не-перехватывайте-неожиданные-исключения-а-перенаправляйте-их)
+    - [Напишите собственные утверждения чтобы сократить код и избежать дублирования](#напишите-собственные-утверждения-чтобы-сократить-код-и-избежать-дублирования)
 
-## How to
+## Инструкция
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#how-to)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#инструкция)
 
-### How to Get Started with Clean Code
+### Как начать работу с Чистым кодом
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-get-started-with-clean-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Инструкция](#инструкция) > [Эта секция](#как-начать-работу-с-чистым-кодом)
 
-If you are new to Clean Code, you should first
-read [Robert C. Martin's _Clean Code_].
-The [Clean Code Developer initiative](https://clean-code-developer.com/)
-may help you getting started with a didactically smooth stepwise introduction to the topic in general.
+Если Чистый код для вас что-то новое, вам следует сначала прочитать книгу
+[Robert C. Martin's _Clean Code_].
+Начать с плавного пошагового погружения в тему в целом вам может помочь книга [Clean Code Developer initiative](https://clean-code-developer.com/).
 
-We recommend you to start with things that are easily understood and broadly accepted,
-such as [Booleans](#booleans), [Conditions](#conditions), and [Ifs](#ifs).
+Мы рекомендуем вам начать с простых для понимания и общепринятых вещей,
+например: [Булевы значения](#булевы-значения), [Условия](#условия), and [Если](#если).
 
-You will probably benefit most from the section [Methods](#methods),
-especially [Do one thing, do it well, do it only](#do-one-thing-do-it-well-do-it-only) and [Small](#keep-methods-small),
-because these tremendously improve the overall structure of your code.
+Скорее всего, больше всего пользы вы получите от разделов [Методы](#методы),
+особенно [Делай что-то одно, делай это хорошо, делай только это](#делай-что-то-одно-делай-это-хорошо-делай-только-это) и [Сохраняйте методы небольшими](#сохраняйте-методы-небольшими), потому что они значительно улучшают общую структуру вашего кода.
 
-Some topics in here can spark difficult discussions in teams
-that are experienced in what they do but new to Clean Code;
-these topics are perfectly "healthy", but people may have problems
-making themselves comfortable with them in the beginning.
+Некоторые рекомендации описанные здесь могут вызвать сложные дискуссии в командах, 
+которые имеют опыт в своем деле, но являются новичками в чистом коде; 
+эти рекомендации совершенно "здравые", но у людей могут возникнуть проблемы с привыканием к ним в самом начале.
 
-Continue to these more controversial topics later;
-especially [Comments](#comments), [Names](#names), and [Formatting](#formatting)
-can lead to near-religious disputes
-and should only be addressed by teams that already saw proof of Clean Code's positive effects.
+Вернемся к таким спорным рекомендациям позже; 
+в особенности, такие разделы как [Комментарии](#комментарии), [Имена](#имена) и [Форматирование](#форматирование)
+могут привести к почти религиозным спорам
+которые должны учитываться только командами, которые уже видели доказательства положительных эффектов Чистого кода.
 
-### How to Refactor Legacy Code
+### Как рефакторить устаревший код
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-refactor-legacy-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Инструкция](#инструкция) > [Эта секция](#как-рефакторить-устаревший-код)
 
-The topics [Booleans](#booleans), [Conditions](#conditions), [Ifs](#ifs),
-and [Methods](#methods) are most rewarding if you are working on a legacy project
-with tons of code that you cannot or do not want to change
-because they can be applied to new code without conflicts.
+Разделы [Булевы значения](#булевы-значения), [Условия](#условия), [Если](#если)
+и [Методы](#методы) будут вам полезны больше всего, если вы работаете над устаревшим проектом
+с большим количеством кода, который вы не можете или не хотите изменять.
+Описанные в этом разделе рекомендации могут быть применены к новому коду без каких-либо конфликтов.
 
-The topic [Names](#names) is very demanding for legacy projects,
-as it may introduce a breach between old and new code,
-up to a degree where sections like
-[Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
-are better ignored.
+Тема [Имена](#имена) очень требовательна к устаревшим проектам,
+поскольку может привести к разрыву между старым и новым кодом,
+вплоть до того, что такие разделы, как
+[Избегайте схем кодирования имен, особенно венгерскую нотацию и префиксы](#избегайте-схем-кодирования-имен-особенно-венгерскую-нотацию-и-префиксы)
+лучше вообще игнорировать.
 
-Try not to mix different development styles within the same
-development object when carrying out a refactoring. If the
-legacy code contains only up-front declarations, and a complete
-refactoring into using inline declarations is not feasible, it
-is probably better to stick with the legacy style rather than
-mixing the two styles. There are several similar situations
-where mixing styles could cause confusion, for example:
+При выполнении рефакторинга старайтесь не смешивать разные стили разработки 
+в одном и том же объекте разработки. Если устаревший код содержит 
+только предварительные объявления, а полный рефакторинг с использованием 
+встроенных (inline) объявлений невозможен, вероятно, лучше придерживаться устаревшего стиля, 
+а не смешивать их. Существует несколько подобных ситуаций, 
+когда смешивание стилей может привести к путанице, например:
 
-- Mixing `REF TO` and `FIELD-SYMBOL` when looping.
-- Mixing `NEW` and `CREATE OBJECT` when calling a `CONSTRUCTOR`.
-- Mixing `RETURNING` and `EXPORTING` in the method signatures of
-methods only returning / exporting one parameter.
+- Смешивание `REF TO` и `FIELD-SYMBOL` при выполнении цикла.
+- Смешивание `NEW` и `CREATE OBJECT` при вызове `CONSTRUCTOR`.
+- Смешивание `RETURNING` и `EXPORTING` в сигнатуре методов возвращающих/экспортирующих только один параметр.
 
-We observed good results with a four-step plan for refactoring:
+Мы получили хорошие результаты используя четырехэтапный план рефакторинга:
 
-1. Get the team aboard. Communicate and explain the new style,
-and get everybody on the project team to agree to it.
-You don't need to commit all guidelines at once, just start
-with an undisputed small subset and evolve from there.
+1. Соберите команду. Сообщите и объясните им новый стиль написания кода.
+Убедите всю команду проекта согласиться с ним.
+Вам не нужно закреплять все рекомендации сразу, просто начните
+с небольших очевидных вещей.
 
-2. Follow the _boy scout rule_ to your daily work routine:
-_always leave the code you edit a little cleaner than you found it_.
-Don't obsess with this by sinking hours into "cleaning the campsite",
-just spend a couple of minutes extra and observe how the
-improvements accumulate over time.
+2. Следуйте _правилу бойскаута_ в своей повседневной работе:
+_всегда оставляйте код, который вы редактируете, немного чище того, каким он был раньше_.
+Не зацикливайтесь на этом, тратя часы на «уборку лагеря».
+Просто потратьте пару дополнительных минут и посмотрите, как
+со временем код будет улучшаться.
 
-3. Build _clean islands_: from time to time, pick a small object or component and
-try to make it clean in all aspects. These islands demonstrate the benefit
-of what you're doing and form solidly tested home bases for further refactoring.
+3. Создайте _чистые острова_: время от времени выбирайте небольшой объект или компонент и
+старайтесь сделать его чистым во всех отношениях. Эти острова будут демонстрировать преимущества
+того, что вы делаете, и сформируют надежную проверенную базу для дальнейшего рефакторинга.
 
-4. Talk about it. No matter whether you set up old-school [Fagan code reviews](https://en.wikipedia.org/wiki/Fagan_inspection),
-hold info sessions, or form discussion boards in your favorite chat tool:
-you will need to talk about your experiences and learnings, to enable the
-team to grow a common understanding.
+4. Обсуждайте это. Независимо от того, проводите ли вы старомодную инспекцию кода [инспекция Фогана](https://en.wikipedia.org/wiki/Fagan_inspection ),
+проводите информационные сессии или создаёте доски обсуждений в своем любимом чате:
+вам нужно будет рассказыть о своем опыте и знаниях, чтобы
+команда могла прийти у общему пониманию.
 
-### How to Check Automatically
+### Как выполнять автоматическую проверку
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-check-automatically)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Инструкция](#инструкция) > [Эта секция](#как-выполнять-автоматическую-проверку)
 
 [code pal for ABAP](https://github.com/SAP/code-pal-for-abap)
-provides a comprehensive suite of automatic checks for Clean ABAP.
+предоставляет полный набор автоматических проверок для Чистого ABAP.
 
-ABAP Test Cockpit, Code Inspector, Extended Check, and Checkman provide
-some checks that may help you find certain issues.
+ABAP Test Cockpit, Code Inspector, Расширенная проверка программы, и Checkman предоставляют
+некоторые проверки, которые могут помочь вам обнаружить определенные проблемы.
 
 [abapOpenChecks](https://github.com/larshp/abapOpenChecks),
-an Open Source collection of Code Inspector checks,
-also covers some of the described anti-patterns.
+коллекция проверок с открытым исходным кодом для Code Inspector,
+также охватывает некоторые из описанных антипаттернов.
 
-[abaplint](https://github.com/abaplint/abaplint) is an open source reimplementation of the ABAP parser. It works without a SAP system and is meant to be used on code serialized using abapGit. It offers multiple integrations (GitHub Actions, Jenkins, text editors...), covers some of the antipatterns and can also be used to check formatting and code conventions.
+[abaplint](https://github.com/abaplint/abaplint) это повторная реализация ABAP-парсера с открытым исходным кодом. Он работает без системы SAP и предназначен для использования в коде, сериализованном с помощью abapGit. Инструмент предлагает множество интеграций (GitHub Actions, Jenkins, текстовые редакторы...), проверяет отсутствие в коде некоторых антипаттернов, а также может использоваться для проверки соглашений о форматировании и коде.
 
-### How to Relate to Other Guides
+### Как относиться к другим руководствам
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-relate-to-other-guides)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Инструкция](#инструкция) > [Эта секция](#как-относиться-к-другим-руководствам)
 
-Our guide follows the _spirit_ of Clean Code,
-meaning we adjusted some things to the ABAP programming language
-e.g. [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions).
+Наше руководство следует _духу_ Чистого кода,
+что означает, что мы адаптировали некоторые вещи к языку программирования ABAP, 
+например [Бросайте CX_STATIC_CHECK для управляемых исключений](#бросайте-cx_static_check-для-управляемых-исключений).
 
-Some facts are from the
-[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm),
-which this guide is mostly compatible to; deviations are indicated and always in the spirit of cleaner code.
+Некоторые факты взяты из 
+[Руководство по программированию на ABAP](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm),
+с которым это руководство в основном совместимо; отклонения указаны и всегда соответствуют духу более чистого кода.
 
-This guide also respects the
-[DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
-although we are more precise in most details.
+Это руководство также учитывает
+[Рекомендации DSAG по ABAP разработке](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
+хотя мы более точны в большинстве деталей.
 
-Since its publication, Clean ABAP has become a reference guide
-for many of SAP's in-house development teams,
-including the several hundred coders that work on S/4HANA.
+С момента публикации Clean ABAP стал справочным руководством
+для многих внутренних команд разработчиков SAP,
+включая несколько сотен кодеров, работающих над S/4HANA.
 
-### How to Disagree
+### Как выражать несогласие
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [How to](#how-to) > [This section](#how-to-disagree)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Инструкция](#инструкция) > [Эта секция](#как-выражать-несогласие)
 
-We wrote this style guide for readers who are already acquainted with Clean Code or who are right now working on that,
-with a strong focus on how to apply Clean Code _specifically to ABAP_.
+Мы написали это руководство по стилю программирования для читателей, которые уже знакомы с Чистым кодом или которые прямо сейчас знакомятся с ним,
+уделяя особое внимание тому, как применять его _конкретно к ABAP_.
 
-Please mind that we therefore did not introduce all concepts in the same length and depth
-as the original book and related resources: these are still worth a read,
-especially if you disagree with things in here just because we didn't explain them very well.
-Use the links in the sections to read up on the background of our guidance.
+Пожалуйста, имейте в виду, что именно поэтому мы не описали все концепции одинаково подробно и глубоко 
+как в оригинальной книге и связанных с ней ресурсах: их все равно стоит прочитать,
+особенно если вы не согласны с вещами описанными здесь только потому, что мы не очень хорошо их объяснили.
+Используйте ссылки в разделах, чтобы ознакомиться с предпосылками нашего руководства.
 
-You are free to discuss and disagree with anything we say here.
-One of the pillars of Clean Code is that _the team rules_.
-Just be sure to give things a fair chance before you discard them.
+Вы можете свободно обсуждать и не соглашаться с чем-либо, о чем мы здесь говорим.
+Одним из столпов Чистого кода является то, что называется _правила команды_.
+Просто постарайтесь дать чему-либо шанс, прежде чем отбросить это.
 
-[CONTRIBUTING.md](../CONTRIBUTING.md) suggests ways how you can change this guide or deviate from it in minor details.
+[CONTRIBUTING.md](../CONTRIBUTING.md) предлагает способы того, как вы можете изменить это руководство или отклониться от него в незначительных деталях.
 
-## Names
+## Имена
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#names)
+[Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#имена)
 
-### Use descriptive names
+### Используйте описательные имена
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-descriptive-names)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#используйте-описательные-имена)
 
-Use names that convey the content and meaning of things.
+Используйте имена, которые передают содержание и смысл вещей.
 
 ```ABAP
 CONSTANTS max_wait_time_in_seconds TYPE i ...
@@ -396,8 +396,8 @@ METHODS read_user_preferences ...
 CLASS /clean/user_preference_reader ...
 ```
 
-Do not focus on the data type or technical encoding.
-They hardly contribute to understanding the code.
+Не акцентируйте внимание на типе данных или технической кодировке.
+Они вряд ли способствуют пониманию кода.
 
 ```ABAP
 " anti-pattern
@@ -407,86 +407,86 @@ METHODS read_t005 ...
 CLASS /dirty/t005_reader ...
 ```
 
-[Do not attempt to fix bad names by comments.](#comments-are-no-excuse-for-bad-names)
+[Не пытайтесь исправить плохие имена с помощью комментариев.](#комментарии--не-оправдание-плохих-имен)
 
-> Read more in _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ [Robert C. Martin's _Clean Code_].
 
-### Prefer solution domain and problem domain terms
+### Предпочитайте термины из предметной области решения и предметной области проблемы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#prefer-solution-domain-and-problem-domain-terms)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](##предпочитайте-термины-из-предметной-области-решения-и-предметной-области-проблемы)
 
-Search for good names in the solution domain, i.e. computer science terms such as "queue" or "tree",
-and in the problem domain, i.e. business field terms such as "account" or "ledger".
+Ищите подходящие имена из области решения, т.е. термины информатики, такие как "очередь" или "дерево",
+и в проблемной области, т.е. термины бизнес-сферы, такие как "учетная запись" или "бухгалтерская книга".
 
-Layers that are business-like will sound best when named according to the problem domain.
-This is especially true for components that are designed with Domain-Driven Design, such as APIs and business objects.
+Слои, обеспечивающие бизнес-функциональность лучше всего называть в соответствии с проблемной областью.
+Особенно это относится к компонентам, разработанным с помощью предметно-ориентированного проектирования, например API и бизнес-объекты.
 
-Layers that provide mostly technical functionality, such as factory classes and abstract algorithms,
-will sound best when named according to the solution domain.
+Слои, обеспечивающие в основном техническую функциональность, такие как фабричные классы и абстрактные алгоритмы,
+лучше называть в соответствии с областью решения.
 
-In any case, do not attempt to make up your own language.
-We need to be able to exchange information between developers, product owners, partners and customers,
-so choose names that all of these can relate to without a customized dictionary.
+В любом случае, не пытайтесь придумать свой собственный язык.
+Нам нужно иметь возможность обмениваться информацией между разработчиками, владельцами продуктов, партнерами и клиентами,
+поэтому выбирайте имена, которые будут понятны всем им без специального словаря.
 
-> Read more in _Chapter 2: Meaningful Names: Use Solution Domain Names_ and _[...]:
-> Use Problem Domain Names_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 2: Meaningful Names: Use Solution Domain Names_ and _[...]:
+> Use Problem Domain Names_ [Robert C. Martin's _Clean Code_].
 
-### Use plural
+### Используйте множественное число
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-plural)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#используйте-множественное-число)
 
-There is a legacy practice at SAP to name tables of things in singular,
-for example `country` for a "table of countries".
-Common tendency in the outside world is to use the plural for lists of things.
-We therefore recommend to prefer `countries` instead.
+В SAP существует унаследованная практика называть таблицы объектов в единственном числе,
+например `country` (страна) для "таблицы стран".
+Распространенной тенденцией во внешнем мире является использование множественного числа для списков вещей.
+Поэтому мы рекомендуем вместо этого использовать `countries` (страны).
 
-> This advice primarily targets things like variables and properties.
-> For development objects, there may be competing patterns
-> that also make sense, for example the widely used convention
-> to name database tables ("transparent tables") in singular.
+> Этот совет в первую очередь относится к переменным и свойствам.
+> Для объектов разработки могут быть уместны другие шаблоны,
+> например, широко используемое соглашение
+> называть таблицы базы данных ("прозрачные таблицы") в единственном числе.
 
-> Read more in _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 2: Meaningful Names: Use Intention-Revealing Names_ [Robert C. Martin's _Clean Code_].
 
-### Use pronounceable names
+### Используйте произносимые имена
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-pronounceable-names)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#используйте-произносимые-имена)
 
-We think and talk a lot about objects, so use names that you can pronounce,
-for example prefer `detection_object_types` to something cryptic like `dobjt`.
+Мы много думаем и говорим об объектах. Поэтому используйте имена, которые каждый может произнести. 
+Например, используйте discovery_object_types, а не что-то загадочное вроде dobjt.
 
-> Read more in _Chapter 2: Meaningful Names: Use Pronounceable Names_ of [Robert C. Martin's _Clean Code_]
+> Подробнее в _Chapter 2: Meaningful Names: Use Pronounceable Names_ [Robert C. Martin's _Clean Code_]
 
-### Avoid abbreviations
+### Избегайте сокращений
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-abbreviations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#избегайте-сокращений)
 
-If you have enough space, write out names in full.
-Start abbreviating only if you exceed length limitations.
+Если у вас достаточно места, пишите имена полностью.
+Начинайте сокращать только в том случае, когда превысите ограничения по длине.
 
-If you do have to abbreviate, start with the _unimportant_ words.
+Если вам действительно нужно что-то сократить, начните с _не важных_ слов.
 
-Abbreviating things may appear efficient at first glance, but becomes ambiguous very fast.
-For example, does the "cust" in `cust` mean "customizing", "customer", or "custom"?
-All three are common in SAP applications.
+Сокращение названий вещей на первый взгляд может показаться эффективным, но очень быстро становится двусмысленным.
+Например, "cust" в `cust` означает "customizing", "customer", или "custom"?
+Все три термина распространены в приложениях SAP.
 
-> Read more in _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ [Robert C. Martin's _Clean Code_].
 
-### Use same abbreviations everywhere
+### Используйте одни и те же сокращения везде
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-same-abbreviations-everywhere)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#используйте-одни-и-те-же-сокращения-везде)
 
-People will search for keywords to find relevant code.
-Support this by using the same abbreviation for the same thing.
-For example, always abbreviate "detection object type" to "dobjt"
-instead of mixing "dot", "dotype", "detobjtype" and so on.
+Люди будут искать ключевые слова, чтобы найти соответствующий код.
+Упростите им задачу, используя одинаковое сокращение для одного и того же.
+Например, всегда сокращайте "detection object type" до "dobjt"
+вместо сокращений "dot", "dotype", "detobjtype" и тому подобных.
 
-> Read more in _Chapter 2: Meaningful Names: Use Searchable Names_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 2: Meaningful Names: Use Searchable Names_ [Robert C. Martin's _Clean Code_].
 
-### Use nouns for classes and verbs for methods
+### Используйте существительные для классов и глаголы для методов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-nouns-for-classes-and-verbs-for-methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](##используйте-существительные-для-классов-и-глаголы-для-методов)
 
-Use nouns or noun phrases to name classes, interfaces, and objects:
+Используйте существительные или словосочетания для обозначения классов, интерфейсов и объектов:
 
 ```ABAP
 CLASS /clean/account
@@ -494,7 +494,7 @@ CLASS /clean/user_preferences
 INTERFACE /clean/customizing_reader
 ```
 
-Use verbs or verb phrases to name methods:
+Используйте глаголы или глагольные словосочетания для именования методов:
 
 ```ABAP
 METHODS withdraw
@@ -502,41 +502,41 @@ METHODS add_message
 METHODS read_entries
 ```
 
-Starting Boolean methods with verbs like `is_` and `has_` yields nice reading flow:
+Называйте булевы методы начиная с глаголов `is_` и `has_` чтобы сделать чтение приятным:
 
 ```ABAP
 IF is_empty( table ).
 ```
 
-We recommend naming functions like methods:
+Мы рекомендуем называть функции так же как методы:
 
 ```ABAP
 FUNCTION /clean/read_alerts
 ```
 
-### Avoid noise words such as "data", "info", "object"
+### Избегайте неинформативных слов, таких как "data", "info", "object"
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-noise-words-such-as-data-info-object)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#избегайте-неинформативных-слов-таких-как-data-info-object)
 
-Omit noise words
+Опустите неинформативные слова
 
 ```ABAP
 account  " instead of account_data
 alert    " instead of alert_object
 ```
 
-or replace them with something specific that really adds value
+или замените их чем-то конкретным, что добавит смысла
 
 ```ABAP
 user_preferences          " instead of user_info
 response_time_in_seconds  " instead of response_time_variable
 ```
 
-> Read more in _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ of [Robert C. Martin's _Clean Code_]
+> Подробнее в _Chapter 2: Meaningful Names: Make Meaningful Distinctions_ [Robert C. Martin's _Clean Code_]
 
-### Pick one word per concept
+### Выберите одно слово для каждой концепции
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#pick-one-word-per-concept)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#выберите-одно-слово-для-каждой-концепции)
 
 ```ABAP
 METHODS read_this.
@@ -544,8 +544,8 @@ METHODS read_that.
 METHODS read_those.
 ```
 
-Choose a term for a concept and stick to it; don't mix in other synonyms.
-Synonyms will make the reader waste time on finding a difference that's not there.
+Выберите один термин для концепции и придерживайтесь его всюду; не смешивайте с другими синонимами.
+Синонимы заставят читателя тратить время на поиск разницы, которой нет.
 
 ```ABAP
 " anti-pattern
@@ -554,31 +554,31 @@ METHODS retrieve_that.
 METHODS query_those.
 ```
 
-> Read more in _Chapter 2: Meaningful Names: Pick One Word per Concept_ of [Robert C. Martin's _Clean Code_]
+> Подробнее в _Chapter 2: Meaningful Names: Pick One Word per Concept_ [Robert C. Martin's _Clean Code_]
 
-### Use pattern names only if you mean them
+### Используйте имена шаблонов, только если вы имеете в виду именно их
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-pattern-names-only-if-you-mean-them)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#используйте-имена-шаблонов-только-если-вы-имеете-в-виду-именно-их)
 
-Don't use the names of software design patterns for classes and interfaces unless you really mean them.
-For example, don't call your class `file_factory` unless it really implements the factory design pattern.
-The most common patterns include:
+Не используйте названия шаблонов проектирования программного обеспечения для классов и интерфейсов, если вы действительно не имеете их в виду.
+Например, не называйте свой класс `file_factory`, если он действительно не реализует шаблон проектирования Фабрика.
+К наиболее распространенным шаблонам относятся:
 [singleton](https://en.wikipedia.org/wiki/Singleton_pattern),
 [factory](https://en.wikipedia.org/wiki/Factory_method_pattern),
 [facade](https://en.wikipedia.org/wiki/Facade_pattern),
 [composite](https://en.wikipedia.org/wiki/Composite_pattern),
 [decorator](https://en.wikipedia.org/wiki/Decorator_pattern),
 [iterator](https://en.wikipedia.org/wiki/Iterator_pattern),
-[observer](https://en.wikipedia.org/wiki/Observer_pattern), and
+[observer](https://en.wikipedia.org/wiki/Observer_pattern), и
 [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
 
-> Read more in _Chapter 2: Meaningful Names: Avoid Disinformation_ of [Robert C. Martin's _Clean Code_]
+> Подробнее в _Chapter 2: Meaningful Names: Avoid Disinformation_ [Robert C. Martin's _Clean Code_]
 
-### Avoid encodings, esp. Hungarian notation and prefixes
+### Избегайте схем кодирования имен, особенно венгерскую нотацию и префиксы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#избегайте-схем-кодирования-имен-особенно-венгерскую-нотацию-и-префиксы)
 
-We encourage you to get rid of _all_ encoding prefixes.
+Мы рекомендуем вам избавиться от _всех_ префиксов при написании кода.
 
 ```ABAP
 METHOD add_two_numbers.
@@ -586,7 +586,7 @@ METHOD add_two_numbers.
 ENDMETHOD.
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 METHOD add_two_numbers.
@@ -594,14 +594,17 @@ METHOD add_two_numbers.
 ENDMETHOD.
 ```
 
-> [Avoid Encodings](sub-sections/AvoidEncodings.md)
-> describes the reasoning in depth.
+> [Избегайте схем кодирования имен](sub-sections/AvoidEncodings.md)
+> подробно описывает рассуждения.
 
-### Avoid obscuring built-in functions
+### Избегайте перекрытия встроенных функций
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-obscuring-built-in-functions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Имена](#имена) > [Эта секция](#избегайте-перекрытия-встроенных-функций)
 
-Within a class, a built-in function is always obscured by methods of the class if they have the same name, regardless of the number and type of arguments in the function. The function is also obscured regardless of the number and type of method parameters. Built-in functions are, for instance, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )`, etc. 
+Внутри класса встроенная функция всегда перекрыта методами класса, если они имеют одно и то же имя, 
+независимо от количества и типа аргументов в функции. 
+Также, функция перекрыта независимо от количества и типа параметров метода. 
+Встроенными функциями являются, например, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )` и т. д.
 
 ```ABAP
 "anti-pattern
@@ -615,64 +618,63 @@ CLASS-METHODS condense RETURNING VALUE(result) TYPE i.
 CLASS-METHODS strlen RETURNING VALUE(result) TYPE i.  
 ```
 
-> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-us/abenbuilt_in_functions_syntax.htm#@@ITOC@@ABENBUILT_IN_FUNCTIONS_SYNTAX_3?file=abenbuilt_in_functions_syntax.htm).
+> Подробнее в [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-us/abenbuilt_in_functions_syntax.htm#@@ITOC@@ABENBUILT_IN_FUNCTIONS_SYNTAX_3?file=abenbuilt_in_functions_syntax.htm).
 
 
-## Language
+## Язык
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#language)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#язык)
 
-### Mind the legacy
+### Помните о наследии
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#mind-the-legacy)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Язык](#язык) > [Эта секция](#mind-the-legacy)
 
-If you code for older ABAP releases, take the advice in this guide with care:
-Many recommendations below make use of relatively new syntax and constructs
-that may not be supported in older ABAP releases.
-Validate the guidelines you want to follow on the oldest release you must support.
-Do not simply discard Clean Code as a whole -
-the vast majority of rules (e.g. naming, commenting) will work in _any_ ABAP version.
+Если вы ведете разработку в системах, поддерживающих только более старые версии ABAP, следуйте советам этого руководства с осторожностью.
+Во многих приведенных ниже рекомендациях используются относительно новый синтаксис и конструкции, 
+которые могут не поддерживаться в более старых версиях ABAP.
+Проверьте рекомендации, которым вы хотите следовать в самой старой версии, которую вы должны поддерживать.
+Не следует просто отбрасывать Чистый код в целом -
+подавляющее большинство правил (например, присвоение имен, комментирование) будут работать в _any_ версии ABAP.
 
-### Mind the performance
+### Помните о производительности
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#mind-the-performance)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Язык](#язык) > [Эта секция](#помните-о-производительности)
 
-If you code high performance components, take the advice in this guide with care:
-Some aspects of Clean Code may make things slower (more method calls) or consume more memory (more objects).
-ABAP has some specialties that may intensify this, for example it compares data types when calling a method,
-such that splitting a single large method into many sub-methods may make the code slower.
+Если вы разрабатываете высокопроизводительные компоненты, следуйте советам этого руководства с осторожностью.
+Некоторые рекомендации Чистого кода могут привести к замедлению работы (большее количество вызовов методов) или потреблять больше памяти (больше объектов).
+ABAP имеет некоторые особенности, которые могут усилить это, например, он сравнивает типы данных при вызове метода,
+так что разделение одного большого метода на множество подметодов может сделать код медленнее.
 
-However, we strongly recommend to not optimize prematurely, based on obscure fears.
-The vast majority of rules (e.g. naming, commenting) has no negative impact at all.
-Try to build things in a clean, object-oriented way.
-If something is too slow, make a performance measurement.
-Only then should you take a fact-based decision to discard selected rules.
+Тем не менее, мы настоятельно рекомендуем не проводить преждевременную оптимизацию, основанную на неясных опасениях.
+Подавляющее большинство правил (например, присвоение имен, комментирование) вообще не оказывает негативного влияния.
+Старайтесь вести разработку используя чистый, объектно-ориентированный подход.
+Если что-то работает слишком медленно, проведите измерение производительности.
+Только после этого вы можете принять основанное на фактах решение об отмене выбранных правил.
 
-Some further thoughts, taken in part from Chapter 2 of
+Некоторые дополнительные соображения частично взяты из главы 2
 [Martin Fowler's _Refactoring_](https://martinfowler.com/books/refactoring.html):
 
-In a typical application the majority of the runtime is spent in a very small proportion
-of the code. As little as 10% of the code can account for 90% of the runtime, and especially
-in ABAP a large proportion of runtime is likely to be database time.
+В типичном приложении бОльшая часть времени выполнения тратится на очень небольшую часть
+кода. Всего 10% кода может составлять 90% времени выполнения. Особенно это относится к
+ABAP, где большая часть времени выполнения, скорее всего, приходится на время работы с базой данных.
 
-Thus it is not the best use of resources to spend significant effort on trying to make _all_
-code super-efficient all the time. We're not suggesting ignoring performance, but rather
-focus more on clean and well structured code during initial development, and use the
-profiler to identify critical areas to optimize.
+Таким образом, стремление сделать _весь_ код сверхэффективным - это не лучший способ использования ресурсов. 
+Мы не предлагаем игнорировать производительность, но лучше больше сосредоточиться на чистом и хорошо структурированном коде 
+во время начальной разработки и использовать ABAP Profiler для определения критических областей для оптимизации.
 
-In fact, we would argue that such an approach will have a net positive effect on performance
-because it is a more targeted optimization effort, and it should be easier
-to identify performance bottlenecks and easier to refactor and tune well structured code.
+Стоит добавить, что такой подход положительно скажется на производительности, 
+так как усилия по оптимизации будут более целенаправленными. Кроме того, 
+станет проще выявлять узкие места в производительности, 
+а также легче проводить рефакторинг и корректировку хорошо структурированного кода.
 
-### Prefer object orientation to procedural programming
+### Предпочитайте объектно-ориентированное программирование процедурному
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-object-orientation-to-procedural-programming)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Язык](#язык) > [Эта секция](#предпочитайте-объектно-ориентированное-программирование-процедурному)
 
-Object-oriented programs (classes, interfaces) are segmented better
-and can be refactored and tested more easily than procedural code (functions, programs).
-Although there are situations where you must provide procedural objects
-(a function for an RFC, a program for a transaction),
-these objects should do little more than call a corresponding class that provides the actual feature:
+Поскольку объектно-ориентированные программы (классы, интерфейсы) лучше сегментированы, 
+их легче рефакторить и тестировать, чем процедурный код (функции, программы). 
+В некоторых ситуациях, однако, вам нужно указать процедурные объекты (функции для RFC, программы для транзакций), 
+но эти объекты должны служить не более чем для вызова соответствующего класса, который обеспечивает реальную функциональность:
 
 ```ABAP
 FUNCTION check_business_partner [...].
@@ -682,13 +684,13 @@ ENDFUNCTION.
 ```
 
 > [Function Groups vs. Classes](sub-sections/FunctionGroupsVsClasses.md)
-> describes the differences in detail.
+> подробно описывает различия.
 
-### Prefer functional to procedural language constructs
+### Предпочитайте функциональные языковые конструкции процедурным
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#prefer-functional-to-procedural-language-constructs)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Язык](#язык) > [Эта секция](#предпочитайте-функциональные-языковые-конструкции-процедурным)
 
-They are usually shorter and come more natural to modern programmers.
+Как правило, они короче и более естественны для современных разработчиков.
 
 ```ABAP
 DATA(variable) = 'A'.
@@ -719,19 +721,16 @@ IF line_exists( value_pairs[ name = 'A' ] ).
 " DATA(exists) = xsdbool( sy-subrc = 0 ).
 ```
 
-Many of the detailed rules below are just specific reiterations of this general advice.
+Многие из подробно описанных правил, приведенных ниже, являются лишь повторением этого общего совета.
 
-### Avoid obsolete language elements
+### Избегайте устаревших языковых элементов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#avoid-obsolete-language-elements)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Язык](#язык) > [Эта секция](#избегайте-устаревших-языковых-элементов)
 
-When upgrading your ABAP version,
-make sure to check for obsolete language elements
-and refrain from using them.
+После обновления версии ABAP обязательно проверьте наличие устаревших языковых элементов и воздержитесь от их использования.
 
-For example, the `@`-escaped "host" variables
-in the following statement make a little clearer
-what's a program variable and what's a column in the database,
+Например, «host» переменные, экранированные символом `@` в следующей инструкции, 
+немного лучше поясняют, что здесь является переменной программы, и что является столбцом в базе данных.
 
 ```ABAP
 SELECT *
@@ -741,7 +740,7 @@ SELECT *
   INTO TABLE @itab.
 ```
 
-as compared to the [obsolete unescaped form](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenopen_sql_hostvar_obsolete.htm)
+по сравнению с [устаревшей неэкранированной формой](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenopen_sql_hostvar_obsolete.htm)
 
 ```ABAP
 SELECT *
@@ -751,56 +750,57 @@ SELECT *
   INTO TABLE itab.
 ```
 
-Newer alternatives tend to improve readability of the code,
-and reduce design conflicts with modern programming paradigms,
-such that switching to them can automatically clean your code.
+Новые альтарнативный синтаксис, как правило, улучшает читаемость кода
+и уменьшают конфликты конфликты, возникающие при проектировании 
+с использованием современных парадигм программирования,
+так что переход на них может автоматически сделать ваш код более чистым.
 
-While continuing to work, obsolete elements may stop benefitting
-from optimizations in terms of processing speed and memory consumption.
+Несмотря на то, что устаревшие элементы продолжают работать, 
+устаревшие элементы могут перестать получать обновления от возможных будущих мер по оптимизации
+с точки зрения скорости обработки и потребления памяти.
 
-With modern language elements, you can onboard young ABAPers easier,
-who may no longer be familiar with the outdated constructs
-because they are no longer taught in SAP's trainings.
+С помощью современных языковых элементов вы можете легче обучать молодых ABAPеров которые, 
+возможно, уже не знакомы с устаревшими конструкциями, потому что их больше не используют при обучении на тренингах SAP.
 
-The SAP NetWeaver documentation contains a stable section
-that lists obsolete language elements, for example
+Документация SAP NetWeaver содержит постоянный раздел, 
+в котором перечислены устаревшие языковые элементы, например
 [NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm).
 
-### Use design patterns wisely
+### Используйте шаблоны проектирования с умом
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Language](#language) > [This section](#use-design-patterns-wisely)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Язык](#язык) > [Эта секция](#используйте-шаблоны-проектирования-с-умом)
 
-Where they are appropriate and provide noticeable benefit.
-Don't apply design patterns everywhere just for the sake of it.
+Там, где они уместны и приносят заметную пользу.
+Не используйте шаблоны проектирования везде только ради своего удовольствия.
 
-## Constants
+## Константы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#constants)
+[Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#константы)
 
-### Use constants instead of magic numbers
+### Используйте константы вместо магических чисел
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#use-constants-instead-of-magic-numbers)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Константы](#константы) > [Эта секция](#используйте-константы-вместо-магических-чисел)
 
 ```ABAP
 IF abap_type = cl_abap_typedescr=>typekind_date.
 ```
 
-is clearer than
+понятнее чем
 
 ```ABAP
 " anti-pattern
 IF abap_type = 'D'.
 ```
 
-> Read more in _Chapter 17: Smells and Heuristics: G25:
-> Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 17: Smells and Heuristics: G25:
+> Replace Magic Numbers with Named Constants_ [Robert C. Martin's _Clean Code_].
+> 
+### Предпочитайте классы перечисления интерфейсам констант
 
-### Prefer enumeration classes to constants interfaces
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-to-constants-interfaces)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Константы](#константы) > [Эта секция](#предпочитайте-классы-перечисления-интерфейсам-констант)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
@@ -811,7 +811,7 @@ CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
 ENDCLASS.
 ```
 
-or
+или
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
@@ -823,9 +823,9 @@ CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
 ENDCLASS.
 ```
 
-instead of mixing unrelated things
-or misleading people to the conclusion
-that constants collections could be "implemented":
+вместо того, чтобы смешивать несвязанные вещи
+или вводить людей в заблуждение, подталкивая к выводу
+о том, что коллекции констант могут быть "реализованы":
 
 ```ABAP
 " anti-pattern
@@ -838,17 +838,17 @@ INTERFACE /dirty/common_constants.
 ENDINTERFACE.
 ```
 
-> [Enumerations](sub-sections/Enumerations.md)
-> describes common enumeration patterns
-> and discusses their advantages and disadvantages.
+> Раздел [Перечисления](sub-sections/Enumerations.md)
+> описывает общие шаблоны перечислений
+> и рассказывает об их преимуществах и недостатках.
 >
-> Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ [Robert C. Martin's _Clean Code_].
 
-### If you don't use enumeration classes, group your constants
+### Если вы не используете классы перечисления, сгруппируйте свои константы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enumeration-classes-group-your-constants)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Константы](#константы) > [Эта секция](#если-вы-не-используете-классы-перечисления-сгруппируйте-свои-константы)
 
-If you collect constants in a loose way, for example in an interface, group them:
+Если вы собираете константы произвольным образом, например, в интерфейсе, сгруппируйте их:
 
 ```ABAP
 CONSTANTS:
@@ -862,7 +862,7 @@ CONSTANTS:
   END OF message_lifespan.
 ```
 
-Makes the relation clearer than:
+Это делает отношение более ясным, чем:
 
 ```ABAP
 " Anti-pattern
@@ -873,7 +873,7 @@ CONSTANTS:
   persisted    TYPE i       VALUE 2,
 ```
 
-The group also allows you group-wise access, for example for input validation:
+Группа также позволяет вам осуществлять групповой доступ, например, для проверки входных данных:
 
 ```ABAP
 DO.
@@ -889,18 +889,18 @@ DO.
 ENDDO.
 ```
 
-> Read more in _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 17: Smells and Heuristics: G27: Structure over Convention_ [Robert C. Martin's _Clean Code_].
 
-## Variables
+## Переменные
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#variables)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#переменные)
 
-### Prefer inline to up-front declarations
+### Предпочитайте встроенные объявления предварительным
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-inline-to-up-front-declarations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Переменные](#переменные) > [Эта секция](#предпочитайте-встроенные-объявления-предварительным)
 
-If you follow these guidelines, your methods will become so short (3-5 statements)
-that declaring variables inline at first occurrence will look more natural
+Если вы будете следовать этим рекомендациям, ваши методы станут настолько короткими (3-5 утверждений), 
+что объявление встроенных переменных будет выглядеть более естественно
 
 ```ABAP
 METHOD do_something.
@@ -910,7 +910,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-than declaring variables with a separate `DATA` section at the beginning of the method
+чем объявление переменных с отдельной секцией `DATA` в начале метода
 
 ```ABAP
 " anti-pattern
@@ -924,11 +924,11 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-> Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ [Robert C. Martin's _Clean Code_].
 
-### Don't declare inline in optional branches
+### Не используйте встроенные объявления в необязательных ветвях
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#dont-declare-inline-in-optional-branches)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Переменные](#переменные) > [Эта секция](#не-используйте-встроенные-объявления-в-необязательных-ветвях)
 
 ```ABAP
 " anti-pattern
@@ -939,10 +939,10 @@ ELSE.
 ENDIF.
 ```
 
-This works fine because ABAP handles inline declarations as if they were at the beginning of the method.
-However, it is extremely confusing for readers,
-especially if the method is longer and you don't spot the declaration right away.
-In this case, break with inlining and put the declaration up-front:
+Это прекрасно работает, потому что ABAP обрабатывает встроенные объявления так, как если бы они находились в начале метода.
+Однако, это сильно сбивает с толку читателей,
+особенно если метод длиннее, и вы не сразу обнаруживаете объявление.
+В этом случае откажитесь от встраивания и разместите объявление заранее:
 
 ```ABAP
 DATA value TYPE i.
@@ -953,25 +953,25 @@ ELSE.
 ENDIF.
 ```
 
-> Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ [Robert C. Martin's _Clean Code_].
 
-### Do not chain up-front declarations
+### Не сцепливайте предварительные объявления
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-chain-up-front-declarations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Переменные](#переменные) > [Эта секция](#не-сцепливайте-предварительные-объявления)
 
 ```ABAP
 DATA name TYPE seoclsname.
 DATA reader TYPE REF TO reader.
 ```
 
-Chaining suggests the defined variables are related on a logical level.
-To consistently use it, you would have to ensure that all chained variables belong together,
-and introduce additional chain groups to add variables.
-While this is possible, it is usually not worth the effort.
+Сцепливание предполагает, что определенные переменные логически связаны. 
+Чтобы быть последовательным при их использовании нужно убедиться, что все переменные 
+действительно связаны друг с другом, а затем ввести другие группы для добавления переменных. 
+Это возможно, но в целом игра не стоит свеч.
 
-Chaining also needlessly complicates reformatting and refactoring
-because each line looks different and changing them requires meddling with
-colons, dots, and commas, that are not worth the effort.
+Кроме того, цепочка излишне усложняет настройку форматирования и рефакторинг, 
+потому что строки выглядят по-разному. Из-за этого их редактирование требует возни с двоеточиями, 
+точками и запятыми, которые не стоят хлопот.
 
 ```ABAP
 " anti-pattern
@@ -980,31 +980,31 @@ DATA:
   reader TYPE REF TO reader.
 ```
 
-> Also refer to [Don't align type clauses](#dont-align-type-clauses)  
-> If chaining of data declaration is used, then use one chain for each group of variables belonging together.
+> Также см. [Не выравнивайте указания типов](#не-выравнивайте-указания-типов)  
+> Если используется цепочка объявления данных, то используйте одну цепочку для каждой группы переменных.
 
-### Prefer REF TO to FIELD-SYMBOL
+### Предпочитайте REF TO вместо FIELD-SYMBOL
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Переменные](#переменные) > [Эта секция](#предпочитайте-ref-to-вместо-field-symbol)
 
-> This section [is being challenged](https://github.com/SAP/styleguides/issues/115).
-> `FIELD-SYMBOL`s seem to be considerably faster
-> when iterating internal tables,
-> such that the recommendation to use `REF TO`
-> for these cases may worsen performance.
+> Этой секции [бросили вызов](https://github.com/SAP/styleguides/issues/115).
+> `FIELD-SYMBOL`ы вроде бы, значительно быстрее
+> при переборе внутренних таблиц,
+> так что рекомендация использовать `REF TO`
+> для этих случаев может ухудшить производительность.
 
 ```ABAP
 LOOP AT components REFERENCE INTO DATA(component).
 ```
 
-instead of the equivalent
+вместо аналогичного
 
 ```ABAP
 " anti-pattern
 LOOP AT components ASSIGNING FIELD-SYMBOL(<component>).
 ```
 
-except where you need field symbols
+за исключением случаев, когда вам нужны именно символы поля
 
 ```ABAP
 ASSIGN generic->* TO FIELD-SYMBOL(<generic>).
@@ -1012,110 +1012,113 @@ ASSIGN COMPONENT name OF STRUCTURE structure TO FIELD-SYMBOL(<component>).
 ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
 ```
 
-Code reviews demonstrate that people tend to choose between the two arbitrarily,
-"just because", "because we are always LOOPing that way", or "for no special reason".
-Arbitrary choices make the reader waste time on the pointless question why one is used over the other
-and thus should be replaced with well-founded, precise decisions.
-Our recommendation is based on this reasoning:
+Как показывают обзоры кода, люди склонны выбирать одно или другое произвольным образом, 
+«просто так», «потому что мы всегда создаем такие циклы» или «без особой причины». 
+Из-за такого произвольного выбора читатель тратит время на размышления, почему один из них используется чаще, чем другой. 
+Поэтому необходимо заменить эти произвольные решения обоснованными и точными решениями. 
+Наша рекомендация основана на следующем рассуждении:
 
-- Field symbols can do some things that references cannot, such as dynamically accessing the components of a structure.
-Likewise, references can do things that field symbols can't, such as constructing a dynamically typed data structure.
-In summary, settling for one alone is not possible.
+- Символы полей могут выполнять некоторые действия, которые недоступны ссылкам, например динамический доступ к компонентам структуры.
+В то же время ссылки могут делать то, чего не могут символы поля, например создавать структуру данных с динамическим типом.
+В общем, довольствоваться одним невозможно.
 
-- In object-oriented ABAP, references are all over the place and cannot be avoided,
-as any object is a `REF TO <class-name>`.
-In contrast, field symbols are only strictly required in few, special cases concerned with dynamic typing.
-References thus form a natural preference in any object-oriented program.
+- В объектно-ориентированном ABAP ссылки встречаются повсюду, и их невозможно избежать,
+так как любой объект является `REF TO <class-name>`.
+При этом, символы полей строго требуются только в немногих особых случаях, связанных с динамической типизацией.
+Таким образом, ссылки формируют естественное предпочтение в любой объектно-ориентированной программе.
 
-- Field symbols are shorter than references, but the resulting memory saving is so tiny that it can be safely neglected.
-Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
+Символы полей короче ссылок, но результирующая экономия памяти настолько мала, что ее можно смело пренебречь. 
+Скорость тоже не имеет значения. Таким образом, нет никаких причин, связанных с производительностью, предпочесть одно другому.
 
-> Read more in the article
+> Подробнее читайте в статье
 > [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
 
-## Tables
+## Таблицы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#tables)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#таблицы)
 
-### Use the right table type
+### Используйте правильный тип таблицы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#use-the-right-table-type)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#используйте-правильный-тип-таблицы)
 
-- You typically use `HASHED` tables for **large tables**
-that are **filled in a single step**, **never modified**, and **read often by their key**.
-Their inherent memory and processing overhead makes hash tables only valuable
-for large amounts of data and lots of read accesses.
-Each change to the table's content requires expensive recalculation of the hash,
-so don't use this for tables that are modified too often.
+- Используйте `HASHED` таблицы для **больших таблиц**.
+которые **заполняются за один шаг**, **никогда не модифицируются** и **часто считываются по их ключу**.
+Из-за потребления памяти и присущих им накладных расходов на обработку хеш-таблицы ценны только для
+при больших объемах данных и большого количества доступов на чтение.
+Каждое изменение содержимого таблицы требует дорогостоящего пересчета хэша,
+поэтому не используйте их для таблиц, которые слишком часто изменяются.
 
-- You typically use `SORTED` tables for **large tables**
-that need to be **sorted at all times**, that are **filled bit by bit** or **need to be modified**,
-and **read often by one or more full or partial keys** or processed **in a certain order**.
-Adding, changing, or removing content requires finding the right insertion spot,
-but doesn't require adjusting the rest of the table's index.
-Sorted tables demonstrate their value only for large numbers of read accesses.
+- Используйте `SORTED` таблицы для **больших таблиц**
+которые должны быть **отсортироваными в любое время**, которые **заполняются по частям** или **должны быть изменены**,
+и **часто считываются по одному или нескольким полными или частичным ключам** или обрабатываются **в определенном порядке**.
+Добавление, изменение или удаление содержимого требует поиска правильного места вставки,
+но не требует корректировки остальной части индекса таблицы.
+Отсортированные таблицы демонстрируют свою ценность только при большом количестве обращений на чтение.
 
-- Use `STANDARD` tables for **small tables**, where indexing produces more overhead than benefit, and **"arrays"**, where you either don't care at all for the order of the rows, or you want to process them in exactly the order they were appended. Also, if different access to the table is needed e.g. indexed access and sorted access via `SORT` and `BINARY SEARCH`.
+- Используйте `STANDARD` таблицы для **небольших таблиц**, где индексация создает больше накладных расходов, чем пользы, и **"массивов"**, 
+где вас либо вообще не волнует порядок строк, либо вы хотите обрабатывать их точно в том порядке, в котором они были добавлены. 
+Кроме того, используйте их если требуется другой доступ к таблице, например, индексированный доступ и отсортированный доступ 
+через "SORT" и "BINARY SEARCH`.
 
-> These are only rough guidelines.
-> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
+> Это всего лишь приблизительные рекомендации.
+> Подробнее в статье [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
 
-### Avoid DEFAULT KEY
+### Избегайте DEFAULT KEY
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#avoid-default-key)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#избегайте-default-key)
 
 ```ABAP
 " anti-pattern
 DATA itab TYPE STANDARD TABLE OF row_type WITH DEFAULT KEY.
 ```
 
-Default keys are often only added to get the newer functional statements working.
-The keys themselves in fact are usually superfluous and waste resources for nothing.
-They can even lead to obscure mistakes because they ignore numeric data types.
-The `SORT` and `DELETE ADJACENT` statements without explicit field list will resort to the primary key of the
- internal table, which in case of usage of `DEFAULT KEY` can lead to very unexpected results when having
- e.g. numeric fields as component of the key, in particular in combination with `READ TABLE ... BINARY` etc.
+Ключи по умолчанию часто добавляются только для того, чтобы заставить работать новые функциональные операторы.
+Сами ключи по сути, обычно лишние и тратят ресурсы впустую.
+Они могут даже привести к непонятным ошибкам, поскольку игнорируют числовые типы данных.
+Например, операторы `SORT` и `DELETE ADJACENT` без явного указания списка полей будут использовать первичный ключ внутренней таблицы. 
+Если при этом используется DEFAULT KEY это может привести к неожиданным результатам. Например, если используются 
+числовые поля в ключе в сочетании с READ TABLE... BINARY и т. д.
 
-Either specify the key components explicitly
+Либо укажите ключевые компоненты явно
 
 ```ABAP
 DATA itab2 TYPE STANDARD TABLE OF row_type WITH NON-UNIQUE KEY comp1 comp2.
 ```
 
-or resort to `EMPTY KEY` if you don't need a key at all.
+или используйте `EMPTY KEY` если вам вообще не нужен ключ.
 
 ```ABAP
 DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 ```
 
-> Following [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
+> Следуя [Horst Keller's blog on _Internal Tables with Empty Key_](https://blogs.sap.com/2013/06/27/abap-news-for-release-740-internal-tables-with-empty-key/)
 > 
-> **Caution:** `SORT` on internal tables with `EMPTY KEY` (without explicit sort fields) will not sort at all,
-> but syntax warnings are issued in case the key's emptiness can be determined statically.
+> **Внимание:** `SORT` по внутренним таблицам с `EMPTY KEY` (без явных полей сортировки) вообще не сортирует,
+> но будут выданы синтаксические предупреждения в случае, если отсутствие ключа может быть определено статически.
 
-### Prefer INSERT INTO TABLE to APPEND TO
+### Предпочитайте INSERT INTO TABLE вместо APPEND TO
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-insert-into-table-to-append-to)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#предпочитайте-insert-into-table-вместо-append-to)
 
 ```ABAP
 INSERT VALUE #( ... ) INTO TABLE itab.
 ```
 
-`INSERT INTO TABLE` works with all table and key types,
-thus making it easier for you to refactor the table's type and key definitions if your performance requirements change.
+`INSERT INTO TABLE` работает со всеми типами таблиц и ключей.
+Таким образом, вам будет проще провести рефакторинг определений типов и ключей таблицы, если ваши требования к производительности изменятся.
 
-Use `APPEND TO` only if you use a `STANDARD` table in an array-like fashion,
-if you want to stress that the added entry shall be the last row.
+Используйте `APPEND TO` только если вы используете `STANDARD` таблицу в виде массива и 
+хотите подчеркнуть, что добавленная запись должна быть последней строкой.
 
-### Prefer LINE_EXISTS to READ TABLE or LOOP AT
+### Предпочитайте LINE_EXISTS вместо READ TABLE или LOOP AT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-line_exists-to-read-table-or-loop-at)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#предпочитайте-line_exists-вместо-read-table-или-loop-at)
 
 ```ABAP
 IF line_exists( my_table[ key = 'A' ] ).
 ```
 
-expresses the intent clearer and shorter than
+выражает намерение яснее и короче, чем
 
 ```ABAP
 " anti-pattern
@@ -1123,7 +1126,7 @@ READ TABLE my_table TRANSPORTING NO FIELDS WITH KEY key = 'A'.
 IF sy-subrc = 0.
 ```
 
-or even
+или даже
 
 ```ABAP
 " anti-pattern
@@ -1133,15 +1136,15 @@ LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ENDLOOP.
 ```
 
-### Prefer READ TABLE to LOOP AT
+### Предпочитайте READ TABLE вместо LOOP AT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-read-table-to-loop-at)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#предпочитайте-read-table-вместо-loop-at)
 
 ```ABAP
 READ TABLE my_table REFERENCE INTO DATA(line) WITH KEY key = 'A'.
 ```
 
-expresses the intent clearer and shorter than
+выражает намерение яснее и короче, чем
 
 ```ABAP
 " anti-pattern
@@ -1150,7 +1153,7 @@ LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ENDLOOP.
 ```
 
-or even
+или даже
 
 ```ABAP
 " anti-pattern
@@ -1161,15 +1164,15 @@ LOOP AT my_table REFERENCE INTO DATA(line).
 ENDLOOP.
 ```
 
-### Prefer LOOP AT WHERE to nested IF
+### Предпочитайте LOOP AT WHERE вместо вложенных IF
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#prefer-loop-at-where-to-nested-if)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#предпочитайте-loop-at-where-вместо-вложенных-if)
 
 ```ABAP
 LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ```
 
-expresses the intent clearer and shorter than
+выражает намерение яснее и короче, чем
 
 ```ABAP
 LOOP AT my_table REFERENCE INTO DATA(line).
@@ -1179,12 +1182,12 @@ LOOP AT my_table REFERENCE INTO DATA(line).
 ENDLOOP.
 ```
 
-### Avoid unnecessary table reads
+### Избегайте ненужного чтения таблиц
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Tables](#tables) > [This section](#avoid-unnecessary-table-reads)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Таблицы](#таблицы) > [Эта секция](#избегайте-ненужного-чтения-таблиц)
 
-In case you _expect_ a row to be there,
-read once and react to the exception,
+Если вы _ожидаете_ что строка существует,
+прочитайте таблицу только один раз и обработайте исключение,
 
 ```ABAP
 TRY.
@@ -1194,8 +1197,8 @@ TRY.
 ENDTRY.
 ```
 
-instead of littering and slowing down
-the main control flow with a double read
+вместо того, чтобы засорять и замедлять
+основной поток управления двойным считыванием
 
 ```ABAP
 " anti-pattern
@@ -1205,25 +1208,25 @@ ENDIF.
 DATA(row) = my_table[ key = input ].
 ```
 
-> Besides being a performance improvement,
-> this is a special variant of the more general
-> [Focus on the happy path or error handling, but not both](#focus-on-the-happy-path-or-error-handling-but-not-both).
+> Помимо улучшения производительности,
+> это частный вариант более общего
+> [Сосредоточьтесь либо на благополучном исходе либо на обработке ошибок, но не на том и другом одновременно](#сосредоточьтесь-либо-на-благополучном-исходе-либо-на-обработке-ошибок-но-не-на-том-и-другом-одновременно).
 
-## Strings
+## Строки
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#strings)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#строки)
 
-### Use ` to define literals
+### Используйте ` чтобы определить литералы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Strings](#strings) > [This section](#use--to-define-literals)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Строки](#строки) > [Эта секция](##используйте--чтобы-определить-литералы)
 
 ```ABAP
 CONSTANTS some_constant TYPE string VALUE `ABC`.
 DATA(some_string) = `ABC`.  " --> TYPE string
 ```
 
-Refrain from using `'`, as it adds a superfluous type conversion and confuses the reader
-whether he's dealing with a `CHAR` or `STRING`:
+Воздержитесь от использования `'`, так как это добавляет лишнее преобразование типов и сбивает читателя с толку
+и он не знает имеет ли он дело с `CHAR` или `STRING`:
 
 ```ABAP
 " anti-pattern
@@ -1231,101 +1234,98 @@ DATA some_string TYPE string.
 some_string = 'ABC'.
 ```
 
-`|` is generally okay, but cannot be used for `CONSTANTS` and adds needless overhead when specifying a fixed value:
+`|` обычно тоже нормально, но не может использоваться для `CONSTANTS` и добавляет ненужные накладные расходы при указании фиксированного значения:
 
 ```ABAP
 " anti-pattern
 DATA(some_string) = |ABC|.
 ```
 
-### Use | to assemble text
+### Используйте | чтобы собрать текст
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Strings](#strings) > [This section](#use--to-assemble-text)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Строки](#строки) > [Эта секция](#используйте--чтобы-собрать-текст)
 
 ```ABAP
 DATA(message) = |Received HTTP code { status_code } with message { text }|.
 ```
 
-String templates highlight better what's literal and what's variable,
-especially if you embed multiple variables in a text.
+Строковые шаблоны лучше выделяют, что является литералом, а что переменной,
+особенно если вы вставляете в текст несколько переменных.
 
 ```ABAP
 " anti-pattern
 DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
 ```
 
-## Booleans
+## Булевы значения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#booleans)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#булевы-значения)
 
-### Use Booleans wisely
+### Используйте булевы значения с умом
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-booleans-wisely)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Булевы значения](#булевы-значения) > [Эта секция](#используйте-булевы-значения-с-умом)
 
-We often encounter cases where Booleans seem to be a natural choice
+Мы часто сталкиваемся со случаями, когда булевы значения кажутся естественными
 
 ```ABAP
 " anti-pattern
 is_archived = abap_true.
 ```
 
-until a change of viewpoint suggests
-we should have chosen an enumeration
+пока изменение точки зрения не подскажет, что использовать перечисление было бы разумнее
 
 ```ABAP
 archiving_status = /clean/archivation_status=>archiving_in_process.
 ```
 
-Generally, Booleans are a bad choice
-to distinguish types of things
-because you will nearly always encounter cases
-that are not exclusively one or the other
+Как правило, использовать булевы значения для различения типов элементов — плохая идея, 
+потому что почти всегда вы будете сталкиваться со случаями, когда элементы не являются исключительно тем или другим.
 
 ```ABAP
 assert_true( xsdbool( document->is_archived( ) = abap_true AND
                       document->is_partially_archived( ) = abap_true ) ).
 ```
 
-[Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
-moreover explains why you should always challenge Boolean parameters.
+Раздел [Разделите метод вместо использования булева входного параметра](#разделите-метод-вместо-использования-булева-входного-параметра)
+хорошо объясняет, почему вы всегда должны быть против использования логических параметров.
 
-> Read more in
+> Подробнее в
 > [1](http://www.beyondcode.org/articles/booleanVariables.html)
 
-### Use ABAP_BOOL for Booleans
+### Используйте ABAP_BOOL для булевых значений
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-abap_bool-for-booleans)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Булевы значения](#булевы-значения) > [Эта секция](#используйте-abap_bool-для-булевых-значений)
 
 ```ABAP
 DATA has_entries TYPE abap_bool.
 ```
 
-Don't use the generic type `char1`.
-Although it is technically compatible it obscures the fact that we're dealing with a Boolean variable.
+Не используйте универсальный тип `char1`.
+Хотя он технически совместим, он скрывает тот факт, что мы имеем дело с булевой переменной.
 
-Also avoid other Boolean types as they often have strange side effects,
-for example `boolean` supports a third value "undefined" that results in subtle programming errors.
+Также избегайте других булевых типов, поскольку они часто имеют странные побочные эффекты.
+Например, `boolean` поддерживает третье значение "undefined", что приводит к трудноуловимым ошибкам программирования.
 
-In some cases you may need a data dictionary element, for example for DynPro fields.
-`abap_bool` cannot be used here because it is defined in the type pool `abap`, not in the data dictionary.
-In this case, resort to `boole_d` or `xfeld`.
-Create your own data element if you need a custom description.
+В некоторых случаях вам может потребоваться элемент данных  словаря, например, для полей DynPro.
+Здесь нельзя использовать `abap_bool`, поскольку он определен в пуле типов `abap`, а не в словаре данных.
+В этом случае используйте `boole_d` или `xfeld`.
+Создайте свой собственный элемент данных, если вам нужно пользовательское описание.
 
-> ABAP may be the one single programming language that does not come with a universal Boolean data type.
-> However, having one is imperative.
-> This recommendation is based on the ABAP Programming Guidelines.
+> ABAP может быть единственным языком программирования, который не имеет универсального логического типа данных.
+> Тем не менее, его наличие обязательно. 
+> Эта рекомендация основана на Руководстве по программированию на ABAP.
 
-### Use ABAP_TRUE and ABAP_FALSE for comparisons
+### Используйте ABAP_TRUE и ABAP_FALSE для сравнения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-abap_true-and-abap_false-for-comparisons)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Булевы значения](#булевы-значения) > [Эта секция](#используйте-abap_true-и-abap_false-для-сравнения)
 
 ```ABAP
 has_entries = abap_true.
 IF has_entries = abap_false.
 ```
 
-Don't use the character equivalents `'X'` and `' '` or `space`;
-they make it hard to see that this is a Boolean expression:
+Не используйте эквивалентные символы `'X'` и `' '` или `space`. 
+Из-за них сложнее понять, что это логическое выражение:
 
 ```ABAP
 " anti-pattern
@@ -1333,26 +1333,26 @@ has_entries = 'X'.
 IF has_entries = space.
 ```
 
-Avoid comparisons with `INITIAL` - it forces readers to recollect that `abap_bool`'s default is `abap_false`:
+Избегайте сравнений с `INITIAL`. Это заставляет читателей вспоминать, что значение `abap_bool` по умолчанию равно `abap_false`:
 
 ```ABAP
 " anti-pattern
 IF has_entries IS NOT INITIAL.
 ```
 
-> ABAP may be the one single programming language that does not come with built-in "constants" for true and false.
-> However, having them is imperative.
-> This recommendation is based on the ABAP Programming Guidelines.
+> ABAP может быть единственным языком программирования, в котором нет встроенных "констант" для значений "истина" и "ложь".
+> Тем не менее, их наличие обязательно. 
+> Эта рекомендация основана на Руководстве по программированию на ABAP.
 
-### Use XSDBOOL to set Boolean variables
+### Используйте XSDBOOL чтобы установить логические переменные
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-xsdbool-to-set-boolean-variables)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Булевы значения](#булевы-значения) > [Эта секция](#используйте-xsdbool-чтобы-установить-логические-переменные)
 
 ```ABAP
 DATA(has_entries) = xsdbool( line IS NOT INITIAL ).
 ```
 
-The equivalent `IF`-`THEN`-`ELSE` is much longer for nothing:
+Эквивалент `IF`-`THEN`-`ELSE` неоправданно намного длиннее:
 
 ```ABAP
 " anti-pattern
@@ -1363,44 +1363,43 @@ ELSE.
 ENDIF.
 ```
 
-`xsdbool` is the best method for our purpose, as it directly produces a `char1`,
-which fits our boolean type `abap_bool` best.
-The equivalent functions `boolc` and `boolx` produce different types
-and add an unnecessary implicit type conversion.
+`xsdbool` — подходит нам больше всего, потому что он напрямую создает `char1`, 
+который лучше всего соответствует нашему логическому типу abap_bool. 
+Эквивалентные функции `boolc` и `boolx` создают разные типы и требуют лишнего неявного преобразования типов.
 
-We agree that the name `xsdbool` is unlucky and misleading;
-after all, we're not at all interested in the "XML Schema Definition" parts that the "xsd" prefix suggests.
+Мы согласны с тем, что название `xsdbool` неудачно и вводит в заблуждение. 
+В конце концов, нас совсем не интересуют части "Определения схемы XML", которые предлагает префикс "xsd".
 
-A possible alternative to `xsdbool` is the `COND` ternary form.
-Its syntax is intuitive, but a little longer because it needlessly repeats the `THEN abap_true` segment,
-and requires knowledge of the implicit default value `abap_false` -
-which is why we suggest it only as secondary solution.
+Возможной альтернативой `xsdbool` является тернарная форма `COND`.
+Ее синтаксис интуитивно понятен, но немного длиннее, потому что он без необходимости повторяет сегмент `THEN abap_true`
+и требует знания неявного значения по умолчанию `abap_false`. 
+Именно по этому мы предлагаем его только в качестве вторичного решения.
 
 ```ABAP
 DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 ```
 
-## Conditions
+## Условия
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#conditions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#условия)
 
-### Try to make conditions positive
+### Постарайтесь сделать условия положительными
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#try-to-make-conditions-positive)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Условия](#условия) > [Эта секция](#постарайтесь-сделать-условия-положительными)
 
 ```ABAP
 IF has_entries = abap_true.
 ```
 
-For comparison, see how hard to understand the same statement gets by reversing it:
+Для сравнения посмотрите, насколько трудно понять одно и то же утверждение, всего лишь изменив его на противоположное:
 
 ```ABAP
 " anti-pattern
 IF has_no_entries = abap_false.
 ```
 
-The "try" in the section title means you shouldn't force this
-up to the point where you end up with something like [empty IF branches](#no-empty-if-branches):
+"Постарайтесь" в названии раздела означает, что вы не должны доводить это до такой степени
+когда в итоге получите что-то вроде [пустых ветвей IF](#не-допускайте-пустых-ветвей-if):
 
 ```ABAP
 " anti-pattern
@@ -1410,11 +1409,11 @@ ELSE.
 ENDIF.
 ```
 
-> Read more in _Chapter 17: Smells and Heuristics: G29: Avoid Negative Conditionals_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 17: Smells and Heuristics: G29: Avoid Negative Conditionals_ [Robert C. Martin's _Clean Code_].
 
-### Prefer IS NOT to NOT IS
+### Предпочитайте IS NOT вместо NOT IS
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#prefer-is-not-to-not-is)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Условия](#условия) > [Эта секция](#предпочитайте-is-not-вместо-not-is)
 
 ```ABAP
 IF variable IS NOT INITIAL.
@@ -1422,9 +1421,9 @@ IF variable NP 'TODO*'.
 IF variable <> 42.
 ```
 
-Negation is logically equivalent
-but requires a "mental turnaround"
-that makes it harder to understand.
+Отрицание логически эквивалентно
+но требует проведения дополнительных преобразований "в уме",
+что усложняет понимание.
 
 ```ABAP
 " anti-pattern
@@ -1433,36 +1432,39 @@ IF NOT variable CP 'TODO*'.
 IF NOT variable = 42.
 ```
 
-> A more specific variant of
-[Try to make conditions positive](#try-to-make-conditions-positive).
-Also as described in the section
+> Более специфичный вариант
+[Постарайтесь сделать условия положительными](#постарайтесь-сделать-условия-положительными). 
+Так, как описано в разделе
 [Alternative Language Constructs](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
-in the ABAP programming guidelines.
+в руководстве по программированию на ABAP.
 
-### Consider using predicative method calls for boolean methods
+### Подумайте об использовании предикативных вызовов для булевых методов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-using-predicative-method-calls-for-boolean-methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Условия](#условия) > [Эта секция](#подумайте-об-использовании-предикативных-вызовов-для-булевых-методов)
 
-The predicative method call for boolean methods, e.g.
+Предикативный (или, другими словами, указывающий на свойство чего-либо) вызов для булевых методов
 
 ```ABAP
 IF [ NOT ] condition_is_fulfilled( ).
 ```
 
-is not just very compact, but it also allows to keep the code closer to natural language as the comparison expression:
+не только очень компактен, но и позволяет сохранить код ближе к естественному языку, как выражение сравнения:
 
 ```ABAP
 " anti-pattern
 IF condition_is_fulfilled( ) = abap_true / abap_false.
 ```
 
-Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
+Имейте в виду, что предикативный вызов метода `... meth( ) ...` это просто краткая форма `... meth( ) IS NOT INITIAL ...`, смотрите 
+[Predicative Method Call](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) 
+в документации по ключевым словам ABAP. 
+Вот почему короткая форма должна использоваться только для методов, возвращающих типы, где начальное значение это "ложь", а не "истина".
 
-### Consider decomposing complex conditions
+### Подумайте о декомпозиции сложных условий
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-decomposing-complex-conditions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Условия](#условия) > [Эта секция](#подумайте-о-декомпозиции-сложных-условий)
 
-Conditions can become easier when decomposing them into the elementary parts that make them up:
+Условия могут стать проще, если разложить их на элементарные части, из которых они состоят:
 
 ```ABAP
 DATA(example_provided) = xsdbool( example_a IS NOT INITIAL OR
@@ -1476,7 +1478,7 @@ IF example_provided = abap_true AND
    one_example_fits = abap_true.
 ```
 
-instead of leaving everything in-place:
+вместо того, чтобы оставить их вместе:
 
 ```ABAP
 " anti-pattern
@@ -1487,13 +1489,13 @@ IF ( example_a IS NOT INITIAL OR
      fits( example_b ) = abap_true ).
 ```
 
-> Use the ABAP Development Tools quick fixes to quickly extract conditions and create variables as shown above.
+> Используйте ABAP Development Tools quick fixes для быстрого извлечения условий и создания переменных, как показано выше.
 
-### Consider extracting complex conditions
+### Подумайте об извлечении сложных условий
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-extracting-complex-conditions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Условия](#условия) > [Эта секция](#подумайте-об-извлечении-сложных-условий)
 
-It's nearly always a good idea to extract complex conditions to methods of their own:
+Почти всегда полезно выносить сложные условия в их собственные методы:
 
 ```ABAP
 IF is_provided( example ).
@@ -1507,13 +1509,13 @@ METHOD is_provided.
 ENDMETHOD.
 ```
 
-## Ifs
+## Если
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#ifs)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#если)
 
-### No empty IF branches
+### Не допускайте пустых ветвей IF
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#no-empty-if-branches)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Если](#если) > [Эта секция](#не-допускайте-пустых-ветвей-if)
 
 ```ABAP
 IF has_entries = abap_false.
@@ -1521,7 +1523,7 @@ IF has_entries = abap_false.
 ENDIF.
 ```
 
-is shorter and clearer than
+короче и понятнее, чем
 
 ```ABAP
 " anti-pattern
@@ -1531,9 +1533,9 @@ ELSE.
 ENDIF.
 ```
 
-### Prefer CASE to ELSE IF for multiple alternative conditions
+### Предпочитайте CASE вместо ELSE IF для нескольких альтернативных условий
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#prefer-case-to-else-if-for-multiple-alternative-conditions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Если](#если) > [Эта секция](#предпочитайте-case-вместо-else-if-для-нескольких-альтернативных-условий)
 
 ```ABAP
 CASE type.
@@ -1546,11 +1548,11 @@ CASE type.
 ENDCASE.
 ```
 
-`CASE` makes it easy to see a set of alternatives that exclude each other.
-It can be faster than a series of `IF`s because it can translate to a different microprocessor command
-instead of a series of subsequently evaluated conditions.
-You can introduce new cases quickly, without having to repeat the discerning variable over and over again.
-The statement even prevents some errors that can occur when accidentally nesting the `IF`-`ELSEIF`s.
+`CASE` позволяет легко увидеть набор исключающих друг друга альтернатив.
+Также он может быть быстрее, чем серия `IF`ов, потому что оно может переводиться в другую команду микропроцессора
+вместо серии последовательно вычисленных условий.
+Вы можете быстро добавлять новые условия, без необходимости повторять проверяемую переменную снова и снова.
+Кроме того, он предотвращает некоторые ошибки, которые могут возникнуть при случайном вложении `IF`-`ELSEIF`ов.
 
 ```ABAP
 " anti-pattern
@@ -1563,9 +1565,9 @@ ELSE.
 ENDIF.
 ```
 
-### Keep the nesting depth low
+### Сохраняйте глубину вложенности низкой
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Ifs](#ifs) > [This section](#keep-the-nesting-depth-low)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Если](#если) > [Эта секция](#сохраняйте-глубину-вложенности-низкой)
 
 ```ABAP
 " anti-pattern
@@ -1581,17 +1583,17 @@ ELSE.
 ENDIF.
 ```
 
-Nested `IF`s get hard to understand very quickly and require an exponential number of test cases for complete coverage.
+Вложенные `IF`ы очень быстро становятся трудными для понимания и требуют экспоненциального количества тестов для полного покрытия.
 
-Decision trees can usually be taken apart by forming sub-methods and introducing boolean helper variables.
+Деревья решений обычно можно разделить, сформировав подметоды и введя булевы вспомогательные переменные.
 
-Other cases can be simplified by merging IFs, such as
+Другие случаи могут быть упрощены путем объединения `IF`ов, например
 
 ```ABAP
 IF <this> AND <that>.
 ```
 
-instead of the needlessly nested
+вместо без необходимости вложенных
 
 ```ABAP
 " anti-pattern
@@ -1599,13 +1601,13 @@ IF <this>.
   IF <that>.
 ```
 
-## Regular expressions
+## Регулярные выражения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#regular-expressions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#регулярные-выражения)
 
-### Prefer simpler methods to regular expressions
+### Предпочитайте более простые методы регулярным выражениям
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-simpler-methods-to-regular-expressions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Регулярные выражения](#регулярные-выражения) > [Эта секция](#предпочитайте-более-простые-методы-регулярным-выражениям)
 
 ```ABAP
 IF input IS NOT INITIAL.
@@ -1615,16 +1617,17 @@ WHILE contains( val = input  sub = 'abc' ).
 " WHILE contains( val = input  regex = 'abc' ).
 ```
 
-Regular expressions become hard to understand very quickly.
-Simple cases are usually easier without them.
+Регулярные выражения очень быстро становятся трудными для понимания.
+В простых случаях обычно легче обходиться без них.
 
-Regular expressions also usually consume more memory and processing time
-because they need to be parsed into an expression tree and compiled at runtime into an executable matcher.
-Simple solutions may do with a straight-forward loop and a temporary variable.
+Также, регулярные выражения обычно потребляют больше памяти и занимают больше времени обработки.
+Это связано с тем, что они должны быть проанализированы в дереве выражений и скомпилированы во время выполнения 
+в исполняемый сопоставитель (matcher).
+Простые решения могут состоять из простого цикла и временной переменной.
 
-### Prefer basis checks to regular expressions
+### Предпочитайте базовые проверки регулярным выражениям
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#prefer-basis-checks-to-regular-expressions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Регулярные выражения](#регулярные-выражения) > [Эта секция](#предпочитайте-базовые-проверки-регулярным-выражениям)
 
 ```ABAP
 CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
@@ -1634,7 +1637,7 @@ CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
     ...
 ```
 
-instead of reinventing things
+вместо того, чтобы заново изобретать вещи
 
 ```ABAP
 " anti-pattern
@@ -1642,13 +1645,13 @@ DATA(is_valid) = matches( val     = class_name
                           pattern = '[A-Z][A-Z0-9_]{0,29}' ).
 ```
 
-> There seems to be a natural tendency to turn blind to the Don't-Repeat-Yourself (DRY) principle
-> when there are regular expressions around,
-> compare section _Chapter 17: Smells and Heuristics: General: G5: Duplication_ in [Robert C. Martin's _Clean Code_].
+> Кажется, существует естественная склонность закрывать глаза на принцип «Не повторяйтесь» (DRY)
+> когда речь идет о регулярных выражениях,
+> см. раздел _Chapter 17: Smells and Heuristics: General: G5: Duplication_ в [Robert C. Martin's _Clean Code_].
 
-### Consider assembling complex regular expressions
+### Рассмотрите возможность сборки сложных регулярных выражений
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Regular expressions](#regular-expressions) > [This section](#consider-assembling-complex-regular-expressions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Регулярные выражения](#регулярные-выражения) > [Эта секция](#рассмотрите-возможность-сборки-сложных-регулярных-выражений)
 
 ```ABAP
 CONSTANTS class_name TYPE string VALUE `CL\_.*`.
@@ -1656,31 +1659,31 @@ CONSTANTS interface_name TYPE string VALUE `IF\_.*`.
 DATA(object_name) = |{ class_name }\|{ interface_name }|.
 ```
 
-Some complex regular expressions become easier
-when you demonstrate to the reader how they are built up from more elementary pieces.
+Некоторые сложные регулярные выражения становятся проще
+когда вы демонстрируете читателю, как они строятся из более элементарных частей.
 
-## Classes
+## Классы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#классы)
 
-### Classes: Object orientation
+### Классы: Объектная ориентация
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#classes-object-orientation)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Эта секция](#классы-объектная-ориентация)
 
-#### Prefer objects to static classes
+#### Предпочитайте объекты статическим классам
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-objects-to-static-classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Классы: Объектная ориентация](#классы-объектная-ориентация) > [Эта секция](#предпочитайте-объекты-статическим-классам)
 
-Static classes give up all advantages gained by object orientation in the first place.
-They especially make it nearly impossible to replace productive dependencies with test doubles in unit tests.
+Статические классы отвергают все преимущества объектно-ориентированного программирования. 
+В частности, они делают практически невозможной замену продуктивных зависимостей тестовыми двойниками в модульных тестах.
 
-If you think about whether to make a class or method static, the answer will nearly always be: no.
+Если вы раздумываете о том, делать ли класс или метод статическими, почти всегда ответ будет: нет.
 
-One accepted exception to this rule are plain type utils classes.
-Their methods make it easier to interact with certain ABAP types.
-They are not only completely stateless, but so basic that they look like ABAP statements or built-in functions.
-The discriminating factor is that their consumers tie them into their code so tightly
-that they actually don't want to mock them in unit tests.
+Одним допустимым исключением из этого правила являются простые классы утилит.
+Их методы облегчают взаимодействие с некоторыми типами ABAP.
+Они не только полностью не имеют состояния, но и настолько просты, что выглядят как операторы ABAP или встроенные функции.
+Отличительной чертой таких классов является то, что те, кто их использует так сильно привязывают их к своему коду,
+что они на самом деле не хотят мокать их в модульных тестах.
 
 ```ABAP
 CLASS /clean/string_utils DEFINITION [...].
@@ -1697,42 +1700,39 @@ METHOD retrieve.
 ENDMETHOD.
 ```
 
-#### Prefer composition to inheritance
+#### Предпочитайте композицию наследованию
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-composition-to-inheritance)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Классы: Объектная ориентация](#классы-объектная-ориентация) > [Эта секция](#предпочитайте-композицию-наследованию)
 
-Avoid building hierarchies of classes with inheritance. Instead, favor composition.
+Избегайте построения иерархий классов с наследованием. Вместо этого отдавайте предпочтение композиции.
 
-Clean inheritance is hard to design because you need to respect rules
-like the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
-It is also hard to understand because people need to realize and digest the guiding principles behind the hierarchy.
-Inheritance reduces reuse because methods tend to be made available only to sub-classes.
-It also complicates refactoring because moving or changing members tend to require changes to the whole hierarchy tree.
+Чистое наследование сложно спроектировать, потому что нужно соблюдать такие правила
+как [Принцип подстановки Барбары Лисков](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
+Для того, чтобы его понять вы должны знать основополагающие принципы, лежащие в основе иерархии, и использовать их.
+Наследование ограничивает повторное использование, потому что методы, как правило, доступны только для подклассов.
+Кроме того это усложняет рефакторинг, так как перемещение или изменение элементов обычно требует изменений во всем дереве иерархии.
 
-Composition means that you design small, independent objects, each of which serves one specific purpose.
-These objects can be recombined into more complex objects by simple delegation and facade patterns.
-Composition may produce more classes, but has otherwise no further disadvantages.
+Композиция означает, что вы разрабатываете небольшие независимые объекты, каждый из которых служит определенной цели. 
+Эти объекты могут быть объединены в более сложные объекты с помощью простых моделей делегирования и фасада. 
+Композиция может приводить к созданию большего количества классов, но это единственный ее недостаток.
 
-Don't let this rule discourage you from using inheritance in the right places.
-There are good applications for inheritance,
-for example the [Composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern).
-Just ask yourself critically whether inheritance in your case will really provide more benefits than disadvantages.
-If in doubt, composition generally is the safer choice.
+Однако, не позволяйте этому правилу отбить у вас желание использовать наследование тогда, когда это имеет смысл. 
+Существуют хорошие способы примерения наследования, например [шаблон проектирования Компоновщик](https://en.wikipedia.org/wiki/Composite_pattern).
+Просто спросите себя, действительно ли в вашем случае наследование принесет больше пользы, чем вреда. 
+Если вы сомневаетесь, то обычно композиция является самым безопасным вариантом.
 
-> [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
-compares some details.
+> В подразделе [Интерфейсы против абстрактных классов](sub-sections/InterfacesVsAbstractClasses.md)
+сравниваются некоторые детали.
 
-#### Don't mix stateful and stateless in the same class
+#### Не смешивайте парадигмы с сохранением состояния и без сохранения состояния в одном классе
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#dont-mix-stateful-and-stateless-in-the-same-class)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Классы: Объектная ориентация](#классы-объектная-ориентация) > [Эта секция](#не-смешивайте-парадигмы-с-сохранением-состояния-и-без-сохранения-состояния-в-одном-классе)
 
-Don't mix the stateless and the stateful
-programming paradigms in the same class.
+Не смешивайте парадигмы программирования без сохранения состояния и с сохранением состояния в одном классе.
 
-In stateless programming, methods get input and produce output,
-_without any side effects_, resulting in methods
-that produce the same result
-no matter when and in what order they are called.
+В программировании без сохранения состояния методы получают входные данные и заполняют выходные данные 
+_без каких-либо побочных эффектов_. Следовательно, методы возвращают один и тот же результат независимо от того, 
+когда и в каком порядке они вызываются.
 
 ```ABAP
 CLASS /clean/xml_converter DEFINITION PUBLIC FINAL CREATE PUBLIC.
@@ -1757,8 +1757,8 @@ CLASS /clean/xml_converter IMPLEMENTATION.
 ENDCLASS.
 ```
 
-In stateful programming, we manipulate the internal state of objects
-through their methods, meaning it is _full of side effects_.
+В программировании с сохранением состояния мы манипулируем внутренним состоянием объектов с помощью их методов. 
+Это означает, что в такой парадигме _полно побочных эффектов_.
 
 ```ABAP
 CLASS /clean/log DEFINITION PUBLIC CREATE PUBLIC.
@@ -1775,102 +1775,99 @@ CLASS /clean/log IMPLEMENTATION.
 ENDCLASS.
 ```
 
-Both paradigms are okay and have their applications.
-However, _mixing_ them in the same object produces code
-that is hard to understand and sure to fail
-with obscure carry-over errors and synchronicity problems.
-Don't do that.
+Обе парадигмы хороши и имеют свои области применения. 
+Однако их смешивание в одном объекте делает код трудным для понимания 
+и обреченным на сбой из-за неясных ошибок переносf и проблем с синхронностью. 
+Не делай этого.
 
-### Scope
+### Область видимости
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#scope)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Эта секция](#область-видимости)
 
-#### Global by default, local only where appropriate
+#### Глобальный по умолчанию, локальный только при необходимости
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#global-by-default-local-only-where-appropriate)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Область видимости](#область-видимости) > [Эта секция](##глобальный-по-умолчанию-локальный-только-при-необходимости)
 
-Work with global classes as default.
-Use local classes only where appropriate.
+Работайте с глобальными классами.
+Используйте локальные классы только там, где это уместно.
 
-> Global classes are the ones that are visible in the data dictionary.
-> Local classes live within an include of another development object
-> and are only visible to this other object.
+> Глобальные классы — это те, которые видны в словаре данных.
+> Локальные классы находятся внутри includ'а другого объекта 
+> и видны только этому другому объекту.
 
-Local classes are suited
+Локальные классы подходят
 
-- for very specific private data structures,
-for example an iterator for the global class's data,
-which will only ever be needed here,
+- для очень специфических приватных структур данных, 
+например, итератор для глобальных данных класса, 
+который нужен только здесь;
 
-- to extract a complex private piece algorithm,
-for example to disentangle that special purpose multi-method
-sort-aggregate algorithm from the rest of your class's code,
+- для извлечения сложного приватного алгоритма,
+например, чтобы отделить состоящий из нескольких методов алгоритм сортировки-агрегирования, 
+нацеленный на решение конкретной задачи, от остального кода в вашем классе;
 
-- to enable mocking certain aspects of the global class,
-for example by extracing all database access to a separate local class
-that can the be replaced with a test double in the unit tests.
+- чтобы позволить замокать некоторые элементы глобального класса, 
+например, путем выделения всего доступа к базе данных в отдельный локальный класс, 
+который можно заменить фиктивным тестовым двойником в модульных тестах.
 
-Local classes hinder reuse because they cannot be used elsewhere.
-Although they are easy to extract, people will usually fail to even find them,
-leading to undesired code duplication.
-Orientation, navigation, and debugging in very long local class includes
-is tedious and annoying. 
-As ABAP locks on include level, people will not be able to work on
-different parts of the local include simultaneously
-(which would be possible if they were separate global classes).
+Локальные классы затрудняют повторное использование, потому что они не могут быть использованы где-либо еще.
+Хотя их легко извлечь и сделать на их основе глобальный класс, люди обычно даже не могут их найти,
+что в свою очередь приводит к нежелательному дублированию кода.
+Ориентация, навигация и отладка в очень больших локальных классах
+являются утомительными и раздражающими.
 
-Reconsider your use of local classes if
+Поскольку ABAP выполняет блокировку на уровне includ'а, люди не смогут одновременно работать, например над
+разными локальными классами, находящимися в одном includ'е 
+(что было бы возможно, если бы они были отдельными глобальными классами).
 
-- your local include spans dozens of classes and thousands of lines of code,
-- you think about global classes as "packages" that hold other classes,
-- your global classes degenerate into empty hulls,
-- you find duplicate code repeated throughout separate local includes,
-- your developers start locking each other out and become unable to work in parallel,
-- your backlog estimates go sky-high because your teams fail to understand each other's local sub-trees.
+Пересмотрите свое использование локальных классов, если
 
-#### FINAL if not designed for inheritance
+- ваш локальный include содержит десятки классов и тысячи строк кода;
+- вы думаете о глобальных классах как о "пакетах", которые содержат другие классы;
+- ваш глобальный класс вырождается в пустую оболочку;
+- вы найдете дублирующийся код, повторяющийся в отдельных локальных includ'ах;
+- ваши разработчики начинают блокировать друг друга и не могут работать параллельно;
+- ваш список работ для выполения становится огромным, потому что ваши команды больше не понимают локальные includ'ы друг друга.
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#final-if-not-designed-for-inheritance)
+#### FINAL если не предназначен для наследования
 
-Make classes that are not explicitly designed for inheritance `FINAL`.
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Область видимости](#область-видимости) > [Эта секция](#final-если-не-предназначен-для-наследования)
 
-When designing class cooperation,
-your first choice should be [composition, not inheritance](#prefer-composition-to-inheritance).
-Enabling inheritance is not something that should be done lightly,
-as it requires you to think about things like `PROTECTED` vs. `PRIVATE`
-and the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle),
-and freezes a lot of design internals.
-If you didn't consider these things in your class design,
-you should thus prevent accidental inheritance by making your class `FINAL`.
+Если класс явно не предназначен для наследования, сделайте его `FINAL`.
 
-There _are_ some good applications for inheritance, of course,
-for example the design pattern [composite](https://en.wikipedia.org/wiki/Composite_pattern).
-Business Add-Ins can also become more useful by allowing sub-classes,
-enabling the customer to reuse most of the original code.
-However, note that all of these cases have inheritance built in by design from the start.
+При проектировании взаимодействия классов 
+в первую очередь вы должны [предпочитать композицию наследованию](#предпочитайте-композицию-наследованию). 
+Выбор в пользу наследования не должен быть легкомысленным, поскольку он предполагает размышления о модификаторах доступа, 
+таких как `PROTECTED` или `PRIVATE`, а также о [принципе подстановки Барбары Лисков](https://en.wikipedia.org/wiki/Liskov_substitution_principle), 
+к тому же, многие внутренние части дизайна будут "заморожены". 
+Поэтому, если вы разрабатывали свои классы без учета этих вещей, вы должны предотвратить непреднамеренное наследование, сделав свой класс `FINAL`.
 
-Unclean classes that don't [implement interfaces](#public-instance-methods-should-be-part-of-an-interface)
-should be left non-`FINAL` to allow consumers mocking them in their unit tests.
+Конечно, у наследования есть несколько хороших применений, например [Компоновщик (шаблон проектирования)](https://en.wikipedia.org/wiki/Composite_pattern).
+Бизнес-надстройки также могут быть более полезными, позволяя создавать подклассы, 
+что дает клиенту возможность повторно использовать большую часть исходного кода. 
+Обратите внимание, однако, что во всех этих случаях наследование заложено с самого начала.
 
-#### Members PRIVATE by default, PROTECTED only if needed
+Классы, которые не [реализуют интерфейсы](#публичные-методы-экземпляра-должны-быть-частью-интерфейса)
+следует сделать не `FINAL`, чтобы позволить другим замокать их в своих модульных тестах.
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#members-private-by-default-protected-only-if-needed)
+#### PRIVATE по умолчанию, PROTECTED только если нужно
 
-Make attributes, methods, and other class members `PRIVATE` by default.
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Область видимости](#область-видимости) > [Эта секция](#private-по-умолчанию-protected-только-если-нужно)
 
-Make them only `PROTECTED` if you want to enable sub-classes that override them.
+Делайте атрибуты, методы и другие члены класса `PRIVATE` по умолчанию.
 
-Internals of classes should be made available to others only on a need-to-know basis.
-This includes not only outside callers but also sub-classes.
-Making information over-available can cause subtle errors by unexpected redefinitions and hinder refactoring
-because outsiders freeze members in place that should still be liquid.
+Сделайте их `PROTECTED`, только если вы хотите дать возможность подклассам переопределить их.
 
-#### Consider using immutable instead of getter
+Внутренние части классов должны быть доступны другим только при явной необходимости. 
+Это относится не только ко внешним вызовам, но и к подклассам. 
+Чрезмерная доступность информации может вызвать незаметные ошибки из-за неожиданных переопределений и затруднить рефакторинг, 
+поскольку внешние программы считывают текущие значения атрибутов, но эти значения позже могут быть изменены.
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#consider-using-immutable-instead-of-getter)
+#### Рассмотрите возможность использования неизменяемого объекта, вместо добавления геттера
 
-An immutable is an object that never changes after its construction.
-For this kind of object consider using public read-only attributes instead of getter methods.
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Область видимости](#область-видимости) > [Эта секция](#рассмотрите-возможность-использования-неизменяемого-объекта-вместо-добавления-геттера)
+
+Неизменяемый (immutable) объект, это объект, который никогда не меняется после его создания.
+Для объектов такого рода рассмотрите возможность использования публичных атрибутов, доступных только для чтения, вместо создания геттеров.
 
 ```ABAP
 CLASS /clean/some_data_container DEFINITION.
@@ -1886,7 +1883,7 @@ CLASS /clean/some_data_container DEFINITION.
 ENDCLASS.
 ```
 
-instead of
+вместо
 
 ```ABAP
 CLASS /dirty/some_data_container DEFINITION.
@@ -1901,38 +1898,37 @@ CLASS /dirty/some_data_container DEFINITION.
 ENDCLASS.
 ```
 
-> **Caution**: For objects which **do** have changing values, do not use public read-only attributes.
-> Otherwise this attributes always have to be kept up to date,
-> regardless if their value is needed by any other code or not.
+> **Внимание**: для объектов, которые **изменяют** свои атрибуты, не используйте публичные read-only атрибуты. 
+> В противном случае эти атрибуты должны всегда поддерживаться в актуальном состоянии, 
+> независимо от того, требуется ли их значение для другого кода или нет.
 
-#### Use READ-ONLY sparingly
+#### Используйте READ-ONLY с осторожностью](#
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#use-read-only-sparingly)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Область видимости](#область-видимости) > [Эта секция](#используйте-read-only-с-осторожностью)
 
-Many modern programming languages, especially Java, recommend making class members read-only
-wherever appropriate to prevent accidental side effects.
+Многие современные языки программирования, особенно Java, рекомендуют везде где это целесообразно
+устанавливать для членов класса доступ только для чтения, чтобы избежать случайных побочных эффектов.
 
-While ABAP _does_ offer the `READ-ONLY` addition for data declarations, we recommend to use it sparingly.
+Хотя ABAP и _предлагает_ дополнение `READ-ONLY` для объявлении данных, мы рекомендуем использовать его с осторожностью.
 
-First, the addition is only available in the `PUBLIC SECTION`, reducing its applicability drastically.
-You can neither add it to protected or private members nor to local variables in a method.
+Во-первых, дополнение доступно только в `PUBLIC SECTION`, что сильно ограничивает возмоности его применения.
+Вы не можете добавить его ни к защищенным, ни к приватным членам класса, ни к локальным переменным в методе.
 
-Second, the addition works subtly different from what people might expect from other programming languages:
-READ-ONLY data can still be modified freely from any method within the class itself, its friends, and its sub-classes.
-This contradicts the more widespread write-once-modify-never behavior found in other languages.
-The difference may lead to bad surprises.
+Во-вторых, добавление работает несколько иначе, чем можно было бы ожидать имея опыт программирования на других языках:
+READ-ONLY данные по-прежнему могут быть изменены любым методом внутри самого класса, его друзьях или подклассах.
+Это противоречит более распространенному в других языках поведению, где элемент, написанный однажды, никогда больше не изменяется. 
+Эта разница может привести к неприятным сюрпризам.
 
-> To avoid misunderstandings: Protecting variables against accidental modification is a good practice.
-> We would recommend applying it to ABAP as well if there was an appropriate statement.
+> Во избежание недоразумений: напоминаем вам, что защита переменных от случайного изменения является хорошей практикой. 
+> Мы бы порекомендовали вам применить эту практику и к ABAP, если бы существовала соответствующая инструкция.
 
-### Constructors
+### Конструкторы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [This section](#constructors)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Эта секция](#конструкторы)
 
-#### Prefer NEW to CREATE OBJECT
+#### Предпочитайте NEW вместо CREATE OBJECT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-new-to-create-object)
-
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Конструкторы](#конструкторы) > [Эта секция](#предпочитайте-new-вместо-create-object)
 ```ABAP
 DATA object TYPE REF TO /clean/some_number_range.
 object = NEW #( '/CLEAN/CXTGEN' )
@@ -1942,7 +1938,7 @@ DATA(object) = NEW /clean/some_number_range( '/CLEAN/CXTGEN' ).
 DATA(object) = CAST /clean/number_range( NEW /clean/some_number_range( '/CLEAN/CXTGEN' ) ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -1952,7 +1948,7 @@ CREATE OBJECT object
     number_range = '/DIRTY/CXTGEN'.
 ```
 
-except where you need dynamic types, of course
+конечно, за исключением случаев, когда вам нужно указать тип динамически
 
 ```ABAP
 CREATE OBJECT number_range TYPE (dynamic_type)
@@ -1960,9 +1956,9 @@ CREATE OBJECT number_range TYPE (dynamic_type)
     number_range = '/CLEAN/CXTGEN'.
 ```
 
-#### If your global class is CREATE PRIVATE, leave the CONSTRUCTOR public
+#### Если ваш глобальный класс CREATE PRIVATE, сделайте его CONSTRUCTOR публичным
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#if-your-global-class-is-create-private-leave-the-constructor-public)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Конструкторы](#конструкторы) > [Эта секция](#Если-ваш-глобальный-класс-create-private-сделайте-его-constructor-публичным)
 
 ```ABAP
 CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
@@ -1970,17 +1966,17 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
     METHODS constructor.
 ```
 
-We agree that this contradicts itself.
-However, according to the article
-[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
-specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
+Мы согласны с тем, что это противоречит самому себе.
+Однако, согласно статье 
+[ _Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
+указание `CONSTRUCTOR` в `PUBLIC SECTION` требуется, чтобы гарантировать правильную компиляцию и проверку синтаксиса.
 
-This applies only to global classes.
-In local classes, make the constructor private, as it should be.
+Это относится только к глобальным классам.
+В локальных классах делайте конструктор закрытым, каким он и должен быть.
 
-#### Prefer multiple static creation methods to optional parameters
+#### Предпочитайте несколько статических методов созданию необязательных параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#prefer-multiple-static-creation-methods-to-optional-parameters)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Конструкторы](#конструкторы) > [Эта секция](#предпочитайте-несколько-статических-методов-созданию-необязательных-параметров)
 
 ```ABAP
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
@@ -1989,8 +1985,8 @@ CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [..
 CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 ```
 
-ABAP does not support [overloading](https://en.wikipedia.org/wiki/Function_overloading).
-Use name variations and not optional parameters to achieve the desired semantics.
+ABAP не поддерживает [перегрузку](https://en.wikipedia.org/wiki/Function_overloading).
+Используйте разные варианты имени, вместо необязательных параметров для достижения желаемой семантики.
 
 ```ABAP
 " anti-pattern
@@ -2003,20 +1999,20 @@ METHODS constructor
   [...]
 ```
 
-The general guideline
-[_Split methods instead of adding OPTIONAL parameters_](#split-methods-instead-of-adding-optional-parameters)
-explains the reasoning behind this.
+Раздел 
+[_Разделите методы вместо добавления OPTIONAL параметров_](#разделите-методы-вместо-добавления-optional-параметров)
+объясняет причину этой рекомендации.
 
-Consider resolving complex constructions to a multi-step construction with the
-[Builder design pattern](https://en.wikipedia.org/wiki/Builder_pattern).
+Рассмотрите возможность преобразования сложных конструкций в одну многоступенчатую конструкцию используя
+[Строитель (шаблон проектирования)](https://en.wikipedia.org/wiki/Builder_pattern).
 
-#### Use descriptive names for multiple creation methods
+#### Используйте описательные имена для нескольких методов создания
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#use-descriptive-names-for-multiple-creation-methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Конструкторы](#конструкторы) > [Эта секция](#используйте-описательные-имена-для-нескольких-методов-создания)
 
-Good words to start creation methods are `new_`, `create_`, and `construct_`.
-People intuitively connect them to the construction of objects.
-They also add up nicely to verb phrases like `new_from_template`, `create_as_copy`, or `create_by_name`.
+Хорошими словами для начала имени методов создания чело-либо: `new_`, `create_`, и `construct_`.
+Люди интуитивно связывают их с построением объектов.
+Они также хорошо сочетаются с такими глагольными словосочетаниями, как `new_from_template`, `create_as_copy`, или `create_by_name`.
 
 ```ABAP
 CLASS-METHODS new_describe_by_data IMPORTING p_data TYPE any [...]
@@ -2025,7 +2021,7 @@ CLASS-METHODS new_describe_by_object_ref IMPORTING p_object_ref TYPE REF TO obje
 CLASS-METHODS new_describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [...]
 ```
 
-instead of something meaningless like
+вместо чего-то бессмысленного, как
 
 ```ABAP
 " anti-pattern
@@ -2035,9 +2031,9 @@ CLASS-METHODS create_3 IMPORTING p_object_ref TYPE REF TO object [...]
 CLASS-METHODS create_4 IMPORTING p_data_ref TYPE REF TO data [...]
 ```
 
-#### Make singletons only where multiple instances don't make sense
+#### Создавайте синглтоны только там, где несколько экземпляров не имеют смысла
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Constructors](#constructors) > [This section](#make-singletons-only-where-multiple-instances-dont-make-sense)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Классы](#классы) > [Конструкторы](#конструкторы) > [Эта секция](#создавайте-синглтоны-только-там-где-несколько-экземпляров-не-имеют-смысла)
 
 ```ABAP
 METHOD new.
@@ -2048,45 +2044,44 @@ METHOD new.
 ENDMETHOD.
 ```
 
-Apply the singleton pattern where your object-oriented design says
-that having a second instance of something doesn't make sense.
-Use it to ensure that every consumer is working with the same thing in the same state and with the same data.
+Применяйте шаблон проектирования singleton, когда ваш объектно-ориентированный дизайн указывает на то, 
+что иметь второй экземпляр чего-либо нет смысла. 
+Используйте его для того, чтобы быть уверенным, что каждый потребитель работает с одной и той же вещью, 
+в том же состоянии и с одними и теми же данными.
 
-Do not use the singleton pattern out of habit or because some performance rule tells you so.
-It is the most overused and wrongly applied pattern and
-produces unexpected cross-effects and needlessly complicates testing.
-If there are no design-driven reasons for a unitary object,
-leave that decision to the consumer - he can still reach the same by means outside the constructor,
-for example with a factory.
+Не используйте шаблон singleton по привычке или из соображений производительности. 
+Это наиболее часто используемый и неправильно применяемый шаблон, который приводит к неожиданным перекрестным эффектам и излишне усложняет тестирование. 
+Если нет причин, обусловленных дизайном, для создания объекта в единичном экземпляре, пусть это решение принимает потребитель. 
+Тот же результат он сможет получить, прибегнув к внешним по отношению к конструктору средствам, например, к фабрике.
 
-## Methods
+## Методы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#методы)
 
-These rules apply to methods in classes and function modules.
+Эти правила применяются к методам в классах и к функциональным модулям.
 
-### Calls
+### Вызовы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#calls)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#вызовы)
 
-#### Don't call static methods through instance variables
+#### Не вызывайте статические методы через переменные экземпляра
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#dont-call-static-methods-through-instance-variables)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Вызовы](#вызовы) > [Эта секция](#не-вызывайте-статические-методы-через-переменные-экземпляра)
 
-For calling a static method, use
+Для вызова статического метода используйте
 ```ABAP
 cl_my_class=>static_method( ).
 ```
 
-Instead of calling it through an instance variable to `cl_my_class`
+Вместо того, чтобы вызывать его через переменную экземпляра `cl_my_class`
 ```ABAP
 " anti-pattern
 lo_my_instance->static_method( ).
 ```
 
-A static method is attached to the class itself, and calling it through an instance variable is a potential source of confusion.
+Статический метод привязан к самому классу, и его вызов через переменную экземпляра потенциально может привести к путанице.
 
-It's OK to call a static method of the same class without qualifying it within another static method.
+Вызывать статический метод внутри другого статического метода того же класса не указывая имя этого класса - нормально.
 
 ```ABAP
 METHOD static_method.
@@ -2095,7 +2090,7 @@ METHOD static_method.
 ENDMETHOD.
 ```
 
-However, within an instance method, even when calling a static method of the same class, you should still qualify the call with the class name:
+Однако внутри метода объекта, при вызове статического метода того же класса, уточняйте вызов добавляя имя класса:
 
 ```ABAP
 CLASS cl_my_class IMPLEMENTATION.
@@ -2108,9 +2103,9 @@ CLASS cl_my_class IMPLEMENTATION.
   ...
 ```
 
-#### Prefer functional to procedural calls
+#### Предпочитайте функциональные вызовы процедурным
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#prefer-functional-to-procedural-calls)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Вызовы](#вызовы) > [Эта секция](#предпочитайте-функциональные-вызовы-процедурным)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -2119,7 +2114,7 @@ modify->update( node           = /clean/my_bo_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-instead of the needlessly longer
+вместо слишком длинного
 
 ```ABAP
 " anti-pattern
@@ -2131,7 +2126,7 @@ CALL METHOD modify->update
     changed_fields = changed_fields.
 ```
 
-If dynamic typing forbids functional calls, resort to the procedural style
+Если динамическая типизация запрещает функциональные вызовы, используйте процедурный стиль. 
 
 ```ABAP
 CALL METHOD modify->(method_name)
@@ -2142,17 +2137,17 @@ CALL METHOD modify->(method_name)
     changed_fields = changed_fields.
 ```
 
-Many of the detailed rules below are just more specific variations of this advice.
+Многие из подробных правил, приведенных ниже, являются лишь более специфическими вариациями этого совета.
 
-#### Omit RECEIVING
+#### Не указывайте RECEIVING
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-receiving)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Вызовы](#вызовы) > [Эта секция](#не-указывайте-receiving)
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -2163,9 +2158,9 @@ aggregate_values(
     result = DATA(sum) ).
 ```
 
-#### Omit the optional keyword EXPORTING
+#### Не указывайте необязательное ключевое слово EXPORTING
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-optional-keyword-exporting)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Вызовы](#вызовы) > [Эта секция](#не-указывайте-необязательное-ключевое-слово-exporting)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -2174,7 +2169,7 @@ modify->update( node           = /clean/my_bo_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -2186,40 +2181,39 @@ modify->update(
     changed_fields = changed_fields ).
 ```
 
-#### Omit the parameter name in single parameter calls
+#### Не указывайте имя параметра при вызовах с одним параметром
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-parameter-name-in-single-parameter-calls)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Вызовы](#вызовы) > [Эта секция](#omit-the-parameter-name-in-single-parameter-calls)
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
 DATA(unique_list) = remove_duplicates( list = list ).
 ```
 
-There are cases, however, where the method name alone is not clear enough
-and repeating the parameter name may further understandability:
+Порой, названия метода недостаточно для понимания, и указание имени параметра может сделать код более понятным:
 
 ```ABAP
 car->drive( speed = 50 ).
 update( asynchronous = abap_true ).
 ```
 
-#### Omit the self-reference me when calling an instance attribute or method
+#### Не указывайте ссылку на себя me при вызове атрибута или метода экземпляра
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-attribute-or-method)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Вызовы](#вызовы) > [Эта секция](#не-указывайте-ссылку-на-себя-me-при-вызове-атрибута-или-метода-экземпляра)
 
-Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance attribute or method
+Поскольку ссылка на себя `me->` неявно устанавливается системой, опустите ее при вызове атрибута или метода экземпляра.
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -2231,29 +2225,30 @@ DATA(sum) = aggregate_values( me->values ).
 DATA(sum) = me->aggregate_values( values ).
 ```
 
-unless there is a scope conflict between a local variable or importing parameter and an instance attribute
+разумеется, `me->`  можно опустить только если у вас нет конфликта области видимости 
+между локальной переменной или параметром импорта и атрибутом экземпляра
 
 ```ABAP
 me->logger = logger.
 ```
 
-### Methods: Object orientation
+### Методы: Объектная ориентация
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#methods-object-orientation)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#методы-объектная-ориентация)
 
-#### Prefer instance to static methods
+#### Предпочитайте экземпляр статическим методам
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#prefer-instance-to-static-methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Методы: Объектная ориентация](#методы-объектная-ориентация) > [Эта секция](#предпочитайте-экземпляр-статическим-методам)
 
-Methods should be instance members by default.
-Instance methods better reflect the "object-hood" of the class.
-They can be mocked easier in unit tests.
+По умолчанию методы должны быть членами экземпляра.
+Методы экземпляра лучше отражают "объектность" класса.
+Их легче замокать в модульных тестах.
 
 ```ABAP
 METHODS publish.
 ```
 
-Methods should be static only in exceptional cases, such as static creation methods.
+Методы должны быть статическими только в исключительных случаях, например статические методы создания.
 
 ```ABAP
 CLASS-METHODS create_instance
@@ -2261,31 +2256,31 @@ CLASS-METHODS create_instance
     VALUE(result) TYPE REF TO /clean/blog_post.
 ```
 
-#### Public instance methods should be part of an interface
+#### Публичные методы экземпляра должны быть частью интерфейса
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Methods: Object orientation](#methods-object-orientation) > [This section](#public-instance-methods-should-be-part-of-an-interface)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Методы: Объектная ориентация](#методы-объектная-ориентация) > [Эта секция](#публичные-методы-экземпляра-должны-быть-частью-интерфейса)
 
-Public instance methods should always be part of an interface.
-This decouples dependencies and simplifies mocking them in unit tests.
+Публичные методы экземпляра всегда должны быть частью интерфейса. 
+Они разделяют зависимости и упрощают их мокинг при модульном тестировании.
 
 ```ABAP
 METHOD /clean/blog_post~publish.
 ```
 
-In clean object orientation, having a method public without an interface does not make much sense -
-with few exceptions such as enumeration classes
-which will never have an alternative implementation and will never be mocked in test cases.
+В контексте чисто объектного подхода не имеет особого смысла делать метод общедоступным без интерфейса — 
+за некоторыми исключениями, такими как классы перечисления, 
+которые никогда не имеют альтернативной реализации и никогда не мокаются в тестовых примерах.
 
-> [Interfaces vs. abstract classes](sub-sections/InterfacesVsAbstractClasses.md)
-describes why this also applies to classes that overwrite inherited methods.
+> Раздел [Интерфейсы против абстрактных классов](sub-sections/InterfacesVsAbstractClasses.md)
+описывает, почему это относится и к классам, которые переопределяют унаследованные методы.
 
-### Parameter Number
+### Количество параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-number)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#количество-параметров)
 
-#### Aim for few IMPORTING parameters, at best less than three
+#### Стремитесь к нескольким IMPORTING параметрам, лучше всего меньше трех
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#aim-for-few-importing-parameters-at-best-less-than-three)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Количество параметров](#количество-параметров) > [Эта секция](#стремитесь-к-нескольким-IMPORTING-параметрам-лучше-всего-меньше-трех)
 
 ```ABAP
 FUNCTION seo_class_copy
@@ -2297,7 +2292,7 @@ FUNCTION seo_class_copy
     ...
 ```
 
-would be much clearer than
+будет намного понятнее, чем
 
 ```ABAP
 " anti-pattern
@@ -2317,22 +2312,22 @@ FUNCTION seo_class_copy
     ...
 ```
 
-Too many input parameters let the complexity of a method explode
-because it needs to handle an exponential number of combinations.
-Many parameters are an indicator that the method may do more than one thing.
+Входные параметры, если их слишком много, усложняют метод, 
+поскольку он должен обрабатывать экспоненциальное количество комбинаций. 
+Большое количество параметров является признаком того, что метод, вероятно, выполняет более одной функции.
 
-You can reduce the number of parameters by combining them into meaningful sets with structures and objects.
+Вы можете уменьшить количество параметров, объединив их по смыслу в структуры или объекты.
 
-#### Split methods instead of adding OPTIONAL parameters
+#### Разделите методы вместо добавления OPTIONAL параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#split-methods-instead-of-adding-optional-parameters)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Количество параметров](#количество-параметров) > [Эта секция](#разделяйте-методы-вместо-добавления-optional-параметров)
 
 ```ABAP
 METHODS do_one_thing IMPORTING what_i_need TYPE string.
 METHODS do_another_thing IMPORTING something_else TYPE i.
 ```
 
-to achieve the desired semantic as ABAP does not support [overloading](https://en.wikipedia.org/wiki/Function_overloading).
+для того, чтобы достичь желаемой семантики, поскольку ABAP не поддерживает [перегрузку](https://en.wikipedia.org/wiki/Function_overloading).
 
 ```ABAP
 " anti-pattern
@@ -2342,33 +2337,33 @@ METHODS do_one_or_the_other
     something_else TYPE i OPTIONAL.
 ```
 
-Optional parameters confuse callers:
+Необязательные параметры сбивают с толку тех, кто хочет вызвать метод:
 
-- Which ones are really required?
-- Which combinations are valid?
-- Which ones exclude each other?
+- Какие из них действительно необходимы?
+- Какие комбинации этих параметров допустимы?
+- Какие исключают друг друга?
 
-Multiple methods with specific parameters for the use case avoid this confusion by giving clear guidance which parameter combinations are valid and expected.
+Несколько методов с параметрами, адаптированными для каждого варианта использования, позволяют избежать путаницы, четко документируя, какие комбинации параметров являются допустимыми и ожидаемыми.
 
-#### Use PREFERRED PARAMETER sparingly
+#### Используйте PREFERRED PARAMETER с осторожностью
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#use-preferred-parameter-sparingly)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Количество параметров](#количество-параметров) > [Эта секция](#используйте-preferred-parameter-с-осторожностью)
 
-The addition `PREFERRED PARAMETER` makes it hard to see which parameter is actually supplied,
-making it harder to understand the code.
-Minimizing the number of parameters, especially optional ones,
-automatically reduces the need for `PREFERRED PARAMETER`.
+С опцией `PREFERRED PARAMETER` сложнее сказать, какие параметры фактически заполнены, 
+и еще сложнее понять код. 
+Минимизируя количество параметров, особенно необязательных, 
+вы автоматически уменьшаете потребность в использовании `PREFERRED PARAMETER`.
 
-#### RETURN, EXPORT, or CHANGE exactly one parameter
+#### RETURN, EXPORT, или CHANGE только одного параметра
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Number](#parameter-number) > [This section](#return-export-or-change-exactly-one-parameter)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Количество параметров](#количество-параметров) > [Эта секция](#return-export-или-change-только-одного-параметра)
 
-A good method does _one thing_, and that should be reflected by the method also returning exactly one thing.
-If the output parameters of your method do _not_ form a logical entity,
-your method does more than one thing and you should split it.
+Хороший метод делает _одну вещь_, и это должно быть отражено в методе тем, что он возвращает ровно одну вещь. 
+Если выходные параметры вашего метода _не_ образуют логическую сущность, 
+то ваш метод делает несколько вещей сразу, и вам следует разделить его.
 
-There are cases where the output is a logical entity that consists of multiple things.
-These are easiest represented by returning a structure or object:
+В некоторых случаях выходные данные представляют собой логическую сущность, состоящую из нескольких вещей. 
+В таких случаях лучше возвращать структуру или объект:
 
 ```ABAP
 TYPES:
@@ -2385,7 +2380,7 @@ METHODS check_business_partners
     VALUE(result)     TYPE check_result.
 ```
 
-instead of
+вместо
 
 ```ABAP
 " anti-pattern
@@ -2398,11 +2393,11 @@ METHODS check_business_partners
     messages          TYPE /bobf/t_frw_message.
 ```
 
-Especially in comparison to multiple EXPORTING parameters, this allows people to use the functional call style,
-spares you having to think about `IS SUPPLIED` and saves people from accidentally forgetting
-to retrieve a vital `ERROR_OCCURRED` information.
+Особенно в сравнении с несколькими EXPORTING параметрами, это позволяет людям использовать функциональный стиль вызова, 
+избавляет вас от необходимости думать о `IS SUPPLIED` и предотвращает ситуацию, когда можно случайно забыть 
+получить важную информацию об ошибке `ERROR_OCCURRED`.
 
-Instead of multiple optional output parameters, consider splitting the method according to meaningful call patterns:
+Вместо использования нескольких необязательных выходных параметров разделите метод на несколько, используя осмысленные шаблоны вызовов:
 
 ```ABAP
 TYPES:
@@ -2425,13 +2420,13 @@ METHODS check_and_report
     VALUE(result)     TYPE check_result.
 ```
 
-### Parameter Types
+### Типы параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-types)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#типы-параметров)
 
-#### Prefer RETURNING to EXPORTING
+#### Предпочитайте RETURNING вместо EXPORTING
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#prefer-returning-to-exporting)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Типы параметров](#типы-параметров) > [Эта секция](#предпочитайте-returning-вместо-exporting)
 
 ```ABAP
 METHODS square
@@ -2443,7 +2438,7 @@ METHODS square
 DATA(result) = square( 42 ).
 ```
 
-Instead of the needlessly longer
+Вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -2460,17 +2455,17 @@ square(
     result = DATA(result) ).
 ```
 
-`RETURNING` not only makes the call shorter,
-it also allows method chaining and prevents [same-input-and-output errors](#take-care-if-input-and-output-could-be-the-same).
+`RETURNING` не только делает вызов короче,
+он также позволяет связывать методы в цепочку вызовов и предотвращает [при идентичном входном и выходном параметрах](#будьте-осторожны-с-идентичным-вводом-и-выводом).
 
-#### RETURNING large tables is usually okay
+#### RETURNING больших таблиц это обычно нормально
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#returning-large-tables-is-usually-okay)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Типы параметров](#типы-параметров) > [Эта секция](#returning-больших-таблиц-это-обычно-нормально)
 
-Although the ABAP language documentation and performance guides say otherwise,
-we rarely encounter cases where handing over a large or deeply-nested table in a VALUE parameter
-_really_ causes performance problems.
-We therefore recommend to generally use
+Несмотря на то, что документация ABAP и руководства по производительности говорят об обратном,
+мы редко сталкиваемся со случаями, когда передача большой или глубоко вложенной таблицы в VALUE параметре 
+_действительно_ вызывает проблемы с производительностью.
+Поэтому мы рекомендуем использовать RETURNING почти всегда:
 
 ```ABAP
 METHODS get_large_table
@@ -2484,8 +2479,8 @@ ENDMETHOD.
 DATA(my_table) = get_large_table( ).
 ```
 
-Only if there is actual proof (= a bad performance measurement) for your individual case
-should you resort to the more cumbersome procedural style
+Если вы действительно получаете убедительные доказательства обратного (например, метрику, указывающую на плохую производительность), 
+вы можете использовать более утомительный процедурный стиль.
 
 ```ABAP
 " anti-pattern
@@ -2500,14 +2495,14 @@ ENDMETHOD.
 get_large_table( IMPORTING result = DATA(my_table) ).
 ```
 
-> This section contradicts the ABAP Programming Guidelines and Code Inspector checks,
-> both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
-> We consistently failed to reproduce any performance and memory deficits
-> and received notice about kernel optimization that generally improves RETURNING performance.
+> Этот раздел противоречит Руководству по программированию ABAP и элементам управления Code Inspector,
+> которые предлагают экспортировать большие таблицы по ссылке, чтобы избежать снижения производительности. 
+> Несмотря на серьезные неоднократные попытки, нам не удавалось воспроизвести дефицит производительности или памяти, 
+> и мы получили уведомление об оптимизации ядра системы, которая в целом улучшает производительность RETURNING.
 
-#### Use either RETURNING or EXPORTING or CHANGING, but not a combination
+#### Используйте либо RETURNING, либо EXPORTING, либо CHANGING, но не комбинацию
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#use-either-returning-or-exporting-or-changing-but-not-a-combination)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Типы параметров](#типы-параметров) > [Эта секция](#используйте-либо-returning-либо-exporting-либо-changing-но-не-комбинацию)
 
 ```ABAP
 METHODS copy_class
@@ -2520,7 +2515,7 @@ METHODS copy_class
     /clean/class_copy_failure.
 ```
 
-instead of confusing mixtures like
+вместо сбивающей с толку смеси
 
 ```ABAP
 " anti-pattern
@@ -2535,10 +2530,11 @@ METHODS copy_class
     package            TYPE devclass.
 ```
 
-Different sorts of output parameters is an indicator that the method does more than one thing.
-It confuses the reader and makes calling the method needlessly complicated.
+Разные виды выходных параметров — это показатель того, что метод выполняет несколько функций. 
+Это сбивает читателя с толку и излишне усложняет вызов такого метода.
 
-An acceptable exception to this rule may be builders that consume their input while building their output:
+Приемлемым исключением из этого правила могут быть строители (builders), 
+которые используют свои входные данные при построении своих выходных данных:
 
 ```ABAP
 METHODS build_tree
@@ -2548,7 +2544,7 @@ METHODS build_tree
     VALUE(result) TYPE REF TO tree.
 ```
 
-However, even those can be made clearer by objectifying the input:
+Тем не менее, даже их можно сделать понятнее, приобразовав входные данные в объект:
 
 ```ABAP
 METHODS build_tree
@@ -2558,12 +2554,13 @@ METHODS build_tree
     VALUE(result) TYPE REF TO tree.
 ```
 
-#### Use CHANGING sparingly, where suited
+#### Используйте CHANGING с осторожностью, там, где это подходит
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#use-changing-sparingly-where-suited)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Типы параметров](#типы-параметров) > [Эта секция](#используйте-changing-с-осторожностью-там-где-это-подходит)
 
-`CHANGING` should be reserved for cases where an existing local variable
-that is already filled is updated in only some places:
+`CHANGING` следует использовать только в тех случаях, 
+когда существующая локальная переменная, уже
+содержащая данные, должна обновиться лишь частично:
 
 ```ABAP
 METHODS update_references
@@ -2579,15 +2576,14 @@ METHOD update_references.
 ENDMETHOD.
 ```
 
-Do not force your callers to introduce unnecessary local variables only to supply your `CHANGING` parameter.
-Do not use `CHANGING` parameters to initially fill a previously empty variable.
+Не заставляйте людей, пользующихся вашими методами, вводить ненужные локальные переменные для того, чтобы заполнить `CHANGING` параметр.
+Не используйте `CHANGING` параметры для заполнения ранее пустой переменной.
 
-#### Split method instead of Boolean input parameter
+#### Разделите метод вместо использования булева входного параметра
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Types](#parameter-types) > [This section](#split-method-instead-of-boolean-input-parameter)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Типы параметров](#типы-параметров) > [Эта секция](#разделите-метод-вместо-использования-булева-входного-параметра)
 
-Boolean input parameters are often an indicator
-that a method does _two_ things instead of one.
+Наличие булевых входных параметров часто является признаком того, что метод делает две вещи вместо одной.
 
 ```ABAP
 " anti-pattern
@@ -2596,23 +2592,22 @@ METHODS update
     do_save TYPE abap_bool.
 ```
 
-Also, method calls with a single - and thus unnamed - Boolean parameter
-tend to obscure the parameter's meaning.
+Кроме того, вызовы методов с одним и, обычно, безымянным логическим параметром, 
+как правило, скрывают предназначение этого параметра.
 
 ```ABAP
 " anti-pattern
 update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
 ```
 
-Splitting the method may simplify the methods' code
-and describe the different intentions better
+Разделение метода может помочь упростить код самого метода и лучше описать различные намерения.
 
 ```ABAP
 update_without_saving( ).
 update_and_save( ).
 ```
 
-Common perception suggests that setters for Boolean variables are okay:
+В то же время, согласно общему мнению сообщества, совершенно нормально создать сеттер для логической переменной:
 
 ```ABAP
 METHODS set_is_deleted
@@ -2620,23 +2615,22 @@ METHODS set_is_deleted
     new_value TYPE abap_bool.
 ```
 
-> Read more in
+> Подробнее в
 > [1](http://www.beyondcode.org/articles/booleanVariables.html)
 > [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
 > [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
-### Parameter Names
+### Имена параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-names)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#имена-параметров)
 
-#### Consider calling the RETURNING parameter RESULT
+#### Подумайте о том, чтобы назвать RETURNING параметр RESULT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Names](#parameter-names) > [This section](#consider-calling-the-returning-parameter-result)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Имена параметров](#имена-параметров) > [Эта секция](#подумайте-о-том-чтобы-назвать-returning-параметр-result)
 
-Good method names are usually so good that the `RETURNING` parameter does not need a name of its own.
-The name would do little more than parrot the method name or repeat something obvious.
+Обычно, если имена методов подобраны правильно, то параметр `RETURNING` не нуждается в собственном имени. Его имя будет не более чем повторением имени метода или чего-то столь же очевидного.
 
-Repeating a member name can even produce conflicts that need to be resolved by adding a superfluous `me->`.
+Повторение имени атрибута может даже привести к конфликтам, которые придется разрешать добавлением `me->`.
 
 ```ABAP
 " anti-pattern
@@ -2649,22 +2643,22 @@ METHOD get_name.
 ENDMETHOD.
 ```
 
-In these cases, simply call the parameter `RESULT`, or something like `RV_RESULT` if you prefer Hungarian notation.
+В этих случаях просто назовите параметр `RESULT` или `RV_RESULT` и т. п., если вы придерживаетесь венгерской нотации.
 
-Name the `RETURNING` parameter if it is _not_ obvious what it stands for,
-for example in methods that return `me` for method chaining,
-or in methods that create something but don't return the created entity but only its key or so.
+Дайте `RETURNING` параметру осмысленное имя только если неясно, что он означает, например, 
+в методах, которые возвращают `me` в цепочке вызовов методов, или в методах, которые что-то создают, 
+но не возвращают созданный объект, а только его ключ или что-то подобное.
 
-### Parameter Initialization
+### Инициализация параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#parameter-initialization)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#инициализация-параметров)
 
-#### Clear or overwrite EXPORTING reference parameters
+#### Очистите или перезапишите EXPORTING ссылочные параметры
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#clear-or-overwrite-exporting-reference-parameters)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Инициализация параметров](#инициализация-параметров) > [Эта секция](#очистите-или-перезапишите-exporting-ссылочные-параметры)
 
-Reference parameters refer to existing memory areas that may be filled beforehand.
-Clear or overwrite them to provide reliable data:
+Ссылочные параметры относятся к существующим областям памяти, которые могут быть заполнены заранее. 
+Очистите или перезапишите их, чтобы обеспечить достоверность данных:
 
 ```ABAP
 METHODS square
@@ -2683,18 +2677,18 @@ METHOD square.
 ENDMETHOD.
 ```
 
-> Code inspector and Checkman point out `EXPORTING` variables that are never written.
-Use these static checks to avoid this otherwise rather obscure error source.
+> Инспектор кода и Checkman указывают на переменные `EXPORTING`, которые никогда не записываются.
+Используйте эти статические проверки, чтобы избежать ошибки такого рода.
 
-##### Take care if input and output could be the same
+##### Будьте осторожны с идентичным вводом и выводом
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#take-care-if-input-and-output-could-be-the-same)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Инициализация параметров](#инициализация-параметров) > [Эта секция](#будьте-осторожны-с-идентичным-вводом-и-выводом)
 
-Generally, it is a good idea to clear the parameter as a first thing in the method after type and data declarations.
-This makes the statement easy to spot and avoids that the still-contained value is accidentally used by later statements.
+Как правило, рекомендуется очистить параметр в методе сразу после объявления типов и данных.
+Это упрощает поиск и предотвращает случайное использование все еще содержащегося значения последующими операторами.
 
-However, some parameter configurations could use the same variable as input and output.
-In this case, an early `CLEAR` would delete the input value before it can be used, producing wrong results.
+Однако, некоторые конфигурации параметров могут использовать одну и ту же переменную в качестве ввода и вывода.
+В этом случае использование CLEAR вначале удалит входное значение до того, как его можно будет использовать, что приведет к неверным результатам.
 
 ```ABAP
 " anti-pattern
@@ -2712,16 +2706,16 @@ METHOD square_dirty.
 ENDMETHOD.
 ```
 
-Consider redesigning such methods by replacing `EXPORTING` with `RETURNING`.
-Also consider overwriting the `EXPORTING` parameter in a single result calculation statement.
-If neither fits, resort to a late `CLEAR`.
+Подумайте об изменения возвращаемого значения таких методов с `EXPORTING` на `RETURNING`. 
+Кроме того, вы можете напрямую перезаписать параметр EXPORTING результатом вашего расчета без предварительного CLEAR. 
+Если ни одно из этих решений не работает, попробуйте `CLEAR` позже.
 
-#### Don't clear VALUE parameters
+#### Не очищайте VALUE параметры
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#dont-clear-value-parameters)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Инициализация параметров](#инициализация-параметров) > [Эта секция](#не очищайте-value-параметры)
 
-Parameters that work by `VALUE` are handed over as new, separate memory areas that are empty by definition.
-Don't clear them again:
+Параметры, которые работаю с `VALUE`, передаются как новые отдельные области памяти, пустые по определению. 
+Не очищайте их снова:
 
 ```ABAP
 METHODS square
@@ -2733,7 +2727,7 @@ METHOD square.
 ENDMETHOD.
 ```
 
-`RETURNING` parameters are always `VALUE` parameters, so you never have to clear them:
+`RETURNING` параметры всегда являются `VALUE` параметрами, поэтому вам никогда не придется их очищать:
 
 ```ABAP
 METHODS square
@@ -2745,36 +2739,36 @@ METHOD square.
 ENDMETHOD.
 ```
 
-### Method Body
+### Тело метода
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#method-body)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Эта секция](#тело-метода)
 
-#### Do one thing, do it well, do it only
+#### Делай что-то одно, делай это хорошо, делай только это
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#do-one-thing-do-it-well-do-it-only)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Тело метода](#тело-метода) > [Эта секция](#делай-что-то-одно-делай-это-хорошо-делай-только-это)
 
-A method should do one thing, and only one thing.
-It should do it in the best way possible.
+Метод должен делать что-то одно и только одно.
+Он должен делать это очень хорошо.
 
-A method likely does one thing if
+Метод, скорее всего, делает одну вещь, если
 
-- it has [few input parameters](#aim-for-few-importing-parameters-at-best-less-than-three)
-- it [doesn't include Boolean parameters](#split-method-instead-of-boolean-input-parameter)
-- it has [exactly one output parameter](#return-export-or-change-exactly-one-parameter)
-- it is [small](#keep-methods-small)
-- it [descends one level of abstraction](#descend-one-level-of-abstraction)
-- it only [throws one type of exception](#throw-one-type-of-exception)
-- you cannot extract meaningful other methods
-- you cannot meaningfully group its statements into sections
+- он имеет [несколько входных параметров](#стремитесь-к-нескольким-importing-параметрам-лучше-всего-меньше-трех)
+- он [не имеет булевых параметров](#разделите-метод-вместо-использования-булева-входного-параметра)
+- он имеет [только один выходной параметр](#return-export-или-change-только-одного-параметра)
+- он [небольшой](#сохраняйте-методы-небольшими)
+- он [спускается только на один уровень абстракции](#спуститесь-на-один-уровень-абстракции)
+- он [бросает один тип исключения](#бросайте-один-тип-исключения)
+- вы не можете извлечь из него другие осмысленные методы
+- вы не можете осмысленно сгруппировать его объявления в отдельный метод
 
-#### Focus on the happy path or error handling, but not both
+#### Сосредоточьтесь либо на благополучном исходе либо на обработке ошибок, но не на том и другом одновременно
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#focus-on-the-happy-path-or-error-handling-but-not-both)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Тело метода](#тело-метода) > [Эта секция](#сосредоточьтесь-либо-на-благополучном-исходе-либо-на-обработке-ошибок-но-не-на-том-и-другом-одновременно)
 
-As a specialization of the rule [_Do one thing, do it well, do it only_](#do-one-thing-do-it-well-do-it-only),
-a method should either follow the happy-path it's built for,
-or the error-handling-detour in case it can't,
-but probably not both.
+Помимо правила [_Делай что-то одно, делай это хорошо, делай только это_](#делай-что-то-одно-делай-это-хорошо-делай-только-это),
+метод должен следовать либо по пути благополучного исхода, для которого он был создан
+либо, если не может, то по пути обработки ошибок,
+но, очевидно, не по обоим одновременно.
 
 ```ABAP
 " anti-pattern
@@ -2793,7 +2787,7 @@ METHOD append_xs.
 ENDMETHOD.
 ```
 
-Can be decomposed into
+Может быть разложено на
 
 ```ABAP
 METHOD append_xs.
@@ -2814,7 +2808,7 @@ METHOD validate.
 ENDMETHOD.
 ```
 
-or, to stress the validation part
+или, чтобы подчеркнуть часть с проверкой
 
 ```ABAP
 METHOD append_xs.
@@ -2836,12 +2830,12 @@ METHOD append_xs_without_check.
 ENDMETHOD.
 ```
 
-#### Descend one level of abstraction
+#### Спуститесь на один уровень абстракции
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#descend-one-level-of-abstraction)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Тело метода](#тело-метода) > [Эта секция](#спуститесь-на-один-уровень-абстракции)
 
-Statements in a method should be one level of abstraction below the method itself.
-Correspondingly, they should all be on the same level of abstraction.
+Операторы в методе должны быть на один уровень абстракции ниже самого метода.
+Соответственно, все эти операторы должны быть одного уровня абстракции.
 
 ```ABAP
 METHOD create_and_publish.
@@ -2850,7 +2844,7 @@ METHOD create_and_publish.
 ENDMETHOD.
 ```
 
-instead of confusing mixtures of low level (`trim`, `to_upper`, ...) and high level (`publish`, ...) concepts like
+вместо запутанных смесей низкоуровневых операций (`trim`, `to_upper`,...) и высокоуровневых (`publish`,...) например
 
 ```ABAP
 " anti-pattern
@@ -2862,15 +2856,15 @@ METHOD create_and_publish.
 ENDMETHOD.
 ```
 
-A reliable way to find out what the right level of abstraction is is this:
-Let the method's author explain what the method does in few, short words, without looking at the code.
-The bullets (s)he numbers are the sub-methods the method should call or the statements it should execute.
+Надежный способ узнать, какой уровень абстракции является правильным, заключается в следующем: 
+попросите автора метода объяснить в двух словах, что делает метод, не заглядывая в код. 
+Элементы, перечисленные автором, представляют собой подметоды, которые метод должен вызвать, или операторы, которые он должен выполнить.
 
-#### Keep methods small
+#### Сохраняйте методы небольшими
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Method Body](#method-body) > [This section](#keep-methods-small)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Тело метода](#тело-метода) > [Эта секция](#сохраняйте-методы-небольшими)
 
-Methods should have less than 20 statements, optimal around 3 to 5 statements.
+Методы должны содержать менее 20 операторов, оптимально от 3 до 5 операторов.
 
 ```ABAP
 METHOD read_and_parse_version_filters.
@@ -2880,7 +2874,7 @@ METHOD read_and_parse_version_filters.
 ENDMETHOD.
 ```
 
-The following `DATA` declaration alone is sufficient to see that the surrounding method does way more than one thing:
+Одного, следующего объявления `DATA` достаточно, чтобы показать, что метод делает гораздо больше, чем что-то одно:
 
 ```ABAP
 " anti-pattern
@@ -2910,8 +2904,8 @@ DATA:
   new_clskey_save TYPE seoclskey.
 ```
 
-Of course there are occasions where it does not make sense to reduce a larger method further.
-This is perfectly okay as long as the method remains [focused on one thing](#do-one-thing-do-it-well-do-it-only):
+Конечно, бывают случаи, когда дальнейшее разбиение большого метода не имеет смысла. 
+Это совершенно нормально, пока метод остается [сосредоточенным на одной вещи](#делай-что-то-одно-делай-это-хорошо-делай-только-это):
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2930,7 +2924,7 @@ METHOD decide_what_to_do.
 ENDMETHOD.
 ```
 
-However, it still makes sense to validate whether the verbose code hides a more suitable pattern:
+Тем не менее, все же имеет смысл проверить, не скрывает ли такой длинный код более элегантный паттерн:
 
 ```ABAP
 METHOD decide_what_to_do.
@@ -2938,18 +2932,18 @@ METHOD decide_what_to_do.
 ENDMETHOD.
 ```
 
-> Cutting methods very small can have bad impact on performance because it increases the number of method calls.
-> The [section _Mind the performance_](#mind-the-performance) gives guidance on how to balance Clean Code and performance.
+> Нарезка методов до минимума может отрицательно сказаться на производительности, поскольку приводит к увеличению количества вызовов методов. 
+> Раздел [_Помните о производительности_](#помните-о-производительности) содержит советы по поиску баланса между Чистым кодом и оптимальной производительностью.
 
-### Control flow
+### Поток управления
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [This section](#control-flow)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) >  [Эта секция](#поток-управления)
 
-#### Fail fast
+#### Быстрый провал
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#fail-fast)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Поток управления](#поток-управления) > [Эта секция](#быстрый-провал)
 
-Validate and fail as early as possible:
+Выполняйте проверку и прекращайте работу в случае неудачи как можно раньше:
 
 ```ABAP
 METHOD do_something.
@@ -2961,7 +2955,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Later validations are harder to spot and understand and may have already wasted resources to get there.
+Более поздние проверки труднее увидеть и понять, и к этому моменту вы можете потратить ресурсы впустую.
 
 ```ABAP
 " anti-pattern
@@ -2974,14 +2968,14 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-#### CHECK vs. RETURN
+#### CHECK против RETURN
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#check-vs-return)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Поток управления](#поток-управления) > [Эта секция](#check-против-return)
 
-There is no consensus on whether you should use `CHECK` or `RETURN` to exit a method
-if the input doesn't meet expectations.
+Нет единого мнения о том, следует ли использовать CHECK или RETURN для выхода из метода, 
+когда ввод не соответствует ожидаемому.
 
-While `CHECK` definitely provides the shorter syntax
+Хотя `CHECK` определенно обеспечивает более короткий синтаксис,
 
 ```ABAP
 METHOD read_customizing.
@@ -2990,8 +2984,8 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-the statement's name doesn't reveal what happens if the condition fails,
-such that people will probably understand the long form better:
+имя оператора не говорит о том, что произойдет, если условие не выполнится. 
+Поэтому, длинная форма в целом более понятна:
 
 ```ABAP
 METHOD read_customizing.
@@ -3002,8 +2996,8 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-You can avoid the question completely by reversing the validation
-and adopting a single-return control flow
+Вы можете полностью избежать этого вопроса, 
+изменив проверку и внедрив поток управления с одним возвратом.
 
 ```ABAP
 METHOD read_customizing.
@@ -3013,72 +3007,72 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-In any case, consider whether returning nothing is really the appropriate behavior.
-Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
-Returning nothing is in many cases similar to returning `null`, which should be avoided.
+В любом случае, подумайте, действительно ли отсутствие возвращаемого результата является правильным поведением. 
+Методы должны предоставлять осмысленный результат, т.е. заполненный возвращаемый параметр или исключение. 
+Во многих случаях отсутствие возвращенного результата эквивалентно возврату null, чего следует избегать.
 
-> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
-> recommends using `CHECK` in this instance.
-> Community discussion suggests that the statement is so unclear
-> that many people will not understand the program's behavior.
+> Раздел [_Выход из процедур_ в Руководстве по программированию на ABAP](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> в этом случае рекомендует использовать `CHECK`.
+> Обсуждение в сообществе показывает, что этот оператор настолько неясен,
+> что многие люди не поймут поведение программы.
 
-#### Avoid CHECK in other positions
+#### Избегайте CHECK в других местах
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Control flow](#control-flow) > [This section](#avoid-check-in-other-positions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Методы](#методы) > [Поток управления](#поток-управления) > [Эта секция](#избегайте-check-в-других-местах)
 
-Do not use `CHECK` outside of the initialization section of a method.
-The statement behaves differently in different positions and may lead to unclear, unexpected effects.
+Не используйте `CHECK` вне раздела инициализации метода.
+Оператор ведет себя по-разному в разных позициях и может привести к неясным, неожиданным эффектам.
 
-For example,
-[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
-people might accidentally expect it to end the method or exit the loop.
-Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
+Например,
+[`CHECK` в `LOOP` завершает текущую итерацию и переходит к следующей](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm),
+а не завершает метод или, по крайней мере, цикл, как можно было бы ошибочно ожидать.
+Вместо этого лучше использовать оператор `IF` в сочетании с `CONTINUE`, так как `CONTINUE` можно использовать только в циклах.
 
-> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
-> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
+> Основано на разделе [_Выход из процедур_](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm) в Руководстве по программированию на ABAP.
+> Обратите внимание, что это противоречит [справке о ключевом слове `CHECK` в циклах](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
 
-## Error Handling
+## Обработка ошибок
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#error-handling)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#обработка-ошибок)
 
-### Messages
+### Сообщения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#messages)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Эта секция](#сообщения)
 
-#### Make messages easy to find
+#### Сделайте сообщения легко находимыми
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Messages](#messages) > [This section](#make-messages-easy-to-find)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Сообщения](#сообщения) > [Эта секция](#сделайте-сообщения-легко-находимыми)
 
-To make messages easy to find through a where-used search from transaction SE91, use the following pattern:
+Чтобы упростить поиск сообщений с помощью поиска по месту использования из транзакции SE91, используйте следующий шаблон:
 
 ```ABAP
 MESSAGE e001(ad) INTO DATA(message).
 ```
 
-In case variable `message` is not needed, add the pragma `##NEEDED`:
+Если переменная `message` не нужна, добавьте прагму `##NEEDED`:
 
 ```ABAP
 MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 ```
 
-Avoid the following:
+Избегайте следующего:
 
 ```ABAP
 " anti-pattern
 IF 1 = 2. MESSAGE e001(ad). ENDIF.
 ```
 
-This is an anti-pattern since:
-- It contains unreachable code.
-- It tests a condition which can never be true for equality.
+Это анти-паттерн, поскольку:
+- Он содержит недостижимый код.
+- Он проверяет условие, которое никогда не может быть истинным для равенства.
 
-### Return Codes
+### Коды возврата
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#return-codes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Эта секция](#коды-возврата)
 
-#### Prefer exceptions to return codes
+#### Предпочитайте исключения кодам возврата
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Return Codes](#return-codes) > [This section](#prefer-exceptions-to-return-codes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Коды возврата](#коды-возврата) > [Эта секция](#предпочитайте-исключения-кодам-возврата)
 
 ```ABAP
 METHOD try_this_and_that.
@@ -3086,7 +3080,7 @@ METHOD try_this_and_that.
 ENDMETHOD.
 ```
 
-instead of
+вместо
 
 ```ABAP
 " anti-pattern
@@ -3095,28 +3089,28 @@ METHOD try_this_and_that.
 ENDMETHOD.
 ```
 
-Exceptions have multiple advantages over return codes:
+Исключения имеют множество преимуществ перед кодами возврата:
 
-- Exceptions keep your method signatures clean:
-you can return the result of the method as a `RETURNING` parameter and still throw exceptions alongside.
-Return codes pollute your signatures with additional parameters for error handling.
+- Исключения сохраняют сигнатуры ваших методов чистыми:
+вы можете вернуть результат метода как параметр `RETURNING` и по-прежнему генерировать исключения.
+Коды возврата загрязняют ваши подписи дополнительными параметрами для обработки ошибок.
 
-- The caller doesn't have to react to them immediately.
-He can simply write down the happy path of his code.
-The exception-handling `CATCH` can be at the very end of his method, or completely outside.
+- Вызывающей программе не нужно немедленно реагировать на исключения. 
+Можно просто придерживаться правильных вариантов использования своего кода. 
+Обработчик исключений CATCH может находиться в самом конце своего метода или полностью вне его.
 
-- Exceptions can provide details on the error in their attributes and through methods.
-Return codes require you to devise a different solution on your own, such as also returning a log.
+- Исключения могут предоставлять сведения об ошибках, хранящиеся в их атрибутах, с помощью методов. 
+Коды возврата заставляют вас самостоятельно придумывать другое решение (например, возвращать журнал).
 
-- The environment reminds the caller with syntax errors to handle exceptions.
-Return codes can be accidentally ignored without anybody noticing.
+- Окружение напоминает вызывающей программе о синтаксических ошибках для обработки исключений. 
+Коды возврата могут быть случайно проигнорированы, и никто этого не заметит.
 
-#### Don't let failures slip through
+#### Не позволяйте неудачам проскользнуть
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Return Codes](#return-codes) > [This section](#dont-let-failures-slip-through)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Коды возврата](#коды-возврата) > [Эта секция](#не-позволяйте-неудачам-проскользнуть)
 
-If you do have to use return codes, for example because you call Functions and older code not under your control,
-make sure you don't let failures slip through.
+Если вам все же приходится использовать коды возврата, например, потому что вы вызываете функции и старый код, 
+который не находится под вашим контролем, убедитесь, что вы не допускаете ошибок.
 
 ```ABAP
 DATA:
@@ -3134,13 +3128,13 @@ IF response-type = 'E'.
 ENDIF.
 ```
 
-### Exceptions
+### Исключения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#exceptions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Эта секция](#исключения)
 
-#### Exceptions are for errors, not for regular cases
+#### Исключения для ошибок, а не для обычных случаев
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Exceptions](#exceptions) > [This section](#exceptions-are-for-errors-not-for-regular-cases)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Исключения](#исключения) > [Эта секция](#исключения-для-ошибок-а-не-для-обычных-случаев)
 
 ```ABAP
 " anti-pattern
@@ -3151,7 +3145,7 @@ METHODS entry_exists_in_db
     cx_not_found_exception.
 ```
 
-If something is a regular, valid case, it should be handled with regular result parameters.
+Если что-то является обычным, допустимым случаем, оно должно обрабатываться с помощью обычных параметров возвращающих результат.
 
 ```ABAP
 METHODS entry_exists_in_db
@@ -3161,7 +3155,7 @@ METHODS entry_exists_in_db
     VALUE(result) TYPE abap_bool.
 ```
 
-Exceptions should be reserved for cases that you don't expect and that reflect error situations.
+Исключения должны применяться только для случаев, которые вы не ожидаете и которые отражают ошибочные ситуации.
 
 ```ABAP
 METHODS assert_user_input_is_valid
@@ -3171,13 +3165,12 @@ METHODS assert_user_input_is_valid
     cx_bad_user_input.
 ```
 
-Misusing exceptions misguides the reader into thinking something went wrong, when really everything is just fine.
-Exceptions are also much slower than regular code because they need to be constructed
-and often gather lots of context information.
+Неправильное использование исключений вводит читателя в заблуждение, заставляя его думать, что что-то пошло не так, хотя на самом деле все в порядке.
+Исключения намного медленнее, чем обычный код, потому что их нужно создавать и они часто собирают много контекстной информации.
 
-#### Use class-based exceptions
+#### Используйте исключения на основе классов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Exceptions](#exceptions) > [This section](#use-class-based-exceptions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Исключения](#исключения) > [Эта секция](#используйте-исключения-на-основе-классов)
 
 ```ABAP
 TRY.
@@ -3186,7 +3179,7 @@ TRY.
 ENDTRY.
 ```
 
-The outdated non-class-based exceptions have the same features as return codes and shouldn't be used anymore.
+Устаревшие исключения, основанные не на классах, имеют ту же функциональность, что и коды возврата, и больше не следует их использовать.
 
 ```ABAP
 " anti-pattern
@@ -3196,13 +3189,13 @@ get_component_types(
     OTHERS              = 2 ).
 ```
 
-### Throwing
+### Бросание
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#throwing)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Эта секция](#бросание)
 
-#### Use own super classes
+#### Используйте собственные суперклассы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#use-own-super-classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#используйте-собственные-суперклассы)
 
 ```ABAP
 CLASS cx_fra_static_check DEFINITION ABSTRACT INHERITING FROM cx_static_check.
@@ -3215,9 +3208,15 @@ Allows you to `CATCH` all _your_ exceptions.
 Enables you to add common functionality to all exceptions, such as special text handling.
 `ABSTRACT` prevents people from accidentally using these non-descriptive errors directly.
 
-#### Throw one type of exception
+Рассмотрите возможность создания абстрактных суперклассов для каждого типа исключений вашего приложения 
+вместо прямого наследования от базовых классов. 
+Это позволит вам поймать (catch) все ваши исключения. 
+Даст возможность добавить общие функции ко всем исключениям, например специальную обработку текста. 
+Делайте такие классы `ABSTRACT`ными, чтобы случайно не использовать их напрямую.
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#throw-one-type-of-exception)
+#### Бросайте один тип исключения
+
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#бросайте-один-тип-исключения)
 
 ```ABAP
 METHODS generate
@@ -3225,10 +3224,9 @@ METHODS generate
     cx_generation_error.
 ```
 
-In the vast majority of cases, throwing multiple types of exceptions has no use.
-The caller usually is neither interested nor able to distinguish the error situations.
-He will therefore typically handle them all in the same way -
-and if this is the case, why distinguish them in the first place?
+В подавляющем большинстве случаев создание нескольких типов исключений бесполезно. 
+Как правило, вызывающая программа не имеет ни желания, ни возможности различать ошибочные ситуации. 
+Поэтому она будет относиться к ним в целом одинаково, а если так, то зачем их вообще различать?
 
 ```ABAP
 " anti-pattern
@@ -3239,13 +3237,14 @@ METHODS generate
     cx_model_read_error.
 ```
 
-A better solution to recognize different error situations is using one exception type
-but adding sub-classes that allow - but don't require - reacting to individual error situations,
-as described in [Use sub-classes to enable callers to distinguish error situations](#use-sub-classes-to-enable-callers-to-distinguish-error-situations).
+Лучшим решением для распознавания различных ситуаций с ошибками является 
+использование одного типа исключения, но с добавлением подклассов, 
+которые позволяют (но не требуют) реагировать на отдельные ситуации с ошибками, 
+как описано в разделе [Используйте подклассы, чтобы вызывающие могли различать ошибочные ситуации](#используйте-подклассы-чтобы-вызывающие-могли-различать-ошибочные-ситуации).
 
-#### Use sub-classes to enable callers to distinguish error situations
+#### Используйте подклассы, чтобы вызывающие могли различать ошибочные ситуации
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#use-sub-classes-to-enable-callers-to-distinguish-error-situations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#используйте-подклассы-чтобы-вызывающие-могли-различать-ошибочные-ситуации)
 
 ```ABAP
 CLASS cx_bad_generation_variable DEFINITION INHERITING FROM cx_generation_error.
@@ -3264,7 +3263,7 @@ TRY.
 ENDTRY.
 ```
 
-If there are many different error situations, use error codes instead:
+Если существует много разных ошибочных ситуаций, используйте коды ошибок:
 
 ```ABAP
 CLASS cx_generation_error DEFINITION ...
@@ -3289,13 +3288,13 @@ TRY.
 ENDTRY.
 ```
 
-#### Throw CX_STATIC_CHECK for manageable exceptions
+#### Бросайте CX_STATIC_CHECK для управляемых исключений
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#throw-cx_static_check-for-manageable-exceptions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#бросайте-cx_static_check-для-управляемых-исключений)
 
-If an exception can be expected to occur and be reasonably handled by the receiver,
-throw a checked exception inheriting from `CX_STATIC_CHECK`: failing user input validation,
-missing resource for which there are fallbacks, etc.
+Если исключительная ситуация может быть ожидаема и разумно обработана программой-получателем, 
+сгенерируйте проверенное исключение, унаследованное от `CX_STATIC_CHECK`: не удалось выполнить проверку пользовательского ввода, 
+отсутствует ресурс, для которого существуют резервные копии, и т. д.
 
 ```ABAP
 CLASS cx_file_not_found DEFINITION INHERITING FROM cx_static_check.
@@ -3307,21 +3306,22 @@ METHODS read_file
     cx_file_not_found.
 ```
 
-This exception type _must_ be given in method signatures and _must_ be caught or forwarded to avoid syntax errors.
-It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
-and will take care of reacting to the error situation.
+Этот тип исключения _должен_ быть указан в сигнатурах методов и 
+_должен_ быть перехвачен или перенаправлен, чтобы избежать синтаксических ошибок. 
+Таким образом, потребитель гарантированно увидет его, не удивится неожиданному исключению 
+и позаботится о том, чтобы отреагировать на ошибочную ситуацию.
 
-> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
-> but contradicts [Robert C. Martin's _Clean Code_],
-> which recommends to prefer unchecked exceptions;
-> [Exceptions](sub-sections/Exceptions.md) explains why.
+> Это соответствует [Руководству по программированию на ABAP](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
+> но противоречит [Robert C. Martin's _Clean Code_],
+> который рекомендует предпочесть непроверяемые исключения;  
+> Раздел [Исключения](sub-sections/Exceptions.md) объясняет, почему.
 
-#### Throw CX_NO_CHECK for usually unrecoverable situations
+#### Бросайте CX_NO_CHECK для обычно безнадежных ситуаций
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#throw-cx_no_check-for-usually-unrecoverable-situations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#бросайте-cx_no_check-для-обычно-безнадежных-ситуаций)
 
-If an exception is so severe that the receiver is unlikely to recover from it, use `CX_NO_CHECK`:
-failure to read a must-have resource, failure to resolve the requested dependency, etc.
+Если исключение настолько серьезное, что получатель вряд ли восстановится после него, используйте `CX_NO_CHECK`: 
+сбой при чтении обязательного ресурса, невозможность разрешения запрошенной зависимости и т. д.
 
 ```ABAP
 CLASS cx_out_of_memory DEFINITION INHERITING FROM cx_no_check.
@@ -3331,27 +3331,25 @@ METHODS create_guid
     VALUE(result) TYPE /bobf/conf_key.
 ```
 
-`CX_NO_CHECK` _cannot_ be declared in method signatures,
-such that its occurrence will come as a bad surprise to the consumer.
-In the case of unrecoverable situations, this is okay
-because the consumer will not be able to do anything useful about it anyway.
+`CX_NO_CHECK` _не может_ быть объявлен в сигнатурах методов,
+и поэтому всегда является неприятным сюрпризом для потребителя. 
+В ситуациях, которые нельзя исправить, это нормально, потому что потребитель все равно не может отреагировать на них полезным образом.
 
-However, there _may_ be cases where the consumer actually wants to recognize and react to this kind of failure.
-For example, a dependency manager could throw a `CX_NO_CHECK` if it's unable to provide an implementation
-for a requested interface because regular application code will not be able to continue.
-However, there may be a test report that tries to instantiate all kinds of things just to see if it's working,
-and that will report failure simply as a red entry in a list -
-this service should be able to catch and ignore the exception instead of being forced to dump.
+Однако, в некоторых случаях потребителю на самом деле необходимо 
+идентифицировать этот тип отказа и отреагировать на него соответствующим образом. 
+Например, диспетчер зависимостей может сгенерировать исключение CX_NO_CHECK, 
+потому что обычный код приложения, вероятно, все равно не может продолжить работу.
+В то же время тестовая программа, которая пытается создавать экземпляры чего-либо, 
+просто чтобы проверить, что они работают, должна сообщить об ошибке в виде красной записи в списке. 
+Этот сервис должен иметь возможность перехватывать и игнорировать исключение, а не создавать дамп памяти.
 
-#### Consider CX_DYNAMIC_CHECK for avoidable exceptions
+#### Подумайте об использовании CX_DYNAMIC_CHECK для исключений, которых можно избежать
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#consider-cx_dynamic_check-for-avoidable-exceptions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](##подумайте-об-использовании-cx_dynamic_check-для-исключений-которых-можно-избежать)
 
-Use cases for `CX_DYNAMIC_CHECK` are rare,
-and in general we recommend to resort to the other exception types.
-However, you may want to consider this kind of exception
-as a replacement for `CX_STATIC_CHECK` if the caller has full,
-conscious control over whether an exception can occur.
+Случаи использования `CX_DYNAMIC_CHECK` встречаются редко, и в целом мы рекомендуем использовать другие типы исключений. 
+Однако, вы можете использовать этот тип исключения вместо `CX_STATIC_CHECK`, 
+если вызывающая программа полностью контролирует возникающие ошибки.
 
 ```ABAP
 DATA value TYPE decfloat.
@@ -3363,45 +3361,40 @@ cl_abap_math=>get_db_length_decs(
     length = DATA(length) ).
 ```
 
-For example, consider the method `get_db_length_decs`
-of class `cl_abap_math`, that tells you the number of digits
-and decimal places of a decimal floating point number.
-This method raises the dynamic exception `cx_parameter_invalid_type`
-if the input parameter does not reflect a decimal floating point number.
-Usually, this method will be called
-for a fully and statically typed variable,
-such that the developer knows
-whether that exception can ever occur or not.
-In this case, the dynamic exception would enable the caller
-to omit the unnecessary `CATCH` clause.
+Например, посмотрите на метод `get_db_length_decs` класса `cl_abap_math`, 
+который сообщает вам количество цифр и десятичных разрядов в десятичном числе с плавающей запятой. 
+Этот метод вызывает динамическое исключение `cx_parameter_invalid_type`, 
+если входной параметр не соответствует десятичному числу с плавающей запятой. 
+Этот метод обычно вызывается для статистически типизированной переменной, поэтому разработчик знает, 
+когда может возникнуть это исключение. 
+В этом случае динамическое исключение позволит вызывающей стороне опустить избыточное предложение `CATCH`.
 
-#### Dump for totally unrecoverable situations
+#### Дамп для полностью неисправимых ситуаций
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#dump-for-totally-unrecoverable-situations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#дамп-для-полностью-неисправимых-ситуаций)
 
-If a situation is so severe that you are totally sure the receiver is unlikely to recover from it,
-or that clearly indicates a programming error, dump instead of throwing an exception:
-failure to acquire memory, failed index reads on a table that must be filled, etc.
+Если ситуация настолько серьезна, что вы полностью уверены, что получатель вряд ли сможет восстановиться после нее, 
+или это явно указывает на программную ошибку, вместо создания исключения создайте дамп: 
+сбой при захвате памяти, сбой при чтении индекса в таблице, которая должна быть заполнена, т. д.
 
 ```ABAP
 RAISE SHORTDUMP TYPE cx_sy_create_object_error.  " >= NW 7.53
 MESSAGE x666(general).                           " < NW 7.53
 ```
+Такое поведение не позволит какому-либо потребителю сделать что-либо полезное впоследствии.
+Поэтому, используйте это только если вы уверены в этом.
 
-This behavior will prevent any kind of consumer from doing anything useful afterwards.
-Use this only if you are sure about that.
+#### Предпочитайте RAISE EXCEPTION NEW вместо RAISE EXCEPTION TYPE
 
-#### Prefer RAISE EXCEPTION NEW to RAISE EXCEPTION TYPE
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Бросание](#бросание) > [Эта секция](#предпочитайте-raise-exception-new-вместо-raise-exception-type)
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Throwing](#throwing) > [This section](#prefer-raise-exception-new-to-raise-exception-type)
-
-Note: Available from NW 7.52 onwards.
+Примечание. Доступно начиная с NW 7.52.
 
 ```ABAP
 RAISE EXCEPTION NEW cx_generation_error( previous = exception ).
 ```
 
-in general is shorter than the needlessly longer
+в целом короче, чем излишне длиннее
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
@@ -3409,7 +3402,7 @@ RAISE EXCEPTION TYPE cx_generation_error
     previous = exception.
 ```
 
-However, if you make massive use of the addition `MESSAGE`, you may want to stick with the `TYPE` variant:
+Однако, если вы часто используете опцию `MESSAGE`, рекомендуется придерживаться варианта с `TYPE`:
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
@@ -3418,13 +3411,13 @@ RAISE EXCEPTION TYPE cx_generation_error
     previous = exception.
 ```
 
-### Catching
+### Отлавливание
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [This section](#catching)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Эта секция](#отлавливание)
 
-#### Wrap foreign exceptions instead of letting them invade your code
+#### Оберните внешние исключения вместо того, чтобы позволять им вторгаться в ваш код
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Error Handling](#error-handling) > [Catching](#catching) > [This section](#wrap-foreign-exceptions-instead-of-letting-them-invade-your-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Обработка ошибок](#обработка-ошибок) > [Отлавливание](#отлавливание) > [Эта секция](#оберните-внешние-исключения-вместо-того-чтобы-позволять-им-вторгаться-в-ваш-код)
 
 ```ABAP
 METHODS generate RAISING cx_generation_failure.
@@ -3438,10 +3431,9 @@ METHOD generate.
 ENDMETHOD.
 ```
 
-The [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter) recommends de-coupling things.
-Forwarding exceptions from other components violates this principle.
-Make yourself independent from the foreign code by catching those exceptions
-and wrapping them in an exception type of your own.
+[Закон Деметры](https://en.wikipedia.org/wiki/Law_of_Demeter) рекомендует разъединять вещи.
+Передача исключений из других компонентов нарушает этот принцип. 
+Обеспечьте себе независимость от чужого кода, перехватывая эти исключения и заключая их в свой собственный тип исключения.
 
 ```ABAP
 " anti-pattern
@@ -3452,13 +3444,13 @@ METHOD generate.
 ENDMETHOD.
 ```
 
-## Comments
+## Комментарии
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#comments)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#комментарии)
 
-### Express yourself in code, not in comments
+### Выражайте себя в коде, а не в комментариях
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#express-yourself-in-code-not-in-comments)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#выражайте-себя-в-коде-а-не-в-комментариях)
 
 ```ABAP
 METHOD correct_day_to_last_in_month.
@@ -3478,7 +3470,7 @@ METHOD reduce_day_by_one.
 ENDMETHOD.
 ```
 
-instead of
+вместо
 
 ```ABAP
 " anti-pattern
@@ -3499,26 +3491,26 @@ METHOD fix_day_overflow.
 ENDMETHOD.
 ```
 
-Clean Code does _not_ forbid you to comment your code - it encourages you to exploit _better_ means,
-and resort to comments only if that fails.
+Чистый код не запрещает вам комментировать свой код, а скорее побуждает вас использовать лучшие инструменты 
+и прибегать к комментариям только тогда, когда вы не получаете желаемого результата другими способами.
 
-> This example has been challenged from a performance point of view,
-> claiming that cutting the methods so small worsens performance too much.
-> Sample measurements show that the refactored code is 2.13 times slower than the original dirty variant.
-> The clean variant takes 9.6 microseconds to fix the input `31-02-2018`, the dirty variant only 4.5 microseconds.
-> This may be a problem when the method is run very often in a high-performance application;
-> for regular user input validation, it should be acceptable.
-> Resort to the section [Mind the performance](#mind-the-performance) to deal with Clean Code and performance issues.
+> Этот пример был оспорен с точки зрения производительности. Были утверждения, 
+> что сокращение методов слишком сильно ухудшает производительность. 
+> Примерные измерения показывают, что код после рефакторинга работает в 2,13 раза медленнее исходного, грязного варианта. 
+> Чистому варианту требуется 9,6 мкс, чтобы исправить ввод `31-02-2018`, грязному варианту — всего 4,5 мкс. 
+> Это может вызвать проблемы, если метод будет запускаться очень часто в высокопроизводительном приложении. 
+> Для обычной проверки пользовательского ввода это должно быть приемлемо. 
+> Обратитесь к разделу [Помните о производительности](#помните-о-производительности), если вы испытываете проблемы с производительностью сдедуя Чистому коду.
 
-### Comments are no excuse for bad names
+### Комментарии — не оправдание плохих имен
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#comments-are-no-excuse-for-bad-names)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#комментарии--не-оправдание-плохих-имен)
 
 ```ABAP
 DATA(input_has_entries) = has_entries( input ).
 ```
 
-Improve your names instead of explaining what they really mean or why you chose bad ones.
+Используйте более подходящие имена вместо того, чтобы объяснять, что вы на самом деле имеете в виду или почему вы выбрали неподходящее имя.
 
 ```ABAP
 " anti-pattern
@@ -3526,17 +3518,17 @@ Improve your names instead of explaining what they really mean or why you chose 
 DATA(result) = check_table( input ).
 ```
 
-### Use methods instead of comments to segment your code
+### Используйте методы вместо комментариев для сегментации кода
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#use-methods-instead-of-comments-to-segment-your-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#используйте-методы-вместо-комментариев-для-сегментации-кода)
 
 ```ABAP
 DATA(statement) = build_statement( ).
 DATA(data) = execute_statement( statement ).
 ```
 
-This not only makes the intent, structure, and dependencies of the code much clearer,
-it also avoids carry-over errors when temporary variables aren't properly cleared between the sections.
+Это не только делает назначение кода, структуру и зависимости более понятными, но также позволяет избежать последующих ошибок, 
+когда временные переменные не сбрасываются должным образом между разделами.
 
 ```ABAP
 " anti-pattern
@@ -3553,16 +3545,16 @@ DATA(result_set) = adbc->execute_sql_query( statement ).
 result_set->next_package( IMPORTING data = data ).
 ```
 
-### Write comments to explain the why, not the what
+### Пишите комментарии, чтобы объяснить, почему, а не что
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#write-comments-to-explain-the-why-not-the-what)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#пишите-комментарии-чтобы-объяснить-почему-а-не-что)
 
 ```ABAP
 " can't fail, existence of >= 1 row asserted above
 DATA(first_line) = table[ 1 ].
 ```
 
-Nobody needs repeating the code in natural language
+Никому не нужно повторение кода на естественном языке
 
 ```ABAP
 " anti-pattern
@@ -3570,9 +3562,9 @@ Nobody needs repeating the code in natural language
 SELECT * FROM d_alert_root WHERE key = key.
 ```
 
-### Design goes into the design documents, not the code
+### Описание проекта должно быть в проектной документации, а не в коде
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#design-goes-into-the-design-documents-not-the-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция]((#описание-проекта-должно-быть-в-проектной-документации-а-не-в-коде))
 
 ```ABAP
 " anti-pattern
@@ -3582,17 +3574,16 @@ SELECT * FROM d_alert_root WHERE key = key.
 " Have a look at this and that to get the details.
 ```
 
-Nobody reads that - seriously.
-If people need to read a textbook to be able to use your code,
-this may be an indicator that your code has severe design issues that you should solve otherwise.
-Some code _does_ need some explanation beyond a single line of comment;
-consider linking the design document in these cases.
+Этого никто не читает, честное слово. 
+Если для понимания вашего кода требуется учебник, это может указывать на то, что в вашем коде есть серьезные проблемы проектирования, 
+которые вам следует решать другими способами. Если ваш код действительно нуждается в объяснении помимо одной строки комментария, 
+что приемлемо, мы предлагаем оставлять ссылку на проектную документацию.
 
-### Comment with ", not with *
+### Комментируйте используя ", а не *
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#comment-with--not-with-)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#комментируйте-используя--а-не-)
 
-Quote comments indent along with the statements they comment
+Комментарии в двойных кавычках форматируются при выполнении структурной печати и получают отступ в соответствии с инструкциями, к которым они относятся.
 
 ```ABAP
 METHOD do_it.
@@ -3603,7 +3594,7 @@ METHOD do_it.
 ENDMETHOD.
 ```
 
-Asterisked comments tend to indent to weird places
+Комментарии со звездочкой, как правило, имеют странные отступы.
 
 ```ABAP
 " anti-pattern
@@ -3615,16 +3606,16 @@ METHOD do_it.
 ENDMETHOD.
 ```
 
-### Put comments before the statement they relate to
+### Размещайте комментарии перед утверждением, к которому они относятся]
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#put-comments-before-the-statement-they-relate-to)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#размещайте-комментарии-перед-утверждением-к-которому-они-относятся)
 
 ```ABAP
 " delegate pattern
 output = calculate_result( input ).
 ```
 
-Clearer than
+Понятнее, чем
 
 ```ABAP
 " anti-pattern
@@ -3632,29 +3623,29 @@ output = calculate_result( input ).
 " delegate pattern
 ```
 
-And less invasive than
+И менее инвазивен, чем
 
 ```ABAP
 output = calculate_result( input ).  " delegate pattern
 ```
 
-### Delete code instead of commenting it
+### Удаляйте код вместо того, чтобы комментировать его
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#delete-code-instead-of-commenting-it)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#удаляйте-код-вместо-того-чтобы-комментировать-его)
 
 ```ABAP
 " anti-pattern
 * output = calculate_result( input ).
 ```
 
-When you find something like this, delete it.
-The code is obviously not needed because your application works and all tests are green.
-Deleted code can be reproduced from the version history later on.
-If you need to preserve a piece of code permanently, copy it to a file or a `$TMP` or `HOME` object.
+Если вы найдете что-то похожее, удалите это.
+Этот закомментированный код явно не нужен, потому что ваше приложение работает и без него и все тесты проходят. 
+При необходимости, удаленный код можно воспроизвести из истории версий. 
+Если вам нужно сохранить фрагмент кода навсегда, скопируйте его в файл или объект `$TMP` или `HOME`.
 
-### Use FIXME, TODO, and XXX and add your ID
+### Используйте FIXME, TODO, и XXX и добавьте свой ID
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#use-fixme-todo-and-xxx-and-add-your-id)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#используйте-fixme-todo-и-xxx-и-добавьте-свой-id)
 
 ```ABAP
 METHOD do_something.
@@ -3662,18 +3653,18 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-- `FIXME` points to errors that are too small or too much in-the-making for internal incidents.
-- `TODO`s are places where you want to complete something in the near(!) future.
-- `XXX` marks code that works but could be better.
+- `FIXME` указывает на ошибки, которые слишком малы или слишком велики для внутренних инцидентов.
+- `TODO` это места, где вы хотите что-то доделать в ближайшем (!) будущем.
+- `XXX` отмечает код, который работает, но может быть улучшен
 
-When you enter such a comment, add your nick, initials, or user to enable your co-developers to contact you
-and ask questions if the comment is unclear.
+Когда вы добавляете такой комментарий, добавьте свой ник, инициалы или пользователя, чтобы ваши коллеги-разработчики могли связаться с вами
+и задать вопросы, если комментарий им будет неясен.
 
-### Don't add method signature and end-of comments
+### Не добавляйте сигнатуру метода и комментарии в конце
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-add-method-signature-and-end-of-comments)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#не-добавляйте-сигнатуру-метода-и-комментарии-в-конце)
 
-Method signature comments don't help anybody.
+Комментарии к сигнатуре метода никому не нужны.
 
 ```ABAP
 " anti-pattern
@@ -3687,20 +3678,20 @@ Method signature comments don't help anybody.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
 ```
 
-Decades ago, when you couldn't see the method signature when inspecting its code,
-or working with printouts that had dozens of pages, these comments may have made sense.
-But all modern ABAP IDEs (SE24, SE80, ADT) show the method signature easily
-such that these comments have become nothing but noise.
+Десятилетия назад, когда вы не могли посмотреть сигнатуру метода при проверке его кода или при работе с распечатками, 
+состоящими из десятков страниц, эти комментарии могли иметь смысл. 
+Но все современные ABAP IDE (SE24, SE80, ADT) легко показывают сигнатуру метода, 
+так что эти комментарии стали не более чем шумом.
 
-> In the form-based editor of SE24/SE80, press button _Signature_.
-> In the ABAP Development Tools, mark the method name and press F2
-> or add the view _ABAP Element Info_ to your perspective.
+> В редакторе на основе формуляров SE24/SE80, нажмите кнопку _Сигнатура_.
+> В ABAP Development Tools, отметьте название метода и нажмите F2
+> или добавьте view _ABAP Element Info_ в свою перспективу.
 
-Similarly, end-of comments are superfluous.
-These comments may have been helpful decades ago,
-when programs and functions and the nested IFs inside were hundreds of lines of code long.
-But our modern coding style produces methods short enough to readily see
-what opening statement an `ENDIF` or `ENDMETHOD` belongs to:
+Точно так же комментарии после закрывающих ключевых слов тоже излишни. 
+Эти комментарии могли быть полезны несколько десятилетий назад, когда программы и функции, 
+а также вложенные в них `IF`ы cостояли из сотен строк кода. 
+Но наш современный стиль написания кода создает достаточно короткие методы, 
+чтобы было легко увидеть к какому открывающему оператору относится `ENDIF` или `ENDMETHOD`:
 
 ```ABAP
 " anti-pattern
@@ -3711,9 +3702,9 @@ METHOD get_kpi_calc.
 ENDMETHOD.   " get_kpi_calc
 ```
 
-### Don't duplicate message texts as comments
+### Не дублируйте тексты сообщений в комментариях
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-duplicate-message-texts-as-comments)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#не-дублируйте-тексты-сообщений-в-комментариях)
 
 ```ABAP
 " anti-pattern
@@ -3721,17 +3712,16 @@ ENDMETHOD.   " get_kpi_calc
 MESSAGE e003 INTO dummy.
 ```
 
-Messages change independently from your code,
-and nobody will remember adjusting the comment,
-such that it will outdate and even become misleading quickly
-and without anybody noticing.
+Сообщения изменяются независимо от вашего кода, 
+и никому в голову не придет адаптировать комментарий, 
+поэтому он быстро устареет и начнет вводить 
+в заблуждение незаметно для всех.
 
-The modern IDEs give you easy ways to see the text behind a message,
-for example in the ABAP Development Tools,
-mark the message ID and press Shift+F2.
+Современные IDE предоставляют простые способы просмотра текста сообщения, 
+например, в ABAP Development Tools для этого можно отметить идентификатор сообщения и нажать Shift+F2.
 
-If you want it more explicit,
-consider extracting the message to a method of its own.
+Если вы хотите сделать это более явно, 
+можно вынести сообщение в отдельный метод.
 
 ```ABAP
 METHOD create_alert_not_found_message.
@@ -3739,29 +3729,28 @@ METHOD create_alert_not_found_message.
 ENDMETHOD.
 ```
 
-### ABAP Doc only for public APIs
+### ABAP Doc только для публичных APIs
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#abap-doc-only-for-public-apis)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#abap-doc-только-для-публичных-apis)
 
-Write ABAP Doc to document public APIs,
-meaning APIs that are intended for developers
-in other teams or applications.
-Don't write ABAP Doc for internal stuff.
+Пишите ABAP Doc только для документирования общедоступных API, 
+т.е. API, предназначенных для разработчиков из других команд или приложений. 
+Не пишите ABAP Doc для внутреннего использования.
 
-ABAP Doc suffers from the same weaknesses as all comments,
-that is, it outdates quickly and then becomes misleading.
-As a consequence, you should employ it only where it makes sense,
-not enforce writing ABAP Doc for each and everything.
+ABAP Doc страдает теми же недостатками, что и все комментарии, 
+то есть он быстро устаревает, а затем вводит в заблуждение. 
+Поэтому, вы должны использовать его только там, где это имеет смысл, 
+а не заставлять писать ABAP Doc всегда и везде.
 
-> Read more in _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
+> Подробнее в _Chapter 4: Good Comments: Javadocs in Public APIs_ and _Chapter 4: Bad Comments:
 > Javadocs in Nonpublic Code_ of [Robert C. Martin's _Clean Code_].
 
-### Prefer pragmas to pseudo comments
+### Предпочитайте прагмы псевдокомментариям
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#prefer-pragmas-to-pseudo-comments)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Комментарии](#комментарии) > [Эта секция](#предпочитайте-прагмы-псевдокомментариям)
 
-Prefer pragmas to pseudo comments to suppress irrelevant warnings and errors identified by the ATC. Pseudo comments 
-have mostly become obsolete and have been replaced by pragmas.
+Предпочитайте прагмы псевдокомментариям, чтобы подавить нерелевантные предупреждения и ошибки, выявленные ATC. 
+Псевдокомментарии в основном устарели и были заменены прагмами.
 
 ```ABAP
 " pattern
@@ -3771,42 +3760,41 @@ MESSAGE e001(ad) INTO DATA(message) ##NEEDED.
 MESSAGE e001(ad) INTO DATA(message). "#EC NEEDED
 ```
 
-Use program `ABAP_SLIN_PRAGMAS` or table `SLIN_DESC` to find the mapping between obsolete pseudo comments and the pragmas that 
-have replaced them.
+Используйте программу `ABAP_SLIN_PRAGMAS` или таблицу `SLIN_DESC`, 
+чтобы найти соответствие между устаревшими псевдокомментариями и прагмами, которые их заменили.
 
-## Formatting
+## Форматирование
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#formatting)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#форматирование)
 
-The suggestions below are [optimized for reading, not for writing](#optimize-for-reading-not-for-writing).
-As ABAP's Pretty Printer doesn't cover them, some of them produce additional manual work to reformat statements
-when name lengths etc. change; if you want to avoid this, consider dropping rules like
-[Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones).
+Приведенные ниже предложения [оптимизированы для чтения, а не для написания кода](#оптимизируйте-код-для-чтения-а-не-для-написания). 
+Поскольку структурная печать ABAP их не охватывает, некоторые из них требуют дополнительной ручной работы по переформатированию операторов 
+при изменении длины имени и т. п. Если вы хотите избежать этого, подумайте о том, чтобы не использовать такие правила, как 
+[Выравнивайте присвоения для одного и того же объекта, но не для разных](#выравнивайте-присвоения-для-одного-и-того-же-объекта-но-не-для-разных).
 
-### Be consistent
+### Будьте последовательны
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#be-consistent)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#будьте-последовательны)
 
-Format all code of a project in the same way.
-Let all team members use the same formatting style.
+Форматируйте весь код в проекте одинаково. 
+Убедитесь, что все в команде используют один и тот же стиль форматирования.
 
-If you edit foreign code, adhere to that project's formatting style
-instead of insisting on your personal style.
+При редактировании стороннего кода придерживайтесь стиля форматирования, используемого на этом проекте, 
+а не своего личного.
 
-If you change your formatting rules over time,
-use [refactoring best practices](#how-to-refactor-legacy-code)
-to update your code over time.
+Если вы со временем меняете правила форматирования, 
+используйте [лучшие практики рефакторинга](#как-рефакторить-устаревший-код) для обновления кода.
 
-### Optimize for reading, not for writing
+### Оптимизируйте код для чтения, а не для написания
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#optimize-for-reading-not-for-writing)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#оптимизируйте-код-для-чтения-а-не-для-написания)
 
-Developers spend most time _reading_ code.
-Actually _writing_ code takes up a way smaller portion of the day.
+Разработчики проводят большую часть своего времени за _чтением_ кода. 
+На самом деле _написание_ кода занимает гораздо меньшую часть рабочего времени.
 
-As a consequence, you should optimize your code formatting for reading and debugging, not for writing.
+Следовательно, вы должны оптимизировать форматирование кода для чтения и отладки, а не для записи.
 
-For example, you should prefer
+Например, предпочитайте это 
 
 ```ABAP
 DATA:
@@ -3815,7 +3803,7 @@ DATA:
   e TYPE f.
 ```
 
-to hacks such as
+такому хаку,
 
 ```ABAP
 " anti-pattern
@@ -3825,88 +3813,88 @@ DATA:
   ,e TYPE f.
 ```
 
-### Use the Pretty Printer before activating
+### Используйте структурную печать перед активацией
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-pretty-printer-before-activating)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#используйте-структурную-печать-перед-активацией)
 
-Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating an object.
+Используйте структурную печать — Shift+F1 в SE80, SE24 и ADT перед активацией объекта.
 
-If you modify a larger unformatted legacy code base,
-you may want to apply the Pretty Printer only to selected lines
-to avoid huge change lists and transport dependencies.
-Consider pretty-printing the complete development object
-in a separate Transport Request or Note.
+Если вы изменяете большую, необработанную, устаревшую кодовую базу, 
+вы можете применить структурную печать только к выбранным строкам, 
+чтобы избежать обширных списков изменений и транспортных зависимостей. 
+Подумайте о применении структурной печати для всего объекта разработки 
+используя отдельный транспортный запрос или ноту.
 
-> Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
-### Use your Pretty Printer team settings
+### Используйте настройки структурной печати вашей команды
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-pretty-printer-team-settings)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#используйте-настройки-структурной-печати-вашей-команды)
 
-Always use your team settings.
-Specify them under
-_Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
+Всегда используйте настройки вашей команды.
+Укажите их в
+_Меню_ > _Утилиты_ > _Параметры настройки ..._ > _ABAP-редак._ > _Структурная печать_.
 
-Set _Indent_ and _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
-as agreed in your team.
+Установите _Отступ_ и _Преобразование простых/строчных букв_ > _Ключ. слово прописное_
+как общепринятый в вашей команде.
 
-> [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) explains
-> why we do not give clear guidance for the type case of keywords.
+> Раздел [Верхний регистр против нижнего](sub-sections/UpperVsLowerCase.md) объясняет 
+> почему мы не даем четких рекомендаций по использованию заглавных букв в ключевых словах.
 >
-> Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
-### No more than one statement per line
+### Не более одного оператора в строке
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#no-more-than-one-statement-per-line)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#не-более-одного-оператора-в-строке)
 
 ```ABAP
 DATA do_this TYPE i.
 do_this = input + 3.
 ```
 
-Even if some occurrences may trick you into the misconception that this was readable:
+Даже если что-то введет вас в заблуждение и заставить ошибочно полагать, что это читабельно:
 
 ```ABAP
 " anti-pattern
 DATA do_this TYPE i. do_this = input + 3.
 ```
 
-### Stick to a reasonable line length
+### Придерживайтесь разумной длины строки
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#stick-to-a-reasonable-line-length)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#придерживайтесь-разумной-длины-строки)
 
-Adhere to a maximum line length of 120 characters.
+Придерживайтесь максимальной длины строки в 120 символов.
 
-The human eye reads text more comfortably if the lines are not too wide -
-ask a UI designer or eye movement researcher of your choice.
-You will also appreciate the narrower code when debugging or comparing two sources next to each other.
+Человеческому глазу удобнее читать текст, если строки не слишком широкие — 
+спросите у своего любимого UI-дизайнера или исследователя движений глаз. 
+Вы тоже сможете оценить более компактный код при отладке или сравнении двух параллельных источников.
 
-The 80 or even 72 characters limit originating in the old terminal devices is a little too restrictive.
-While 100 characters are often recommended and a viable choice, 120 characters seem to work a little better for ABAP,
-maybe because of the general verbosity of the language.
+Ограничение в 80 или даже 72 символа, существовавшее в старых тарминалах, 
+является слишком строгим. Часто рекомендуется длина в 100 символов, и это приемлемый выбор, 
+но кажется, что ограничение в 120 символов выглядит немного лучше для ABAP, возможно, из-за общей многословности языка.
 
-> As a reminder you can configure in ADT the print margin to 120 characters,
-> which then is visualized in the code view as a vertical line.
-> Configure it under _Menu_ > _Window_ > _Preferences_ > _General_ > _Editors_ > _Text Editors_.
+> Напоминаем, что в ADT вы можете установить ограничение до 120 символов,
+> после чего это при просмотре кода будет отображаться вертикальная линия. 
+> Вы можете настроить это в _Menu_ > _Window_ > _Preferences_ > _General_ > _Editors_ > _Text Editors_.
 
-### Condense your code
+### Уплотните ваш код
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#condense-your-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#уплотните-ваш-код)
 
 ```ABAP
 DATA(result) = calculate( items ).
 ```
 
-instead of adding unneeded blanks
+вместо добавления ненужных пробелов
 
 ```ABAP
 " anti-pattern
 DATA(result)        =      calculate(    items =   items )   .
 ```
 
-### Add a single blank line to separate things, but not more
+### Добавьте только одну пустую строку для разделения разных вещей, не более
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#add-a-single-blank-line-to-separate-things-but-not-more)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#добавьте-только-одну-пустую-строку-для-разделения-разных-вещей-не-более)
 
 ```ABAP
 DATA(result) = do_something( ).
@@ -3914,7 +3902,7 @@ DATA(result) = do_something( ).
 DATA(else) = calculate_this( result ).
 ```
 
-to highlight that the two statements do different things. But there is no reason for
+чтобы подчеркнуть, что эти два утверждения делают разные вещи. Однако нет причин для
 
 ```ABAP
 " anti-pattern
@@ -3925,11 +3913,12 @@ DATA(result) = do_something( ).
 DATA(else) = calculate_this( result ).
 ```
 
-The urge to add separating blank lines may be an indicator that your method doesn't [do one thing](#do-one-thing-do-it-well-do-it-only).
+Желание добавить пустые строки может быть индикатором того, что ваш метод не следует рекомендации 
+[Делай что-то одно, делай это хорошо, делай только это](#делай-что-то-одно-делай-это-хорошо-делай-только-это).
 
-### Don't obsess with separating blank lines
+### Не злоупотребляйте разделением пустыми строками
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-obsess-with-separating-blank-lines)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#не-злоупотребляйте-разделением-пустыми-строками)
 
 ```ABAP
 METHOD do_something.
@@ -3938,7 +3927,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-No reason for the bad habit to tear your code apart with blank lines
+Нет причин для того, чтобы разрывать ваш код на части пустыми строками 
 
 ```ABAP
 " anti-pattern
@@ -3951,7 +3940,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-Blank lines actually only make sense if you have statements that span multiple lines
+Пустые строки имеют смысл только в том случае, если у вас есть операторы, занимающие несколько строк.
 
 ```ABAP
 METHOD do_something.
@@ -3967,36 +3956,36 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-### Align assignments to the same object, but not to different ones
+### Выравнивайте присвоения для одного и того же объекта, но не для разных
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#align-assignments-to-the-same-object-but-not-to-different-ones)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#выравнивайте-присвоения-для-одного-и-того-же-объекта-но-не-для-разных)
 
-To highlight that these things somehow belong together
+Чтобы подчеркнуть, что эти вещи каким-то образом связаны друг с другом
 
 ```ABAP
 structure-type = 'A'.
 structure-id   = '4711'.
 ```
 
-or even better
+или еще лучше
 
 ```ABAP
 structure = VALUE #( type = 'A'
                      id   = '4711' ).
 ```
 
-But leave things ragged that have nothing to do with each other:
+Но, если это не связанные вещи, оставьте такую форму записи:
 
 ```ABAP
 customizing_reader = fra_cust_obj_model_reader=>s_get_instance( ).
 hdb_access = fra_hdbr_access=>s_get_instance( ).
 ```
 
-> Read more in _Chapter 5: Formatting: Horizontal Alignment_ of [Robert C. Martin's _Clean Code_].
+> Подробнее в _Chapter 5: Formatting: Horizontal Alignment_ of [Robert C. Martin's _Clean Code_].
 
-### Close brackets at line end
+### Закрывайте скобки в конце строки
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#close-brackets-at-line-end)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#закрывайте-скобки-в-конце-строки)
 
 ```ABAP
 modify->update( node           = if_fra_alert_c=>node-item
@@ -4005,7 +3994,7 @@ modify->update( node           = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -4016,16 +4005,16 @@ modify->update( node           = if_fra_alert_c=>node-item
 ).
 ```
 
-### Keep single parameter calls on one line
+### При вызове с одним параметром указывайте его на той же строке
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#keep-single-parameter-calls-on-one-line)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#при-вызове-с-одним-параметром-указывайте-его-на-той-же-строке)
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
 remove_duplicates( CHANGING list = list ).
 ```
 
-instead of the needlessly longer
+вместо излишне длинного
 
 ```ABAP
 " anti-pattern
@@ -4036,16 +4025,16 @@ DATA(unique_list) = remove_duplicates(
                            list = list ).
 ```
 
-### Keep parameters behind the call
+### Указывайте параметры начиная со строки вызова
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#keep-parameters-behind-the-call)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#указывайте-параметры-начиная-со-строки-вызова)
 
 ```ABAP
 DATA(sum) = add_two_numbers( value_1 = 5
                              value_2 = 6 ).
 ```
 
-When this makes the lines very long, you can break the parameters into the next line:
+Если ваши строки становятся слишком длинными, вы можете перенести параметры на следующую строку:
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4053,9 +4042,9 @@ DATA(sum) = add_two_numbers(
                 value_2 = VALUE #( ( `Calculation failed with a very weird result` ) ) ).
 ```
 
-### If you break, indent parameters under the call
+### При переносе строки сделайте отступ для параметров под вызовом
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#if-you-break-indent-parameters-under-the-call)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#при-переносе-строки-сделайте-отступ-для-параметров-под-вызовом)
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4063,7 +4052,7 @@ DATA(sum) = add_two_numbers(
                 value_2 = 6 ).
 ```
 
-Aligning the parameters elsewhere makes it hard to spot what they belong to:
+Если вы выровняете параметры в другом месте, будет трудно понять, к чему они относятся:
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4071,28 +4060,28 @@ DATA(sum) = add_two_numbers(
     value_2 = 6 ).
 ```
 
-However, this is the best pattern if you want to avoid the formatting to be broken by a name length change.
+Тем не менее, это лучший шаблон, если вы хотите избежать нарушения форматирования при изменении длины названия метода.
 
-### Line-break multiple parameters
+### Сделайте разрыв строки для нескольких параметров
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#line-break-multiple-parameters)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#сделайте-разрыв-строки-для-нескольких-параметров)
 
 ```ABAP
 DATA(sum) = add_two_numbers( value_1 = 5
                              value_2 = 6 ).
 ```
 
-Yes, this wastes space.
-However, otherwise, it's hard to spot where one parameter ends and the next starts:
+Да, это пустая трата места.
+Но, если не делать перенос параметров на новую строку будет трудно определить, где заканчивается один параметр и начинается другой:
 
 ```ABAP
 " anti-pattern
 DATA(sum) = add_two_numbers( value_1 = 5 value_2 = 6 ).
 ```
 
-### Align parameters
+### Выровняйте параметры
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#align-parameters)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#выровняйте параметры)
 
 ```ABAP
 modify->update( node           = if_fra_alert_c=>node-item
@@ -4101,7 +4090,7 @@ modify->update( node           = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-Ragged margins make it hard to see where the parameter ends and its value begins:
+Из-за рваных краев трудно увидеть, где заканчивается параметр и начинается его значение:
 
 ```ABAP
 " anti-pattern
@@ -4111,11 +4100,11 @@ modify->update( node = if_fra_alert_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-> This is on the other side the best pattern if you want to avoid the formatting to be broken by a name length change.
+> С другой стороны, это лучший шаблон, если вы хотите избежать нарушения форматирования при изменении длины имени.
 
-### Break the call to a new line if the line gets too long
+### Перенесите вызов на новую строку, если она станет слишком длинной
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#break-the-call-to-a-new-line-if-the-line-gets-too-long)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#перенесите-вызов-на-новую-строку-если-она-станет-слишком-длинной)
 
 ```ABAP
 DATA(some_super_long_param_name) =
@@ -4124,11 +4113,11 @@ DATA(some_super_long_param_name) =
       value_2 = 6 ).
 ```
 
-### Indent and snap to tab
+### Добавьте отступы и табуляцию
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#indent-and-snap-to-tab)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#добавьте-отступы-и-табуляцию)
 
-Indent parameter keywords by 2 spaces and parameters by 4 spaces:
+Используйте 2 пробела для ключевых слов и 4 пробела для параметров:
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4139,7 +4128,7 @@ DATA(sum) = add_two_numbers(
                 errors  = errors ).
 ```
 
-If you have no keywords, indent the parameters by 4 spaces.
+Если у вас нет ключевых слов, сделайте для параметров отступ в 4 пробела.
 
 ```ABAP
 DATA(sum) = add_two_numbers(
@@ -4147,14 +4136,14 @@ DATA(sum) = add_two_numbers(
                 value_2 = 6 ).
 ```
 
-Use the Tab key to indent. It's okay if this adds one more space than needed.
-(This happens if the `DATA(sum) =` part at the left has an uneven number of characters.)
+Можно использовать Tab для отступа. Ничего страшного, если это добавит на один пробел больше, чем необходимо.
+(Это происходит тогда, когда левая часть `DATA(sum) =` имеет нечетное количество символов.)
 
-### Indent in-line declarations like method calls
+### Сделайте отступ для встроенных объявлений, таких как вызовы методов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#indent-in-line-declarations-like-method-calls)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#сделайте-отступ-для-встроенных-объявлений-таких-как-вызовы-методов)
 
-Indent in-line declarations with VALUE or NEW as if they were method calls:
+Делайте отступ для встроенных объявлений с помощью VALUE или NEW, как если бы они были вызовами методов:
 
 ```ABAP
 DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
@@ -4163,18 +4152,20 @@ DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
                                                                 field_4 = 'D' ) ).
 ```
 
-### Don't align type clauses
+### Не выравнивайте указания типов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-align-type-clauses)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#не-выравнивайте-указания-типов)
 
 ```ABAP
 DATA name TYPE seoclsname.
 DATA reader TYPE REF TO /clean/reader.
 ```
 
-A variable and its type belong together and should therefore be visually grouped in close proximity.
-Aligning the `TYPE` clauses draws attention away from that and suggests that the variables form one vertical group, and their types another one.
-Alignment also produces needless editing overhead, requiring you to adjust all indentations when the length of the longest variable name changes.
+Переменная и ее тип принадлежат друг другу и поэтому должны быть расположены близко друг к другу. 
+Выравнивание ключевых слов `TYPE` отвлекает внимание от этой связи, предполагая, 
+что переменные образуют одну вертикальную группу, а их типы — другую. 
+Выравнивание также приводит к ненужному редактированию, поскольку изменение 
+самого длинного имени переменной требует корректировки всех отступов.
 
 ```ABAP
 " anti-pattern
@@ -4182,9 +4173,9 @@ DATA name   TYPE seoclsname.
 DATA reader TYPE REF TO /clean/reader.
 ```
 
-### Don't chain assignments
+### Не объединяйте присвоения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-chain-assignments)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Форматирование](#форматирование) > [Эта секция](#не-объединяйте-присвоения)
 
 ```abap
 var2 = var3.
@@ -4195,122 +4186,123 @@ var1 = var3.
 var1 = xsdbool( var2 = var3 ).
 ```
 
-Chained assignments usually confuse the reader. Besides, the inline declaration doesn't work in any position of a multiple assignment.
+Связанные в цепочку присвоения обычно сбивают с толку читателя. 
+Кроме того, встроенное объявление не работает ни в одной позиции множественного присваивания.
 
 ```abap
 " anti-pattern
 var1 = var2 = var3.
 ```
 
-## Testing
+## Тестирование
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#testing)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Эта секция](#тестирование)
 
-### Principles
+### Принципы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#principles)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#принципы)
 
-#### Write testable code
+#### Пишите тестируемый код
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#write-testable-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Принципы](#принципы) > [Эта секция](#пишите-тестируемый-код)
 
-Write all code in a way that allows you to test it in an automatic fashion.
+Пишите весь код таким образом, чтобы вы могли протестировать его автоматически.
 
-If this requires refactoring your code, do it.
-Do that first, before you start adding other features.
+Если для этого требуется рефакторинг, проведите его.
+Сделайте это перед тем, как начнете добавлять другие функции.
 
-If you add to legacy code that is too badly structured to be tested,
-refactor it at least to the extent that you can test your additions.
+Если вы добавляете что-то новое в устаревший код, который слишком плохо структурирован для тестирования, 
+реорганизуйте его хотябы так, чтобы вы могли протестировать свои дополнения.
 
-#### Enable others to mock you
+#### Позвольте другим создавать моки
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#enable-others-to-mock-you)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Принципы](#принципы) > [Эта секция](#позвольте-другим-создавать-моки)
 
-If you write code to be consumed by others, enable them to write unit tests for their own code,
-for example by adding interfaces in all outward-facing places,
-providing helpful test doubles that facilitate integration tests,
-or applying dependency inversion to enable them to substitute the productive configuration with a test config.
+Если вы пишете код который будут использовать другие разработчики, напишите его так, чтобы можно было заменить его
+тестовыми двойниками в модульных тестах. Этого можно достичь, например, добавляя интерфейсы в места, 
+открытые наружу, создавая полезные тестовые двойники, которые позволяют проводить интеграционное 
+тестирование, или применяя инверсию зависимостей, которая позволяет заменить продуктивную конфигурацию тестовой.
 
-#### Readability rules
+#### Правила удобочитаемости
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#readability-rules)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Принципы](#принципы) > [Эта секция](#правила-удобочитаемости)
 
-Make your test code even more readable than your productive code.
-You can tackle bad productive code with good tests, but if you don't even get the tests, you're lost.
+Сделайте свой тестовый код еще более читабельным, чем ваш продуктивный код. 
+Плохой продуктивный код с хорошими тестами легко исправить. 
+Однако, если сами тесты плохие и неясные, вам будет не понятно, в каком направлении работать.
 
-Keep your test code so simple and stupid that you will still understand it in a year from now.
+Сделайте свой тестовый код настолько простым, чтобы вы могли понять его даже спустя годы.
 
-Stick to standards and patterns, to enable your co-workers to quickly get into the code.
+Придерживайтесь стандартов и шаблонов проектирования, чтобы ваши коллеги могли быстро разобраться в коде.
 
-#### Don't make copies or write test reports
+#### Не делайте копии и не пишите тестовые отчеты
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#dont-make-copies-or-write-test-reports)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Принципы](#принципы) > [Эта секция](#не-делайте-копии-и-не-пишите-тестовые-отчеты)
 
-Don't start working on a backlog item by making a `$TMP` copy of a development object and playing around with it.
-Others won't notice these objects and therefore won't know the status of your work.
-You will probably waste a lot of time by making the working copy in the first place.
-You will also forget to delete the copy afterwards, spamming your system and dependencies.
-(Don't believe this? Go to your development system and check your `$TMP` right now.)
+Не начинайте работу над задачей из бэклога, создавая копию объекта разработки в `$TMP` и играя с ним. 
+Другие люди не заметят эти объекты и, следовательно, не будут знать о состоянии вашей работы. 
+Вы можете потратить впустую много времени, сначала создавая рабочую копию. 
+Затем вы можете забыть удалить эту копию, загрязняя вашу систему и зависимости. 
+(Не верите? Перейдите в свою систему разработки прямо сейчас и проверьте свой `$TMP`).
 
-Also, don't start by writing a test report that calls something in a specific way,
-and repeat that to verify that things are still working when you're working on it.
-This is poor man's testing: repeating a test report by hand and verifying by eye whether everything is still fine.
-Take the next step and automate this report in a unit test,
-with an automatic assertion that tells you whether the code is still okay.
-First, you will spare yourself the effort of having to write the unit tests afterwards.
-Second, you will save a lot of time for the manual repetitions, plus avoid getting bored and tired over it.
+Также, не пишите тестовые отчеты, которые вам нужно будет повторно запускать вручную, 
+и результаты которых вам нужно визуально проверять. 
+Это настоящее испытание для несчастных людей: повторный запуск тестового отчета вручную и проверка на глаз, все ли в порядке.
+Сделайте следующий шаг в этом направлении и автоматизируйте отчет с помощью модульного теста с автоматическим утверждением (assertion), 
+которое сообщит вам, все ли в порядке с кодом. 
+Во-первых, вы избавите себя от необходимости писать модульные тесты потом. 
+Во-вторых, вы сэкономите много времени на ручных повторениях, а также не устанете от скуки.
 
-#### Test publics, not private internals
+#### Тестируйте публичные, а не приватные части
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#test-publics-not-private-internals)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Принципы](#принципы) > [Эта секция](#тестируйте-публичные-а-не-приватные-части)
 
-Public parts of classes, especially the interfaces they implement, are rather stable and unlikely to change.
-Let your unit tests validate only the publics to make them robust
-and minimize the effort you have to spend when you refactor the class.
-Protected and private internals, in contrast, may change very quickly through refactoring,
-such that each refactoring would needlessly break your tests.
+Публичные части классов, особенно интерфейсы, которые они реализуют, достаточно стабильны и вряд ли изменятся. 
+Сделайте так, чтобы ваши модульные тесты проверяли только публичные части, таким образом сделав их надежными 
+и свести к минимуму усилия, которые вам придется приложить при рефакторинге класса. 
+С другой стороны, защищенные и приватные внутренние элементы могут очень быстро меняться в результате рефакторинга, 
+так что ваши тесты могут перестать работать после каждого рефакторинга.
 
-An urgent need to test private or protected methods may be an early warning sign for several kinds of design flaws.
-Ask yourself:
+Срочная необходимость протестировать приватные или защищенные методы 
+может быть ранним сигналом о некоторых недостатках проектирования. 
+Задайте себе вопрос:
 
-- Did you accidentally bury a concept in your class that wants to come out into its own class,
-with its own dedicated suite of tests?
+- Вы случайно похоронили в своем классе концепцию, которая хочет выйти и стать отдельным классом со своим собственным набором тестов?
 
-- Did you forget to separate the domain logic from the glue code?
-For example, implementing the domain logic directly in the class that is plugged into BOPF as an action,
-determination, or validation, or that was generated by SAP Gateway as a `*_DPC_EXT` data provider, may not the best idea.
+- Вы забыли отделить логику предметной области от связующего кода? 
+Например, может быть не лучшей идеей реализация логики предметной области непосредственно в классе, подключенном к BOPF как действие, 
+определение или проверка, или в классе, который был создан SAP Gateway как поставщик данных `*_DPC_EXT`.
 
-- Are your interfaces too complicated and request too much data that is irrelevant or that cannot be mocked easily?
+- Ваши интерфейсы слишком сложны и требуют слишком много данных, которые не важны или которые нельзя легко замокать?
 
-#### Don't obsess about coverage
+#### Не зацикливайтесь на покрытии кода
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#dont-obsess-about-coverage)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Принципы](#принципы) > [Эта секция](#не-зацикливайтесь-на-покрытии-кода)
 
-Code coverage is there to help you find code you forgot to test, not to meet some random KPI:
+Покрытие нужно для того, чтобы помочь вам найти код, который вы забыли протестировать, а не для достижения какого-то случайного KPI:
 
-Don't make up tests without or with dummy asserts just to reach the coverage.
-Better leave things untested to make transparent that you cannot safely refactor them.
-You can have < 100% coverage and still have perfect tests.
-There are cases - such as IFs in the constructor to insert test doubles -
-that may make it unpractical to reach 100%.
-Good tests tend to cover the same statement multiple times, for different branches and conditions.
-They will in fact have imaginary > 100% coverage.
+Не придумывайте тесты с фиктивными утверждениями или без них только для того, чтобы достичь большего покрытия кода. 
+Лучше оставлять вещи непроверенными, чтобы ясно показать, что вы не можете подвергнуть их рефакторингу без риска. 
+Вы можете иметь менее 100% охвата и при этом иметь идеальные тесты. 
+Есть случаи (например, IFы в конструкторе для вставки тестовых симуляций), которые на практике делают невозможным достижение 100%. 
+Хорошие тесты, как правило, охватывают одну и ту же инструкцию несколько раз для разных ветвей и условий. 
+Поэтому, теоретически покрытие кода у них превышает 100%.
 
-### Test Classes
+### Тестовые классы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#test-classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#тестовые-классы)
 
-#### Call local test classes by their purpose
+#### Называйте локальные тестовые классы в соответствии с их назначением
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#call-local-test-classes-by-their-purpose)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые классы](#тестовые-классы) > [Эта секция](#называйте-локальные-тестовые-классы-в-соответствии-с-их-назначением)
 
-Name local test classes either by the "when" part of the story
+Назовите свой локальный тестовый класс как часть "когда" вашего тестового сценария.
 
 ```ABAP
 CLASS ltc_<public method name> DEFINITION FOR TESTING ... ."
 ```
 
-or the "given" part of the story
+или назовите его "данная" ситуация.
 
 ```ABAP
 CLASS ltc_<common setup semantics> DEFINITION FOR TESTING ... .
@@ -4322,27 +4314,24 @@ CLASS ltc_fra_online_detection_api DEFINITION FOR TESTING ... . " We know that's
 CLASS ltc_test DEFINITION FOR TESTING ....                      " Of course it's a test, what else should it be?
 ```
 
-#### Put tests in local classes
+#### Поместите тесты в локальные классы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-tests-in-local-classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые классы](#тестовые-классы) > [Эта секция](#поместите-тесты-в-локальные-классы)
 
-Put unit tests into the local test include of the class under test.
-This ensures that people find these tests when refactoring the class
-and allows them to run all associated tests with a single key press,
-as described in [How to execute test classes](#how-to-execute-test-classes).
+Поместите модульные тесты в локальное тестовое включение тестируемого класса. 
+Это позволит соавторам находить их при рефакторинге класса, 
+а также запускать все связанные тесты одним нажатием клавиши, как описано в разделе 
+[Как выполнять тестовые классы](#как-выполнять-тестовые-классы).
 
-Put component-, integration- and system tests into the local test include of a separate global class.
-They do not directly relate to a single class under test, therefore they should not arbitrarily be
-placed in one of the involved classes, but in a separate one.  
-Mark this global test class as `FOR TESTING` and `ABSTRACT`
-to avoid that it is accidentally referenced in production code.  
-Putting tests into other classes has the danger that people overlook them
-and forget to run them when refactoring the involved classes.
+Поместите компонентные, интеграционные и системные тесты, в локальный тестовый инклуд отдельного глобального класса. 
+Они не относятся напрямую к отдельному тестируемому классу, поэтому их следует помещать не в один из задействованных классов, а в отдельный класс. 
+Отметьте этот глобальный тестовый класс как `FOR TESTING` и `ABSTRACT`, чтобы предотвратить случайную ссылку на него в реальном коде. 
+Если тесты помещаются в другие классы, соавторы могут не заметить их и забыть запустить их при рефакторинге соответствующих классов.
 
-Therefore it is beneficial to use *test relations* to document which objects
-are tested by the test.  
-With the example below the test class `hiring_test`
-could be executed while being in the class `recruting` or `candidate` via the shrotcut `Shift-Crtl-F12` (Windows) or `Cmd-Shift-F12` (macOS).
+Если возможно, используйте *test relations*, чтобы задокументировать, 
+какие объекты охватываются тестом. 
+В приведенном ниже примере, тестовый класс `hiring_test`
+можно запустить в классе `recruting` или `candidate` с помощью сочетания клавиш `Shift-Crtl-F12` (Windows) или `Cmd-Shift-F12` (macOS).
 
 ```abap
 "! @testing recruting
@@ -4354,12 +4343,12 @@ class hiring_test definition
 endclass.
 ```
 
-#### Put help methods in help classes
+#### Поместите вспомогательные методы во вспомогательные классы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#put-help-methods-in-help-classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые классы](#тестовые-классы) > [Эта секция](#поместите-вспомогательные-методы-во-вспомогательные-классы)
 
-Put help methods used by several test classes in a help class. Make the help methods available through 
-inheritance (is-a relationship) or delegation (has-a relationship).
+Поместите вспомогательные методы, используемые несколькими тестовыми классами, во вспомогательный класс. 
+Обеспечьте доступность вспомогательных методов посредством наследования (отношение «есть») или делегирования (отношение «имеет»).
 
 ```abap
 " inheritance example
@@ -4389,38 +4378,39 @@ CLASS ltc_unit_tests DEFINITION INHERITING FROM lth_unit_tests FINAL FOR TESTING
 ENDCLASS.
 ```
 
-#### How to execute test classes
+#### Как выполнять тестовые классы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#how-to-execute-test-classes)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#как-выполнять-тестовые-классы)
 
-In the ABAP Development Tools, press Ctrl+Shift+F10 to run all tests in a class.
-Press Ctrl+Shift+F11 to include coverage measurements.
-Press Ctrl+Shift+F12 to also run tests in other classes that are maintained as test relations.
+В ABAP Development Tools,  
+нажмите Ctrl+Shift+F10 чтобы запустить все тесты класса.  
+Нажмите Ctrl+Shift+F11 чтобы включить измерение покрытия.  
+Нажмите Ctrl+Shift+F12 чтобы также запустить тесты в других классах, которые поддерживаются как тестовые отношения.
 
-> On macOS, use `Cmd` instead of `Ctrl`.
+> На macOS, используйте `Cmd` вместо `Ctrl`.
 
-### Code Under Test
+### Тестируемый код
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#code-under-test)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#тестируемый-код)
 
-#### Name the code under test meaningfully, or default to CUT
+#### Дайте осмысленное имя тестируемому коду или используйте имя по умолчанию CUT
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#name-the-code-under-test-meaningfully-or-default-to-cut)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестируемый код](#тестируемый-код) > [Эта секция](#дайте-осмысленное-имя-тестируемому-коду-или-используйте-имя-по-умолчанию-cut)
 
-Give the variable that represents the code under test a meaningful name:
+Дайте переменной, которая представляет тестируемый код, осмысленное имя:
 
 ```ABAP
 DATA blog_post TYPE REF TO ...
 ```
 
-Don't just repeat the class name with all its non-valuable namespaces and prefixes:
+Не повторяйте просто имя класса со всеми его пространствами имен и префиксами:
 
 ```ABAP
 " anti-pattern
 DATA clean_fra_blog_post TYPE REF TO ...
 ```
 
-If you have different test setups, it can be helpful to describe the object's varying state:
+Если у вас разные настройки тестирования, может быть полезно описать изменяющееся состояние объекта:
 
 ```ABAP
 DATA empty_blog_post TYPE REF TO ...
@@ -4428,41 +4418,40 @@ DATA simple_blog_post TYPE REF TO ...
 DATA very_long_blog_post TYPE REF TO ...
 ```
 
-If you have problems finding a meaningful name, resort to `cut` as a default.
-The abbreviation stands for "code under test".
+Если вы испытываете проблемы с поиском осмысленного имени, используйте `cut` по умолчанию. 
+Аббревиатура расшифровывается как "тестируемый код" (code under test).
 
 ```ABAP
 DATA cut TYPE REF TO ...
 ```
 
-Especially in unclean and confusing tests, calling the variable `cut`
-can temporarily help the reader see what's actually tested.
-However, tidying up the tests is the actual way to go for the long run.
+Это наиболее полезно в запутанных тестах, где вызов переменной `cut` может временно помочь читателю увидеть, 
+что на самом деле тестируется. Но в долгосрочной перспективе лучше навести порядок в тестах.
 
-#### Test against interfaces, not implementations
+#### Тестируйте интерфейсы, а не реализации
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#test-against-interfaces-not-implementations)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестируемый код](#тестируемый-код) > [Эта секция](#тестируйте-интерфейсы-а-не-реализации)
 
-A practical consequence of the [_Test publics, not private internals_](#test-publics-not-private-internals),
-type your code under test with an _interface_
+Практическим следствием рекомендации [_Тестируйте публичные, а не приватные части_](#тестируйте-публичные-а-не-приватные-части),
+является то, что вы должны указывать _интерфейс_ в типе для тестируемого кода,
 
 ```ABAP
 DATA code_under_test TYPE REF TO some_interface.
 ```
 
-rather than a _class_
+а не _класс_
 
 ```ABAP
 " anti-pattern
 DATA code_under_test TYPE REF TO some_class.
 ```
 
-#### Extract the call to the code under test to its own method
+#### Поместите вызов тестируемого кода в отдельный метод
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Code Under Test](#code-under-test) > [This section](#extract-the-call-to-the-code-under-test-to-its-own-method)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестируемый код](#тестируемый-код) > [Эта секция](#поместите-вызов-тестируемого-кода-в-отдельный-метод)
 
-If the method to be tested requires a lot of parameters or prepared data,
-it can help to extract the call to it to a helper method of its own that defaults the uninteresting parameters:
+Если для тестируемого метода требуется много параметров и подготовленных данных, 
+может помочь выделение вызова метода в отдельный вспомогательный метод, который заполняет значениями по умолчанию неинтересные нам параметры:
 
 ```ABAP
 METHODS map_xml_to_itab
@@ -4480,7 +4469,7 @@ ENDMETHOD.
 DATA(itab) = map_xml_to_itab( '<xml></xml>' ).
 ```
 
-Calling the original method directly can swamp your test with a lot of meaningless details:
+Вызывая исходный метод напрямую, вы рискуете "утопить" свой тест в массе незначительных деталей:
 
 ```ABAP
 " anti-pattern
@@ -4489,15 +4478,15 @@ DATA(itab) = cut->map_xml_to_itab( xml_string = '<xml></xml>'
                                    format     = VALUE #( 'more meaningless stuff' ) ).
 ```
 
-### Injection
+### Инъекция
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#injection)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#инъекция)
 
-#### Use dependency inversion to inject test doubles
+#### Используйте инверсию зависимостей для внедрения тестовых двойников
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-dependency-inversion-to-inject-test-doubles)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#используйте-инверсию-зависимостей-для-внедрения-тестовых-двойников)
 
-Dependency inversion means that you hand over all dependencies to the constructor:
+Инверсия зависимостей означает, что вы передаете все зависимости конструктору:
 
 ```ABAP
 METHODS constructor
@@ -4509,8 +4498,8 @@ METHOD constructor.
 ENDMETHOD.
 ```
 
-Don't use setter injection.
-It enables using the productive code in ways that are not intended:
+Не используйте сеттер для инъекции. 
+Это позволяет использовать продуктивный код способами, для которых он не предназначен:
 
 ```ABAP
 " anti-pattern
@@ -4523,11 +4512,10 @@ METHOD do_something.
   object->set_customizing_reader( b ). " would you expect that somebody does this?
 ENDMETHOD.
 ```
-
-Don't use FRIENDS injection.
-It will initialize productive dependencies before they are replaced, with probably unexpected consequences.
-It will break as soon as you rename the internals.
-It also circumvents initializations in the constructor.
+Не используйте FRIENDS инъекции.
+Это инициализирует продуктивные зависимости до того, как они будут заменены, что может привести к неожиданным последствиям. 
+Это сломается, как только вы переименуете внутренние части. 
+Также это обходит инициализацию в конструкторе.
 
 ```ABAP
 " anti-pattern
@@ -4542,9 +4530,9 @@ METHOD constructor.
 ENDMETHOD.
 ```
 
-#### Consider to use the tool ABAP test double
+#### Рассмотрите возможность использования инструмента ABAP test double
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#consider-to-use-the-tool-abap-test-double)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#рассмотрите-возможность-использования-инструмента-abap-test-double)
 
 ```ABAP
 DATA(customizing_reader) = CAST /clean/customizing_reader( cl_abap_testdouble=>create( '/clean/default_custom_reader' ) ).
@@ -4552,7 +4540,7 @@ cl_abap_testdouble=>configure_call( customizing_reader )->returning( sub_claim_c
 customizing_reader->read( 'SOME_ID' ).
 ```
 
-Shorter and easier to understand than custom test doubles:
+Это короче и проще для понимания, чем пользовательские тестовые двойники:
 
 ```ABAP
 " anti-pattern
@@ -4574,41 +4562,38 @@ METHOD test_something.
 ENDMETHOD.
 ```
 
-#### Exploit the test tools
+#### Используйте инструменты тестирования
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#exploit-the-test-tools)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#используйте-инструменты-тестирования)
 
-In general, a clean programming style
-will let you do much of the work
-with standard ABAP unit tests and test doubles.
-However, there are tools that will allow you
-to tackle trickier cases in elegant ways:
+В целом, чистый стиль программирования 
+позволит вам выполнять большую часть работы 
+со стандартными модульными тестами ABAP и тестовыми двойниками.
+Однако есть инструменты, которые позволят вам 
+элегантно решать более сложные задачи:
 
-- Use the `CL_OSQL_REPLACE` service
-to test complex OpenSQL statements
-by redirecting them to a test data bin
-that can be filled with test data
-without interfering with the rest of the system.
+- Используйте службу `CL_OSQL_REPLACE` для тестирования сложных операторов OpenSQL, 
+перенаправляя их в корзину тестовых данных, которую можно заполнить тестовыми данными, не мешая остальной системе.
 
-- Use the CDS test framework to test your CDS views.
+- Используйте CDS test framework для тестирования ваших CDS представлений.
 
-#### Use test seams as temporary workaround
+#### Используйте тестовые швы как временное решение
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#используйте-тестовые-швы-как-временное-решение)
 
-If all other techniques fail, or when in dangerous shallow waters of legacy code,
-refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
-to make things testable.
+Если все другие методы не работают или вы работаете с устаревшим кодом, 
+воздержитесь от [тестовых швов](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm), 
+чтобы сделать код пригодным для тестирования.
 
-Although they look comfortable at first sight, test seams are invasive and tend to get entangled
-in private dependencies, such that they are hard to keep alive and stable in the long run.
+Хотя на первый взгляд они могут показаться удобным решением, тестовые швы являются инвазивными и, как правило, 
+увязают в частных зависимостях, что затрудняет поддержание их в рабочем состоянии и стабильность в долгосрочной перспективе.
 
-We therefore recommend to refrain to test seams only as a temporary workaround
-to allow you refactoring the code into a more testable form.
+Поэтому мы рекомендуем воздержаться от тестовых швов и использовать их только в качестве временного обходного пути, 
+чтобы вы могли придать коду более тестируемую форму.
 
-#### Use LOCAL FRIENDS to access the dependency-inverting constructor
+#### Используйте LOCAL FRIENDS для доступа к конструктору инверсии зависимостей
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-local-friends-to-access-the-dependency-inverting-constructor)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#используйте-local-friends-для-доступа-к-конструктору-инверсии-зависимостей)
 
 ```ABAP
 CLASS /clean/unit_tests DEFINITION.
@@ -4629,12 +4614,12 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't misuse LOCAL FRIENDS to invade the tested code
+#### Не злоупотребляйте LOCAL FRIENDS для вторжения в проверенный код
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-misuse-local-friends-to-invade-the-tested-code)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#не-злоупотребляйте-local-friends-для-вторжения-в-проверенный-код)
 
-Unit tests that access private and protected members to insert mock data are fragile:
-they break when the internal structure of the tested code changes.
+Модульные тесты, которые обращаются к приватным и защищенным членам класса для вставки мок данных, являются хрупкими: 
+они перестают работать при изменении внутренней структуры тестируемого кода.
 
 ```ABAP
 " anti-pattern
@@ -4646,23 +4631,23 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't change the productive code to make the code testable
+#### Не изменяйте продуктивный код, чтобы сделать код пригодным для тестирования
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-change-the-productive-code-to-make-the-code-testable)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#не-изменяйте-продуктивный-код-чтобы-сделать-код-пригодным-для-тестирования)
 
 ```ABAP
 " anti-pattern
 IF me->in_test_mode = abap_true.
 ```
 
-#### Don't sub-class to mock methods
+#### Не создавайте подклассы чтобы замокать методы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-sub-class-to-mock-methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#не-создавайте-подклассы-чтобы-замокать-методы)
 
-Don't sub-class and overwrite methods to mock them in your unit tests.
-Although this works, it is fragile because the tests break easily when refactoring the code.
-It also enables real consumers to inherit your class,
-which [may hit you unprepared when not explicitly designing for it](#final-if-not-designed-for-inheritance).
+Не создавайте подклассы и не переопределяйте методы, чтобы моделировать их в модульных тестах. 
+Это решение хоть и работает, но оно хрупкое, потому что тесты часто перестают работать после рефакторинга кода. 
+Кроме того, оно позволяет реальным потребителям наследоваться от вашего класса, 
+что [может привести к неприятным сюрпризам, если вы явно не спроектируете его для наследования](#final-если-не-предназначен-для-наследования).
 
 ```ABAP
 " anti-pattern
@@ -4671,22 +4656,21 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
     METHODS needs_to_be_mocked REDEFINITION.
 ```
 
-To get legacy code under test,
-[resort to test seams instead](#use-test-seams-as-temporary-workaround).
-They are just as fragile but still the cleaner way because they at least don't change the class's productive behavior,
-as would happen when enabling inheritance by removing a previous `FINAL` flag or by changing method scope from `PRIVATE` to `PROTECTED`.
+Чтобы тестировать устаревший код, все же лучше [использовать тестовые швы](#используйте-тестовые-швы-как-временное-решение). 
+Они такие же хрупкие, но все же самые чистые решения, поскольку они не изменяют продуктивное поведение класса, 
+в отличие от включения наследования путем удаления флага `FINAL` или изменения области действия метода с `PRIVATE` на `PROTECTED`.
 
-When writing new code, take this testability issue into account directly when designing the class,
-and find a different, better way.
-Common best practices include [resorting to other test tools](#exploit-the-test-tools)
-and extracting the problem method to a separate class with its own interface.
+При написании нового кода учитывайте эту проблему тестируемости непосредственно при разработке класса 
+и найдите другой, лучший способ. 
+Общепринятые лучшие практики включают [использование инструментов тестирования](#используйте-инструменты-тестирования)
+и выделение проблемного метода в отдельный класс с собственным интерфейсом.
 
-> A more specific variant of
-> [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
+> Более конкретный вариант
+> [Не изменяйте продуктивный код, чтобы сделать код пригодным для тестирования](#не-изменяйте-продуктивный-код-чтобы-сделать-код-пригодным-для-тестирования).
 
-#### Don't mock stuff that's not needed
+#### Не мокайте то, что вам не нужно
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-mock-stuff-thats-not-needed)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#не-мокайте-то-что-вам-не-нужно)
 
 ```ABAP
 cut = NEW /clean/class_under_test( db_reader = db_reader
@@ -4694,9 +4678,9 @@ cut = NEW /clean/class_under_test( db_reader = db_reader
                                    writer    = VALUE #( ) ).
 ```
 
-Define your givens as precisely as possible: don't set data that your test doesn't need,
-and don't mock objects that are never called.
-These things distract the reader from what's really going on.
+Определите свои данные как можно точнее: не устанавливайте данные, которые не нужны вашему тесту, 
+и не мокайте объекты, которые никогда не вызываются. 
+Эти вещи отвлекают читателя от того, что происходит на самом деле.
 
 ```ABAP
 " anti-pattern
@@ -4705,23 +4689,23 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
                                    writer    = writer ).
 ```
 
-There are also cases where it's not necessary to mock something at all -
-this is usually the case with data structures and data containers.
-For example, your unit tests may well work with the productive version of a `transient_log`
-because it only stores data without any side effects.
+Также бывают случаи, когда вообще не нужно что-то мокать — обычно это касается структур и контейнеров данных. 
+Например, ваши модульные тесты могут хорошо работать с продуктивной версией `transient_log`, 
+потому что он всего лишь сохраняет данные без каких-либо побочных эффектов.
 
-#### Don't build test frameworks
+#### Не создавайте тестовые фреймворки
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-build-test-frameworks)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Инъекция](#инъекция) > [Эта секция](#не-создавайте-тестовые-фреймворки)
 
-Unit tests - in contrast to integration tests - should be data-in-data-out, with all test data being defined on the fly as needed.
+Модульные тесты — в отличие от интеграционных тестов — должны быть data-in-data-out, 
+при этом все тестовые данные должны определяться на лету по мере необходимости.
 
 ```ABAP
 cl_abap_testdouble=>configure_call( test_double )->returning( data ).
 ```
 
-Don't start building frameworks that distinguish "*test case IDs*" to decide what data to provide.
-The resulting code will be so long and tangled that you won't be able to keep these tests alive in the long term.
+Не начинайте создавать фреймворки, которые решают, какие данные предоставить, на основе "*идентификаторов тестовых случаев*". 
+Полученный код будет настолько длинным и сложным, что эти тесты будут не жизнеспособны в долгосрочной перспективе.
 
 ```ABAP
 " anti-pattern
@@ -4734,15 +4718,15 @@ CASE me->test_case.
 ENDCASE.
 ```
 
-### Test Methods
+### Тестовые методы
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#test-methods)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#тестовые-методы)
 
-#### Test method names: reflect what's given and expected
+#### Названия тестовых методов должны отражать то, что дано и что ожидается
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#test-method-names-reflect-whats-given-and-expected)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые методы](#тестовые-методы) > [Эта секция](#названия-тестовых-методов-должны-отражать-то-что-дано-и-что-ожидается)
 
-Good names reflect the given and then of the test:
+Хорошие имена отражают что "дано" и что будет "тогда" (желаемая целевая ситуация теста) .
 
 ```ABAP
 METHOD reads_existing_entry.
@@ -4750,7 +4734,7 @@ METHOD throws_on_invalid_key.
 METHOD detects_invalid_input.
 ```
 
-Bad names reflect the when, repeat meaningless facts, or are cryptic:
+Плохие имена отражают "когда", повторяют бессмысленные факты или носят загадочный характер:
 
 ```ABAP
 " anti-patterns
@@ -4768,34 +4752,34 @@ METHOD parameterized_test.
 METHOD get_attributes_wo_w.
 ```
 
-As ABAP allows only 30 characters in method names, it's fair to add an explanatory comment
-if the name is too short to convey enough meaning.
-ABAP Doc or the first line in the test method may be an appropriate choice for the comment.
+Поскольку ABAP допускает использование только 30 символов в именах методов, 
+можно добавить поясняющий комментарий, если имя слишком короткое, чтобы передать достаточное значение. 
+ABAP Doc или первая строка тестового метода могут хорошо подходить для комментария.
 
-Having lots of test methods whose names are too long may be an indicator
-that you should split your single test class into several ones
-and express the differences in the givens in the class's names.
+Если у вас есть большое количество тестовых методов со слишком длинными именами, 
+это может указывать на то, что вам лучше разделить один тестовый класс на несколько 
+и выразить различия в начальных условиях "дано" в соответствующих именах классов.
 
-#### Use given-when-then
+#### Используйте формат дано-когда-тогда
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#use-given-when-then)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые методы](#тестовые-методы) > [Эта секция](#используйте-формат-дано-когда-тогда)
 
-Organize your test code along the given-when-then paradigm:
-First, initialize stuff in a given section ("given"),
-second call the actual tested thing ("when"),
-third validate the outcome ("then").
+Организуйте свой тестовый код в соответствии с парадигмой "данные-когда-тогда": 
+во-первых, инициализируйте все начальные условия в разделе "дано". 
+Затем вызовите тестируемый код ("когда"). 
+Наконец, подтвердите ожидаемый результат ("тогда").
 
-If the given or then sections get so long
-that you cannot visually separate the three sections anymore, extract sub-methods.
-Blank lines or comments as separators may look good at first glance
-but don't really reduce the visual clutter.
-Still they are helpful for the reader and the novice test writer to separate the sections.
+Если разделы "дано" или "тогда" становятся настолько длинными, 
+что вы больше не можете визуально выделить три секции, лучше всего извлечь подметоды. 
+Пустые строки или комментарии в качестве разделителей на первый взгляд могут быть хорошим решением, 
+но на самом деле они не уменьшают визуальный беспорядок. 
+Тем не менее, они помогают читателю и начинающему автору тестов разделять разделы.
 
-#### "When" is exactly one call
+#### "Когда" ровно один вызов
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#when-is-exactly-one-call)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые методы](#тестовые-методы) > [Эта секция](#когда-ровно-один-вызов)
 
-Make sure that the "when" section of your test method contains exactly one call to the class under test:
+Убедитесь, что раздел "когда" вашего тестового метода содержит только вызов тестируемого класса:
 
 ```ABAP
 METHOD rejects_invalid_input.
@@ -4806,32 +4790,30 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-Calling multiple things indicates that the method has no clear focus and tests too much.
-This makes it harder to find the cause when the test fails:
-was it the first, second, or third call that caused the failure?
-It also confuses the reader because he is not sure what the exact feature under test is.
+Вызов нескольких вещей указывает на то, что у метода нет четкой направленности и он проверяет слишком много вещей. 
+Это усложняет поиск причины падения теста: первый, второй или третий вызов, вызвал падение? 
+Это также сбивает с толку читателя, потому что он не уверен, что именно тестируется.
 
-#### Don't add a TEARDOWN unless you really need it
+#### Не добавляйте TEARDOWN если вам это не нужно
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Methods](#test-methods) > [This section](#dont-add-a-teardown-unless-you-really-need-it)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые методы](#тестовые-методы) > [Эта секция](#не-добавляйте-teardown-если-вам-это-не-нужно)
 
-`teardown` methods are usually only needed to clear up database entries
-or other external resources in integration tests.
+`teardown` методы обычно нужны только для очистки записей базы данных или других внешних ресурсов в интеграционных тестах. 
 
-Resetting members of the test class, esp. `cut` and the used test doubles, is superfluous;
-they are overwritten by the `setup` method before the next test method is started.
+Сброс атрибутов тестового класса, особенно `cut`, или атрибутов тестовых двойников избыточен;
+они будут перезаписаны методом настройки перед `setup` следующего метода тестирования.
 
-### Test Data
+### Тестовые данные
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#test-data)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#тестовые-данные)
 
-#### Make it easy to spot meaning
+#### Упростите определение смысла
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Data](#test-data) > [This section](#make-it-easy-to-spot-meaning)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые данные](#тестовые-данные) > [Эта секция](#упростите-определение-смысла)
 
-In unit tests, you want to be able to quickly tell which data and doubles are important,
-and which ones are only there to keep the code from crashing.
-Support this by giving things that have no meaning obvious names and values, for example:
+В модульных тестах вы хотите иметь возможность быстро определить, какие вещи важны,
+а какие нужны только для того, чтобы предотвратить сбой. 
+Поэтому, давайте вещам, которые не имеют значения, очевидные имена и значения, например:
 
 ```ABAP
 DATA(alert_id) = '42'.                             " well-known meaningless numbers
@@ -4839,7 +4821,7 @@ DATA(detection_object_type) = '?=/"&'.             " 'keyboard accidents'
 CONSTANTS some_random_number TYPE i VALUE 782346.  " revealing variable names
 ```
 
-Don't trick people into believing something connects to real objects or real customizing if it doesn't:
+Не обманывайте людей, заставляя их поверить, что что-то может быть связано с реальными объектами или реальными настройками, если это не так:
 
 ```ABAP
 " anti-pattern
@@ -4848,20 +4830,20 @@ DATA(detection_object_type) = 'FRA_SCLAIM'.  " this detection object type, too
 CONSTANTS memory_limit TYPE i VALUE 4096.    " this number looks carefully chosen
 ```
 
-#### Make it easy to spot differences
+#### Упростите поиск различий
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Data](#test-data) > [This section](#make-it-easy-to-spot-differences)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые данные](#тестовые-данные) > > [Эта секция](#упростите-поиск-различий)
 
 ```ABAP
 exp_parameter_in = VALUE #( ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END1' )
                             ( parameter_name = '45678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END2' ) ).
 ```
 
-Don't force readers to compare long meaningless strings to spot tiny differences.
+Не заставляйте читателей сравнивать длинные бессмысленные строки, чтобы обнаружить крошечные различия.
 
-#### Use constants to describe purpose and importance of test data
+#### Используйте константы для описания предназначения тестовых данных
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Data](#test-data) > [This section](#use-constants-to-describe-purpose-and-importance-of-test-data)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Тестовые данные](#тестовые-данные) > [Эта секция](#используйте-константы-для-описания-предназначения-тестовых-данных)
 
 ```ABAP
 CONSTANTS some_nonsense_key TYPE char8 VALUE 'ABCDEFGH'.
@@ -4877,15 +4859,15 @@ METHOD throws_on_invalid_entry.
 ENDMETHOD.
 ```
 
-### Assertions
+### Утверждения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [This section](#assertions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Эта секция](#утверждения)
 
-#### Few, focused assertions
+#### Несколько целенаправленных утверждений
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#few-focused-assertions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#несколько-целенаправленных-утверждений)
 
-Assert only exactly what the test method is about, and this with a small number of assertions.
+Используйте утверждения (аssert) только для того, на что ссылается метод тестирования, и ограничьте их количество.
 
 ```ABAP
 METHOD rejects_invalid_input.
@@ -4896,11 +4878,12 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-Asserting too much is an indicator that the method has no clear focus.
-This couples productive and test code in too many places: changing a feature
-will require rewriting a large number of tests although they are not really involved with the changed feature.
-It also confuses the reader with a large variety of assertions,
-obscuring the one important, distinguishing assertion among them.
+Слишком много утверждений указывает на то, что метод не имеет четкой цели. 
+Это связывает производственный и тестовый код во многих местах: 
+при изменении функции приходится переписывать большое количество тестов, 
+даже если они на самом деле не имеют ничего общего с измененной функцией. 
+Слишком много утверждений также сбивает с толку читателя, 
+потому что трудно определить одно утверждение, которое действительно важно.
 
 ```ABAP
 " anti-pattern
@@ -4915,37 +4898,37 @@ METHOD rejects_invalid_input.
 ENDMETHOD.
 ```
 
-#### Use the right assert type
+#### Используйте правильный тип утверждения
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#use-the-right-assert-type)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#используйте-правильный-тип-утверждения)
 
 ```ABAP
 cl_abap_unit_assert=>assert_equals( act = table
                                     exp = test_data ).
 ```
 
-Asserts often do more than meets the eye, for example `assert_equals`
-includes type matching and providing precise descriptions if values differ.
-Using the wrong, too-common asserts will force you into the debugger immediately
-instead of allowing you to see what is wrong right from the error message.
+Утверждения часто делают больше, чем кажется на первый взгляд. Например, `assert_equals` также проверяет, 
+совместимы ли два типа данных, и предоставляет точные описания, если значения различаются. 
+Использование ложных, слишком общих утверждений заставляет вас зайти в отладчик, 
+а не позволяет понять в чем причина ошибки непосредственно из сообщения.
 
 ```ABAP
 " anti-pattern
 cl_abap_unit_assert=>assert_true( xsdbool( act = exp ) ).
 ```
 
-#### Assert content, not quantity
+#### Утверждайте содержание, а не количество
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#assert-content-not-quantity)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#утверждайте-содержание-а-не-количество)
 
 ```ABAP
 assert_contains_exactly( actual   = table
                          expected = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
 ```
 
-Don't write magic-number-quantity assertions if you can express the actual content you expect.
-Numbers may vary although the expectations are still met.
-In reverse, the numbers may match although the content is something completely unexpected.
+Не пишите утверждения с набором магических чисел, лучше укажите фактические данные, которые вы ожидаете получить. 
+Числа могут быть разными, но данные все еще можут быть ожидаемыми. 
+И наоборот, числа могут быть одинаковыми, а данные совершенно неожиданными.
 
 ```ABAP
 " anti-pattern
@@ -4953,21 +4936,20 @@ assert_equals( act = lines( log_messages )
                exp = 3 ).
 ```
 
-#### Assert quality, not content
+#### Утверждайте качество, а не содержание
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#assert-quality-not-content)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#утверждайте-качество-а-не-содержание)
 
-If you are interested in a meta quality of the result,
-but not in the actual content itself, express that with a suitable assert:
+Если вас интересует только мета качество результата, а не само содержимое, выразите это с помощью подходящего утверждения:
 
 ```ABAP
 assert_all_lines_shorter_than( actual_lines        = table
                                expected_max_length = 80 ).
 ```
 
-Asserting the precise content obscures what you actually want to test.
-It is also fragile because refactoring may produce a different
-but perfectly acceptable result although it breaks all your too-precise unit tests.
+Проверка точного содержимого скрывает то, что вы действительно хотите протестировать. 
+Такое решение также является хрупким, потому что рефакторинг может дать другой, но вполне приемлемый результат, 
+хотя и сломает все ваши слишком точные модульные тесты.
 
 ```ABAP
 " anti-pattern
@@ -4975,9 +4957,9 @@ assert_equals( act = table
                exp = VALUE string_table( ( `ABC` ) ( `DEF` ) ( `GHI` ) ) ).
 ```
 
-#### Use FAIL to check for expected exceptions
+#### Используйте FAIL для проверки ожидаемых исключений
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#use-fail-to-check-for-expected-exceptions)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#используйте-fail-для-проверки-ожидаемых-исключений)
 
 ```ABAP
 METHOD throws_on_empty_input.
@@ -4991,9 +4973,9 @@ METHOD throws_on_empty_input.
 ENDMETHOD.
 ```
 
-#### Forward unexpected exceptions instead of catching and failing
+#### Не перехватывайте неожиданные исключения, а перенаправляйте их
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#forward-unexpected-exceptions-instead-of-catching-and-failing)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#не-перехватывайте-неожиданные-исключения-а-перенаправляйте-их)
 
 ```ABAP
 METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
@@ -5006,7 +4988,7 @@ METHOD reads_entry.
 ENDMETHOD.
 ```
 
-Your test code remains focused on the happy path and is therefore much easier to read and understand, as compared to:
+Ваш тестовый код по-прежнему ориентирован на благополучный исход, поэтому его намного легче читать и понимать по сравнению с:
 
 ```ABAP
 " anti-pattern
@@ -5020,9 +5002,9 @@ METHOD reads_entry.
 ENDMETHOD.
 ```
 
-#### Write custom asserts to shorten code and avoid duplication
+#### Напишите собственные утверждения чтобы сократить код и избежать дублирования
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Assertions](#assertions) > [This section](#write-custom-asserts-to-shorten-code-and-avoid-duplication)
+> [Чистый ABAP](#чистый-abap) > [Содержание](#содержание) > [Тестирование](#тестирование) > [Утверждения](#утверждения) > [Эта секция](#напишите-собственные-утверждения-чтобы-сократить-код-и-избежать-дублирования)
 
 ```ABAP
 METHODS assert_contains
@@ -5039,4 +5021,4 @@ METHOD assert_contains.
 ENDMETHOD.
 ```
 
-Instead of copy-pasting this over and over again.
+Вместо того, чтобы копировать это и вставлять снова и снова.
