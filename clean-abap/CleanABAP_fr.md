@@ -16,6 +16,8 @@
 > [Español](CleanABAP_es.md)
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 Ce guide est une adaptation de l'ouvrage de [Robert C. Martin_ Coder proprement (Clean Code)_] pour [ABAP](https://fr.wikipedia.org/wiki/ABAP).
 
@@ -1427,7 +1429,7 @@ Ne laissez pas cette règle vous décourager d'utiliser de l'héritage quand c'e
 
 #### Ne mélangez pas des paradigmes avec statut et sans statut dans la même classe
 
-> [Coder proprement avec ABAP](#coder-proprement-avec-abap) > [Table des matières](#table-des-matières) > [Classes](#constructeurs) > [Classes : orientation objet](#classes-:-orientation-objet)
+> [Coder proprement avec ABAP](#coder-proprement-avec-abap) > [Table des matières](#table-des-matières) > [Classes](#constructeurs) > [Classes : orientation objet](#classes-:-orientation-objet) > [Cette section](#ne-mélangez-pas-des-paradigmes-avec-statut-et-sans-statut-dans-la-même-classe)
 
 Ne mélangez pas des paradigmes de programmation avec statut et sans statut dans la même classe.
 

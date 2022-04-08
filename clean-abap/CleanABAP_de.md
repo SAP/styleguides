@@ -16,6 +16,8 @@
 > [Español](CleanABAP_es.md)
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 Dieser Leitfaden ist eine Adaption des Standardwerks [Robert C. Martins _Clean Code_]
 an [ABAP](https://de.wikipedia.org/wiki/ABAP).
@@ -1483,7 +1485,7 @@ vergleicht einige Details.
 
 #### Kein Mix von Stateful und Stateless in derselben Klasse
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Klassen](#klassen) > [Klassen: Objektorientierung](#klassen-objektorientierung) > [Dieser Abschnitt](#kein-mix-von-stateful-und-stateless-in-derselben-klasse)
 
 Vermischen Sie die Stateless- und Stateful-Programmiermodelle nicht in derselben Klasse.
 

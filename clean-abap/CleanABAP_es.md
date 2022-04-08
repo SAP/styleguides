@@ -13,7 +13,8 @@
 > [日本語](CleanABAP_ja.md)
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
-
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 Esta guía fue adaptada en base a [_Clean Code_ por Robert C. Martin] 
 para [ABAP](https://en.wikipedia.org/wiki/ABAP).
@@ -1699,7 +1700,7 @@ compara algunos detalles.
 
 #### No mezcles lógica stateful y stateless en la misma clase
 
-> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Clases: Orientación a objetos](#clases-orientación-a-objetos) > [Esta sección] > (#no-mezcles-lógica-stateful-y-stateless-en-la-misma-clase)
+> [Clean ABAP](#clean-abap) > [Contenido](#contenido) > [Clases](#clases) > [Clases: Orientación a objetos](#clases-orientación-a-objetos) > [Esta sección](#no-mezcles-lógica-stateful-y-stateless-en-la-misma-clase)
 
 No mezcles los paradigmas de programación stateless y stateful 
 en la misma clase.
