@@ -1,0 +1,12 @@
+{
+  "ignorePatterns": [
+  ],
+  "httpHeaders": [
+      {
+        "urls": ["https://docs.github.com"],
+        "headers": {
+          "Accept-Encoding": "gzip, deflate"
+        }
+      }
+  ]
+}
