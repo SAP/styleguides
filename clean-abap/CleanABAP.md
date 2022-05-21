@@ -3002,17 +3002,6 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-You can avoid the question completely by reversing the validation
-and adopting a single-return control flow
-
-```ABAP
-METHOD read_customizing.
-  IF keys IS NOT INITIAL.
-    " do whatever needs doing
-  ENDIF.
-ENDMETHOD.
-```
-
 In any case, consider whether returning nothing is really the appropriate behavior.
 Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
 Returning nothing is in many cases similar to returning `null`, which should be avoided.
