@@ -172,6 +172,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Comment with ", not with *](#comment-with--not-with-)
   - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
   - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
+  - [Don't do manual versionning](#manual-versionning)
   - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
@@ -3651,6 +3652,18 @@ When you find something like this, delete it.
 The code is obviously not needed because your application works and all tests are green.
 Deleted code can be reproduced from the version history later on.
 If you need to preserve a piece of code permanently, copy it to a file or a `$TMP` or `HOME` object.
+
+### Don't do manual versionning
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#manual-versionning)
+
+```ABAP
+" anti-pattern
+* ticket 800034775 ABC ++ Start
+output = calculate_result( input ).
+* ticket 800034775 ABC ++ End
+```
+Versionning is already done by SAP. Attribution comment tend to pollute code. Source control and transport order text are much more suitable for this task. 
 
 ### Use FIXME, TODO, and XXX and add your ID
 
