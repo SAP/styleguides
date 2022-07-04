@@ -2478,7 +2478,7 @@ METHODS get_large_table
     VALUE(result) TYPE /clean/some_table_type.
 
 METHOD get_large_table.
-  result = me->large_table.
+  result = large_table.
 ENDMETHOD.
 
 DATA(my_table) = get_large_table( ).
@@ -2494,7 +2494,7 @@ METHODS get_large_table
     result TYPE /dirty/some_table_type.
 
 METHOD get_large_table.
-  result = me->large_table.
+  result = large_table.
 ENDMETHOD.
 
 get_large_table( IMPORTING result = DATA(my_table) ).
@@ -4652,7 +4652,7 @@ ENDCLASS.
 
 ```ABAP
 " anti-pattern
-IF me->in_test_mode = abap_true.
+IF in_test_mode = abap_true.
 ```
 
 #### Don't sub-class to mock methods
@@ -4728,7 +4728,7 @@ The resulting code will be so long and tangled that you won't be able to keep th
 
 test_double->set_test_case( 1 ).
 
-CASE me->test_case.
+CASE test_case.
   WHEN 1.
   WHEN 2.
 ENDCASE.
