@@ -3,4 +3,4 @@
 
 # one line for each document
 /abap-code-review/ @xtough
-/clean-abap/ @HrFlorianHoffmann @KlausHaeuptleSAP
+/clean-abap/ @HrFlorianHoffmann @KlausHaeuptleSAP @clean-abap-code-owner
