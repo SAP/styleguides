@@ -121,8 +121,7 @@ pipeline -> pipeline: 4: abaplint
 
 There are other tools from third party vendors that can be also used for ABAP code analysis. 
 
-For instance, link:https://www.sonarsource.com/abap/[SonarSource ABAP] can be used to check ABAP source serialized by abapGit. 
-Their link:https://github.com/apps/sonarcloud[App] can be used to integrate it with GitHub-based CI pipelines.
+For instance, link:https://rules.sonarsource.com/abap/[SonarSource ABAP] can be used to check ABAP source serialized by abapGit. 
 
 === abap-openapi-client
 
