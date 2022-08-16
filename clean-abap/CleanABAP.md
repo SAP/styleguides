@@ -3663,7 +3663,7 @@ If you need to preserve a piece of code permanently, copy it to a file or a `$TM
 output = calculate_result( input ).
 * ticket 800034775 ABC ++ End
 ```
-Versioning is already done by SAP. Attribution comment tend to pollute code. Source control and transport order text are much more suitable for this task. 
+Attribution comments tend to pollute the code and don't provide big benefits as versioning is already done by source code management. Transport order texts are much more suitable for describing why something was adapted.
 
 ### Use FIXME, TODO, and XXX and add your ID
 
