@@ -4079,6 +4079,7 @@ DATA(sum) = add_two_numbers(
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
 
 ```ABAP
+" anti-pattern
 DATA(sum) = add_two_numbers(
     value_1 = 5
     value_2 = 6 ).
