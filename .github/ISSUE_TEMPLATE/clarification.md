@@ -2,7 +2,7 @@
 name: Clarification (Clean ABAP)
 about: Request clarification on a rule in the Clean ABAP style guide
 title: '[name of rule] your title here'
-labels: unclear, clean-abap
+labels: Clarity of Text, clean-abap
 assignees: ''
 
 ---
