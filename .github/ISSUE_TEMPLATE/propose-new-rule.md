@@ -1,7 +1,7 @@
 ---
 name: Propose new rule (Clean ABAP)
 about: Propose a new rule for the Clean ABAP style guide
-title: your title here
+title: 'your title here'
 labels: New Rule, clean-abap
 assignees: ''
 
