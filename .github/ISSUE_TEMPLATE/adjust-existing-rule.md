@@ -1,7 +1,7 @@
 ---
 name: Adjust rule (Clean ABAP)
 about: Use this template to discuss changes to a rule in the Clean ABAP style guide
-title: "[name of rule] your title here"
+title: '[name of rule] your title here'
 labels: Adjustment Of Rule, clean-abap
 
 ---
