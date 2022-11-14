@@ -5,6 +5,7 @@
 - [Discussions](#discussions)
 - [Forks](#forks)
 - [Use English](#use-english)
+- [Developer Certificate of Origin (DCO)](#dco)
 
 ## Pull Requests
 
@@ -61,3 +62,7 @@ just [contact us on Slack](#discussions).
 Kindly use English language for issues, pull requests, and discussions.
 SAP uses English as common language to facilitate cross-culture communication,
 so this will reach most people.
+
+## Developer Certificate of Origin (DCO)
+
+Due to legal reasons, contributors will be asked to accept a DCO when they create the first pull request to this project. This happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
