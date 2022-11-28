@@ -3005,11 +3005,12 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-You can avoid the question completely by reversing the validation
-and adopting a single-return control flow
+You could avoid the question completely by reversing the validation and adopting a single-return control flow.
+This is considered to be an anti-pattern because it introduces unnecessary nesting depth.
 
 ```ABAP
 METHOD read_customizing.
+  " anti-pattern
   IF keys IS NOT INITIAL.
     " do whatever needs doing
   ENDIF.
