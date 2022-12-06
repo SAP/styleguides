@@ -2506,7 +2506,8 @@ get_large_table( IMPORTING result = DATA(my_table) ).
 > This section contradicts the ABAP Programming Guidelines and Code Inspector checks,
 > both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
 > We consistently failed to reproduce any performance and memory deficits
-> and received notice about kernel optimization that generally improves RETURNING performance.
+> and received notice about kernel optimization that generally improves RETURNING performance.  
+> (see also "Sharing Between Dynamic Data Objects" (https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenmemory_consumption_3.htm))
 
 #### Use either RETURNING or EXPORTING or CHANGING, but not a combination
 
