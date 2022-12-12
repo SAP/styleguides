@@ -770,7 +770,11 @@ that lists obsolete language elements, for example
 [NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenabap_obsolete.htm),
-[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm).
+[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.54](https://help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.55](https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.56](https://help.sap.com/doc/abapdocu_756_index_htm/7.56/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.57](https://help.sap.com/doc/abapdocu_757_index_htm/7.57/en-US/index.htm?file=abenabap_obsolete.htm).
 
 ### Use design patterns wisely
 
