@@ -2,17 +2,18 @@
 
 > [Back to the guide](../CleanABAP.md)
 
-ABAP does not support enumerations as natively and completely as
-other programming languages.
+ABAP did not support enumerations as natively and completely as other programming languages before release 7.51.
 
 ABAPers therefore were forced to think up their own solutions
 and came up with a set of [patterns](#patterns) that can be
 found in the majority of today's object-oriented ABAP code.
 
-When deciding for an enumeration pattern,
-or wanting to design one of your own,
-consider the [guidelines](#guidelines).
+**Starting with release 7.51 native enumerated types are available and should be preferred where applicable.**
+They offer [compatibility](#compatibility) features to easily refactor legacy enumeration patterns.
+When deciding against native enumerations or wanting to design one of your own, consider the [guidelines](#guidelines).
 
+- [Native enumerations](#native-enumerations)
+  - [Compatibility](#compatibility)
 - [Patterns](#patterns)
   - [Constant pattern](#constant-pattern)
   - [Object pattern](#object-pattern)
@@ -24,11 +25,62 @@ consider the [guidelines](#guidelines).
   - [Try to enforce type safety](#try-to-enforce-type-safety)
 - [What about ENUM?](#what-about-enum)
 
+## Native enumerations
+
+> [Enumerations](#enumerations) > [This section](#native-enumerations)
+
+Starting with release 7.51 ABAP offers a native definition of enumerated types with `TYPES BEGIN OF ENUM`.
+
+```ABAP
+CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    TYPES: BEGIN OF ENUM type,
+             warning,
+             error,
+           END OF ENUM type.
+ENDCLASS.
+
+CLASS /clean/message_severity IMPLEMENTATION.
+ENDCLASS.
+```
+
+used as
+
+```ABAP
+IF log_contains( /clean/message_severity=>warning ).
+```
+
+### Compatibility
+
+To integrate native enumerations with legacy code that uses constants the `BASE TYPE` addition is available:
+```ABAP
+CLASS /compatbl/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    TYPES: BEGIN OF ENUM type BASE TYPE symsgty,
+            info      VALUE 'I',
+            exit      VALUE 'X',
+            undefined IS INITIAL,
+          END OF ENUM type.
+```
+This allows a conversion from and to enumerated variables using the `CONV` operator.
+```ABAP
+DATA(severity_as_char) = CONV symsgty( /compatbl/message_severity=>info ). "yields 'I'
+DATA(severity) = CONV /compatbl/message_severity=>type( 'X' ). "yields /compatbl/message_severity=>exit
+```
+
+The conversion operator is mandatory to satisfy the strict type check.
+It needs to be incorporated at all places where APIs with legacy types are operated or whenever data is queried or persisted with ABAP SQL.
+
+For example, if the method signature of `log_contains` with a single `IMPORTING` parameter typed as `symsgty` cannot be refactored it will have to be called like this:
+```ABAP
+IF log_contains( CONV #( /compatbl/message_severity=>warning ) ).
+```
+
 ## Patterns
 
 > [Enumerations](#enumerations) > [This section](#patterns)
 
-We recommend using either
+If native `ENUM` cannot be used we recommend either
 the **[constant pattern](#constant-pattern)**
 or the **[object pattern](#object-pattern)**
 because they combine most advantages
@@ -80,7 +132,7 @@ CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
     DATA value TYPE symsgty READ-ONLY.
 
     CLASS-METHODS class_constructor.
-    METHODS constructor IMPORTING value TYPE /clean/severity.
+    METHODS constructor IMPORTING value TYPE symsgty.
 
 ENDCLASS.
 
@@ -226,7 +278,7 @@ especially if you added supportive methods,
 but also for common cases such as
 `in_sync_with_domain_fixed_vals`.
 <details>
-  <summary>The local test class for the constant pattern can look like this</summary>
+  <summary>The local test class for the constant pattern can look like this:</summary>
   
 ```ABAP
 CLASS ltcl_constant_pattern DEFINITION CREATE PRIVATE
@@ -325,45 +377,49 @@ ENDINTERFACE.
 
 > [Enumerations](#enumerations) > [Guidelines](#guidelines) > [This section](#try-to-enforce-type-safety)
 
+The real advantage of enumerations in programming languages
+is not that they provide constants,
+but that they provide _all_ constants,
+meaning they enforce type safety
+by making the compiler reject invalid values.
+
+Native enumerated types fulfill this criterion as the following method definition
+```ABAP
+METHODS log_contains
+  IMPORTING
+    minimum_severity TYPE /clean/message_severity=>type.
+```
+will allow correct usage like this
+```ABAP
+IF log_contains( /clean/message_severity=>warning ).
+```
+yet reject invalid calls such as
+```ABAP
+" syntax error
+IF log_contains( 'W' ).
+```
+```ABAP
+" runtime error
+IF log_contains( CONV /clean/message_severity=>type( 'B' ) ).
+```
+
+If native enumeration cannot be used this is only achievable by the **[object pattern](#object-pattern)**:
 ```ABAP
 METHODS log_contains
   IMPORTING
     minimum_severity TYPE REF TO /clean/message_severity.
 ```
 
-The real advantage of enumerations in other programming languages
-is not that they provide constants,
-but that they provide _all_ constants,
-meaning they enforce type safety
-by making the compiler reject invalid values.
-
 Without type safety, you still get helpful constants
 but will find yourself repeating `is_valid( )` validations
 all over the place.
 
 ```ABAP
-" inferior pattern
+" inferior pattern...
 METHODS log_contains
   IMPORTING
     minimum_severity TYPE symsgty.
+
+" ...is not preventing illegal values:
+IF log_contains( '?' ).
 ```
-
-## What about ENUM?
-
-> [Enumerations](#enumerations) > [This section](#what-about-enum)
-
-So far we have not seen an efficient wide-spread pattern
-that exploits the ABAP keyword `ENUM`.
-We assume there are such patterns
-but that people haven't explored them in depth so far.
-
-One of the problems with `ENUM` is that it
-does not only create constants,
-but also new data types alongside.
-This makes it harder to apply it to common cases
-where the data types already exist,
-especially communication with APIs and the database.
-
-If you know a good enum-based pattern,
-or designed one on your own,
-[let us know about it](https://github.com/SAP/clean-abap/blob/master/CONTRIBUTING.md).
