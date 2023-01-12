@@ -880,7 +880,8 @@ The group also allows you group-wise access, for example for input validation:
 
 ```ABAP
 DO.
-  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(<constant>).
+  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity 
+  ASSIGN message_severity-(sy-index) TO FIELD-SYMBOL(<constant>).
   IF sy-subrc IS INITIAL.
     IF input = <constant>.
       DATA(is_valid) = abap_true.
@@ -1011,7 +1012,7 @@ except where you need field symbols
 
 ```ABAP
 ASSIGN generic->* TO FIELD-SYMBOL(<generic>).
-ASSIGN COMPONENT name OF STRUCTURE structure TO FIELD-SYMBOL(<component>).
+ASSIGN structure-(name) TO FIELD-SYMBOL(<component>).
 ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
 ```
 
