@@ -880,7 +880,6 @@ The group also allows you group-wise access, for example for input validation:
 
 ```ABAP
 DO.
-  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity 
   ASSIGN message_severity-(sy-index) TO FIELD-SYMBOL(<constant>).
   IF sy-subrc IS INITIAL.
     IF input = <constant>.
