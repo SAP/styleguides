@@ -75,13 +75,16 @@ CLASS /compatbl/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
     TYPES: BEGIN OF ENUM type BASE TYPE symsgty,
             info      VALUE 'I',
             exit      VALUE 'X',
-            undefined IS INITIAL,
+            undefined VALUE IS INITIAL,
           END OF ENUM type.
 ```
 This allows a conversion from and to enumerated variables using the `CONV` operator.
 ```ABAP
-DATA(severity_as_char) = CONV symsgty( /compatbl/message_severity=>info ). "yields 'I'
-DATA(severity) = CONV /compatbl/message_severity=>type( 'X' ). "yields /compatbl/message_severity=>exit
+"yields 'I'
+DATA(severity_as_char) = CONV symsgty( /compatbl/message_severity=>info ). 
+
+"yields /compatbl/message_severity=>exit
+DATA(severity) = CONV /compatbl/message_severity=>type( 'X' ). 
 ```
 
 The conversion operator is mandatory to satisfy the strict type check.
