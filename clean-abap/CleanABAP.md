@@ -679,7 +679,7 @@ these objects should do little more than call a corresponding class that provide
 
 ```ABAP
 FUNCTION check_business_partner [...].
-  DATA(validator) = NEW /clean/biz_partner_validator( ).
+  FINAL(validator) = NEW /clean/biz_partner_validator( ).
   result = validator->validate( business_partners ).
 ENDFUNCTION.
 ```
@@ -911,8 +911,8 @@ that declaring variables inline at first occurrence will look more natural
 
 ```ABAP
 METHOD do_something.
-  DATA(name) = 'something'.
-  DATA(reader) = /clean/reader=>get_instance_for( name ).
+  FINAL(name) = 'something'.
+  FINAL(reader) = /clean/reader=>get_instance_for( name ).
   result = reader->read_it( ).
 ENDMETHOD.
 ```
@@ -1005,7 +1005,7 @@ DATA:
 > for these cases may worsen performance.
 
 ```ABAP
-LOOP AT components REFERENCE INTO DATA(component).
+LOOP AT components REFERENCE INTO FINAL(component).
 ```
 
 instead of the equivalent
@@ -1510,8 +1510,8 @@ It's nearly always a good idea to extract complex conditions to methods of their
 IF is_provided( example ).
 
 METHOD is_provided.
-  DATA(is_filled) = xsdbool( example IS NOT INITIAL ).
-  DATA(is_working) = xsdbool( applies( example ) = abap_true OR
+  FINAL(is_filled) = xsdbool( example IS NOT INITIAL ).
+  FINAL(is_working) = xsdbool( applies( example ) = abap_true OR
                               fits( example ) = abap_true ).
   result = xsdbool( is_filled = abap_true AND
                     is_working = abap_true ).
@@ -1703,7 +1703,7 @@ CLASS /clean/string_utils DEFINITION [...].
 ENDCLASS.
 
 METHOD retrieve.
-  DATA(trimmed_name) = /clean/string_utils=>trim( name ).
+  FINAL(trimmed_name) = /clean/string_utils=>trim( name ).
   result = read( trimmed_name ).
 ENDMETHOD.
 ```
@@ -2585,7 +2585,7 @@ METHODS update_references
     bo_nodes      TYPE root_nodes.
 
 METHOD update_references.
-  LOOP AT bo_nodes REFERENCE INTO DATA(bo_node).
+  LOOP AT bo_nodes REFERENCE INTO FINAL(bo_node).
     bo_node->reference = new_reference.
   ENDLOOP.
 ENDMETHOD.
@@ -2868,7 +2868,7 @@ instead of confusing mixtures of low level (`trim`, `to_upper`, ...) and high le
 " anti-pattern
 METHOD create_and_publish.
   post = NEW blog_post( ).
-  DATA(user_name) = trim( to_upper( sy-uname ) ).
+  FINAL(user_name) = trim( to_upper( sy-uname ) ).
   post->set_author( user_name ).
   post->publish( ).
 ENDMETHOD.
@@ -2886,8 +2886,8 @@ Methods should have less than 20 statements, optimal around 3 to 5 statements.
 
 ```ABAP
 METHOD read_and_parse_version_filters.
-  DATA(active_model_version) = read_random_version_under( model_guid ).
-  DATA(filter_json) = read_model_version_filters( active_model_version-guid ).
+  FINAL(active_model_version) = read_random_version_under( model_guid ).
+  FINAL(filter_json) = read_model_version_filters( active_model_version-guid ).
   result = parse_model_version_filters( filter_json ).
 ENDMETHOD.
 ```
@@ -2968,7 +2968,7 @@ METHOD do_something.
   IF input IS INITIAL.
     RAISE EXCEPTION cx_sy_illegal_argument( ).
   ENDIF.
-  DATA(massive_object) = build_expensive_object_from( input ).
+  FINAL(massive_object) = build_expensive_object_from( input ).
   result = massive_object->do_some_fancy_calculation( ).
 ENDMETHOD.
 ```
@@ -2978,7 +2978,7 @@ Later validations are harder to spot and understand and may have already wasted 
 ```ABAP
 " anti-pattern
 METHOD do_something.
-  DATA(massive_object) = build_expensive_object_from( input ).
+  FINAL(massive_object) = build_expensive_object_from( input ).
   IF massive_object IS NOT BOUND. " happens if input is initial
     RAISE EXCEPTION cx_sy_illegal_argument( ).
   ENDIF.
@@ -3445,7 +3445,7 @@ METHODS generate RAISING cx_generation_failure.
 METHOD generate.
   TRY.
       generator->generate( ).
-    CATCH cx_amdp_generation_failure INTO DATA(exception).
+    CATCH cx_amdp_generation_failure INTO FINAL(exception).
       RAISE EXCEPTION NEW cx_generation_failure( previous = exception ).
   ENDTRY.
 ENDMETHOD.
@@ -4593,7 +4593,7 @@ CLASS /dirty/default_custom_reader IMPLEMENTATION.
 ENDCLASS.
 
 METHOD test_something.
-  DATA(customizing_reader) = NEW /dirty/customizing_reader( ).
+  FINAL(customizing_reader) = NEW /dirty/customizing_reader( ).
   customizing_reader->customizing = sub_claim_customizing.
 ENDMETHOD.
 ```
@@ -4645,7 +4645,7 @@ CLASS /clean/class_under_test DEFINITION LOCAL FRIENDS unit_tests.
 
 CLASS unit_tests IMPLEMENTATION.
   METHOD setup.
-    DATA(mock) = cl_abap_testdouble=>create( '/clean/some_mock' ).
+    FINAL(mock) = cl_abap_testdouble=>create( '/clean/some_mock' ).
     " /clean/class_under_test is CREATE PRIVATE
      " so this only works because of the LOCAL FRIENDS
     cut = NEW /clean/class_under_test( mock ).
@@ -4824,7 +4824,7 @@ Make sure that the "when" section of your test method contains exactly one call 
 ```ABAP
 METHOD rejects_invalid_input.
   " when
-  DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
+  FINAL(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
   " then
   cl_abap_unit_assert=>assert_false( is_valid ).
 ENDMETHOD.
@@ -4914,7 +4914,7 @@ Assert only exactly what the test method is about, and this with a small number 
 ```ABAP
 METHOD rejects_invalid_input.
   " when
-  DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
+  FINAL(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
   " then
   cl_abap_unit_assert=>assert_false( is_valid ).
 ENDMETHOD.
@@ -4930,7 +4930,7 @@ obscuring the one important, distinguishing assertion among them.
 " anti-pattern
 METHOD rejects_invalid_input.
   " when
-  DATA(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
+  FINAL(is_valid) = cut->is_valid_input( 'SOME_RANDOM_ENTRY' ).
   " then
   cl_abap_unit_assert=>assert_false( is_valid ).
   cl_abap_unit_assert=>assert_not_initial( log->get_messages( ) ).
@@ -5024,7 +5024,7 @@ METHODS reads_entry FOR TESTING RAISING /clean/some_exception.
 
 METHOD reads_entry.
   "when
-  DATA(entry) = cut->read_something( ).
+  FINAL(entry) = cut->read_something( ).
   "then
   cl_abap_unit_assert=>assert_not_initial( entry ).
 ENDMETHOD.
@@ -5036,8 +5036,8 @@ Your test code remains focused on the happy path and is therefore much easier to
 " anti-pattern
 METHOD reads_entry.
   TRY.
-      DATA(entry) = cut->read_something( ).
-    CATCH /clean/some_exception INTO DATA(unexpected_exception).
+      FINAL(entry) = cut->read_something( ).
+    CATCH /clean/some_exception INTO FINAL(unexpected_exception).
       cl_abap_unit_assert=>fail( unexpected_exception->get_text( ) ).
   ENDTRY.
   cl_abap_unit_assert=>assert_not_initial( entry ).
