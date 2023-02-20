@@ -54,8 +54,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
-  - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
-  - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
+  - [Prefer ENUM to constants interfaces](#prefer-enum-to-constants-interfaces)
+  - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
@@ -805,28 +805,19 @@ IF abap_type = 'D'.
 > Read more in _Chapter 17: Smells and Heuristics: G25:
 > Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
 
-### Prefer enumeration classes to constants interfaces
+### Prefer ENUM to constants interfaces
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-to-constants-interfaces)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enum-to-constants-interfaces)
+
+Use ABAP-native enumerations with `ENUM` (available in releases >= 7.51)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
   PUBLIC SECTION.
-    CONSTANTS:
-      warning TYPE symsgty VALUE 'W',
-      error   TYPE symsgty VALUE 'E'.
-ENDCLASS.
-```
-
-or
-
-```ABAP
-CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
-  PUBLIC SECTION.
-    CLASS-DATA:
-      warning TYPE REF TO /clean/message_severity READ-ONLY,
-      error   TYPE REF TO /clean/message_severity READ-ONLY.
-  " ...
+    TYPES: BEGIN OF ENUM type,
+             warning,
+             error,
+           END OF ENUM type.
 ENDCLASS.
 ```
 
@@ -846,16 +837,16 @@ ENDINTERFACE.
 ```
 
 > [Enumerations](sub-sections/Enumerations.md)
-> describes common enumeration patterns
+> describes alternative enumeration patterns (also applicable to older releases that do not support `ENUM` yet)
 > and discusses their advantages and disadvantages.
 >
 > Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
 
-### If you don't use enumeration classes, group your constants
+### If you don't use ENUM or enumeration patterns, group your constants
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enumeration-classes-group-your-constants)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 
-If you collect constants in a loose way, for example in an interface, group them:
+If you cannot use enumerations and have to collect constants in a loose way, for example in an interface, at least group them:
 
 ```ABAP
 CONSTANTS:
@@ -869,7 +860,7 @@ CONSTANTS:
   END OF message_lifespan.
 ```
 
-Makes the relation clearer than:
+makes the relation clearer than
 
 ```ABAP
 " Anti-pattern
