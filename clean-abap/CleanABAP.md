@@ -962,6 +962,10 @@ ENDIF.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
+### Use FINAL declarations for immutable variables
+If a variable is never reassigned, use `FINAL` to declare it. 
+The reader can then be sure that the content of the variable will never change.
+
 ### Do not chain up-front declarations
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-chain-up-front-declarations)
