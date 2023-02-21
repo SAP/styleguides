@@ -59,6 +59,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
+  - [Use FINAL declarations for immutable variables](#use-final-declarations-for-immutable-variables)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -963,6 +964,9 @@ ENDIF.
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
 ### Use FINAL declarations for immutable variables
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#use-final-declarations-for-immutable-variables)
+
 If a variable is never reassigned, use `FINAL` to declare it. 
 The reader can then be sure that the content of the variable will never change.
 
