@@ -4595,13 +4595,10 @@ with standard ABAP unit tests and test doubles.
 However, there are tools that will allow you
 to tackle trickier cases in elegant ways:
 
-- Use the `CL_OSQL_REPLACE` service
-to test complex OpenSQL statements
-by redirecting them to a test data bin
-that can be filled with test data
-without interfering with the rest of the system.
+- Use the OSQL test environment (`CL_OSQL_TEST_ENVIRONMENT`) to test complex OpenSQL statements
+by redirecting them to test data defined in the unit test without interfering with the rest of the system.
 
-- Use the CDS test framework to test your CDS views.
+- Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
 #### Use test seams as temporary workaround
 
