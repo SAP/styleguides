@@ -937,12 +937,10 @@ ELSE.
 ENDIF.
 ```
 
-ABAP does not have strict scopes for variables within processing blocks (like methods within classes). 
-For example, a variable declared in an `IF` branch is still available outside of this branch in the code that follows it.
-Using a variable outside of its scope is confusing for readers, 
-especially if the method is longer and the declaration is not spotted immediately.
+A variable declared in a branch (like in an `IF` branch) is still available outside of this branch in the code that follows it.
+This is confusing for readers, especially if the method is longer and the declaration is not spotted immediately.
 
-If the variable is required outside of the scope it is declared in, declare it beforehand:
+If the variable is required outside of the branch it is declared in, declare it beforehand:
 
 ```ABAP
 DATA value TYPE i.
