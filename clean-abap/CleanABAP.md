@@ -58,7 +58,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
+  - [Do not use variables declared inline outside of a branch's scope](#do-not-use-variables-declared-inline-outside-of-a-branchs-scope)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -924,9 +924,9 @@ ENDMETHOD.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Don't declare inline in optional branches
+### Do not use variables declared inline outside of a branch's scope
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#dont-declare-inline-in-optional-branches)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-declared-inline-outside-of-a-branchs-scope)
 
 ```ABAP
 " anti-pattern
@@ -937,10 +937,9 @@ ELSE.
 ENDIF.
 ```
 
-This works fine because ABAP handles inline declarations as if they were at the beginning of the method.
-However, it is extremely confusing for readers,
-especially if the method is longer and you don't spot the declaration right away.
-In this case, break with inlining and put the declaration up-front:
+This works fine because the variable is visible from the point of the inline declaration, regardless of the branch's scope.
+However, it is confusing for readers, especially if the method is longer and the declaration is not spotted immediately.
+In this case, do not declare the variable inline and put the declaration up-front:
 
 ```ABAP
 DATA value TYPE i.
