@@ -58,7 +58,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Do not use variables outside of the scope they are declared in](#do-not-use-variables-outside-of-the-scope-they-are-declared-in)
+  - [Do not use local variables outside of the branch they are declared in](#do-not-use-local-variables-outside-of-the-branch-they-are-declared-in)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -924,9 +924,9 @@ ENDMETHOD.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Do not use variables outside of the scope they are declared in
+### Do not use local variables outside of the branch they are declared in
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-outside-of-the-scope-they-are-declared-in)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-local-variables-outside-of-the-branch-they-are-declared-in)
 
 ```ABAP
 " anti-pattern
