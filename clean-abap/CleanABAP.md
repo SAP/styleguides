@@ -58,7 +58,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Do not use variables declared inline outside of a branch's scope](#do-not-use-variables-declared-inline-outside-of-a-branchs-scope)
+  - [Do not use variables outside of the scope they are declared in](#do-not-use-variables-outside-of-the-scope-they-are-declared-in)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -924,9 +924,9 @@ ENDMETHOD.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Do not use variables declared inline outside of a branch's scope
+### Do not use variables outside of the scope they are declared in
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-declared-inline-outside-of-a-branchs-scope)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-outside-of-the-scope-they-are-declared-in)
 
 ```ABAP
 " anti-pattern
@@ -937,9 +937,12 @@ ELSE.
 ENDIF.
 ```
 
-This works fine because the variable is visible from the point of the inline declaration, regardless of the branch's scope.
-However, it is confusing for readers, especially if the method is longer and the declaration is not spotted immediately.
-In this case, do not declare the variable inline and put the declaration up-front:
+ABAP does not have strict scopes for variables within processing blocks (like methods within classes). 
+For example, a variable declared in an `IF` branch is still available outside of this branch in the code that follows it.
+Using a variable outside of its scope is confusing for readers, 
+especially if the method is longer and the declaration is not spotted immediately.
+
+If the variable is required outside of the scope it is declared in, declare it beforehand:
 
 ```ABAP
 DATA value TYPE i.
