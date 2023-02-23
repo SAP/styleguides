@@ -15,7 +15,7 @@ At a technical level Git is a protocol, and is typically used in connection with
 For an introduction to Git see:
 
 * link:https://git-scm.com/doc[Git Documentation]
-* link:https://guides.github.com/introduction/git-handbook/[Git Handbook]
+* link:https://docs.github.com/en/get-started/using-git/about-git[Git Handbook]
 
 === Code Review Platforms
 Git helps keeping track of changes to files, and the Git hosting platforms add extra functionality on top of that. As explained in the <<_introduction>>, the most important feature is *proposed commits*, which is the basis for code reviews.
@@ -121,8 +121,7 @@ pipeline -> pipeline: 4: abaplint
 
 There are other tools from third party vendors that can be also used for ABAP code analysis. 
 
-For instance, link:https://www.sonarsource.com/abap/[SonarSource ABAP] can be used to check ABAP source serialized by abapGit. 
-Their link:https://github.com/apps/sonarcloud[App] can be used to integrate it with GitHub-based CI pipelines.
+For instance, link:https://rules.sonarsource.com/abap/[SonarSource ABAP] can be used to check ABAP source serialized by abapGit. 
 
 === abap-openapi-client
 

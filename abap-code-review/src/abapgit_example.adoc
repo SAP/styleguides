@@ -20,7 +20,7 @@ Multiple setup steps are required in the development system,
 . Connectivity from the ABAP system to Github, link:https://docs.abapgit.org/guide-ssl-setup.html[SSL setup]
 . link:https://docs.abapgit.org/ref-exits.html#create_http_client[Background user authentication]
 . Online repositories are link:https://docs.abapgit.org/guide-online-install.html[created] and linked to the development packages
-. Enable abapGit link:https://docs.abapgit.org/ref-dot-abapgit.html#write-protected[write protection] for the repos
+. Enable abapGit link:https://docs.abapgit.org/settings-local.html#write-protected[write protection] for the repos
 
 ==== Workflow
 
@@ -55,7 +55,7 @@ For release of request,
 
 . Check PR is released, if not the request cannot be released
 
-// What happens if the PR is released but user wants to deliberately add further tasks (or accidentally does so)? see https://github.com/larshp/abapgit-review-example/issues/12
+// What happens if the PR is released but user wants to deliberately add further tasks (or accidentally does so)? see https://github.com/larshp/abapgit-review-example/issues/ 12
 
 abapGit works on object level(`R3TR`), while the transport system works on subobject level(`LIMU`), if mirroring transports to git and subobjects exists in multiple transports, the abapGit based example will give an error.
 

@@ -5,7 +5,7 @@
   "description": "Collect ideas and approaches for reviewing ABAP code.",
   "main": "index.js",
   "scripts": {
-    "links": "find abap-code-review/src -name \\*.adoc | xargs -n1 asciidoc-link-check -p",
+    "links": "find abap-code-review/src -name \\*.adoc | xargs -n1 asciidoc-link-check -c asciidoc-link-check-config.json -p",
     "test": "npm run links && asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build abap-code-review/src/index.adoc -a stylesheet=\"asciidoctor-pdf/css/asciidoctor.css,asciidoctor-pdf/css/document.css,asciidoctor-pdf/css/features/title-page.css,custom.css\""
   },
   "repository": {
@@ -19,11 +19,11 @@
   },
   "homepage": "https://github.com/SAP/styleguides#readme",
   "dependencies": {
-    "@asciidoctor/cli": "^3.4.0",
-    "@asciidoctor/core": "^2.2.2",
+    "@asciidoctor/cli": "^3.5.0",
+    "@asciidoctor/core": "^2.2.6",
     "asciidoc-link-check": "^1.0.15",
-    "asciidoctor-kroki": "^0.12.0",
-    "asciidoctor-pdf": "1.0.0-alpha.12",
+    "asciidoctor-kroki": "^0.15.4",
+    "asciidoctor-pdf": "1.0.0-alpha.16",
     "asciidoctor-plantuml": "^1.5.0"
   }
 }
