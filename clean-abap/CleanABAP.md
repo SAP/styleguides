@@ -226,7 +226,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
     - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
     - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
-    - [Don't add unit test features to production code](#dont-add-unit-test-features-to-production-code)
+    - [Don't add features to production code that are only intended for use during automated testing](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing)
     - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
     - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
     - [Don't build test frameworks](#dont-build-test-frameworks)
@@ -4657,11 +4657,11 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't add unit test features to production code
+#### Don't add features to production code that are only intended for use during automated testing
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-unit-test-features-to-production-code)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing)
 
-For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding parts to production code that are solely intended for use during automated tests should also be avoided.
+For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding anything to production code that is solely intended for use during automated tests should be avoided.
 ```ABAP
 " anti-pattern
 IF is_unit_test_running = abap_true.
