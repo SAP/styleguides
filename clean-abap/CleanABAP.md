@@ -226,7 +226,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
     - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
     - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
-    - [Don't add unit test features to productive code](#dont-add-unit-test-features-to-productive-code)
+    - [Don't add unit test features to production code](#dont-add-unit-test-features-to-production-code)
     - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
     - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
     - [Don't build test frameworks](#dont-build-test-frameworks)
@@ -1670,7 +1670,7 @@ when you demonstrate to the reader how they are built up from more elementary pi
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-objects-to-static-classes)
 
 Static classes give up all advantages gained by object orientation in the first place.
-They especially make it nearly impossible to replace productive dependencies with test doubles in unit tests.
+They especially make it nearly impossible to replace dependencies with test doubles in unit tests.
 
 If you think about whether to make a class or method static, the answer will nearly always be: no.
 
@@ -4240,14 +4240,14 @@ refactor it at least to the extent that you can test your additions.
 If you write code to be consumed by others, enable them to write unit tests for their own code,
 for example by adding interfaces in all outward-facing places,
 providing helpful test doubles that facilitate integration tests,
-or applying dependency inversion to enable them to substitute the productive configuration with a test config.
+or applying dependency inversion to enable them to substitute the configuration with a test config.
 
 #### Readability rules
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#readability-rules)
 
-Make your test code even more readable than your productive code.
-You can tackle bad productive code with good tests, but if you don't even get the tests, you're lost.
+Make your test code even more readable than your production code.
+You can tackle bad production code with good tests, but if you don't even get the tests, you're lost.
 
 Keep your test code so simple and stupid that you will still understand it in a year from now.
 
@@ -4521,7 +4521,7 @@ ENDMETHOD.
 ```
 
 Don't use setter injection.
-It enables using the productive code in ways that are not intended:
+It enables using the production code in ways that are not intended:
 
 ```ABAP
 " anti-pattern
@@ -4536,14 +4536,14 @@ ENDMETHOD.
 ```
 
 Don't use FRIENDS injection.
-It will initialize productive dependencies before they are replaced, with probably unexpected consequences.
+It will initialize dependencies before they are replaced, with probably unexpected consequences.
 It will break as soon as you rename the internals.
 It also circumvents initializations in the constructor.
 
 ```ABAP
 " anti-pattern
 METHOD setup.
-  cut = NEW fra_my_class( ). " <- builds a productive customizing_reader first - what will it break with that?
+  cut = NEW fra_my_class( ). " <- builds the customizing_reader for the production use case first - what will it break with that?
   cut->customizing_reader ?= cl_abap_testdouble=>create( 'if_fra_cust_obj_model_reader' ).
 ENDMETHOD.
 
@@ -4657,16 +4657,18 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't add unit test features to productive code
+#### Don't add unit test features to production code
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-unit-test-features-to-productive-code)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-unit-test-features-to-production-code)
 
-For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding test features to product code should also be avoided.
+For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding parts to production code that are solely intended for use during automated tests should also be avoided.
 ```ABAP
 " anti-pattern
-IF in_test_mode = abap_true.
+IF is_unit_test_running = abap_true.
+  "some logic here that runs only during unit tests
+ENDIF.  
 ```
-Note that test features for intended for the end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
+Note that test features for intended to be executed by an end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
 
 #### Don't sub-class to mock methods
 
@@ -4686,7 +4688,7 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
 
 To get legacy code under test,
 [resort to test seams instead](#use-test-seams-as-temporary-workaround).
-They are just as fragile but still the cleaner way because they at least don't change the class's productive behavior,
+They are just as fragile but still the cleaner way because they at least don't change the class's behavior in production,
 as would happen when enabling inheritance by removing a previous `FINAL` flag or by changing method scope from `PRIVATE` to `PROTECTED`.
 
 When writing new code, take this testability issue into account directly when designing the class,
@@ -4695,7 +4697,7 @@ Common best practices include [resorting to other test tools](#exploit-the-test-
 and extracting the problem method to a separate class with its own interface.
 
 > A more specific variant of
-> [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
+> [Don't change the production code to make the code testable](#dont-change-the-production-code-to-make-the-code-testable).
 
 #### Don't mock stuff that's not needed
 
@@ -4720,7 +4722,7 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
 
 There are also cases where it's not necessary to mock something at all -
 this is usually the case with data structures and data containers.
-For example, your unit tests may well work with the productive version of a `transient_log`
+For example, your unit tests may well work with the production version of a `transient_log`
 because it only stores data without any side effects.
 
 #### Don't build test frameworks
@@ -4910,7 +4912,7 @@ ENDMETHOD.
 ```
 
 Asserting too much is an indicator that the method has no clear focus.
-This couples productive and test code in too many places: changing a feature
+This couples production and test code in too many places: changing a feature
 will require rewriting a large number of tests although they are not really involved with the changed feature.
 It also confuses the reader with a large variety of assertions,
 obscuring the one important, distinguishing assertion among them.
