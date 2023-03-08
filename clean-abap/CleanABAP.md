@@ -4668,7 +4668,7 @@ IF is_unit_test_running = abap_true.
   "some logic here that runs only during unit tests
 ENDIF.  
 ```
-Note that test features for intended to be executed by an end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
+Note that test features intended to be executed by an end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
 
 #### Don't sub-class to mock methods
 
