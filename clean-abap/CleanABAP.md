@@ -111,6 +111,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Methods](#methods)
   - [Calls](#calls)
     - [Don't call static methods through instance variables](#dont-call-static-methods-through-instance-variables)
+    - [Don't access types through instance variables](#dont-access-types-through-instance-variables)
     - [Prefer functional to procedural calls](#prefer-functional-to-procedural-calls)
     - [Omit RECEIVING](#omit-receiving)
     - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
@@ -2104,6 +2105,42 @@ CLASS cl_my_class IMPLEMENTATION.
   ENDMETHOD.
 
   ...
+```
+
+#### Don't access types through instance variables
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#dont-access-types-through-instance-variables)
+
+When using a data type that is defined in a class or interface, access the type definition via the class/interface and not via an instance of the class/interface. 
+
+```ABAP
+CLASS lcl DEFINITION.
+  PUBLIC SECTION.
+    TYPES foo TYPE i.
+ENDCLASS.
+CLASS lcl IMPLEMENTATION.
+ENDCLASS.
+
+INTERFACE lif.
+  TYPES blah TYPE lcl=>foo.  
+ENDINTERFACE.
+```
+
+Using the instance for the data type would be confusing, as it suggests that the type is instance specific. 
+
+```ABAP
+" anti-pattern
+CLASS lcl DEFINITION.
+  PUBLIC SECTION.
+    TYPES foo TYPE i.
+ENDCLASS.
+CLASS lcl IMPLEMENTATION.
+ENDCLASS.
+
+INTERFACE lif.
+  DATA(ref) = new lcl( ).
+  TYPES blah TYPE ref->foo.
+ENDINTERFACE.
 ```
 
 #### Prefer functional to procedural calls
