@@ -18,7 +18,7 @@ B --> S{" "}
 S --> C([Automated Checks])
 C --> D([Peer Review])
 D --> E{{OK?}}
-E -->|Yes| F["Submit (merge)"]
+E -->|Yes| F(["Submit (merge)"])
 E -->|No | G([Rework])
 G -->S
 F --> H(((" "))):::endClass
