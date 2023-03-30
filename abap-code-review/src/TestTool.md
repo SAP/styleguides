@@ -18,7 +18,7 @@ For an introduction to Git see:
 * [Git Handbook](https://docs.github.com/en/get-started/using-git/about-git)
 
 ## 4.2. Code Review Platforms
-Git helps keeping track of changes to files, and the Git hosting platforms add extra functionality on top of that. As explained in the [introduction](/introduction), the most important feature is **proposed commits**, which is the basis for code reviews.
+Git helps keeping track of changes to files, and the Git hosting platforms add extra functionality on top of that. As explained in the [introduction](https://github.com/priyasingh199885/styleguides/blob/main/abap-code-review/src/introduction.md), the most important feature is **proposed commits**, which is the basis for code reviews.
 The general idea is to keep all commits of a feature in a separate branch, propose to merge this branch to a parent or main branch, and to conduct a review conversation over this proposal.
 
 For instance, GitHub provides [Code Reviews via Pull Requests](https://github.com/features/code-review/). Other git platforms offer similar features.
