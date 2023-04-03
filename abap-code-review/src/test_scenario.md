@@ -7,7 +7,7 @@ flowchart LR
             direction TB
             Subnet("Subnet <br /> 10.1.1.0/24")
             Subnet("Subnet <br /> 10.1.1.0/24")
-            vNetIcon["<br /><img class='Icon' src='../images/networking/vnet.svg' />..."]
+            vNetIcon["<br /><img class='Icon' src='../logo.svg' />..."]
         end
         
     end
