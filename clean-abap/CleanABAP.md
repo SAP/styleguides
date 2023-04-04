@@ -981,55 +981,60 @@ DATA:
 > Also refer to [Don't align type clauses](#dont-align-type-clauses)  
 > If chaining of data declaration is used, then use one chain for each group of variables belonging together.
 
-### Prefer REF TO to FIELD-SYMBOL
+### Do not use field symbols for dynamic data access
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
 
-> This section [is being challenged](https://github.com/SAP/styleguides/issues/115).
-> `FIELD-SYMBOL`s seem to be considerably faster
-> when iterating internal tables,
-> such that the recommendation to use `REF TO`
-> for these cases may worsen performance.
+Starting in ABAP Platform 2021, there are almost no places left where using a field symbol is necessary to perform access to generically typed variables or dynamic access to components of a variable.
 
-```ABAP
-LOOP AT components REFERENCE INTO DATA(component).
-```
-
-instead of the equivalent
-
+So, instead of something like
 ```ABAP
 " anti-pattern
-LOOP AT components ASSIGNING FIELD-SYMBOL(<component>).
+ASSIGN dref->* TO <fs>.
+result = <fs>.
+```
+write
+```ABAP
+result = dref->*.
 ```
 
-except where you need field symbols
+Refer to [New kinds of ABAP expressions (SAP blog)](https://blogs.sap.com/2021/10/19/new-kinds-of-abap-expressions/) for more examples and detailed explanations of replacing dynamic and generic accesses via field symbols with more modern syntactical constructions.
+
+### Choose the right targets for your loops
+
+There are three possible targets for an ABAP loop: A field symbol (`LOOP AT table ASSIGNING FIELD-SYMBOL(<line>).`), a reference variable (`LOOP AT table REFERENCE INTO DATA(line).`) or a plain data object (`LOOP AT table INTO DATA(line).`). Each of these have different intended use cases:
+
+ - Field symbols when you want to read or manipulate the data being iterated over. 
+ - Data references when you need to access these references outside of the current loop, e.g. pass them into methods whose input parameters are references or keep references to the data around after the loop has finished.
+ - Data objects when you need a copy of the data itself or when the line type of the table is already a reference.
+
+Note that data references can be used to read or manipulate the data as well. That is, almost all instances of field symbols as loop targets can be replaced by references as loop targets.
+
+For consistency with the general pattern of object oriented ABAP using references you may wish to use references as loop targets whenever possible. On the other hand, when you want to access the entire value of the line type, using data references introduces additional dereferencing operations that are unnecessary when using field symbols. Compare
 
 ```ABAP
-ASSIGN generic->* TO FIELD-SYMBOL(<generic>).
-ASSIGN structure-(name) TO FIELD-SYMBOL(<component>).
-ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
+LOOP AT table ASSIGNING FIELD-SYMBOL(<line>).
+  obj->do_something( <line> ).
+ENDLOOP.
 ```
 
-Code reviews demonstrate that people tend to choose between the two arbitrarily,
-"just because", "because we are always LOOPing that way", or "for no special reason".
-Arbitrary choices make the reader waste time on the pointless question why one is used over the other
-and thus should be replaced with well-founded, precise decisions.
-Our recommendation is based on this reasoning:
+to
 
-- Field symbols can do some things that references cannot, such as dynamically accessing the components of a structure.
-Likewise, references can do things that field symbols can't, such as constructing a dynamically typed data structure.
-In summary, settling for one alone is not possible.
+```ABAP
+LOOP AT table REFERENCE INTO DATA(line).
+  obj->do_something( line->* ).
+ENDLOOP.
+```
 
-- In object-oriented ABAP, references are all over the place and cannot be avoided,
-as any object is a `REF TO <class-name>`.
-In contrast, field symbols are only strictly required in few, special cases concerned with dynamic typing.
-References thus form a natural preference in any object-oriented program.
+Additionally, data access via field symbols is slightly faster than data access via references. This is only noticable when loops make up a significant part of the runtime of the program and is often not relevant, e.g. when database operations or other input/output processes dominate the runtime.
 
-- Field symbols are shorter than references, but the resulting memory saving is so tiny that it can be safely neglected.
-Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
+For these reasons, there are two possible consistent styles depending on the specific application context:
 
-> Read more in the article
-> [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
+ - If the context mostly uses objects and references otherwise, and if small performance hits in loops are not generally relevant, use references instead of field symbols as loop targets whenever possible.
+ - If the context performs a lot of manipulation of plain data and not references or objects, or if small performance hits in loops are generally relevant, use field symbols to read and manipulate data in loops.
+
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
 
 ## Tables
 
