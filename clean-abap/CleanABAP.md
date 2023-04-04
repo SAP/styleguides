@@ -60,7 +60,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
-  - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
+  - [Do not use field symbols for dynamic data access](#do-not-use-field-symbols-for-dynamic-data-access)
+  - [Choose the right targets for your loops](#choose-the-right-targets-for-your-loops)
 - [Tables](#tables)
   - [Use the right table type](#use-the-right-table-type)
   - [Avoid DEFAULT KEY](#avoid-default-key)
@@ -983,7 +984,7 @@ DATA:
 
 ### Do not use field symbols for dynamic data access
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-field-symbols-for-dynamic-data-access)
 
 Starting in ABAP Platform 2021, there are almost no places left where using a field symbol is necessary to perform access to generically typed variables or dynamic access to components of a variable.
 
@@ -1001,6 +1002,8 @@ result = dref->*.
 Refer to [New kinds of ABAP expressions (SAP blog)](https://blogs.sap.com/2021/10/19/new-kinds-of-abap-expressions/) for more examples and detailed explanations of replacing dynamic and generic accesses via field symbols with more modern syntactical constructions.
 
 ### Choose the right targets for your loops
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#choose-the-right-targets-for-your-loops)
 
 There are three possible targets for an ABAP loop: A field symbol (`LOOP AT table ASSIGNING FIELD-SYMBOL(<line>).`), a reference variable (`LOOP AT table REFERENCE INTO DATA(line).`) or a plain data object (`LOOP AT table INTO DATA(line).`). Each of these have different intended use cases:
 
@@ -1032,9 +1035,6 @@ For these reasons, there are two possible consistent styles depending on the spe
 
  - If the context mostly uses objects and references otherwise, and if small performance hits in loops are not generally relevant, use references instead of field symbols as loop targets whenever possible.
  - If the context performs a lot of manipulation of plain data and not references or objects, or if small performance hits in loops are generally relevant, use field symbols to read and manipulate data in loops.
-
-
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#prefer-ref-to-to-field-symbol)
 
 ## Tables
 
