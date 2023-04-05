@@ -58,5 +58,7 @@ The example is provided as a starting point, different organizations have differ
 The developer uses the normal UI of abapGit, [pushing and pulling](https://docs.abapgit.org/) all changes.
 
 If git is the only destination for the code, suggest disabling CTS transports to make it faster to do changes, eg. by developing in local packages.
-                                                                   
-<div style="align:center; margin:5%;"><img src="../abap-code-review/images/abapgit1_107_0.png" width="75%" height="75%" /></div>
+<div style="align:center"> 
+   <p style="text-align:center;">
+      <img src="../images/abapgit1_107_0.png"  align="middle" width="85%" height="75%" /></p>
+</div>
