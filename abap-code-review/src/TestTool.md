@@ -80,9 +80,9 @@ To call the REST endpoints on the ABAP system, the pipelines must have network a
 ```mermaid
 %%{ init: { 'flowchart': { 'curve': 'bumpX' } } }%%
  flowchart LR 
-    A[abap1] -->|1: push| B([git])
+    A(abap1) -->|1: push| B([git])
     B -->|2: trigger| C[pipeline]
-    C -->|3: REST| D[abap2]
+    C -->|3: REST| D(abap2)
     D --> |5: ATC| D
     B -->|4: pull| D
  ```
@@ -100,9 +100,9 @@ The developers can check their working copy using [abaplint-sci-client](https://
 ```mermaid
  %%{ init: { 'flowchart': { 'curve': 'natural' } } }%%
  flowchart LR 
-    A[abap] -->|1: push| B([git])
-    B -->|2: trigger| C[pipeline]
-    B -->|3: pull| C[abap2]
+    A(abap) -->|1: push| B([git])
+    B -->|2: trigger| C([pipeline])
+    B -->|3: pull| C
     C --> |4: abaplint| C
  ```
 
@@ -115,11 +115,4 @@ For instance, [SonarSource ABAP](https://rules.sonarsource.com/abap/) can be use
 ## 4.6. abap-openapi-client
 
 External check services often have an [OpenAPI](https://swagger.io/docs/specification/about/) definition. Unfortunately, there is no standard way of consuming such OpenAPI services in ABAP yet. An emerging open source OpenAPI client for ABAP can be found at https://github.com/abap-openapi/abap-openapi-client
-
-
- 
- ```mermaid
-mindmap
-    id)I am a cloud(
- ```
     
