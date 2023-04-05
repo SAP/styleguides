@@ -1,13 +1,9 @@
-:plantuml-server-url: https://www.plantuml.com/plantuml
-:source-highlighter: highlightjs
 
-= ABAP Code Reviews
+
+# ABAP Code Reviews
 A practical guide
-:toc:
-:toclevels: 3
-:numbered:
 
-include::introduction.adoc[]
+[introduction.adoc](#introduction.adoc)
 
 <<<
 
