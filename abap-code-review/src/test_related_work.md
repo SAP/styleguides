@@ -1,4 +1,4 @@
-## Related Work
+## 2. Related Work
 
 Some work has already been done to apply git-based code reviews for ABAP:
 
