@@ -1,30 +1,17 @@
 
-
 # ABAP Code Reviews
 A practical guide
 
-[introduction.adoc](#introduction.adoc)
+### 1. [Introduction](../src/introduction.md)
 
-<<<
+### 2. [Related Work](../src/related_work.md)
 
-include::related_work.adoc[]
+### 3. [Code Review](../src/code_review.md)
 
-<<<
+### 4. [Tools](../src/tools.md)
 
-include::code_review.adoc[]
+### 5. [Scenarios](../src/scenarios.md)
 
-<<<
+### 6. [Abap Git Example](../src/abapgit_example.md)
 
-include::tools.adoc[]
-
-<<<
-
-include::scenarios.adoc[]
-
-<<<
-
-include::abapgit_example.adoc[]
-
-<<<
-
-include::gcts_example.adoc[]
+### 7. [Gcts Git Example](../src/gcts_example.md)
