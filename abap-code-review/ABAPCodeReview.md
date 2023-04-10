@@ -12,10 +12,10 @@ applying git-based review platforms to ABAP code and give
 recommendations for authors and reviewers.
 
 ## Table of Contents
-- [Introduction](#) 
-- [Related Work](#)
-- [Best Practices](#) 
-  - [Why perform code review](#)
+- [Introduction](#1-introduction) 
+- [Related Work](#2-related-work)
+- [Best Practices](#3-best-practices) 
+  - [Why perform code review](#3-1-Why-perform-code-review)
   - [Size and Speed of Reviews](#)
   - [How to select Reviewers](#)
   - [Required Code Reivews](#)
