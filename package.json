@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "links": "find . -path ./node_modules -prune -false -o -name '*.md' -exec markdown-link-check -c mlc_config.json {} \\;",
-    "test": "npm run links" 
+    "test": "npm run links"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,6 @@
   },
   "homepage": "https://github.com/SAP/styleguides#readme",
   "devDependencies": {
-    "markdown-link-check": "^3.11.0"
-  },
-  "dependencies": {
-    
+    "markdown-link-check": "^3.11.1"
   }
 }
