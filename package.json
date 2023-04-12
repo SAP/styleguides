@@ -5,8 +5,8 @@
   "description": "Collect ideas and approaches for reviewing ABAP code.",
   "main": "index.js",
   "scripts": {
-    "links": "find abap-code-review/src -name \\*.adoc | xargs -n1 asciidoc-link-check -c asciidoc-link-check-config.json -p",
-    "test": "npm run links && asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build abap-code-review/src/index.adoc -a stylesheet=\"asciidoctor-pdf/css/asciidoctor.css,asciidoctor-pdf/css/document.css,asciidoctor-pdf/css/features/title-page.css,custom.css\""
+    "links": "find . -path ./node_modules -prune -false -o -name '*.md' -exec markdown-link-check -c mlc_config.json {} \\;",
+    "test": "npm run links" 
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,10 @@
     "url": "https://github.com/SAP/styleguides/issues"
   },
   "homepage": "https://github.com/SAP/styleguides#readme",
+  "devDependencies": {
+    "markdown-link-check": "^3.11.0"
+  },
   "dependencies": {
-    "mermaid":"^8.11.0",
+    
   }
 }
