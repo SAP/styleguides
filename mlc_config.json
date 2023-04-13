@@ -1,0 +1,20 @@
+{
+  "ignorePatterns": [
+      
+    ],
+  "httpHeaders": [
+    {
+      "url":"https://docs.github.com"
+    },
+    {
+    "headers": [
+      {
+      "Accept-Encoding":"gzip, deflate"
+    }
+  ]} ],
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 5,
+  "fallbackRetryDelay": "30s",
+  "aliveStatusCodes": [200, 206]
+}
