@@ -4,6 +4,9 @@ ABAP Code Review Guide is a collection of ideas, tools, and approaches for imple
 The document is provided as open source under the [CC license](../LICENSE), suggestions and bugfixes are welcome.
 
 You will find the latest version directly in [ABAPCodeReview.md](ABAPCodeReview.md).
+[test0](https://non.existent.host/)
+[test1](http://non.existent.host/)
+[test2](https://github.com/404)
 
 # Thanks To
 * [Christoph Pohl](https://github.com/xtough/), [@sap](https://github.com/sap)
