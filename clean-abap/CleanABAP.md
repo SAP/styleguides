@@ -174,7 +174,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Comment with ", not with *](#comment-with--not-with-)
   - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
   - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
-  - [Don't do manual versioning](#manual-versioning)
+  - [Don't do manual versioning](#dont-do-manual-versioning)
   - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
@@ -357,7 +357,7 @@ Some facts are from the
 which this guide is mostly compatible to; deviations are indicated and always in the spirit of cleaner code.
 
 This guide also respects the
-[DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
+[DSAG's Recommendations for ABAP Development](https://dsag.de/wp-content/uploads/2021/12/dsag_recommendation_abap_development.pdf),
 although we are more precise in most details.
 
 Since its publication, Clean ABAP has become a reference guide
@@ -1286,9 +1286,6 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
 
 [Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
 moreover explains why you should always challenge Boolean parameters.
-
-> Read more in
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
 
 ### Use ABAP_BOOL for Booleans
 
@@ -2620,9 +2617,8 @@ METHODS set_is_deleted
 ```
 
 > Read more in
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
-> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
+> [1](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
+> [2](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Parameter Names
 
@@ -3654,7 +3650,7 @@ If you need to preserve a piece of code permanently, copy it to a file or a `$TM
 
 ### Don't do manual versioning
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#manual-versioning)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-do-manual-versioning)
 
 ```ABAP
 " anti-pattern
@@ -4694,7 +4690,7 @@ Common best practices include [resorting to other test tools](#exploit-the-test-
 and extracting the problem method to a separate class with its own interface.
 
 > A more specific variant of
-> [Don't change the production code to make the code testable](#dont-change-the-production-code-to-make-the-code-testable).
+> [Don't change the production code to make the code testable](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing).
 
 #### Don't mock stuff that's not needed
 
