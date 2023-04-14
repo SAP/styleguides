@@ -6,14 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
     - run: npm ci
     - run: npm test
-    - name: Upload build artifact
-      uses: actions/upload-artifact@main
-      with:
-        name: index.pdf
-        path: ./build/index.pdf
-        retention-days: 7
