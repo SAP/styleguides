@@ -23,7 +23,6 @@ When deciding against native enumerations or wanting to design one of your own, 
   - [Use one development object per enumeration](#use-one-development-object-per-enumeration)
   - [Prefer classes to interfaces](#prefer-classes-to-interfaces)
   - [Try to enforce type safety](#try-to-enforce-type-safety)
-- [What about ENUM?](#what-about-enum)
 
 ## Native enumerations
 
