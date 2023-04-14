@@ -5,7 +5,7 @@
   "description": "Collect ideas and approaches for reviewing ABAP code.",
   "main": "index.js",
   "scripts": {
-    "test": "find . -path ./node_modules -prune -false -o -name '*.md' -print0 | xargs -0 -n1 markdown-link-check --verbose -c mlc_config.json"
+    "test": "find . -path ./node_modules -prune -false -o -name '*.md' -print0 | xargs -0 -n1 markdown-link-check -q -c mlc_config.json"
   },
   "repository": {
     "type": "git",
