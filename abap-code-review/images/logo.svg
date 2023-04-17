@@ -118,46 +118,6 @@
          x="125.42729"
          y="133.54213"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#808080;fill-opacity:1;stroke-width:0.264583">WRITE 'code'.</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="92.830902"
-       y="220.20888"
-       id="text842"><tspan
-         sodipodi:role="line"
-         id="tspan840"
-         x="92.830902"
-         y="220.20888"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583">Change-based code reviews increase code quality by finding defects </tspan><tspan
-         sodipodi:role="line"
-         x="92.830902"
-         y="226.38249"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
-         id="tspan844">earlier and preventing them from polluting the main code line. They also </tspan><tspan
-         sodipodi:role="line"
-         x="92.830902"
-         y="232.55611"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
-         id="tspan846">enable continuous integration by registering automated checks as </tspan><tspan
-         sodipodi:role="line"
-         x="92.830902"
-         y="238.72972"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
-         id="tspan848">reviewers. These modern capabilities have been on the wish list of </tspan><tspan
-         sodipodi:role="line"
-         x="92.830902"
-         y="244.90332"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
-         id="tspan850">ABAP developers for some time. We survey current possibilities of </tspan><tspan
-         sodipodi:role="line"
-         x="92.830902"
-         y="251.07693"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
-         id="tspan852">applying git-based review platforms to ABAP code and give </tspan><tspan
-         sodipodi:role="line"
-         x="92.830902"
-         y="257.25055"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.264583"
-         id="tspan854">recommendations for authors and reviewers.</tspan></text>
+    
   </g>
 </svg>
