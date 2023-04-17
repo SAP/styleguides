@@ -168,9 +168,17 @@ CLASS /clean/message_severity IMPLEMENTATION.
 ENDCLASS.
 ```
 
-used as
+used in a type-safe way as follows:
 
 ```ABAP
+" modern signature: ... IMPORTING severity TYPE REF TO /clean/message_severity ...
+IF log_contains( /clean/message_severity=>warning ).
+```
+
+In legacy code where existing signatures cannot be refactored the property `value` must be accessed and used to satisfy the legacy method parameter type:
+
+```ABAP
+" legacy signature: ... IMPORTING severity TYPE symsgty ...
 IF log_contains( /clean/message_severity=>warning->value ).
 ```
 
