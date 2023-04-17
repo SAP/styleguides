@@ -5,6 +5,8 @@ A practical guide
       <img src="../abap-code-review/images/logo.svg"  align="middle" width="85%" height="75%" /></p>
 </div>
 
+_Change-based code reviews increase code quality by finding defects earlier and preventing them from polluting the main code line. They also enable continuous integration by registering automated checks as reviewers. These modern capabilities have been on the wish list of ABAP developers for some time. We survey current possibilities of applying git-based review platforms to ABAP code and give recommendations for authors and reviewers._
+
 ## Table of Contents
 - [Introduction](#1-introduction) 
 - [Related Work](#2-related-work)
