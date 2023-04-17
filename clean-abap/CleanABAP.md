@@ -58,7 +58,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
+  - [Do not use variables outside of the statement block they are declared in](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -924,9 +924,9 @@ ENDMETHOD.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Don't declare inline in optional branches
+### Do not use variables outside of the statement block they are declared in
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#dont-declare-inline-in-optional-branches)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
 
 ```ABAP
 " anti-pattern
@@ -937,10 +937,10 @@ ELSE.
 ENDIF.
 ```
 
-This works fine because ABAP handles inline declarations as if they were at the beginning of the method.
-However, it is extremely confusing for readers,
-especially if the method is longer and you don't spot the declaration right away.
-In this case, break with inlining and put the declaration up-front:
+A variable declared in a statement block (like in an `IF` or `LOOP` block) is still available outside of this block in the code that follows it.
+This is confusing for readers, especially if the method is longer and the declaration is not spotted immediately.
+
+If the variable is required outside of the statement block it is declared in, declare it beforehand:
 
 ```ABAP
 DATA value TYPE i.
