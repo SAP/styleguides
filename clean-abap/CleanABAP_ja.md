@@ -14,6 +14,10 @@
 > [Deutsch](CleanABAP_de.md)
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
+> &nbsp;·&nbsp;
+> [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 このガイドは [ABAP](https://en.wikipedia.org/wiki/ABAP) 向けに [Robert C. Martin の _Clean Code_] を採用したものです。
 
@@ -303,7 +307,7 @@ ABAP テストコックピット、コードインスペクタ、拡張チェッ
 
 いくつかの要素は [ABAP プログラミングガイドライン](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm) から引用されており、このガイドはガイドラインとほとんど互換性があります。逸脱は示され、常によりクリーンなコードの精神に基づいています。
 
-このガイドでは、[ABAP 開発に関する DSAG の推奨事項](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf) も尊重していますが、ほとんどの詳細についてはより正確な情報を提供しています。
+このガイドでは、[ABAP 開発に関する DSAG の推奨事項](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf) も尊重していますが、ほとんどの詳細についてはより正確な情報を提供しています。
 
 発行以来、クリーン ABAP は、S/4HANA に取り組む数百人の開発者を含む多くの SAP 社内開発チームのリファレンスガイドとなっています。
 
@@ -2821,7 +2825,7 @@ CALL FUNCTION 'BAPI_GET_CURRENT_DATE'
     response     = response.
 
 IF response-type = 'E'.
-  RAISE EXCEPTION NEW /clean/some_error( );
+  RAISE EXCEPTION NEW /clean/some_error( ).
 ENDIF.
 ```
 

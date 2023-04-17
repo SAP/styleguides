@@ -11,6 +11,10 @@
 > [日本語](CleanABAP_ja.md)
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
+> &nbsp;·&nbsp;
+> [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
@@ -40,6 +44,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Pick one word per concept](#pick-one-word-per-concept)
   - [Use pattern names only if you mean them](#use-pattern-names-only-if-you-mean-them)
   - [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
+  - [Avoid obscuring built-in functions](#avoid-obscuring-built-in-functions)
 - [Language](#language)
   - [Mind the legacy](#mind-the-legacy)
   - [Mind the performance](#mind-the-performance)
@@ -49,8 +54,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
-  - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
-  - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
+  - [Prefer ENUM to constants interfaces](#prefer-enum-to-constants-interfaces)
+  - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
@@ -75,6 +80,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Conditions](#conditions)
   - [Try to make conditions positive](#try-to-make-conditions-positive)
   - [Prefer IS NOT to NOT IS](#prefer-is-not-to-not-is)
+  - [Consider using predicative method calls for boolean methods](#consider-using-predicative-method-calls-for-boolean-methods)
   - [Consider decomposing complex conditions](#consider-decomposing-complex-conditions)
   - [Consider extracting complex conditions](#consider-extracting-complex-conditions)
 - [Ifs](#ifs)
@@ -109,7 +115,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Omit RECEIVING](#omit-receiving)
     - [Omit the optional keyword EXPORTING](#omit-the-optional-keyword-exporting)
     - [Omit the parameter name in single parameter calls](#omit-the-parameter-name-in-single-parameter-calls)
-    - [Omit the self-reference me when calling an instance method](#omit-the-self-reference-me-when-calling-an-instance-method)
+    - [Omit the self-reference me when calling an instance attribute or method](#omit-the-self-reference-me-when-calling-an-instance-attribute-or-method)
   - [Methods: Object orientation](#methods-object-orientation)
     - [Prefer instance to static methods](#prefer-instance-to-static-methods)
     - [Public instance methods should be part of an interface](#public-instance-methods-should-be-part-of-an-interface)
@@ -168,6 +174,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Comment with ", not with *](#comment-with--not-with-)
   - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
   - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
+  - [Don't do manual versioning](#manual-versioning)
   - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
@@ -346,11 +353,11 @@ meaning we adjusted some things to the ABAP programming language
 e.g. [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions).
 
 Some facts are from the
-[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm),
+[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenabap_pgl.htm),
 which this guide is mostly compatible to; deviations are indicated and always in the spirit of cleaner code.
 
 This guide also respects the
-[DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf),
+[DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
 although we are more precise in most details.
 
 Since its publication, Clean ABAP has become a reference guide
@@ -593,6 +600,27 @@ ENDMETHOD.
 > [Avoid Encodings](sub-sections/AvoidEncodings.md)
 > describes the reasoning in depth.
 
+### Avoid obscuring built-in functions
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#avoid-obscuring-built-in-functions)
+
+Within a class, a built-in function is always obscured by methods of the class if they have the same name, regardless of the number and type of arguments in the function. The function is also obscured regardless of the number and type of method parameters. Built-in functions are, for instance, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )`, etc. 
+
+```ABAP
+"anti-pattern
+METHODS lines RETURNING VALUE(result) TYPE i.    
+METHODS line_exists RETURNING VALUE(result) TYPE i.  
+```
+
+```ABAP
+"anti-pattern 
+CLASS-METHODS condense RETURNING VALUE(result) TYPE i.   
+CLASS-METHODS strlen RETURNING VALUE(result) TYPE i.  
+```
+
+> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-us/abenbuilt_in_functions_syntax.htm).
+
+
 ## Language
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#language)
@@ -742,7 +770,11 @@ that lists obsolete language elements, for example
 [NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenabap_obsolete.htm),
-[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm).
+[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.54](https://help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.55](https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.56](https://help.sap.com/doc/abapdocu_756_index_htm/7.56/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.57](https://help.sap.com/doc/abapdocu_757_index_htm/7.57/en-US/index.htm?file=abenabap_obsolete.htm).
 
 ### Use design patterns wisely
 
@@ -773,28 +805,19 @@ IF abap_type = 'D'.
 > Read more in _Chapter 17: Smells and Heuristics: G25:
 > Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
 
-### Prefer enumeration classes to constants interfaces
+### Prefer ENUM to constants interfaces
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-to-constants-interfaces)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enum-to-constants-interfaces)
+
+Use ABAP-native enumerations with `ENUM` (available in releases >= 7.51)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
   PUBLIC SECTION.
-    CONSTANTS:
-      warning TYPE symsgty VALUE 'W',
-      error   TYPE symsgty VALUE 'E'.
-ENDCLASS.
-```
-
-or
-
-```ABAP
-CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
-  PUBLIC SECTION.
-    CLASS-DATA:
-      warning TYPE REF TO /clean/message_severity READ-ONLY,
-      error   TYPE REF TO /clean/message_severity READ-ONLY.
-  " ...
+    TYPES: BEGIN OF ENUM type,
+             warning,
+             error,
+           END OF ENUM type.
 ENDCLASS.
 ```
 
@@ -814,16 +837,16 @@ ENDINTERFACE.
 ```
 
 > [Enumerations](sub-sections/Enumerations.md)
-> describes common enumeration patterns
+> describes alternative enumeration patterns (also applicable to older releases that do not support `ENUM` yet)
 > and discusses their advantages and disadvantages.
 >
 > Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
 
-### If you don't use enumeration classes, group your constants
+### If you don't use ENUM or enumeration patterns, group your constants
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enumeration-classes-group-your-constants)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 
-If you collect constants in a loose way, for example in an interface, group them:
+If you cannot use enumerations and have to collect constants in a loose way, for example in an interface, at least group them:
 
 ```ABAP
 CONSTANTS:
@@ -837,7 +860,7 @@ CONSTANTS:
   END OF message_lifespan.
 ```
 
-Makes the relation clearer than:
+makes the relation clearer than
 
 ```ABAP
 " Anti-pattern
@@ -852,7 +875,7 @@ The group also allows you group-wise access, for example for input validation:
 
 ```ABAP
 DO.
-  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(<constant>).
+  ASSIGN message_severity-(sy-index) TO FIELD-SYMBOL(<constant>).
   IF sy-subrc IS INITIAL.
     IF input = <constant>.
       DATA(is_valid) = abap_true.
@@ -983,7 +1006,7 @@ except where you need field symbols
 
 ```ABAP
 ASSIGN generic->* TO FIELD-SYMBOL(<generic>).
-ASSIGN COMPONENT name OF STRUCTURE structure TO FIELD-SYMBOL(<component>).
+ASSIGN structure-(name) TO FIELD-SYMBOL(<component>).
 ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
 ```
 
@@ -1006,7 +1029,7 @@ References thus form a natural preference in any object-oriented program.
 Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
 
 > Read more in the article
-> [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
+> [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
 
 ## Tables
 
@@ -1033,7 +1056,7 @@ Sorted tables demonstrate their value only for large numbers of read accesses.
 - Use `STANDARD` tables for **small tables**, where indexing produces more overhead than benefit, and **"arrays"**, where you either don't care at all for the order of the rows, or you want to process them in exactly the order they were appended. Also, if different access to the table is needed e.g. indexed access and sorted access via `SORT` and `BINARY SEARCH`.
 
 > These are only rough guidelines.
-> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
+> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenitab_cat.htm).
 
 ### Avoid DEFAULT KEY
 
@@ -1411,8 +1434,27 @@ IF NOT variable = 42.
 > A more specific variant of
 [Try to make conditions positive](#try-to-make-conditions-positive).
 Also as described in the section
-[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
+[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenalternative_langu_guidl.htm)
 in the ABAP programming guidelines.
+
+### Consider using predicative method calls for boolean methods
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Conditions](#conditions) > [This section](#consider-using-predicative-method-calls-for-boolean-methods)
+
+The predicative method call for boolean methods, e.g.
+
+```ABAP
+IF [ NOT ] condition_is_fulfilled( ).
+```
+
+is not just very compact, but it also allows to keep the code closer to natural language as the comparison expression:
+
+```ABAP
+" anti-pattern
+IF condition_is_fulfilled( ) = abap_true / abap_false.
+```
+
+Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenpredicative_method_calls.htm) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
 
 ### Consider decomposing complex conditions
 
@@ -1928,7 +1970,7 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
 
 We agree that this contradicts itself.
 However, according to the article
-[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
+[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abeninstance_constructor_guidl.htm),
 specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
 
 This applies only to global classes.
@@ -2165,11 +2207,11 @@ car->drive( speed = 50 ).
 update( asynchronous = abap_true ).
 ```
 
-#### Omit the self-reference me when calling an instance method
+#### Omit the self-reference me when calling an instance attribute or method
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-method)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Calls](#calls) > [This section](#omit-the-self-reference-me-when-calling-an-instance-attribute-or-method)
 
-Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance method
+Since the self-reference `me->` is implicitly set by the system, omit it when calling an instance attribute or method
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
@@ -2179,7 +2221,18 @@ instead of the needlessly longer
 
 ```ABAP
 " anti-pattern
+DATA(sum) = aggregate_values( me->values ).
+```
+
+```ABAP
+" anti-pattern
 DATA(sum) = me->aggregate_values( values ).
+```
+
+unless there is a scope conflict between a local variable or importing parameter and an instance attribute
+
+```ABAP
+me->logger = logger.
 ```
 
 ### Methods: Object orientation
@@ -2423,7 +2476,7 @@ METHODS get_large_table
     VALUE(result) TYPE /clean/some_table_type.
 
 METHOD get_large_table.
-  result = me->large_table.
+  result = large_table.
 ENDMETHOD.
 
 DATA(my_table) = get_large_table( ).
@@ -2439,7 +2492,7 @@ METHODS get_large_table
     result TYPE /dirty/some_table_type.
 
 METHOD get_large_table.
-  result = me->large_table.
+  result = large_table.
 ENDMETHOD.
 
 get_large_table( IMPORTING result = DATA(my_table) ).
@@ -2448,7 +2501,8 @@ get_large_table( IMPORTING result = DATA(my_table) ).
 > This section contradicts the ABAP Programming Guidelines and Code Inspector checks,
 > both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
 > We consistently failed to reproduce any performance and memory deficits
-> and received notice about kernel optimization that generally improves RETURNING performance.
+> and received notice about kernel optimization that generally improves RETURNING performance,
+> see [_Sharing Between Dynamic Data Objects_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenmemory_consumption_3.htm).
 
 #### Use either RETURNING or EXPORTING or CHANGING, but not a combination
 
@@ -2947,11 +3001,12 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-You can avoid the question completely by reversing the validation
-and adopting a single-return control flow
+You could avoid the question completely by reversing the validation and adopting a single-return control flow.
+This is considered to be an anti-pattern because it introduces unnecessary nesting depth.
 
 ```ABAP
 METHOD read_customizing.
+  " anti-pattern
   IF keys IS NOT INITIAL.
     " do whatever needs doing
   ENDIF.
@@ -2962,7 +3017,7 @@ In any case, consider whether returning nothing is really the appropriate behavi
 Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
 Returning nothing is in many cases similar to returning `null`, which should be avoided.
 
-> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenexit_procedure_guidl.htm)
 > recommends using `CHECK` in this instance.
 > Community discussion suggests that the statement is so unclear
 > that many people will not understand the program's behavior.
@@ -2975,12 +3030,12 @@ Do not use `CHECK` outside of the initialization section of a method.
 The statement behaves differently in different positions and may lead to unclear, unexpected effects.
 
 For example,
-[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
+[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.htm);
 people might accidentally expect it to end the method or exit the loop.
 Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
 
-> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
-> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
+> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenexit_procedure_guidl.htm).
+> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.htm).
 
 ## Error Handling
 
@@ -3196,6 +3251,8 @@ as described in [Use sub-classes to enable callers to distinguish error situatio
 CLASS cx_bad_generation_variable DEFINITION INHERITING FROM cx_generation_error.
 CLASS cx_bad_code_composer_template DEFINITION INHERITING FROM cx_generation_error.
 
+METHODS generate RAISING cx_generation_error.
+
 TRY.
     generator->generate( ).
   CATCH cx_bad_generation_variable.
@@ -3254,7 +3311,7 @@ This exception type _must_ be given in method signatures and _must_ be caught or
 It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
 and will take care of reacting to the error situation.
 
-> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
+> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenexception_category_guidl.htm)
 > but contradicts [Robert C. Martin's _Clean Code_],
 > which recommends to prefer unchecked exceptions;
 > [Exceptions](sub-sections/Exceptions.md) explains why.
@@ -3356,9 +3413,9 @@ However, if you make massive use of the addition `MESSAGE`, you may want to stic
 
 ```ABAP
 RAISE EXCEPTION TYPE cx_generation_error
+  MESSAGE e136(messages)
   EXPORTING
-    previous = exception
-  MESSAGE e136(messages).
+    previous = exception.
 ```
 
 ### Catching
@@ -3594,6 +3651,18 @@ When you find something like this, delete it.
 The code is obviously not needed because your application works and all tests are green.
 Deleted code can be reproduced from the version history later on.
 If you need to preserve a piece of code permanently, copy it to a file or a `$TMP` or `HOME` object.
+
+### Don't do manual versioning
+
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#manual-versioning)
+
+```ABAP
+" anti-pattern
+* ticket 800034775 ABC ++ Start
+output = calculate_result( input ).
+* ticket 800034775 ABC ++ End
+```
+Attribution comments tend to pollute the code and don't provide big benefits as versioning is already done by source code management. Transport order texts are much more suitable for describing why something was adapted.
 
 ### Use FIXME, TODO, and XXX and add your ID
 
@@ -4009,6 +4078,7 @@ DATA(sum) = add_two_numbers(
 Aligning the parameters elsewhere makes it hard to spot what they belong to:
 
 ```ABAP
+" anti-pattern
 DATA(sum) = add_two_numbers(
     value_1 = 5
     value_2 = 6 ).
@@ -4130,20 +4200,18 @@ DATA reader TYPE REF TO /clean/reader.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#dont-chain-assignments)
 
 ```abap
-var2 = var3.
-var1 = var3.
-```
-
-```abap
-var1 = xsdbool( var2 = var3 ).
+" anti-pattern
+var1 = var2 = var3.
 ```
 
 Chained assignments usually confuse the reader. Besides, the inline declaration doesn't work in any position of a multiple assignment.
 
 ```abap
-" anti-pattern
-var1 = var2 = var3.
+var2 = var3.
+var1 = var3.
 ```
+
+Furthermore, the anti-pattern looks ambiguous because `=` is used for comparisons and assignments in ABAP. It looks similar to how other programming languages implement comparisons, for example `a = ( b == c )` in JavaScript. [Use `xsdbool` for comparisons.](#use-xsdbool-to-set-boolean-variables)
 
 ## Testing
 
@@ -4540,7 +4608,7 @@ without interfering with the rest of the system.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
 
 If all other techniques fail, or when in dangerous shallow waters of legacy code,
-refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
+refrain to [test seams](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abaptest-seam.htm)
 to make things testable.
 
 Although they look comfortable at first sight, test seams are invasive and tend to get entangled
@@ -4595,7 +4663,7 @@ ENDCLASS.
 
 ```ABAP
 " anti-pattern
-IF me->in_test_mode = abap_true.
+IF in_test_mode = abap_true.
 ```
 
 #### Don't sub-class to mock methods
@@ -4671,7 +4739,7 @@ The resulting code will be so long and tangled that you won't be able to keep th
 
 test_double->set_test_case( 1 ).
 
-CASE me->test_case.
+CASE test_case.
   WHEN 1.
   WHEN 2.
 ENDCASE.

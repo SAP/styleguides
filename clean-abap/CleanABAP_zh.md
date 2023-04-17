@@ -14,6 +14,10 @@
 > [日本語](CleanABAP_ja.md)
 > &nbsp;·&nbsp;
 > [Español](CleanABAP_es.md)
+> &nbsp;·&nbsp;
+> [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 本指南针对 [ABAP](https://zh.wikipedia.org/wiki/ABAP) 改编自 [Robert C. Martin 所著的 _Clean Code_]。
 
@@ -296,7 +300,7 @@ ABAP 测试主控室、代码分析器、扩展检查和检查管理器提供了
 
 某些论据来自 [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm) 与本指南大多是兼容的；背离之处予以指明，务求符合整洁代码的精神。
 
-本指南也遵循 [DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf)，不过我们在大多数细节上更加精确。
+本指南也遵循 [DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf)，不过我们在大多数细节上更加精确。
 
 ### 表示异议之法
 
@@ -2641,7 +2645,7 @@ CALL FUNCTION 'BAPI_GET_CURRENT_DATE'
     response     = response.
 
 IF response-type = 'E'.
-  RAISE EXCEPTION NEW /clean/some_error( );
+  RAISE EXCEPTION NEW /clean/some_error( ).
 ENDIF.
 ```
 
