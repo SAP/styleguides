@@ -1303,7 +1303,7 @@ for example `boolean` supports a third value "undefined" that results in subtle 
 
 In some cases you may need a data dictionary element, for example for DynPro fields.
 `abap_bool` cannot be used here because it is defined in the type pool `abap`, not in the data dictionary.
-In this case, resort to `boole_d` or `xfeld`.
+In this case, resort to `abap_boolean`.
 Create your own data element if you need a custom description.
 
 > ABAP may be the one single programming language that does not come with a universal Boolean data type.
