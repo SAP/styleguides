@@ -3959,7 +3959,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-This is also the case within a statment, as this can easily be seen as a new statement when looking through the code.
+This is also the case within a statement, as this can easily be misunderstood as a new statement when skimming through the code.
 ```abap
 " anti-pattern
 DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
