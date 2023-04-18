@@ -967,8 +967,8 @@ ENDIF.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#use-final-declarations-for-immutable-variables)
 
-If a variable is never reassigned, use `FINAL` to declare it. 
-The reader can then be sure that the content of the variable will never change.
+If a variable is never reassigned use `FINAL` to declare it.
+The reader can then be sure that the content of the variable is only ever changed at the source position where it is declared.
 
 ### Do not chain up-front declarations
 
