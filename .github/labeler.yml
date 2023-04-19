@@ -1,5 +1,5 @@
 clean-abap:
 - clean-abap/**/*
  
-abap-code-review
+abap-code-review:
 - abap-code-review/**/*
