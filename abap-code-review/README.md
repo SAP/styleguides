@@ -3,27 +3,7 @@ ABAP Code Review Guide is a collection of ideas, tools, and approaches for imple
 
 The document is provided as open source under the [CC license](../LICENSE), suggestions and bugfixes are welcome.
 
-Latest **PDF** release from main can be found at **[abap-code-review-guide.pdf](https://github.com/SAP/styleguides/releases/download/latest/abap-code-review-guide.pdf)**.
-
-Or you can start browsing the **AsciiDoc** *text* online at **[src/index.adoc](src/index.adoc)** (see also editing locally below). Caveat: PlantUML images will just be source code.
-
-## Building Locally
-The PDF file can be built locally, if [Node.js](https://nodejs.org/en/) is installed, by running
-
-`npm install && npm test`
-
-## Editing Locally
-The document is written in [AsciiDoc](https://asciidoc.org), and can be edited in any text editor. 
-You can start at [src/index.adoc](src/index.adoc).
-
-AsciiDoc lies between [Markdown](https://en.wikipedia.org/wiki/Markdown) and [LaTeX](https://en.wikipedia.org/wiki/LaTeX), allowing more markup than Markdown, but less syntax than LaTeX. AsciiDoc provides possibility for inlining diagrams, easy table of contents, plus PDF generation.
-
-[vscode](https://code.visualstudio.com) with the [AsciiDoc extension](https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode) provides preview directly in the editor.
-
-## Automatic Build
-Each time a commit is pushed (except from forks), GitHub actions will run, build the PDF and attach it to the actions run as an artifact.
-
-When changes is pushed to the default branch, the [latest release](https://github.com/SAP/styleguides/releases/download/latest/abap-code-review-guide.pdf) will be updated with the latest version of the document.
+You will find the latest version directly in [ABAPCodeReview.md](ABAPCodeReview.md).
 
 # Thanks To
 * [Christoph Pohl](https://github.com/xtough/), [@sap](https://github.com/sap)

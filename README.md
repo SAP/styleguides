@@ -22,7 +22,7 @@ towards code that has a healthy balance between all of these qualities.
 ## Style Guides
 
 - [**Clean ABAP**](clean-abap/CleanABAP.md)
-- [**ABAP Code Reviews**](abap-code-review/)
+- [**ABAP Code Reviews**](abap-code-review/ABAPCodeReview.md)
 
 ## Continuous Release
 

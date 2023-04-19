@@ -23,7 +23,6 @@ When deciding against native enumerations or wanting to design one of your own, 
   - [Use one development object per enumeration](#use-one-development-object-per-enumeration)
   - [Prefer classes to interfaces](#prefer-classes-to-interfaces)
   - [Try to enforce type safety](#try-to-enforce-type-safety)
-- [What about ENUM?](#what-about-enum)
 
 ## Native enumerations
 
@@ -169,9 +168,17 @@ CLASS /clean/message_severity IMPLEMENTATION.
 ENDCLASS.
 ```
 
-used as
+used in a type-safe way as follows:
 
 ```ABAP
+" modern signature: ... IMPORTING severity TYPE REF TO /clean/message_severity ...
+IF log_contains( /clean/message_severity=>warning ).
+```
+
+In legacy code where existing signatures cannot be refactored the property `value` must be accessed and used to satisfy the legacy method parameter type:
+
+```ABAP
+" legacy signature: ... IMPORTING severity TYPE symsgty ...
 IF log_contains( /clean/message_severity=>warning->value ).
 ```
 
