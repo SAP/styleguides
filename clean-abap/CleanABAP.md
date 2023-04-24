@@ -37,6 +37,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
   - [Use plural](#use-plural)
   - [Use pronounceable names](#use-pronounceable-names)
+  - [Use snake_case](#use-snake_case)
   - [Avoid abbreviations](#avoid-abbreviations)
   - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
   - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
@@ -458,6 +459,23 @@ We think and talk a lot about objects, so use names that you can pronounce,
 for example prefer `detection_object_types` to something cryptic like `dobjt`.
 
 > Read more in _Chapter 2: Meaningful Names: Use Pronounceable Names_ of [Robert C. Martin's _Clean Code_]
+
+### Use snake_case
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-snake-case)
+
+ABAP is case insensitive and limits the number of available letters for naming all kind of DDIC-objects
+and variables. For exampe the maximum length of a method name is 30 characters. The defacto naming convention
+in ABAP is `snake_case`, because camelCase is overwritten when the Pretty Printer is activated and not all team
+members use the 'Keep Camel Case Identifiers' setting in the ADT ABAP Formatter. Also `camelCase` doesn't
+affect DDIC-objects.
+We recommend using `snake_case` consistently instead of `flatcase` or `UPPERCASE`. When you reach the maximum 
+length of an object, try to conscientiously use abbreviations (also see [Avoid abbreviations](#avoid-abbreviations)).
+
+```ABAP
+* a variable which contains the reponse time measured in milliseconds
+response_time_in_millisec  " ok
+responsetimeinmilliseconds " bad practice
+```
 
 ### Avoid abbreviations
 
