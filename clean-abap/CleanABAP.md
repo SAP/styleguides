@@ -461,7 +461,7 @@ for example prefer `detection_object_types` to something cryptic like `dobjt`.
 > Read more in _Chapter 2: Meaningful Names: Use Pronounceable Names_ of [Robert C. Martin's _Clean Code_]
 
 ### Use snake_case
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-snake-case)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-snake_case)
 
 ABAP is case insensitive and limits the number of available letters for naming all kind of DDIC-objects
 and variables. For exampe the maximum length of a method name is 30 characters. The defacto naming convention
