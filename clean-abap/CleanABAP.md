@@ -3959,6 +3959,16 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
+This is also the case within a statement, as this can easily be misunderstood as a new statement when skimming through the code.
+```abap
+" anti-pattern
+DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
+                                              field_2 = 'A' )
+
+                                 b = NEW /clean/structure_type( field_3 = 'C'
+                                                                field_4 = 'D' ) ).
+```
+
 Blank lines actually only make sense if you have statements that span multiple lines
 
 ```ABAP
