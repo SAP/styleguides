@@ -464,7 +464,7 @@ for example prefer `detection_object_types` to something cryptic like `dobjt`.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-snake_case)
 
 ABAP is case insensitive and limits the number of available letters for naming all kind of DDIC-objects
-and variables. For exampe the maximum length of a method name is 30 characters. The defacto naming convention
+and variables. For example the maximum length of a method name is 30 characters. The defacto naming convention
 in ABAP is `snake_case`, because camelCase is overwritten when the Pretty Printer is activated and not all team
 members use the 'Keep Camel Case Identifiers' setting in the ADT ABAP Formatter. Also `camelCase` doesn't
 affect DDIC-objects.
