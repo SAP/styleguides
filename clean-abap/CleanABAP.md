@@ -469,7 +469,7 @@ in ABAP is `snake_case`, because camelCase is overwritten when the Pretty Printe
 members use the 'Keep Camel Case Identifiers' setting in the ADT ABAP Formatter. Also `camelCase` doesn't
 affect DDIC-objects.
 We recommend using `snake_case` consistently instead of `flatcase` or `UPPERCASE`. When you reach the maximum 
-length of an object, try to conscientiously use abbreviations (also see [Avoid abbreviations](#avoid-abbreviations)).
+length of an object, try to conscientiously use abbreviations (see [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)).
 
 ```ABAP
 * a variable which contains the reponse time measured in milliseconds
