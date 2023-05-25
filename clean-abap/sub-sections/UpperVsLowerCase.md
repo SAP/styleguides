@@ -20,7 +20,7 @@ and thus easier to distinguish shapes of the letters.
 
 However, ABAP is case-insensitive,
 such that camel-casing identifiers remains a mere optical improvement
-that gets lost when pretty-printing and moving the code to the database.
+that gets lost when formatting and moving the code to the database.
 
 ```ABAP
 MAXWAITTIMEINSECONDS
