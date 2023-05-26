@@ -472,7 +472,7 @@ We recommend using `snake_case` consistently instead of `flatcase` or `UPPERCASE
 length of an object, try to conscientiously use abbreviations (see [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)).
 
 ```ABAP
-* a variable which contains the reponse time measured in milliseconds
+" a variable which contains the reponse time measured in milliseconds
 response_time_in_millisec  " ok
 responsetimeinmilliseconds " bad practice
 ```
