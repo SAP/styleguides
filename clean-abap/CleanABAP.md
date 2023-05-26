@@ -184,7 +184,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
   - [Use the ABAP Formatter before activating](#use-the-abap-formatter-before-activating)
-  - [Use your team's settings](#use-your-teams-settings)
+  - [Use your team's ABAP Formatter settings](#use-your-teams-abap-formatter-settings)
   - [No more than one statement per line](#no-more-than-one-statement-per-line)
   - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
   - [Condense your code](#condense-your-code)
@@ -3848,11 +3848,11 @@ in a separate Transport Request or Note.
 
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
-### Use your team's settings
+### Use your team's ABAP Formatter settings
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-teams-settings)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-teams-abap-formatter-settings)
 
-Always use your team's settings.
+Always use your team's ABAP Formatter settings.
 Specify them under
 * Eclipse: _Menu_ > _Window_ > _Preferences_ > _ABAP Development_ > _Editors_ > _Source Code Editors_ > _ABAP Formatter_
 * SAP GUI: _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
