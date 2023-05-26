@@ -468,9 +468,10 @@ ABAP is case insensitive which is why we recommend following the convention to u
 There's a character limit for names, e.g. 30 characters for methods. When you reach the maximum length of an object, don't fall back to using `flatcase` or `UPPERCASE`. Try to conscientiously use abbreviations instead (see [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)).
 
 ```ABAP
-" a variable which contains the reponse time measured in milliseconds
-response_time_in_millisec  " ok
-responsetimeinmilliseconds " bad practice
+" a variable which contains the maximum reponse time measured in milliseconds
+
+max_response_time_in_millisec " ok
+maxresponsetimeinmilliseconds " bad practice
 ```
 
 ### Avoid abbreviations
