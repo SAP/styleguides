@@ -100,7 +100,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Global by default, local only where appropriate](#global-by-default-local-only-where-appropriate)
     - [FINAL if not designed for inheritance](#final-if-not-designed-for-inheritance)
     - [Members PRIVATE by default, PROTECTED only if needed](#members-private-by-default-protected-only-if-needed)
-    - [Consider using immutable instead of getter](#consider-using-immutable-instead-of-getter)
+    - [Consider using READ-ONLY instead of getter](#consider-using-read-only-instead-of-getter)
     - [Use READ-ONLY sparingly](#use-read-only-sparingly)
   - [Constructors](#constructors)
     - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
@@ -1872,12 +1872,12 @@ This includes not only outside callers but also sub-classes.
 Making information over-available can cause subtle errors by unexpected redefinitions and hinder refactoring
 because outsiders freeze members in place that should still be liquid.
 
-#### Consider using immutable instead of getter
+#### Consider using READ-ONLY instead of getter
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#consider-using-immutable-instead-of-getter)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#consider-using-read-only-instead-of-getter)
 
-An immutable is an object that never changes after its construction.
-For this kind of object consider using public read-only attributes instead of getter methods.
+Some attributes never change after their initial assignment.
+Consider using public read-only attributes instead of getter methods for this case.
 
 ```ABAP
 CLASS /clean/some_data_container DEFINITION.
