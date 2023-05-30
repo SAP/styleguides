@@ -168,7 +168,7 @@ Das [Cheat Sheet](cheat-sheet/CheatSheet.md) ist eine druckoptimierte Version.
 - [Kommentare](#kommentare)
    - [In Code ausdrücken, nicht in Kommentaren](#in-code-ausdrücken-nicht-in-kommentaren)
    - [Kommentare sind keine Ausrede für schlechte Namenswahl](#kommentare-sind-keine-ausrede-für-schlechte-namenswahl)
-   - [Methoden statt Kommentaren zur Code-Segmentierung verwenden](#methoden-statt-kommentaren-zur-code-segmentierung-verwenden)
+   - [Methoden statt Kommentare zur Code-Segmentierung verwenden](#methoden-statt-kommentare-zur-code-segmentierung-verwenden)
    - [Mit Kommentaren das Warum, nicht das Was erläutern](#mit-kommentaren-das-warum-nicht-das-was-erläutern)
    - [Design gehört in das Design-Dokument, nicht in den Code](#design-gehört-in-das-design-dokument-nicht-in-den-code)
    - [Kommentare mit ", nicht mit * markieren](#kommentare-mit--nicht-mit--markieren)
@@ -3220,9 +3220,9 @@ Verwenden Sie bessere Namen, anstatt zu erläutern, was Sie wirklich meinen, ode
 DATA(result) = check_table( input ).
 ```
 
-### Methoden statt Kommentaren zur Code-Segmentierung verwenden
+### Methoden statt Kommentare zur Code-Segmentierung verwenden
 
-> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#methoden-statt-kommentaren-zur-code-segmentierung-verwenden)
+> [Clean ABAP](#clean-abap) > [Inhalt](#inhalt) > [Kommentare](#kommentare) > [Dieser Abschnitt](#methoden-statt-kommentare-zur-code-segmentierung-verwenden)
 
 ```ABAP
 DATA(statement) = build_statement( ).

@@ -9,6 +9,8 @@
 [**Grassroots Project**](#grassroots-project)
 &nbsp;·&nbsp;
 [**Optional**](#optional)
+&nbsp;·&nbsp;
+[**Ecosystem**](#ecosystem)
 
 This repository provides SAP's style guides for coding.
 
@@ -22,7 +24,7 @@ towards code that has a healthy balance between all of these qualities.
 ## Style Guides
 
 - [**Clean ABAP**](clean-abap/CleanABAP.md)
-- [**ABAP Code Reviews**](abap-code-review/)
+- [**ABAP Code Reviews**](abap-code-review/ABAPCodeReview.md)
 
 ## Continuous Release
 
@@ -79,3 +81,7 @@ can choose whether you want to adhere to it.
 This applies equally to in-house developers, partners, and customers.
 
 We believe that clean code comes from conviction, not from pressure.
+
+## Ecosystem 
+
+If you want to learn more about the motivation, the underlying principles and the forming ecosystem of tools, books and related practices around the style guide, you can follow the [blog on Clean Code: Writing maintainable, readable and testable code](https://blogs.sap.com/2022/12/21/clean-code-writing-maintainable-readable-and-testable-code/).  

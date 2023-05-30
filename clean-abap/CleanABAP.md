@@ -54,11 +54,11 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
-  - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
-  - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
+  - [Prefer ENUM to constants interfaces](#prefer-enum-to-constants-interfaces)
+  - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
+  - [Do not use variables outside of the statement block they are declared in](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -174,7 +174,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Comment with ", not with *](#comment-with--not-with-)
   - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
   - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
-  - [Don't do manual versioning](#manual-versioning)
+  - [Don't do manual versioning](#dont-do-manual-versioning)
   - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
@@ -226,7 +226,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
     - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
     - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
-    - [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable)
+    - [Don't add features to production code that are only intended for use during automated testing](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing)
     - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
     - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
     - [Don't build test frameworks](#dont-build-test-frameworks)
@@ -357,7 +357,7 @@ Some facts are from the
 which this guide is mostly compatible to; deviations are indicated and always in the spirit of cleaner code.
 
 This guide also respects the
-[DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
+[DSAG's Recommendations for ABAP Development](https://dsag.de/wp-content/uploads/2021/12/dsag_recommendation_abap_development.pdf),
 although we are more precise in most details.
 
 Since its publication, Clean ABAP has become a reference guide
@@ -805,28 +805,19 @@ IF abap_type = 'D'.
 > Read more in _Chapter 17: Smells and Heuristics: G25:
 > Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
 
-### Prefer enumeration classes to constants interfaces
+### Prefer ENUM to constants interfaces
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-to-constants-interfaces)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enum-to-constants-interfaces)
+
+Use ABAP-native enumerations with `ENUM` (available in releases >= 7.51)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
   PUBLIC SECTION.
-    CONSTANTS:
-      warning TYPE symsgty VALUE 'W',
-      error   TYPE symsgty VALUE 'E'.
-ENDCLASS.
-```
-
-or
-
-```ABAP
-CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
-  PUBLIC SECTION.
-    CLASS-DATA:
-      warning TYPE REF TO /clean/message_severity READ-ONLY,
-      error   TYPE REF TO /clean/message_severity READ-ONLY.
-  " ...
+    TYPES: BEGIN OF ENUM type,
+             warning,
+             error,
+           END OF ENUM type.
 ENDCLASS.
 ```
 
@@ -846,16 +837,16 @@ ENDINTERFACE.
 ```
 
 > [Enumerations](sub-sections/Enumerations.md)
-> describes common enumeration patterns
+> describes alternative enumeration patterns (also applicable to older releases that do not support `ENUM` yet)
 > and discusses their advantages and disadvantages.
 >
 > Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
 
-### If you don't use enumeration classes, group your constants
+### If you don't use ENUM or enumeration patterns, group your constants
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enumeration-classes-group-your-constants)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 
-If you collect constants in a loose way, for example in an interface, group them:
+If you cannot use enumerations and have to collect constants in a loose way, for example in an interface, at least group them:
 
 ```ABAP
 CONSTANTS:
@@ -869,7 +860,7 @@ CONSTANTS:
   END OF message_lifespan.
 ```
 
-Makes the relation clearer than:
+makes the relation clearer than
 
 ```ABAP
 " Anti-pattern
@@ -933,9 +924,9 @@ ENDMETHOD.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Don't declare inline in optional branches
+### Do not use variables outside of the statement block they are declared in
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#dont-declare-inline-in-optional-branches)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
 
 ```ABAP
 " anti-pattern
@@ -946,10 +937,10 @@ ELSE.
 ENDIF.
 ```
 
-This works fine because ABAP handles inline declarations as if they were at the beginning of the method.
-However, it is extremely confusing for readers,
-especially if the method is longer and you don't spot the declaration right away.
-In this case, break with inlining and put the declaration up-front:
+A variable declared in a statement block (like in an `IF` or `LOOP` block) is still available outside of this block in the code that follows it.
+This is confusing for readers, especially if the method is longer and the declaration is not spotted immediately.
+
+If the variable is required outside of the statement block it is declared in, declare it beforehand:
 
 ```ABAP
 DATA value TYPE i.
@@ -1296,9 +1287,6 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
 [Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
 moreover explains why you should always challenge Boolean parameters.
 
-> Read more in
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
-
 ### Use ABAP_BOOL for Booleans
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-abap_bool-for-booleans)
@@ -1315,7 +1303,7 @@ for example `boolean` supports a third value "undefined" that results in subtle 
 
 In some cases you may need a data dictionary element, for example for DynPro fields.
 `abap_bool` cannot be used here because it is defined in the type pool `abap`, not in the data dictionary.
-In this case, resort to `boole_d` or `xfeld`.
+In this case, resort to `abap_boolean`.
 Create your own data element if you need a custom description.
 
 > ABAP may be the one single programming language that does not come with a universal Boolean data type.
@@ -1679,7 +1667,7 @@ when you demonstrate to the reader how they are built up from more elementary pi
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-objects-to-static-classes)
 
 Static classes give up all advantages gained by object orientation in the first place.
-They especially make it nearly impossible to replace productive dependencies with test doubles in unit tests.
+They especially make it nearly impossible to replace dependencies with test doubles in unit tests.
 
 If you think about whether to make a class or method static, the answer will nearly always be: no.
 
@@ -2629,9 +2617,8 @@ METHODS set_is_deleted
 ```
 
 > Read more in
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
-> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
+> [1](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
+> [2](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Parameter Names
 
@@ -3663,7 +3650,7 @@ If you need to preserve a piece of code permanently, copy it to a file or a `$TM
 
 ### Don't do manual versioning
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#manual-versioning)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-do-manual-versioning)
 
 ```ABAP
 " anti-pattern
@@ -3972,6 +3959,16 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
+This is also the case within a statement, as this can easily be misunderstood as a new statement when skimming through the code.
+```abap
+" anti-pattern
+DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
+                                              field_2 = 'A' )
+
+                                 b = NEW /clean/structure_type( field_3 = 'C'
+                                                                field_4 = 'D' ) ).
+```
+
 Blank lines actually only make sense if you have statements that span multiple lines
 
 ```ABAP
@@ -4249,14 +4246,14 @@ refactor it at least to the extent that you can test your additions.
 If you write code to be consumed by others, enable them to write unit tests for their own code,
 for example by adding interfaces in all outward-facing places,
 providing helpful test doubles that facilitate integration tests,
-or applying dependency inversion to enable them to substitute the productive configuration with a test config.
+or applying dependency inversion to enable them to substitute the configuration with a test config.
 
 #### Readability rules
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#readability-rules)
 
-Make your test code even more readable than your productive code.
-You can tackle bad productive code with good tests, but if you don't even get the tests, you're lost.
+Make your test code even more readable than your production code.
+You can tackle bad production code with good tests, but if you don't even get the tests, you're lost.
 
 Keep your test code so simple and stupid that you will still understand it in a year from now.
 
@@ -4530,7 +4527,7 @@ ENDMETHOD.
 ```
 
 Don't use setter injection.
-It enables using the productive code in ways that are not intended:
+It enables using the production code in ways that are not intended:
 
 ```ABAP
 " anti-pattern
@@ -4545,14 +4542,14 @@ ENDMETHOD.
 ```
 
 Don't use FRIENDS injection.
-It will initialize productive dependencies before they are replaced, with probably unexpected consequences.
+It will initialize dependencies before they are replaced, with probably unexpected consequences.
 It will break as soon as you rename the internals.
 It also circumvents initializations in the constructor.
 
 ```ABAP
 " anti-pattern
 METHOD setup.
-  cut = NEW fra_my_class( ). " <- builds a productive customizing_reader first - what will it break with that?
+  cut = NEW fra_my_class( ). " <- builds the customizing_reader for the production use case first - what will it break with that?
   cut->customizing_reader ?= cl_abap_testdouble=>create( 'if_fra_cust_obj_model_reader' ).
 ENDMETHOD.
 
@@ -4604,13 +4601,10 @@ with standard ABAP unit tests and test doubles.
 However, there are tools that will allow you
 to tackle trickier cases in elegant ways:
 
-- Use the `CL_OSQL_REPLACE` service
-to test complex OpenSQL statements
-by redirecting them to a test data bin
-that can be filled with test data
-without interfering with the rest of the system.
+- Use the OSQL test environment (`CL_OSQL_TEST_ENVIRONMENT`) to test complex OpenSQL statements
+by redirecting them to test data defined in the unit test without interfering with the rest of the system.
 
-- Use the CDS test framework to test your CDS views.
+- Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
 #### Use test seams as temporary workaround
 
@@ -4666,14 +4660,18 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't change the productive code to make the code testable
+#### Don't add features to production code that are only intended for use during automated testing
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-change-the-productive-code-to-make-the-code-testable)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing)
 
+For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding anything to production code that is solely intended for use during automated tests should be avoided.
 ```ABAP
 " anti-pattern
-IF in_test_mode = abap_true.
+IF is_unit_test_running = abap_true.
+  "some logic here that runs only during unit tests
+ENDIF.  
 ```
+Note that test features intended to be executed by an end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
 
 #### Don't sub-class to mock methods
 
@@ -4693,7 +4691,7 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
 
 To get legacy code under test,
 [resort to test seams instead](#use-test-seams-as-temporary-workaround).
-They are just as fragile but still the cleaner way because they at least don't change the class's productive behavior,
+They are just as fragile but still the cleaner way because they at least don't change the class's behavior in production,
 as would happen when enabling inheritance by removing a previous `FINAL` flag or by changing method scope from `PRIVATE` to `PROTECTED`.
 
 When writing new code, take this testability issue into account directly when designing the class,
@@ -4702,7 +4700,7 @@ Common best practices include [resorting to other test tools](#exploit-the-test-
 and extracting the problem method to a separate class with its own interface.
 
 > A more specific variant of
-> [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
+> [Don't change the production code to make the code testable](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing).
 
 #### Don't mock stuff that's not needed
 
@@ -4727,7 +4725,7 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
 
 There are also cases where it's not necessary to mock something at all -
 this is usually the case with data structures and data containers.
-For example, your unit tests may well work with the productive version of a `transient_log`
+For example, your unit tests may well work with the production version of a `transient_log`
 because it only stores data without any side effects.
 
 #### Don't build test frameworks
@@ -4917,7 +4915,7 @@ ENDMETHOD.
 ```
 
 Asserting too much is an indicator that the method has no clear focus.
-This couples productive and test code in too many places: changing a feature
+This couples production and test code in too many places: changing a feature
 will require rewriting a large number of tests although they are not really involved with the changed feature.
 It also confuses the reader with a large variety of assertions,
 obscuring the one important, distinguishing assertion among them.
