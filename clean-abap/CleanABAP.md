@@ -4606,13 +4606,13 @@ by redirecting them to test data defined in the unit test without interfering wi
 
 - Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
-- Use the authorization double (`CL_AUNIT_AUTHORITY_CHECK`) to withdraw authorizations during the runtime of the test.
+- Use the AUTHORITY-CHECK test environment (`CL_AUNIT_AUTHORITY_CHECK`) to withdraw authorizations during the runtime of the test.
   This helps to test behavior of the code for different authorizations.
 
 ```ABAP
-    DATA(auth_controller) = cl_aunit_authority_check=>get_controller( ).
-    DATA(auth_obj_set) = cl_aunit_authority_check=>create_auth_object_set(  user_role_authorizations ).
-    auth_controller->restrict_authorizations_to( auth_obj_set ).
+    DATA(authority_check_controller) = cl_aunit_authority_check=>get_controller( ).
+    DATA(authority_object_set) = cl_aunit_authority_check=>create_auth_object_set( user_role_authorizations ).
+    authority_check_controller->restrict_authorizations_to( authority_object_set ).
 ```
 
 #### Use test seams as temporary workaround
