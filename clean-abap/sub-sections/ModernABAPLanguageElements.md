@@ -514,7 +514,7 @@ ENDLOOP.
 
 ### Filter tables
 
-Construct a table as a subset of another stable using `FILTER #( )`.
+Construct a table as a subset of another table using `FILTER #( )`.
 
 ```ABAP
 bank_accounts = FILTER #( accounts
