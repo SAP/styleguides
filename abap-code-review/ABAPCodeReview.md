@@ -184,7 +184,7 @@ tools exists that brings git and ABAP together.
 ### 4.4.1. abapGit
 [abapGit](https://abapGit.org) is a git client written in ABAP for use with ABAP, it serializes the ABAP objects to files, and provides access to the most common git operations.
 
-It can be [installed](https://docs.abapgit.org/guide-install.html) on any SAP system version 702 and up, requiring only a ABAP developer key for installation.
+It can be [installed](https://docs.abapgit.org/user-guide/getting-started/install.html) on any SAP system version 702 and up, requiring only a ABAP developer key for installation.
 
 abapGit was initially released in [2014](https://blogs.sap.com/2014/07/17/git-client-for-abap-alpha-release/) and is continuously being enhanced, users can update to the latest version at any time.
 [Multiple open source projects](https://dotabap.org) use abapGit for development and installation into systems.
@@ -321,11 +321,11 @@ GitHub setup required,
 
 Multiple setup steps are required in the development system,
 
-1. abapGit development edition [installed](https://docs.abapgit.org/guide-install.html#install-developer-version)
-2. Connectivity from the ABAP system to Github, [SSL setup](https://docs.abapgit.org/guide-ssl-setup.html)
-3. [Background user authentication](https://docs.abapgit.org/ref-exits.html#create_http_client)
-4. Online repositories are [created](https://docs.abapgit.org/guide-online-install.html) and linked to the development packages
-5. Enable abapGit [write protection](https://docs.abapgit.org/settings-local.html#write-protected) for the repos
+1. abapGit development edition [installed](https://docs.abapgit.org/user-guide/getting-started/install.html#install-developer-version)
+2. Connectivity from the ABAP system to Github, [SSL setup](https://docs.abapgit.org/user-guide/setup/ssl-setup.html)
+3. [Background user authentication](https://docs.abapgit.org/user-guide/reference/exits.html#create-http-client)
+4. Online repositories are [created](https://docs.abapgit.org/user-guide/projects/online/install.html) and linked to the development packages
+5. Enable abapGit [write protection](https://docs.abapgit.org/user-guide/repo-settings/local.html#write-protected) for the repos
 
 ### 6.1.2. Workflow
 
