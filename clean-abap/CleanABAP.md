@@ -183,8 +183,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Formatting](#formatting)
   - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
-  - [Use the Pretty Printer before activating](#use-the-pretty-printer-before-activating)
-  - [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings)
+  - [Use the ABAP Formatter before activating](#use-the-abap-formatter-before-activating)
+  - [Use your team's ABAP Formatter settings](#use-your-teams-abap-formatter-settings)
   - [No more than one statement per line](#no-more-than-one-statement-per-line)
   - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
   - [Condense your code](#condense-your-code)
@@ -3787,7 +3787,7 @@ have replaced them.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#formatting)
 
 The suggestions below are [optimized for reading, not for writing](#optimize-for-reading-not-for-writing).
-As ABAP's Pretty Printer doesn't cover them, some of them produce additional manual work to reformat statements
+As the ABAP Formatter doesn't cover them, some of them produce additional manual work to reformat statements
 when name lengths etc. change; if you want to avoid this, consider dropping rules like
 [Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones).
 
@@ -3833,27 +3833,29 @@ DATA:
   ,e TYPE f.
 ```
 
-### Use the Pretty Printer before activating
+### Use the ABAP Formatter before activating
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-pretty-printer-before-activating)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-abap-formatter-before-activating)
 
-Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating an object.
+Apply the ABAP Formatter - Shift+F1 in SE80, SE24, and ADT - before activating an object.  
+Note: ABAP Formatter is known as Pretty Printer in SAP GUI.
 
 If you modify a larger unformatted legacy code base,
-you may want to apply the Pretty Printer only to selected lines
+you may want to apply the ABAP Formatter only to selected lines
 to avoid huge change lists and transport dependencies.
-Consider pretty-printing the complete development object
+Consider formatting the complete development object
 in a separate Transport Request or Note.
 
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
-### Use your Pretty Printer team settings
+### Use your team's ABAP Formatter settings
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-pretty-printer-team-settings)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-teams-abap-formatter-settings)
 
-Always use your team settings.
+Always use your team's ABAP Formatter settings.
 Specify them under
-_Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
+* Eclipse: _Menu_ > _Window_ > _Preferences_ > _ABAP Development_ > _Editors_ > _Source Code Editors_ > _ABAP Formatter_
+* SAP GUI: _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
 
 Set _Indent_ and _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
 as agreed in your team.
