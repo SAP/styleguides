@@ -469,9 +469,14 @@ There's a character limit for names, e.g. 30 characters for methods. When you re
 
 ```ABAP
 " a variable which contains the maximum reponse time measured in milliseconds
+DATA max_response_time_in_millisec TYPE i.
+```
 
-max_response_time_in_millisec " ok
-maxresponsetimeinmilliseconds " bad practice
+is better than
+
+```ABAP
+" anti-pattern
+DATA maxresponsetimeinmilliseconds TYPE i.
 ```
 
 ### Avoid abbreviations
