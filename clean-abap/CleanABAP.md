@@ -100,7 +100,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Global by default, local only where appropriate](#global-by-default-local-only-where-appropriate)
     - [FINAL if not designed for inheritance](#final-if-not-designed-for-inheritance)
     - [Members PRIVATE by default, PROTECTED only if needed](#members-private-by-default-protected-only-if-needed)
-    - [Consider using READ-ONLY instead of getter](#consider-using-read-only-instead-of-getter)
+    - [Consider using READ-ONLY for immutable attributes](#consider-using-read-only-for-immutable-attributes)
     - [Use READ-ONLY sparingly](#use-read-only-sparingly)
   - [Constructors](#constructors)
     - [Prefer NEW to CREATE OBJECT](#prefer-new-to-create-object)
@@ -1860,12 +1860,15 @@ This includes not only outside callers but also sub-classes.
 Making information over-available can cause subtle errors by unexpected redefinitions and hinder refactoring
 because outsiders freeze members in place that should still be liquid.
 
-#### Consider using READ-ONLY instead of getter
+#### Consider using READ-ONLY for immutable attributes
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#consider-using-read-only-instead-of-getter)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Scope](#scope) > [This section](#consider-using-read-only-for-immutable-attributes)
 
-Some attributes never change after their initial assignment.
+Some attributes are intended to never change after their initial construction. 
+They are considered immutables. They may be so simple that using getter methods be considered bloat. 
 Consider using public read-only attributes instead of getter methods for this case.
+
+(Please note that this section refers to immutabilty on a conceptual level and should not be confused with immutability as a runtime property in ABAP.)
 
 ```ABAP
 CLASS /clean/some_data_container DEFINITION.
@@ -1897,7 +1900,7 @@ ENDCLASS.
 ```
 
 > **Caution**: For objects which **do** have changing values, do not use public read-only attributes.
-> Otherwise this attributes always have to be kept up to date,
+> Otherwise these attributes always have to be kept up to date,
 > regardless if their value is needed by any other code or not.
 
 #### Use READ-ONLY sparingly
