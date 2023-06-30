@@ -2683,7 +2683,7 @@ Use these static checks to avoid this otherwise rather obscure error source.
 
 ##### Take care if input and output could be the same
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#take-care-if-input-and-output-could-be-the-same)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [Clear or overwrite EXPORTING reference parameters](#clear-or-overwrite-exporting-reference-parameters) > [This section](#take-care-if-input-and-output-could-be-the-same)
 
 Generally, it is a good idea to clear the parameter as a first thing in the method after type and data declarations.
 This makes the statement easy to spot and avoids that the still-contained value is accidentally used by later statements.
