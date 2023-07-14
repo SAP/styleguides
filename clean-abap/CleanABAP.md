@@ -37,6 +37,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
   - [Use plural](#use-plural)
   - [Use pronounceable names](#use-pronounceable-names)
+  - [Use snake_case](#use-snake_case)
   - [Avoid abbreviations](#avoid-abbreviations)
   - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
   - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
@@ -458,6 +459,25 @@ We think and talk a lot about objects, so use names that you can pronounce,
 for example prefer `detection_object_types` to something cryptic like `dobjt`.
 
 > Read more in _Chapter 2: Meaningful Names: Use Pronounceable Names_ of [Robert C. Martin's _Clean Code_]
+
+### Use snake_case
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-snake_case)
+
+ABAP is case insensitive which is why we recommend following the convention to use `snake_case` consistently.
+
+There's a character limit for names, e.g. 30 characters for methods. When you reach the maximum length of an object, don't fall back to using `flatcase` or `UPPERCASE`. Try to conscientiously use abbreviations instead (see [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)).
+
+```ABAP
+" a variable which contains the maximum reponse time measured in milliseconds
+DATA max_response_time_in_millisec TYPE i.
+```
+
+is better than
+
+```ABAP
+" anti-pattern
+DATA maxresponsetimeinmilliseconds TYPE i.
+```
 
 ### Avoid abbreviations
 
