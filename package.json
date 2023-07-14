@@ -1,8 +1,8 @@
 {
-  "name": "abap-code-review-guide",
+  "name": "sap-code-style-guides",
   "version": "1.0.0",
   "private": true,
-  "description": "Collect ideas and approaches for reviewing ABAP code.",
+  "description": "SAP's style guides for coding.",
   "main": "index.js",
   "scripts": {
     "test": "find . -path ./node_modules -prune -false -o -name '*.md' ! -name '*_??.md' -print0 | xargs -0 -n1 markdown-link-check -q -c mlc_config.json"
