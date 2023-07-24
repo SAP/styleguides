@@ -4606,7 +4606,7 @@ by redirecting them to test data defined in the unit test without interfering wi
 
 - Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
-- Use the AUTHORITY-CHECK test environment (`CL_AUNIT_AUTHORITY_CHECK`) to withdraw authorizations during the runtime of the test.
+- Use the AUTHORITY-CHECK test helper API (`CL_AUNIT_AUTHORITY_CHECK`) to withdraw authorizations during the runtime of the test.
   This helps to test behavior of the code for different authorizations.
 
 ```ABAP
