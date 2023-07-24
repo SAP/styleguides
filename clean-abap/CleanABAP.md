@@ -4628,6 +4628,8 @@ by redirecting them to test data defined in the unit test without interfering wi
 
 - Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
+- Use the Function test environment (`CL_FUNCTION_TEST_ENVIRONMENT`) to redirect function module calls to doubles. It is not necessary to implement workarounds anymore to enable mocking for function modules.
+
 #### Use test seams as temporary workaround
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
