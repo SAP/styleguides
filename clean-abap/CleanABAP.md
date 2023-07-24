@@ -13,6 +13,8 @@
 > [Español](CleanABAP_es.md)
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Русский](CleanABAP_ru.md)
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]
@@ -35,6 +37,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Prefer solution domain and problem domain terms](#prefer-solution-domain-and-problem-domain-terms)
   - [Use plural](#use-plural)
   - [Use pronounceable names](#use-pronounceable-names)
+  - [Use snake_case](#use-snake_case)
   - [Avoid abbreviations](#avoid-abbreviations)
   - [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)
   - [Use nouns for classes and verbs for methods](#use-nouns-for-classes-and-verbs-for-methods)
@@ -52,11 +55,11 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Use design patterns wisely](#use-design-patterns-wisely)
 - [Constants](#constants)
   - [Use constants instead of magic numbers](#use-constants-instead-of-magic-numbers)
-  - [Prefer enumeration classes to constants interfaces](#prefer-enumeration-classes-to-constants-interfaces)
-  - [If you don't use enumeration classes, group your constants](#if-you-dont-use-enumeration-classes-group-your-constants)
+  - [Prefer ENUM to constants interfaces](#prefer-enum-to-constants-interfaces)
+  - [If you don't use ENUM or enumeration patterns, group your constants](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
-  - [Don't declare inline in optional branches](#dont-declare-inline-in-optional-branches)
+  - [Do not use variables outside of the statement block they are declared in](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
   - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
   - [Prefer REF TO to FIELD-SYMBOL](#prefer-ref-to-to-field-symbol)
 - [Tables](#tables)
@@ -172,7 +175,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
   - [Comment with ", not with *](#comment-with--not-with-)
   - [Put comments before the statement they relate to](#put-comments-before-the-statement-they-relate-to)
   - [Delete code instead of commenting it](#delete-code-instead-of-commenting-it)
-  - [Don't do manual versioning](#manual-versioning)
+  - [Don't do manual versioning](#dont-do-manual-versioning)
   - [Use FIXME, TODO, and XXX and add your ID](#use-fixme-todo-and-xxx-and-add-your-id)
   - [Don't add method signature and end-of comments](#dont-add-method-signature-and-end-of-comments)
   - [Don't duplicate message texts as comments](#dont-duplicate-message-texts-as-comments)
@@ -181,8 +184,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Formatting](#formatting)
   - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
-  - [Use the Pretty Printer before activating](#use-the-pretty-printer-before-activating)
-  - [Use your Pretty Printer team settings](#use-your-pretty-printer-team-settings)
+  - [Use the ABAP Formatter before activating](#use-the-abap-formatter-before-activating)
+  - [Use your team's ABAP Formatter settings](#use-your-teams-abap-formatter-settings)
   - [No more than one statement per line](#no-more-than-one-statement-per-line)
   - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
   - [Condense your code](#condense-your-code)
@@ -224,7 +227,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
     - [Use test seams as temporary workaround](#use-test-seams-as-temporary-workaround)
     - [Use LOCAL FRIENDS to access the dependency-inverting constructor](#use-local-friends-to-access-the-dependency-inverting-constructor)
     - [Don't misuse LOCAL FRIENDS to invade the tested code](#dont-misuse-local-friends-to-invade-the-tested-code)
-    - [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable)
+    - [Don't add features to production code that are only intended for use during automated testing](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing)
     - [Don't sub-class to mock methods](#dont-sub-class-to-mock-methods)
     - [Don't mock stuff that's not needed](#dont-mock-stuff-thats-not-needed)
     - [Don't build test frameworks](#dont-build-test-frameworks)
@@ -351,11 +354,11 @@ meaning we adjusted some things to the ABAP programming language
 e.g. [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions).
 
 Some facts are from the
-[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm),
+[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenabap_pgl.htm),
 which this guide is mostly compatible to; deviations are indicated and always in the spirit of cleaner code.
 
 This guide also respects the
-[DSAG's Recommendations for ABAP Development](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
+[DSAG's Recommendations for ABAP Development](https://dsag.de/wp-content/uploads/2021/12/dsag_recommendation_abap_development.pdf),
 although we are more precise in most details.
 
 Since its publication, Clean ABAP has become a reference guide
@@ -456,6 +459,25 @@ We think and talk a lot about objects, so use names that you can pronounce,
 for example prefer `detection_object_types` to something cryptic like `dobjt`.
 
 > Read more in _Chapter 2: Meaningful Names: Use Pronounceable Names_ of [Robert C. Martin's _Clean Code_]
+
+### Use snake_case
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Names](#names) > [This section](#use-snake_case)
+
+ABAP is case insensitive which is why we recommend following the convention to use `snake_case` consistently.
+
+There's a character limit for names, e.g. 30 characters for methods. When you reach the maximum length of an object, don't fall back to using `flatcase` or `UPPERCASE`. Try to conscientiously use abbreviations instead (see [Use same abbreviations everywhere](#use-same-abbreviations-everywhere)).
+
+```ABAP
+" a variable which contains the maximum reponse time measured in milliseconds
+DATA max_response_time_in_millisec TYPE i.
+```
+
+is better than
+
+```ABAP
+" anti-pattern
+DATA maxresponsetimeinmilliseconds TYPE i.
+```
 
 ### Avoid abbreviations
 
@@ -616,7 +638,7 @@ CLASS-METHODS condense RETURNING VALUE(result) TYPE i.
 CLASS-METHODS strlen RETURNING VALUE(result) TYPE i.  
 ```
 
-> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-us/abenbuilt_in_functions_syntax.htm#@@ITOC@@ABENBUILT_IN_FUNCTIONS_SYNTAX_3?file=abenbuilt_in_functions_syntax.htm).
+> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-us/abenbuilt_in_functions_syntax.htm).
 
 
 ## Language
@@ -768,7 +790,11 @@ that lists obsolete language elements, for example
 [NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_obsolete.htm),
 [NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenabap_obsolete.htm),
-[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm).
+[NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.54](https://help.sap.com/doc/abapdocu_754_index_htm/7.54/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.55](https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.56](https://help.sap.com/doc/abapdocu_756_index_htm/7.56/en-US/index.htm?file=abenabap_obsolete.htm),
+[NW 7.57](https://help.sap.com/doc/abapdocu_757_index_htm/7.57/en-US/index.htm?file=abenabap_obsolete.htm).
 
 ### Use design patterns wisely
 
@@ -799,28 +825,19 @@ IF abap_type = 'D'.
 > Read more in _Chapter 17: Smells and Heuristics: G25:
 > Replace Magic Numbers with Named Constants_ of [Robert C. Martin's _Clean Code_].
 
-### Prefer enumeration classes to constants interfaces
+### Prefer ENUM to constants interfaces
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enumeration-classes-to-constants-interfaces)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#prefer-enum-to-constants-interfaces)
+
+Use ABAP-native enumerations with `ENUM` (available in releases >= 7.51)
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
   PUBLIC SECTION.
-    CONSTANTS:
-      warning TYPE symsgty VALUE 'W',
-      error   TYPE symsgty VALUE 'E'.
-ENDCLASS.
-```
-
-or
-
-```ABAP
-CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
-  PUBLIC SECTION.
-    CLASS-DATA:
-      warning TYPE REF TO /clean/message_severity READ-ONLY,
-      error   TYPE REF TO /clean/message_severity READ-ONLY.
-  " ...
+    TYPES: BEGIN OF ENUM type,
+             warning,
+             error,
+           END OF ENUM type.
 ENDCLASS.
 ```
 
@@ -840,16 +857,16 @@ ENDINTERFACE.
 ```
 
 > [Enumerations](sub-sections/Enumerations.md)
-> describes common enumeration patterns
+> describes alternative enumeration patterns (also applicable to older releases that do not support `ENUM` yet)
 > and discusses their advantages and disadvantages.
 >
 > Read more in _Chapter 17: Smells and Heuristics: J3: Constants versus Enums_ of [Robert C. Martin's _Clean Code_].
 
-### If you don't use enumeration classes, group your constants
+### If you don't use ENUM or enumeration patterns, group your constants
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enumeration-classes-group-your-constants)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#if-you-dont-use-enum-or-enumeration-patterns-group-your-constants)
 
-If you collect constants in a loose way, for example in an interface, group them:
+If you cannot use enumerations and have to collect constants in a loose way, for example in an interface, at least group them:
 
 ```ABAP
 CONSTANTS:
@@ -863,7 +880,7 @@ CONSTANTS:
   END OF message_lifespan.
 ```
 
-Makes the relation clearer than:
+makes the relation clearer than
 
 ```ABAP
 " Anti-pattern
@@ -878,7 +895,7 @@ The group also allows you group-wise access, for example for input validation:
 
 ```ABAP
 DO.
-  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(<constant>).
+  ASSIGN message_severity-(sy-index) TO FIELD-SYMBOL(<constant>).
   IF sy-subrc IS INITIAL.
     IF input = <constant>.
       DATA(is_valid) = abap_true.
@@ -927,9 +944,9 @@ ENDMETHOD.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Don't declare inline in optional branches
+### Do not use variables outside of the statement block they are declared in
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#dont-declare-inline-in-optional-branches)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
 
 ```ABAP
 " anti-pattern
@@ -940,10 +957,10 @@ ELSE.
 ENDIF.
 ```
 
-This works fine because ABAP handles inline declarations as if they were at the beginning of the method.
-However, it is extremely confusing for readers,
-especially if the method is longer and you don't spot the declaration right away.
-In this case, break with inlining and put the declaration up-front:
+A variable declared in a statement block (like in an `IF` or `LOOP` block) is still available outside of this block in the code that follows it.
+This is confusing for readers, especially if the method is longer and the declaration is not spotted immediately.
+
+If the variable is required outside of the statement block it is declared in, declare it beforehand:
 
 ```ABAP
 DATA value TYPE i.
@@ -1009,7 +1026,7 @@ except where you need field symbols
 
 ```ABAP
 ASSIGN generic->* TO FIELD-SYMBOL(<generic>).
-ASSIGN COMPONENT name OF STRUCTURE structure TO FIELD-SYMBOL(<component>).
+ASSIGN structure-(name) TO FIELD-SYMBOL(<component>).
 ASSIGN (class_name)=>(static_member) TO FIELD-SYMBOL(<member>).
 ```
 
@@ -1032,7 +1049,7 @@ References thus form a natural preference in any object-oriented program.
 Similarly, speed is not an issue. As a consequence, there is no performance-related reason to prefer one to the other.
 
 > Read more in the article
-> [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
+> [_Accessing Data Objects Dynamically_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abendyn_access_data_obj_guidl.htm).
 
 ## Tables
 
@@ -1059,7 +1076,7 @@ Sorted tables demonstrate their value only for large numbers of read accesses.
 - Use `STANDARD` tables for **small tables**, where indexing produces more overhead than benefit, and **"arrays"**, where you either don't care at all for the order of the rows, or you want to process them in exactly the order they were appended. Also, if different access to the table is needed e.g. indexed access and sorted access via `SORT` and `BINARY SEARCH`.
 
 > These are only rough guidelines.
-> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenitab_kind.htm).
+> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenitab_cat.htm).
 
 ### Avoid DEFAULT KEY
 
@@ -1290,9 +1307,6 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
 [Split method instead of Boolean input parameter](#split-method-instead-of-boolean-input-parameter)
 moreover explains why you should always challenge Boolean parameters.
 
-> Read more in
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
-
 ### Use ABAP_BOOL for Booleans
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Booleans](#booleans) > [This section](#use-abap_bool-for-booleans)
@@ -1309,7 +1323,7 @@ for example `boolean` supports a third value "undefined" that results in subtle 
 
 In some cases you may need a data dictionary element, for example for DynPro fields.
 `abap_bool` cannot be used here because it is defined in the type pool `abap`, not in the data dictionary.
-In this case, resort to `boole_d` or `xfeld`.
+In this case, resort to `abap_boolean`.
 Create your own data element if you need a custom description.
 
 > ABAP may be the one single programming language that does not come with a universal Boolean data type.
@@ -1437,7 +1451,7 @@ IF NOT variable = 42.
 > A more specific variant of
 [Try to make conditions positive](#try-to-make-conditions-positive).
 Also as described in the section
-[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenalternative_langu_guidl.htm)
+[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenalternative_langu_guidl.htm)
 in the ABAP programming guidelines.
 
 ### Consider using predicative method calls for boolean methods
@@ -1457,7 +1471,7 @@ is not just very compact, but it also allows to keep the code closer to natural 
 IF condition_is_fulfilled( ) = abap_true / abap_false.
 ```
 
-Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
+Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenpredicative_method_calls.htm) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
 
 ### Consider decomposing complex conditions
 
@@ -1673,7 +1687,7 @@ when you demonstrate to the reader how they are built up from more elementary pi
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Classes](#classes) > [Classes: Object orientation](#classes-object-orientation) > [This section](#prefer-objects-to-static-classes)
 
 Static classes give up all advantages gained by object orientation in the first place.
-They especially make it nearly impossible to replace productive dependencies with test doubles in unit tests.
+They especially make it nearly impossible to replace dependencies with test doubles in unit tests.
 
 If you think about whether to make a class or method static, the answer will nearly always be: no.
 
@@ -1973,7 +1987,7 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
 
 We agree that this contradicts itself.
 However, according to the article
-[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abeninstance_constructor_guidl.htm),
+[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abeninstance_constructor_guidl.htm),
 specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
 
 This applies only to global classes.
@@ -2504,7 +2518,8 @@ get_large_table( IMPORTING result = DATA(my_table) ).
 > This section contradicts the ABAP Programming Guidelines and Code Inspector checks,
 > both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
 > We consistently failed to reproduce any performance and memory deficits
-> and received notice about kernel optimization that generally improves RETURNING performance.
+> and received notice about kernel optimization that generally improves RETURNING performance,
+> see [_Sharing Between Dynamic Data Objects_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenmemory_consumption_3.htm).
 
 #### Use either RETURNING or EXPORTING or CHANGING, but not a combination
 
@@ -2622,9 +2637,8 @@ METHODS set_is_deleted
 ```
 
 > Read more in
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
-> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
+> [1](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
+> [2](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Parameter Names
 
@@ -2689,7 +2703,7 @@ Use these static checks to avoid this otherwise rather obscure error source.
 
 ##### Take care if input and output could be the same
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [This section](#take-care-if-input-and-output-could-be-the-same)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Methods](#methods) > [Parameter Initialization](#parameter-initialization) > [Clear or overwrite EXPORTING reference parameters](#clear-or-overwrite-exporting-reference-parameters) > [This section](#take-care-if-input-and-output-could-be-the-same)
 
 Generally, it is a good idea to clear the parameter as a first thing in the method after type and data declarations.
 This makes the statement easy to spot and avoids that the still-contained value is accidentally used by later statements.
@@ -3003,11 +3017,12 @@ METHOD read_customizing.
 ENDMETHOD.
 ```
 
-You can avoid the question completely by reversing the validation
-and adopting a single-return control flow
+You could avoid the question completely by reversing the validation and adopting a single-return control flow.
+This is considered to be an anti-pattern because it introduces unnecessary nesting depth.
 
 ```ABAP
 METHOD read_customizing.
+  " anti-pattern
   IF keys IS NOT INITIAL.
     " do whatever needs doing
   ENDIF.
@@ -3018,7 +3033,7 @@ In any case, consider whether returning nothing is really the appropriate behavi
 Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
 Returning nothing is in many cases similar to returning `null`, which should be avoided.
 
-> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenexit_procedure_guidl.htm)
 > recommends using `CHECK` in this instance.
 > Community discussion suggests that the statement is so unclear
 > that many people will not understand the program's behavior.
@@ -3031,12 +3046,12 @@ Do not use `CHECK` outside of the initialization section of a method.
 The statement behaves differently in different positions and may lead to unclear, unexpected effects.
 
 For example,
-[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm);
+[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.htm);
 people might accidentally expect it to end the method or exit the loop.
 Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
 
-> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenexit_procedure_guidl.htm).
-> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm).
+> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenexit_procedure_guidl.htm).
+> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.htm).
 
 ## Error Handling
 
@@ -3312,7 +3327,7 @@ This exception type _must_ be given in method signatures and _must_ be caught or
 It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
 and will take care of reacting to the error situation.
 
-> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/abenexception_category_guidl.htm)
+> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenexception_category_guidl.htm)
 > but contradicts [Robert C. Martin's _Clean Code_],
 > which recommends to prefer unchecked exceptions;
 > [Exceptions](sub-sections/Exceptions.md) explains why.
@@ -3655,7 +3670,7 @@ If you need to preserve a piece of code permanently, copy it to a file or a `$TM
 
 ### Don't do manual versioning
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#manual-versioning)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Comments](#comments) > [This section](#dont-do-manual-versioning)
 
 ```ABAP
 " anti-pattern
@@ -3792,7 +3807,7 @@ have replaced them.
 > [Clean ABAP](#clean-abap) > [Content](#content) > [This section](#formatting)
 
 The suggestions below are [optimized for reading, not for writing](#optimize-for-reading-not-for-writing).
-As ABAP's Pretty Printer doesn't cover them, some of them produce additional manual work to reformat statements
+As the ABAP Formatter doesn't cover them, some of them produce additional manual work to reformat statements
 when name lengths etc. change; if you want to avoid this, consider dropping rules like
 [Align assignments to the same object, but not to different ones](#align-assignments-to-the-same-object-but-not-to-different-ones).
 
@@ -3838,27 +3853,29 @@ DATA:
   ,e TYPE f.
 ```
 
-### Use the Pretty Printer before activating
+### Use the ABAP Formatter before activating
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-pretty-printer-before-activating)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-abap-formatter-before-activating)
 
-Apply the pretty printer - Shift+F1 in SE80, SE24, and ADT - before activating an object.
+Apply the ABAP Formatter - Shift+F1 in SE80, SE24, and ADT - before activating an object.  
+Note: ABAP Formatter is known as Pretty Printer in SAP GUI.
 
 If you modify a larger unformatted legacy code base,
-you may want to apply the Pretty Printer only to selected lines
+you may want to apply the ABAP Formatter only to selected lines
 to avoid huge change lists and transport dependencies.
-Consider pretty-printing the complete development object
+Consider formatting the complete development object
 in a separate Transport Request or Note.
 
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
-### Use your Pretty Printer team settings
+### Use your team's ABAP Formatter settings
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-pretty-printer-team-settings)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-teams-abap-formatter-settings)
 
-Always use your team settings.
+Always use your team's ABAP Formatter settings.
 Specify them under
-_Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
+* Eclipse: _Menu_ > _Window_ > _Preferences_ > _ABAP Development_ > _Editors_ > _Source Code Editors_ > _ABAP Formatter_
+* SAP GUI: _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
 
 Set _Indent_ and _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
 as agreed in your team.
@@ -3962,6 +3979,16 @@ METHOD do_something.
   then_that( ).
 
 ENDMETHOD.
+```
+
+This is also the case within a statement, as this can easily be misunderstood as a new statement when skimming through the code.
+```abap
+" anti-pattern
+DATA(result) = merge_structures( a = VALUE #( field_1 = 'X'
+                                              field_2 = 'A' )
+
+                                 b = NEW /clean/structure_type( field_3 = 'C'
+                                                                field_4 = 'D' ) ).
 ```
 
 Blank lines actually only make sense if you have statements that span multiple lines
@@ -4241,14 +4268,14 @@ refactor it at least to the extent that you can test your additions.
 If you write code to be consumed by others, enable them to write unit tests for their own code,
 for example by adding interfaces in all outward-facing places,
 providing helpful test doubles that facilitate integration tests,
-or applying dependency inversion to enable them to substitute the productive configuration with a test config.
+or applying dependency inversion to enable them to substitute the configuration with a test config.
 
 #### Readability rules
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Principles](#principles) > [This section](#readability-rules)
 
-Make your test code even more readable than your productive code.
-You can tackle bad productive code with good tests, but if you don't even get the tests, you're lost.
+Make your test code even more readable than your production code.
+You can tackle bad production code with good tests, but if you don't even get the tests, you're lost.
 
 Keep your test code so simple and stupid that you will still understand it in a year from now.
 
@@ -4522,7 +4549,7 @@ ENDMETHOD.
 ```
 
 Don't use setter injection.
-It enables using the productive code in ways that are not intended:
+It enables using the production code in ways that are not intended:
 
 ```ABAP
 " anti-pattern
@@ -4537,14 +4564,14 @@ ENDMETHOD.
 ```
 
 Don't use FRIENDS injection.
-It will initialize productive dependencies before they are replaced, with probably unexpected consequences.
+It will initialize dependencies before they are replaced, with probably unexpected consequences.
 It will break as soon as you rename the internals.
 It also circumvents initializations in the constructor.
 
 ```ABAP
 " anti-pattern
 METHOD setup.
-  cut = NEW fra_my_class( ). " <- builds a productive customizing_reader first - what will it break with that?
+  cut = NEW fra_my_class( ). " <- builds the customizing_reader for the production use case first - what will it break with that?
   cut->customizing_reader ?= cl_abap_testdouble=>create( 'if_fra_cust_obj_model_reader' ).
 ENDMETHOD.
 
@@ -4596,20 +4623,17 @@ with standard ABAP unit tests and test doubles.
 However, there are tools that will allow you
 to tackle trickier cases in elegant ways:
 
-- Use the `CL_OSQL_REPLACE` service
-to test complex OpenSQL statements
-by redirecting them to a test data bin
-that can be filled with test data
-without interfering with the rest of the system.
+- Use the OSQL test environment (`CL_OSQL_TEST_ENVIRONMENT`) to test complex OpenSQL statements
+by redirecting them to test data defined in the unit test without interfering with the rest of the system.
 
-- Use the CDS test framework to test your CDS views.
+- Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
 #### Use test seams as temporary workaround
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
 
 If all other techniques fail, or when in dangerous shallow waters of legacy code,
-refrain to [test seams](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abaptest-seam.htm)
+refrain to [test seams](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abaptest-seam.htm)
 to make things testable.
 
 Although they look comfortable at first sight, test seams are invasive and tend to get entangled
@@ -4658,14 +4682,18 @@ CLASS unit_tests IMPLEMENTATION.
 ENDCLASS.
 ```
 
-#### Don't change the productive code to make the code testable
+#### Don't add features to production code that are only intended for use during automated testing
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-change-the-productive-code-to-make-the-code-testable)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing)
 
+For reasons already described under [Test Seams](#use-test-seams-as-temporary-workaround), adding anything to production code that is solely intended for use during automated tests should be avoided.
 ```ABAP
 " anti-pattern
-IF in_test_mode = abap_true.
+IF is_unit_test_running = abap_true.
+  "some logic here that runs only during unit tests
+ENDIF.  
 ```
+Note that test features intended to be executed by an end user, e.g. simulated posting or running a report in test mode, form part of the application domain and remain a valid use case.
 
 #### Don't sub-class to mock methods
 
@@ -4685,7 +4713,7 @@ CLASS unit_tests DEFINITION INHERITING FROM /dirty/real_class FOR TESTING [...].
 
 To get legacy code under test,
 [resort to test seams instead](#use-test-seams-as-temporary-workaround).
-They are just as fragile but still the cleaner way because they at least don't change the class's productive behavior,
+They are just as fragile but still the cleaner way because they at least don't change the class's behavior in production,
 as would happen when enabling inheritance by removing a previous `FINAL` flag or by changing method scope from `PRIVATE` to `PROTECTED`.
 
 When writing new code, take this testability issue into account directly when designing the class,
@@ -4694,7 +4722,7 @@ Common best practices include [resorting to other test tools](#exploit-the-test-
 and extracting the problem method to a separate class with its own interface.
 
 > A more specific variant of
-> [Don't change the productive code to make the code testable](#dont-change-the-productive-code-to-make-the-code-testable).
+> [Don't change the production code to make the code testable](#dont-add-features-to-production-code-that-are-only-intended-for-use-during-automated-testing).
 
 #### Don't mock stuff that's not needed
 
@@ -4719,7 +4747,7 @@ cut = NEW /dirty/class_under_test( db_reader = db_reader
 
 There are also cases where it's not necessary to mock something at all -
 this is usually the case with data structures and data containers.
-For example, your unit tests may well work with the productive version of a `transient_log`
+For example, your unit tests may well work with the production version of a `transient_log`
 because it only stores data without any side effects.
 
 #### Don't build test frameworks
@@ -4909,7 +4937,7 @@ ENDMETHOD.
 ```
 
 Asserting too much is an indicator that the method has no clear focus.
-This couples productive and test code in too many places: changing a feature
+This couples production and test code in too many places: changing a feature
 will require rewriting a large number of tests although they are not really involved with the changed feature.
 It also confuses the reader with a large variety of assertions,
 obscuring the one important, distinguishing assertion among them.

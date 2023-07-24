@@ -1,12 +1,11 @@
 {
-  "name": "abap-code-review-guide",
+  "name": "sap-code-style-guides",
   "version": "1.0.0",
   "private": true,
-  "description": "Collect ideas and approaches for reviewing ABAP code.",
+  "description": "SAP's style guides for coding.",
   "main": "index.js",
   "scripts": {
-    "links": "find abap-code-review/src -name \\*.adoc | xargs -n1 asciidoc-link-check -c asciidoc-link-check-config.json -p",
-    "test": "npm run links && asciidoctor-web-pdf -r asciidoctor-plantuml -r asciidoctor-kroki -d book -D build abap-code-review/src/index.adoc -a stylesheet=\"asciidoctor-pdf/css/asciidoctor.css,asciidoctor-pdf/css/document.css,asciidoctor-pdf/css/features/title-page.css,custom.css\""
+    "test": "find . -path ./node_modules -prune -false -o -name '*.md' ! -name '*_??.md' -print0 | xargs -0 -n1 markdown-link-check -q -c mlc_config.json"
   },
   "repository": {
     "type": "git",
@@ -18,12 +17,7 @@
     "url": "https://github.com/SAP/styleguides/issues"
   },
   "homepage": "https://github.com/SAP/styleguides#readme",
-  "dependencies": {
-    "@asciidoctor/cli": "^3.5.0",
-    "@asciidoctor/core": "^2.2.6",
-    "asciidoc-link-check": "^1.0.15",
-    "asciidoctor-kroki": "^0.15.4",
-    "asciidoctor-pdf": "1.0.0-alpha.16",
-    "asciidoctor-plantuml": "^1.5.0"
+  "devDependencies": {
+    "markdown-link-check": "^3.11.1"
   }
 }
