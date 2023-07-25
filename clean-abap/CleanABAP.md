@@ -4617,16 +4617,15 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#exploit-the-test-tools)
 
-In general, a clean programming style
-will let you do much of the work
-with standard ABAP unit tests and test doubles.
-However, there are tools that will allow you
-to tackle trickier cases in elegant ways:
+In general, a clean programming style will let you do much of the work with standard ABAP unit tests and test doubles.
+However, there are tools that will allow you to tackle trickier cases in elegant ways:
 
 - Use the OSQL test environment (`CL_OSQL_TEST_ENVIRONMENT`) to test complex OpenSQL statements
 by redirecting them to test data defined in the unit test without interfering with the rest of the system.
 
 - Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
+
+A list of the available frameworks with examples can be found in [this repository](https://github.com/sautermi0/ABAPTestIsolationDemo).
 
 #### Use test seams as temporary workaround
 
