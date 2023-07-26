@@ -4625,7 +4625,7 @@ by redirecting them to test data defined in the unit test without interfering wi
 
 - Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
-A list of the available frameworks with examples can be found in [this repository](https://github.com/sautermi0/ABAPTestIsolationDemo).
+A list of the available frameworks with examples can be found in [this repository](https://github.com/sautermi0/ABAPTestIsolationDemo). The repository might not be completely compliant with the CleanABAP-style guide, it only provides examples to help with test isolation tools.
 
 #### Use test seams as temporary workaround
 
