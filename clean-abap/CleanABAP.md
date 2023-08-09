@@ -831,8 +831,8 @@ IF abap_type = 'D'.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Constants](#constants) > [This section](#constants-also-need-descriptive-names)
 
-There is a historic tendency in ABAP to wrap every literal in constants with names 
-that merely repeat their content or even their type:
+There is a historic tendency in ABAP to wrap every literal in constants, often with names 
+that merely repeat their content or even just their type:
 ```ABAP
 " anti-pattern 
 CONSTANTS: 
@@ -842,11 +842,16 @@ CONSTANTS:
 There is little benefit to either variant. It is not informative for the reader, and if 
 the value ever needs to change then a constant named by its value must also be renamed. 
 
-If a constant is declared in code then it should describe its meaning not its content.
+If a coded constant is declared in code then it should describe its meaning not its content.
 ```ABAP
 CONSTANTS status_inactive TYPE mmsta VALUE '90'.
 ```
-Note: This is a special case of [Use descriptive names](#use-descriptive-names), specifically for constants.
+It is of course acceptable to repeat the constant's value if it is already descriptive enough: 
+```ABAP
+CONSTANTS status_cancelled TYPE sww_wistat value 'CANCELLED'.
+```
+
+Note: This section is a repetition of [Use descriptive names](#use-descriptive-names), specifically for constants.
 
 ### Prefer ENUM to constants interfaces
 
