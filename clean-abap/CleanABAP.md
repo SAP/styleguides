@@ -4633,6 +4633,20 @@ by redirecting them to test data defined in the unit test without interfering wi
 
 - Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
 
+- Use the AUTHORITY-CHECK test helper API (`CL_AUNIT_AUTHORITY_CHECK`) to withdraw authorizations during the runtime of the test.
+  This helps to test behavior of the code for different authorizations.
+
+    ```ABAP
+    DATA(user_role_authorizations) = value cl_aunit_auth_check_types_def=>user_role_authorizations(
+        ( role_authorizations = value #(
+              ( object         = 'S_DEVELOP'
+                authorizations = value #( ( value #( ( fieldname   = 'ACTVT'
+                                                       fieldvalues = value #( ( lower_value = '02' ) ) ) ) ) ) ) ) ) ).
+    DATA(authority_check_controller) = cl_aunit_authority_check=>get_controller( ).
+    DATA(authority_object_set) = cl_aunit_authority_check=>create_auth_object_set( user_role_authorizations ).
+    authority_check_controller->restrict_authorizations_to( authority_object_set ).
+    ```
+
 #### Use test seams as temporary workaround
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
