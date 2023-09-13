@@ -851,7 +851,7 @@ It is of course acceptable to repeat the constant's value if it is already descr
 CONSTANTS status_cancelled TYPE sww_wistat value 'CANCELLED'.
 ```
 
-Note: This section is a repetition of [Use descriptive names](#use-descriptive-names), specifically for constants.
+> Note: This section is a specialization of [Use descriptive names](#use-descriptive-names), applied to constants.
 
 ### Prefer ENUM to constants interfaces
 
