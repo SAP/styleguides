@@ -186,8 +186,8 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Formatting](#formatting)
   - [Be consistent](#be-consistent)
   - [Optimize for reading, not for writing](#optimize-for-reading-not-for-writing)
-  - [Use the ABAP Formatter before activating](#use-the-abap-formatter-before-activating)
-  - [Use your team's ABAP Formatter settings](#use-your-teams-abap-formatter-settings)
+  - [Use an Automated Code Formatting Tool](#use-an-automated-code-formatting-tool)
+  - [Use the ABAPCleaner](#use-the-abap-cleaner)
   - [No more than one statement per line](#no-more-than-one-statement-per-line)
   - [Stick to a reasonable line length](#stick-to-a-reasonable-line-length)
   - [Condense your code](#condense-your-code)
@@ -3895,37 +3895,22 @@ DATA:
   ,e TYPE f.
 ```
 
-### Use the ABAP Formatter before activating
+### Use an Automated Code Formatting Tool
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-abap-formatter-before-activating)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-an-automated-code-formatting-tool)
 
-Apply the ABAP Formatter - Shift+F1 in SE80, SE24, and ADT - before activating an object.  
-Note: ABAP Formatter is known as Pretty Printer in SAP GUI.
+Use an automated code formatting tool with a consistent setting in your team.
 
-If you modify a larger unformatted legacy code base,
-you may want to apply the ABAP Formatter only to selected lines
-to avoid huge change lists and transport dependencies.
-Consider formatting the complete development object
-in a separate Transport Request or Note.
+If you modify a larger unformatted legacy code base, you may want to apply the ABAP Formatter only to selected lines to avoid huge change lists and transport dependencies. Consider formatting the complete development object in a separate Transport Request or Note.
 
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
-### Use your team's ABAP Formatter settings
+### Use the ABAPCleaner
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-teams-abap-formatter-settings)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-abap-cleaner)
 
-Always use your team's ABAP Formatter settings.
-Specify them under
-* Eclipse: Right-click on the project in the Project Explorer > _Properties_ > _ABAP Development_ > _Editors_ > _Source Code Editors_ > _ABAP Formatter_
-* Eclipse (alternative navigation): _Menu_ > _Window_ > _Preferences_ > _ABAP Development_ > _Editors_ > _Source Code Editors_ > Click on the _ABAP Formatter_ link on the right-hand side > Select project in pop-up
-* SAP GUI: _Menu_ > _Utilities_ > _Settings ..._ > _ABAP Editor_ > _Pretty Printer_.
+Always use the [ABAPCleaner](https://github.com/SAP/abap-cleaner).
 
-Set _Indent_ and _Convert Uppercase/Lowercase_ > _Uppercase Keyword_
-as agreed in your team.
-
-> [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) explains
-> why we do not give clear guidance for the type case of keywords.
->
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
 ### No more than one statement per line
