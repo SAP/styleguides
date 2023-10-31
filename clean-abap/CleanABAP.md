@@ -3931,7 +3931,7 @@ Use an automated code formatting tool with a consistent setting in your team.
 
 ### Use the ABAPCleaner
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-your-teams-abap-formatter-settings)
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#use-the-abap-cleaner)
 
 Always use the [ABAPCleaner](https://github.com/SAP/abap-cleaner), ideally with the default configuration.
 
