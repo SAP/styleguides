@@ -3927,9 +3927,6 @@ DATA:
 
 Use an automated code formatting tool with a consistent setting in your team.
 
-If you modify a larger unformatted legacy code base, you may want to apply an automated formatting tool only to selected lines to avoid huge change lists and transport dependencies. Consider formatting the complete development object in a separate Transport Request or Note.
-
-
 > Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
 
 ### Use the ABAPCleaner
