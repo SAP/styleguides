@@ -3935,11 +3935,6 @@ Use an automated code formatting tool with a consistent setting in your team.
 
 Always use the [ABAPCleaner](https://github.com/SAP/abap-cleaner), ideally with the default configuration.
 
-> [Upper vs. Lower Case](sub-sections/UpperVsLowerCase.md) explains
-> why we do not give clear guidance for the type case of keywords.
->
-> Read more in _Chapter 5: Formatting: Team Rules_ of [Robert C. Martin's _Clean Code_].
-
 ### No more than one statement per line
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Formatting](#formatting) > [This section](#no-more-than-one-statement-per-line)
