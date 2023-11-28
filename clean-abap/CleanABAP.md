@@ -2706,8 +2706,7 @@ METHODS set_is_deleted
 ```
 
 > Read more in
-> [1](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-> [2](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
+> [1](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### Parameter Names
 
