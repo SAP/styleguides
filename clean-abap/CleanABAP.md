@@ -4687,30 +4687,7 @@ ENDMETHOD.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#exploit-the-test-tools)
 
-In general, a clean programming style
-will let you do much of the work
-with standard ABAP unit tests and test doubles.
-However, there are tools that will allow you
-to tackle trickier cases in elegant ways:
-
-- Use the OSQL test environment (`CL_OSQL_TEST_ENVIRONMENT`) to test complex OpenSQL statements
-by redirecting them to test data defined in the unit test without interfering with the rest of the system.
-
-- Use the CDS test environment (`CL_CDS_TEST_ENVIRONMENT`) to test your CDS views.
-
-- Use the AUTHORITY-CHECK test helper API (`CL_AUNIT_AUTHORITY_CHECK`) to withdraw authorizations during the runtime of the test.
-  This helps to test behavior of the code for different authorizations.
-
-    ```ABAP
-    DATA(user_role_authorizations) = value cl_aunit_auth_check_types_def=>user_role_authorizations(
-        ( role_authorizations = value #(
-              ( object         = 'S_DEVELOP'
-                authorizations = value #( ( value #( ( fieldname   = 'ACTVT'
-                                                       fieldvalues = value #( ( lower_value = '02' ) ) ) ) ) ) ) ) ) ).
-    DATA(authority_check_controller) = cl_aunit_authority_check=>get_controller( ).
-    DATA(authority_object_set) = cl_aunit_authority_check=>create_auth_object_set( user_role_authorizations ).
-    authority_check_controller->restrict_authorizations_to( authority_object_set ).
-    ```
+In general, a clean programming style will let you do much of the work with standard ABAP unit tests and test doubles. A list of the available frameworks with examples can be found in [this repository](https://github.com/SAP-samples/abap-test-isolation-examples). The repository might not be completely compliant with the CleanABAP-style guide, it only provides examples to help with test isolation tools.
 
 #### Use test seams as temporary workaround
 
