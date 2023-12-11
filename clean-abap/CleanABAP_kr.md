@@ -2424,9 +2424,9 @@ METHODS set_is_deleted
 ```
 
 > 아래에서 더 많은 정보를 얻으세요.
-> [1](http://www.beyondcode.org/articles/booleanVariables.html)
-> [2](https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
-> [3](http://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
+> [1](https://web.archive.org/web/20190907112758/http://www.beyondcode.org/articles/booleanVariables.html)
+> [2](https://web.archive.org/web/20220314024954/https://silkandspinach.net/2004/07/15/avoid-boolean-parameters/)
+> [3](https://web.archive.org/web/20231211152320/https://jlebar.com/2011/12/16/Boolean_parameters_to_API_functions_considered_harmful..html)
 
 ### 파라미터명
 
