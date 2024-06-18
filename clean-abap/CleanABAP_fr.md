@@ -3167,7 +3167,7 @@ MESSAGE e003 INTO dummy.
 
 Les messages changent indépendamment de votre code, et personne ne pensera à adapter le commentaire, de sorte qu'il va rapidement se périmer et même devenir trompeur sans que personne ne le remarque.
 
-Les IDE modernes fournissent des moyens aisés de voir le texte derrière un message ; par exemple, dans les ABAP Development Tools, marquez l'ID de message et appuyez sur Maj+F2.
+Les IDE modernes fournissent des moyens aisés de voir le texte derrière un message ; par exemple, dans les ABAP Development Tools, marquez l'ID de message et appuyez sur F2.
 
 Si vous voulez que ce soit plus explicite, pensez à extraire le message dans une méthode dédiée.
 
