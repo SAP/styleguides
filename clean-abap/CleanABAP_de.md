@@ -3417,7 +3417,7 @@ MESSAGE e003 INTO dummy.
 
 Meldungen ändern sich unabhängig von Ihrem Code, und niemand wird daran denken, den Kommentar zu aktualisieren, so dass er veraltet und sogar sehr schnell irreführend wird, ohne dass es jemand bemerkt.
 
-Die modernen IDEs machen es Ihnen einfach, sich den Text einer Meldung anzeigen zu lassen. In den ABAP Development Tools markieren Sie beispielsweise die Message-ID und drücken Shift+F2.
+Die modernen IDEs machen es Ihnen einfach, sich den Text einer Meldung anzeigen zu lassen. In den ABAP Development Tools markieren Sie beispielsweise die Message-ID und drücken F2.
 
 Wenn Sie es expliziter wünschen, können Sie die Meldung auch in eine eigene Methode extrahieren.
 

@@ -3826,7 +3826,7 @@ and without anybody noticing.
 
 The modern IDEs give you easy ways to see the text behind a message,
 for example in the ABAP Development Tools,
-mark the message ID and press Shift+F2.
+mark the message ID and press F2.
 
 If you want it more explicit,
 consider extracting the message to a method of its own.
