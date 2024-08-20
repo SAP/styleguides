@@ -112,7 +112,7 @@ READ TABLE accounts INTO DATA(account_sap) WITH KEY id = 5.
 
 " old style
 DATA account_sap TYPE account_structure.
-READ TABLE account INTO DATA(account_sap) WITH u id = 5.
+READ TABLE account INTO account_sap WITH u id = 5.
 ```
 
 ```ABAP
