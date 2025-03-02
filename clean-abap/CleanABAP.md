@@ -4503,9 +4503,11 @@ ENDCLASS.
 
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Test Classes](#test-classes) > [This section](#how-to-execute-test-classes)
 
-In the ABAP Development Tools, press Ctrl+Shift+F10 to run all tests in a class.
-Press Ctrl+Shift+F11 to include coverage measurements.
-Press Ctrl+Shift+F12 to also run tests in other classes that are maintained as test relations.
+In the ABAP Development Tools, press:<br>
+Ctrl+Shift+F09 to preview all tests ( including test relations ).<br>
+Ctrl+Shift+F10 to run all tests in a class.<br>
+Ctrl+Shift+F11 to include coverage measurements.<br>
+Ctrl+Shift+F12 to also run tests in other classes that are maintained as test relations.
 
 > On macOS, use `Cmd` instead of `Ctrl`.
 
