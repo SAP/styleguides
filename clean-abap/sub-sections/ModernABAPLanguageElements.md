@@ -328,7 +328,7 @@ ENDCASE.
 Switch on a reference types class and interface using the `CASE` extension `TYPE OF`.
 
 ```ABAP
-CASE type of account.
+CASE TYPE OF account.
   WHEN TYPE bank_account INTO DATA(bank_account).
     " some processing ...
   WHEN OTHERS.
@@ -602,20 +602,20 @@ Add `DEFAULT FAIL` to advise ABAP to raise an exception `CX_SY_DYN_CALL_ILLEGAL_
 
 ```ABAP
 INTERFACE account.
-  METHODS new_method default FAIL.
+  METHODS new_method DEFAULT FAIL.
 ENDINTERFACE.
 ```
 
 ### Partially implement interfaces in tests
 
-Implement in tests for e.g. test doubles only the interface methods which you need and skip the not needed with the `partially implemented` extension of the `interfaces` statement.
+Implement in tests for e.g. test doubles only the interface methods which you need and skip the not needed with the `PARTIALLY IMPLEMENTED` extension of the `INTERFACES` statement.
 
 ```ABAP
 INTERFACE account.
   METHODS add_account IMPORTING account TYPE account.
   METHODS delete_account IMPORTING account_id TYPE account_id.
   METHODS get_account IMPORTING account_id TYPE account_id
-                      RETURNING value(result) TYPE account.
+                      RETURNING VALUE(result) TYPE account.
 ENDINTERFACE.
 
 CLASS test_double DEFINITION FOR TESTING.
