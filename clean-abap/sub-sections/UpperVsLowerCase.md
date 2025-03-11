@@ -11,7 +11,7 @@ This is the prevalent formatting in most modern programming languages
 and commonly perceived as concise and readable style.
 
 ```ABAP
-data maxWaitTimeInSeconds type i.
+DATA maxWaitTimeInSeconds TYPE i.
 ```
 
 One of the reasons behind this is that the human eye parses mixed and
