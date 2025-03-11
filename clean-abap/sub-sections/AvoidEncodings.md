@@ -122,52 +122,52 @@ While this practice was not correct in the first place, as an interface is somet
 Name the interface more generic and the implementing classes more specific:
 
 ```ABAP
-interface game_board.
+INTERFACE game_board.
   ...
-endinterface.
+ENDINTERFACE.
 
-class game_board_as_list definition.
-  public section.
-    interfaces game_board.
+CLASS game_board_as_list DEFINITION.
+  PUBLIC SECTION.
+    INTERFACES game_board.
   ...
-endclass.
+ENDCLASS.
 
-class game_board_as_array definition.
-  public section.
-    interfaces game_board.
+CLASS game_board_as_array DEFINITION.
+  PUBLIC SECTION.
+    INTERFACES game_board.
   ...
-endclass.
+ENDCLASS.
 ```
 
 To avoid name clashes with method e.g. importing parameters use the self reference `me->`:
 
 ```ABAP
-class game_board_as_list definition.
-  public section.
-    methods constructor
-      importing x_dimension type i
-                y_dimension type i.
-  private section.
-    data x_dimension type i.
-    data y_dimension type i.
-endclass.
+CLASS game_board_as_list DEFINITION.
+  PUBLIC SECTION.
+    METHODS constructor
+      IMPORTING x_dimension TYPE i
+                y_dimension TYPE i.
+  PRIVATE SECTION.
+    DATA x_dimension TYPE i.
+    DATA y_dimension TYPE i.
+ENDCLASS.
 
-class game_board_as_list implementation.
-  method constructor.
+CLASS game_board_as_list IMPLEMENTATION.
+  METHOD constructor.
     me->x_dimension = x_dimension.
     me->y_dimension = y_dimension.
-  endmethod.
-endclass.
+  ENDMETHOD.
+ENDCLASS.
 ```
 
 For tables and structures use singular and plural:
 
 ```ABAP
-types: begin of coordinate,
-         x type i,
-         y type i,
-       end of coordinate.
-type coordinates type standard table of coordinate with default key.
+TYPES: BEGIN OF coordinate,
+         x TYPE i,
+         y TYPE i,
+       END OF coordinate.
+TYPE coordinates TYPE STANDARD TABLE OF coordinate WITH DEFAULT KEY.
 ```
 
 ## Compromises
