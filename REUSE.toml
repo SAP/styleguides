@@ -1,0 +1,10 @@
+version = 1
+SPDX-PackageName = "styleguides"
+SPDX-PackageSupplier = "Klaus Hauptle <klaus.haeuptle@sap.com>, Florian Hoffmann <fl.hoffmann@sap.com>"
+SPDX-PackageDownloadLocation = "https://github.com/SAP/styleguides"
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2021 SAP SE or an SAP affiliate company and styleguides contributors"
+SPDX-License-Identifier = "CC-BY-3.0"
