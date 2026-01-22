@@ -15,6 +15,8 @@
 > [한국어](CleanABAP_kr.md)
 > &nbsp;·&nbsp;
 > [Русский](CleanABAP_ru.md)
+> &nbsp;·&nbsp;
+> [Türkçe](CleanABAP_tr.md)
 
 This guide is an adoption of
 [Robert C. Martin's _Clean Code_]

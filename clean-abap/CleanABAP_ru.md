@@ -18,6 +18,8 @@
 > [Español](CleanABAP_es.md)
 > &nbsp;·&nbsp;
 > [한국어](CleanABAP_kr.md)
+> &nbsp;·&nbsp;
+> [Türkçe](CleanABAP_tr.md)
 
 Это руководство является адаптацией книги 
 [Robert C. Martin's _Clean Code_]
