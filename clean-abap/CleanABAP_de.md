@@ -1101,7 +1101,7 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
 
 [Aufgeteilte Methode statt boolescher Eingabeparameter](#aufgeteilte-methode-statt-boolescher-eingabeparameter) erläutert, warum Sie boolesche Parameter immer hinterfragen sollten.
 
-> Mehr zu diesem Thema erfahren Sie in [1](http://www.beyondcode.org/articles/booleanVariables.html)
+> Mehr zu diesem Thema erfahren Sie in [1](https://web.archive.org/web/20190907112758/http://www.beyondcode.org/articles/booleanVariables.html)
 
 ### ABAP_BOOL für boolesche Ausdrücke verwenden
 
