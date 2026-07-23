@@ -49,7 +49,7 @@ used as
 IF log_contains( /clean/message_severity=>warning ).
 ```
 
-> Note that the [`STRUCTURE` addition](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abaptypes_enum.htm#!ABAP_ADDITION_1@1@) **is not used**.
+> Note that the [`STRUCTURE` addition](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abaptypes_enum.html#!ABAP_ADDITION_1@1@) **is not used**.
 >
 > One reason is that this would widen the API surface without the requiremend to do so.
 > If the definition was `BEGIN OF ENUM type STRUCTURE severity` then `/dirty/message_severity=>severity` could be copied and passed around which is undesirable.
