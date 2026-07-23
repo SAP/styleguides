@@ -357,7 +357,7 @@ meaning we adjusted some things to the ABAP programming language
 e.g. [Throw CX_STATIC_CHECK for manageable exceptions](#throw-cx_static_check-for-manageable-exceptions).
 
 Some facts are from the
-[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenabap_pgl.htm),
+[ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenabap_pgl.html),
 which this guide is mostly compatible to; deviations are indicated and always in the spirit of cleaner code.
 
 This guide also respects the
@@ -641,7 +641,7 @@ CLASS-METHODS condense RETURNING VALUE(result) TYPE i.
 CLASS-METHODS strlen RETURNING VALUE(result) TYPE i.  
 ```
 
-> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-us/abenbuilt_in_functions_syntax.htm).
+> Read More in [Built-In Functions - Obscuring with Methods](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-us/abenbuilt_in_functions_syntax.html).
 
 
 ## Language
@@ -1109,7 +1109,7 @@ Sorted tables demonstrate their value only for large numbers of read accesses.
 - Use `STANDARD` tables for **small tables**, where indexing produces more overhead than benefit, and **"arrays"**, where you either don't care at all for the order of the rows, or you want to process them in exactly the order they were appended. Also, if different access to the table is needed e.g. indexed access and sorted access via `SORT` and `BINARY SEARCH`.
 
 > These are only rough guidelines.
-> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenitab_cat.htm).
+> Find more details in the article [_Selection of Table Category_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenitab_cat.html).
 
 ### Avoid DEFAULT KEY
 
@@ -1484,7 +1484,7 @@ IF NOT variable = 42.
 > A more specific variant of
 [Try to make conditions positive](#try-to-make-conditions-positive).
 Also as described in the section
-[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenalternative_langu_guidl.htm)
+[Alternative Language Constructs](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenalternative_langu_guidl.html)
 in the ABAP programming guidelines.
 
 ### Consider using predicative method calls for boolean methods
@@ -1504,7 +1504,7 @@ is not just very compact, but it also allows to keep the code closer to natural 
 IF condition_is_fulfilled( ) = abap_true / abap_false.
 ```
 
-Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenpredicative_method_calls.htm) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
+Mind that the predicative method call `... meth( ) ...` is just a short form of `... meth( ) IS NOT INITIAL ...`, see [Predicative Method Call](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenpredicative_method_calls.html) in the ABAP Keyword Documentation. This is why the short form should only be used for methods returning types where the non-initial value has the meaning of "true" and the initial value has the meaning of "false".
 
 ### Consider decomposing complex conditions
 
@@ -2020,7 +2020,7 @@ CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
 
 We agree that this contradicts itself.
 However, according to the article
-[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abeninstance_constructor_guidl.htm),
+[_Instance Constructor_ of the ABAP Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abeninstance_constructor_guidl.html),
 specifying the `CONSTRUCTOR` in the `PUBLIC SECTION` is required to guarantee correct compilation and syntax validation.
 
 This applies only to global classes.
@@ -2588,7 +2588,7 @@ get_large_table( IMPORTING result = DATA(my_table) ).
 > both of whom suggest that large tables should be EXPORTED by reference to avoid performance deficits.
 > We consistently failed to reproduce any performance and memory deficits
 > and received notice about kernel optimization that generally improves RETURNING performance,
-> see [_Sharing Between Dynamic Data Objects_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenmemory_consumption_3.htm).
+> see [_Sharing Between Dynamic Data Objects_ in the ABAP Language Help](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenmemory_consumption_3.html).
 
 #### Use either RETURNING or EXPORTING or CHANGING, but not a combination
 
@@ -3103,7 +3103,7 @@ In any case, consider whether returning nothing is really the appropriate behavi
 Methods should provide a meaningful result, meaning either a filled return parameter, or an exception.
 Returning nothing is in many cases similar to returning `null`, which should be avoided.
 
-> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenexit_procedure_guidl.htm)
+> The [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenexit_procedure_guidl.html)
 > recommends using `CHECK` in this instance.
 > Community discussion suggests that the statement is so unclear
 > that many people will not understand the program's behavior.
@@ -3116,12 +3116,12 @@ Do not use `CHECK` outside of the initialization section of a method.
 The statement behaves differently in different positions and may lead to unclear, unexpected effects.
 
 For example,
-[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.htm);
+[`CHECK` in a `LOOP` ends the current iteration and proceeds with the next one](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.html);
 people might accidentally expect it to end the method or exit the loop.
 Prefer using an `IF` statement in combination with `CONTINUE` instead, since `CONTINUE` only can be used in loops.
 
-> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abenexit_procedure_guidl.htm).
-> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.htm).
+> Based on the [section _Exiting Procedures_ in the ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenexit_procedure_guidl.html).
+> Note that this contradicts the [keyword reference for `CHECK` in loops](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcheck_loop.html).
 
 ## Error Handling
 
@@ -3397,7 +3397,7 @@ This exception type _must_ be given in method signatures and _must_ be caught or
 It is therefore plain to see for the consumer and ensures that (s)he won't be surprised by an unexpected exception
 and will take care of reacting to the error situation.
 
-> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenexception_category_guidl.htm)
+> This is in sync with the [ABAP Programming Guidelines](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenexception_category_guidl.html)
 > but contradicts [Robert C. Martin's _Clean Code_],
 > which recommends to prefer unchecked exceptions;
 > [Exceptions](sub-sections/Exceptions.md) explains why.
@@ -4699,7 +4699,7 @@ In general, a clean programming style will let you do much of the work with stan
 > [Clean ABAP](#clean-abap) > [Content](#content) > [Testing](#testing) > [Injection](#injection) > [This section](#use-test-seams-as-temporary-workaround)
 
 If all other techniques fail, or when in dangerous shallow waters of legacy code,
-refrain to [test seams](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abaptest-seam.htm)
+refrain to [test seams](https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abaptest-seam.html)
 to make things testable.
 
 Although they look comfortable at first sight, test seams are invasive and tend to get entangled
