@@ -18,6 +18,8 @@
 > [한국어](CleanABAP_kr.md)
 > &nbsp;·&nbsp;
 > [Русский](CleanABAP_ru.md)
+> &nbsp;·&nbsp;
+> [Türkçe](CleanABAP_tr.md)
 
 Dieser Leitfaden ist eine Adaption des Standardwerks [Robert C. Martins _Clean Code_]
 an [ABAP](https://de.wikipedia.org/wiki/ABAP).

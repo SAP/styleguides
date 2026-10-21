@@ -20,6 +20,8 @@
 > [한국어](CleanABAP_kr.md)
 > &nbsp;·&nbsp;
 > [Русский](CleanABAP_ru.md)
+> &nbsp;·&nbsp;
+> [Türkçe](CleanABAP_tr.md)
 
 이 가이드는 [ABAP](https://en.wikipedia.org/wiki/ABAP) 용
 [로버트 마틴의 _Clean Code_]라는 책과 관련이 있습니다.

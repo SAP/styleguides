@@ -18,6 +18,9 @@
 > [한국어](CleanABAP_kr.md)
 > &nbsp;·&nbsp;
 > [Русский](CleanABAP_ru.md)
+> &nbsp;·&nbsp;
+> [Türkçe](CleanABAP_tr.md)
+
 
 本指南针对 [ABAP](https://zh.wikipedia.org/wiki/ABAP) 改编自 [Robert C. Martin 所著的 _Clean Code_]。
 
