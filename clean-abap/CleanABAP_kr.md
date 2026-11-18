@@ -352,7 +352,7 @@ meaning we adjusted some things to the ABAP programming language
 어느 정도의 보정이 있긴 하지만, 그래도 항상 Clean Code 정신을 따릅니다.
 
 이 가이드는 또한
-[ABAP 개발을 위한 DSAG의 권장사항](https://www.dsag.de/sites/default/files/dsag_recommendation_abap_development.pdf),
+[ABAP 개발을 위한 DSAG의 권장사항](https://dsag.de/wp-content/uploads/2021/12/dsag_recommendation_abap_development.pdf),
 을 참고하였는데, 대부분의 세부사항에서 우리가 더욱 더 정밀하다고 말할 수 있습니다.
 
 이 가이드가 발행된 이후 Clean ABAP은 S/4 HANA에서 작업하는 
