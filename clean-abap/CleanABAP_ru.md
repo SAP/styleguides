@@ -354,7 +354,7 @@ ABAP Test Cockpit, Code Inspector, Расширенная проверка пр�
 с которым это руководство в основном совместимо; отклонения указаны и всегда соответствуют духу более чистого кода.
 
 Это руководство также учитывает
-[Рекомендации DSAG по ABAP разработке](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf),
+[Рекомендации DSAG по ABAP разработке](https://dsag.de/wp-content/uploads/2021/12/dsag_recommendation_abap_development.pdf),
 хотя мы более точны в большинстве деталей.
 
 С момента публикации Clean ABAP стал справочным руководством
